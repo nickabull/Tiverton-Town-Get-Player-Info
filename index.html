@@ -64,6 +64,7 @@ const data = window.TIVVY_DATA || {fixtures:[],updated:'',source:''};
 function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
 function formatDate(s){if(!s)return '';const m=String(s).match(/^(\d{4})-(\d{2})-(\d{2})$/);return m?m[3]+'/'+m[2]:s;}
 function scoreHtml(s){const v=String(s||'-').trim();const m=v.match(/^(\d+)\s*[-–]\s*(\d+)$/);if(!m)return esc(v);return '<span class="tiv-goals">'+esc(m[1])+'</span><span class="dash">-</span><span>'+esc(m[2])+'</span>';}
+function shortName(name){const p=String(name||'').trim().split(/\s+/).filter(Boolean);if(p.length<2)return String(name||'');return p[0].charAt(0).toUpperCase()+' '+p.slice(1).join(' ');}
 function render(){
   const el=document.getElementById('fixtures');
   const rows=(data.fixtures||[]).slice().sort((a,b)=>(a.date||'').localeCompare(b.date||''));
@@ -90,13 +91,13 @@ function render(){
       const meta=bits.length?'<span class="player-meta">('+bits.join(' / ')+')</span>':'';
       const cls=p.sub?'player sub-player'+(p.used===false?' unused':''):'player';
       const title=p.sub?(p.used===false?'Named substitute — unused':'Substitute came on'+(p.onMinute?' at '+p.onMinute+" minutes":'')):(p.offMinute?'Starter — went off at '+p.offMinute+' minutes':'Starter');
-      return '<span class="'+cls+'" title="'+esc(title)+'"><span class="player-name">'+esc(p.name)+'</span>'+meta+'</span>';
+      return '<span class="'+cls+'" title="'+esc(title)+'"><span class="player-name">'+esc(shortName(p.name))+'</span>'+meta+'</span>';
     };
     let detail='';
     if(starterDetails.length||subDetails.length){
       detail=starterDetails.map(playerHtml).join('<span class="separator">,&nbsp;</span>');
       if(subDetails.length) detail+='<span class="sub-label" title="Times in brackets show when used substitutes came on">SUBS:</span>'+subDetails.map(playerHtml).join('<span class="separator">,&nbsp;</span>');
-    } else if(players.length) detail=players.map(n=>'<span class="player"><span class="player-name">'+esc(n)+'</span></span>').join('<span class="separator">,&nbsp;</span>');
+    } else if(players.length) detail=players.map(n=>'<span class="player"><span class="player-name">'+esc(shortName(n))+'</span></span>').join('<span class="separator">,&nbsp;</span>');
     else detail='<span>Player appearances not loaded</span>';
     const logo=x.opponentLogoUrl?'<img class="opp-logo" src="'+esc(x.opponentLogoUrl)+'" alt="" loading="lazy" onerror="this.style.display=\'none\'">':'';
     const report=x.officialReportUrl?'<a class="report-link" href="'+esc(x.officialReportUrl)+'" target="_blank" rel="noopener">MATCH REPORT ↗</a>':'';
