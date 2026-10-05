@@ -35,7 +35,7 @@ button.secondary{background:white}
 .fixture-row:nth-child(odd){background:rgba(242,196,0,.96)}
 .fixture-row:nth-child(even){background:#fff}
 .fixture-row + .fixture-row{margin-top:8px}
-.date,.opponent,.score{font-weight:800}.score .tiv-goals{color:#d71920;font-weight:900}.score .dash{padding:0 2px}.excel-link{display:inline-block;padding:9px 14px;border:1px solid #333;background:#fff;font-weight:bold;color:#111;text-decoration:none}.opponent{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.fixture-row.home .opponent{text-transform:uppercase}.fixture-row.away .opponent{text-transform:none}.score{text-align:center}.details{font-size:.70em;font-weight:700;white-space:nowrap;overflow:visible;text-overflow:clip;padding-left:12px;min-width:max-content;display:flex;align-items:center;gap:0}.player{display:inline-flex;align-items:baseline;gap:4px}.player-name{white-space:nowrap}.player-meta{font-size:.82em;font-weight:900;white-space:nowrap}.sub-label{display:inline-flex;align-items:center;margin-left:16px;padding:5px 9px;background:#111;color:#ffd000;font-size:.76em;font-weight:900;letter-spacing:.04em;border-radius:3px}.sub-player{padding:3px 6px;border:1px solid rgba(0,0,0,.28);border-radius:3px;background:rgba(255,255,255,.45)}.unused{opacity:.52}.separator{padding:0}.empty{padding:50px 20px;text-align:center;color:#666}
+.date,.opponent,.score{font-weight:800}.score .tiv-goals{color:#d71920;font-weight:900}.score .dash{padding:0 2px}.excel-link{display:inline-block;padding:9px 14px;border:1px solid #333;background:#fff;font-weight:bold;color:#111;text-decoration:none}.opponent{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;gap:8px}.opp-logo{width:30px;height:30px;object-fit:contain;flex:0 0 30px}.opponent-name{min-width:0;overflow:hidden;text-overflow:ellipsis}.report-link{display:inline-flex;align-items:center;margin-left:12px;padding:4px 8px;border:1px solid rgba(0,0,0,.35);border-radius:3px;background:rgba(255,255,255,.6);color:#111;text-decoration:none;font-size:.68em;font-weight:900;white-space:nowrap}.report-link:hover{text-decoration:underline}.update-link{display:inline-block;padding:9px 14px;border:1px solid #333;background:var(--league-yellow);font-weight:bold;color:#111;text-decoration:none}.fixture-row.home .opponent{text-transform:uppercase}.fixture-row.away .opponent{text-transform:none}.score{text-align:center}.details{font-size:.70em;font-weight:700;white-space:nowrap;overflow:visible;text-overflow:clip;padding-left:12px;min-width:max-content;display:flex;align-items:center;gap:0}.player{display:inline-flex;align-items:baseline;gap:4px}.player-name{white-space:nowrap}.player-meta{font-size:.82em;font-weight:900;white-space:nowrap}.sub-label{display:inline-flex;align-items:center;margin-left:16px;margin-right:10px;padding:5px 9px;background:#111;color:#ffd000;font-size:.76em;font-weight:900;letter-spacing:.04em;border-radius:3px}.sub-player{padding:3px 6px;border:1px solid rgba(0,0,0,.28);border-radius:3px;background:rgba(255,255,255,.45)}.unused{opacity:.52}.separator{padding:0}.empty{padding:50px 20px;text-align:center;color:#666}
 @media(max-width:850px){#status{display:none}.fixture-row{font-size:17px}}
 @media(max-width:580px){.toolbar{position:static}.fixture-row{font-size:15px}}
 @media print{.toolbar{display:none}header{padding:8px}.fixture-row{break-inside:avoid}}
@@ -51,7 +51,7 @@ button.secondary{background:white}
 </div>
 </header>
 <div class="toolbar">
-  <button onclick="location.reload()">Refresh display</button>
+  <a class="update-link" href="https://github.com/nickabull/Tiverton-Town-Get-Player-Info/actions/workflows/update-and-deploy.yml" target="_blank" rel="noopener" title="Open GitHub Actions, then choose Run workflow">Update data</a>
   <button class="secondary" onclick="downloadCSV()">Download CSV</button>
   <a class="excel-link" href="Tiverton_Town_SL1_Fixtures_2026-27.xlsx" download>Download Excel</a>
   <button class="secondary" onclick="downloadHTML()">Download HTML</button>
@@ -66,7 +66,7 @@ function scoreHtml(s){const v=String(s||'-').trim();const m=v.match(/^(\d+)\s*[-
 function render(){
   const el=document.getElementById('fixtures');
   const rows=(data.fixtures||[]).slice().sort((a,b)=>(a.date||'').localeCompare(b.date||''));
-  if(!rows.length){el.innerHTML='<div class="empty">No SL1 fixtures were found. Run <b>Update Tiverton Fixtures.cmd</b> to refresh the data.</div>';}
+  if(!rows.length){el.innerHTML='<div class="empty">No SL1 fixtures were found in the latest update.</div>';}
   else{el.innerHTML=rows.map(x=>{
     const va=String(x.venue||'').toUpperCase()==='A'?'away':'home';
     const starters=Array.isArray(x.starters)?x.starters:[];
@@ -97,7 +97,9 @@ function render(){
       if(subDetails.length) detail+='<span class="sub-label" title="Times in brackets show when used substitutes came on">SUBS:</span>'+subDetails.map(playerHtml).join('<span class="separator">,&nbsp;</span>');
     } else if(players.length) detail=players.map(n=>'<span class="player"><span class="player-name">'+esc(n)+'</span></span>').join('<span class="separator">,&nbsp;</span>');
     else detail='<span>Player appearances not loaded</span>';
-    return '<div class="fixture-row '+va+'"><div class="date">'+esc(formatDate(x.date))+'</div><div class="opponent">'+esc(x.opponent||'')+'</div><div class="score">'+scoreHtml(x.result||'-')+'</div><div class="details">'+detail+'</div></div>';
+    const logo=x.opponentLogoUrl?'<img class="opp-logo" src="'+esc(x.opponentLogoUrl)+'" alt="" loading="lazy" onerror="this.style.display=\'none\'">':'';
+    const report=x.officialReportUrl?'<a class="report-link" href="'+esc(x.officialReportUrl)+'" target="_blank" rel="noopener">MATCH REPORT ↗</a>':'';
+    return '<div class="fixture-row '+va+'"><div class="date">'+esc(formatDate(x.date))+'</div><div class="opponent">'+logo+'<span class="opponent-name">'+esc(x.opponent||'')+'</span></div><div class="score">'+scoreHtml(x.result||'-')+'</div><div class="details">'+detail+report+'</div></div>';
   }).join('');}
   document.getElementById('status').textContent='Last updated: '+(data.updated||'unknown')+' · '+rows.length+' SL1 games';
 }
