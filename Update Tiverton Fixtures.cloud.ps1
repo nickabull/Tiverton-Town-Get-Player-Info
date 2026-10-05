@@ -283,9 +283,7 @@ function Get-PostLinksFromHtml([string]$html) {
     }
     return @($links.ToArray() | Select-Object -Unique)
 }
-function Get-TivertonReportCandidates([string]$date,[string]$opponent) {
-    $links=New-Object System.Collections.Generic.List[string]
-    # Verified 2026/27 match-report URLs. These avoid relying on a site search page.
+function Get-KnownTivertonReportUrl([string]$date) {
     $known=@{
         '2026-08-08'='https://www.tivertontownfc.uk/post/hungerford-1-1-tiverton'
         '2026-08-11'='https://www.tivertontownfc.uk/post/slough-s-early-nod-does-the-job'
@@ -295,7 +293,14 @@ function Get-TivertonReportCandidates([string]$date,[string]$opponent) {
         '2026-09-29'='https://www.tivertontownfc.uk/post/late-drama-in-midweek-devon-vs-somerset-battle'
         '2026-10-03'='https://www.tivertontownfc.uk/post/four-first-half-goals-decides-dramatic-encounter'
     }
-    if($known.ContainsKey($date)){$links.Add($known[$date])}
+    if($known.ContainsKey($date)){ return [string]$known[$date] }
+    return ''
+}
+function Get-TivertonReportCandidates([string]$date,[string]$opponent) {
+    $links=New-Object System.Collections.Generic.List[string]
+    # Verified 2026/27 match-report URLs. These avoid relying on a site search page.
+    $knownUrl=Get-KnownTivertonReportUrl $date
+    if($knownUrl){$links.Add($knownUrl)}
 
     # Also inspect current club pages for newly published reports. 404s are harmless.
     $q=[uri]::EscapeDataString($opponent)
@@ -316,7 +321,7 @@ function Get-TivertonReportCandidates([string]$date,[string]$opponent) {
     $scored=@()
     foreach($u in @($links.ToArray() | Select-Object -Unique)){
         $score=0; $lu=$u.ToLowerInvariant()
-        if($known.ContainsKey($date) -and $u -eq $known[$date]){$score+=100}
+        if($knownUrl -and $u -eq $knownUrl){$score+=100}
         if($lu -match 'match-report'){$score+=5}
         if($searchLinks.Contains($u)){$score+=8}
         foreach($t in $tokens){if($lu.Contains($t)){$score+=3}}
@@ -747,7 +752,9 @@ foreach($f in $sorted){
     $players=@($starters)+@($subs)
     if(-not $logoCache.ContainsKey($f.opponent)){$logoCache[$f.opponent]=Get-SflClubLogoUrl $f.opponent}
     $opponentLogoUrl=[string]$logoCache[$f.opponent]
-    $final.Add([pscustomobject]@{date=$f.date;venue=$f.venue;opponent=$f.opponent;opponentLogoUrl=$opponentLogoUrl;result=$f.result;goalscorers=$f.goalscorers;starters=$starters;subs=$subs;starterDetails=$starterDetails;subDetails=$subDetails;players=$players;squadUrl=$squadUrl;fwpUrl=$fwpUrl;officialReportUrl=$(if($null -ne $official){$official.url}else{''})})
+    $knownReportUrl=Get-KnownTivertonReportUrl $f.date
+    $reportUrl=$(if($null -ne $official -and $official.url){[string]$official.url}elseif($knownReportUrl){[string]$knownReportUrl}else{''})
+    $final.Add([pscustomobject]@{date=$f.date;venue=$f.venue;opponent=$f.opponent;opponentLogoUrl=$opponentLogoUrl;result=$f.result;goalscorers=$f.goalscorers;starters=$starters;subs=$subs;starterDetails=$starterDetails;subDetails=$subDetails;players=$players;squadUrl=$squadUrl;fwpUrl=$fwpUrl;officialReportUrl=$reportUrl})
 }
 $out=[ordered]@{season='2026/27';club='Tiverton Town';comp='SL1';fixtures=@($final.ToArray());updated=(Get-Date).ToString('yyyy-MM-dd HH:mm:ss');source=$sourceUrl;lineupSource='Tivvy Archive squad.php pages';eventSource='TivertonTownFC.uk official match reports plus Football Web Pages'}
 $json=$out | ConvertTo-Json -Depth 10 -Compress
