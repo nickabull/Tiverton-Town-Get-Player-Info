@@ -157,6 +157,34 @@ function Opponent-Slug-Candidates([string]$name) {
     if ($x.EndsWith('-afc')) { $list.Add($x.Substring(0,$x.Length-4)) }
     return @($list.ToArray() | Select-Object -Unique)
 }
+function Get-SflClubLogoUrl([string]$opponent) {
+    if ([string]::IsNullOrWhiteSpace($opponent)) { return '' }
+    $special = @{
+        'Worcester Raiders'='wors-raiders'
+        'Sporting Inkberrow'='sporting-club-inkberrow'
+        'Sporting Club Inkberrow'='sporting-club-inkberrow'
+        'Swindon Supermarine'='swindon-supermarine'
+        'Weymouth Town'='weymouth'
+        'Weymouth FC'='weymouth'
+        'Bideford AFC'='bideford'
+        'Slimbridge AFC'='Slimbridge'
+        'Hartpury FC'='Hartpury'
+    }
+    $slugs = New-Object System.Collections.Generic.List[string]
+    if ($special.ContainsKey($opponent)) { $slugs.Add([string]$special[$opponent]) }
+    foreach($s in @(Opponent-Slug-Candidates $opponent)) { if($s -and -not $slugs.Contains($s)){$slugs.Add($s)} }
+    foreach($slug in @($slugs.ToArray())) {
+        $clubUrl='https://www.southern-football-league.co.uk/clubs/'+$slug
+        $clubHtml=Get-Page $clubUrl 10
+        if([string]::IsNullOrWhiteSpace($clubHtml)){continue}
+        $m=[regex]::Match($clubHtml,'(?is)(?<src>/img/teams/[^"''<>\s]+\.png(?:\?[^"''<>\s]*)?)')
+        if(-not $m.Success){continue}
+        $src=[System.Net.WebUtility]::HtmlDecode($m.Groups['src'].Value)
+        if($src -notmatch '\?'){ $src += '?fit=contain&variant=square_logo_m' }
+        return 'https://www.southern-football-league.co.uk'+$src
+    }
+    return ''
+}
 function Get-FwpMatchLinks([string]$html) {
     $items = New-Object System.Collections.Generic.List[object]
     if ([string]::IsNullOrWhiteSpace($html)) { return @() }
@@ -639,6 +667,7 @@ $knownFwpMatchUrls=@{
 }
 
 $final=New-Object System.Collections.Generic.List[object]
+$logoCache=@{}
 foreach($f in $sorted){
     $starters=@();$subs=@();$squadUrl=''
     if($cache.matches.Contains($f.date)){$m=$cache.matches[$f.date];$starters=@($m.starters);$subs=@($m.subs);$squadUrl=[string]$m.url}
@@ -716,7 +745,9 @@ foreach($f in $sorted){
     $usedSubs=@($subDetails | Where-Object {$_.onMinute}).Count
     Write-Host ("  {0} {1,-24} {2} starters + {3} subs; captain: {4}; used subs: {5}" -f $f.date,$f.opponent,$starters.Count,$subs.Count,$(if($captain.Count){$captain[0].name}else{'not found'}),$usedSubs) -ForegroundColor $(if($starters.Count -eq 11){'Green'}else{'Yellow'})
     $players=@($starters)+@($subs)
-    $final.Add([pscustomobject]@{date=$f.date;venue=$f.venue;opponent=$f.opponent;result=$f.result;goalscorers=$f.goalscorers;starters=$starters;subs=$subs;starterDetails=$starterDetails;subDetails=$subDetails;players=$players;squadUrl=$squadUrl;fwpUrl=$fwpUrl;officialReportUrl=$(if($null -ne $official){$official.url}else{''})})
+    if(-not $logoCache.ContainsKey($f.opponent)){$logoCache[$f.opponent]=Get-SflClubLogoUrl $f.opponent}
+    $opponentLogoUrl=[string]$logoCache[$f.opponent]
+    $final.Add([pscustomobject]@{date=$f.date;venue=$f.venue;opponent=$f.opponent;opponentLogoUrl=$opponentLogoUrl;result=$f.result;goalscorers=$f.goalscorers;starters=$starters;subs=$subs;starterDetails=$starterDetails;subDetails=$subDetails;players=$players;squadUrl=$squadUrl;fwpUrl=$fwpUrl;officialReportUrl=$(if($null -ne $official){$official.url}else{''})})
 }
 $out=[ordered]@{season='2026/27';club='Tiverton Town';comp='SL1';fixtures=@($final.ToArray());updated=(Get-Date).ToString('yyyy-MM-dd HH:mm:ss');source=$sourceUrl;lineupSource='Tivvy Archive squad.php pages';eventSource='TivertonTownFC.uk official match reports plus Football Web Pages'}
 $json=$out | ConvertTo-Json -Depth 10 -Compress
