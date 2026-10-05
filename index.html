@@ -107,15 +107,38 @@ function render(){
 }
 function renderStats(rows){
   const map=new Map();
-  const get=n=>{const key=String(n||'').trim();if(!map.has(key))map.set(key,{name:key,starts:0,subApps:0,goals:0,captaincies:0});return map.get(key);};
+  const minuteValue=v=>{const m=String(v||'').match(/^(\d{1,3})(?:\+(\d{1,2}))?$/);return m?Number(m[1])+Number(m[2]||0):null;};
+  const get=n=>{const key=String(n||'').trim();if(!map.has(key))map.set(key,{name:key,starts:0,subApps:0,minutes:0,goals:0,captaincies:0});return map.get(key);};
   rows.forEach(x=>{
-    (Array.isArray(x.starterDetails)?x.starterDetails:[]).forEach(p=>{if(!p||!p.name)return;const r=get(p.name);r.starts++;r.goals+=Number(p.goalCount||0);if(p.captain)r.captaincies++;});
-    (Array.isArray(x.subDetails)?x.subDetails:[]).forEach(p=>{if(!p||!p.name)return;const r=get(p.name);if(p.used!==false && (p.onMinute || p.used===true))r.subApps++;r.goals+=Number(p.goalCount||0);if(p.captain)r.captaincies++;});
+    const starters=Array.isArray(x.starterDetails)?x.starterDetails:[];
+    const subs=Array.isArray(x.subDetails)?x.subDetails:[];
+    const allEvents=[...starters,...subs].flatMap(p=>[
+      minuteValue(p&&p.offMinute),
+      minuteValue(p&&p.onMinute),
+      ...(Array.isArray(p&&p.goalMinutes)?p.goalMinutes.map(minuteValue):[])
+    ]).filter(v=>Number.isFinite(v));
+    const matchEnd=Math.max(90,...allEvents);
+    starters.forEach(p=>{
+      if(!p||!p.name)return;
+      const r=get(p.name);r.starts++;r.goals+=Number(p.goalCount||0);if(p.captain)r.captaincies++;
+      const off=minuteValue(p.offMinute);r.minutes+=Number.isFinite(off)?Math.max(0,Math.min(off,matchEnd)):matchEnd;
+    });
+    subs.forEach(p=>{
+      if(!p||!p.name)return;
+      const r=get(p.name);
+      const used=p.used!==false && (p.onMinute || p.used===true);
+      if(used){
+        r.subApps++;
+        const on=minuteValue(p.onMinute);
+        if(Number.isFinite(on))r.minutes+=Math.max(0,matchEnd-on);
+      }
+      r.goals+=Number(p.goalCount||0);if(p.captain)r.captaincies++;
+    });
   });
-  const stats=[...map.values()].map(r=>({...r,total:r.starts+r.subApps})).sort((a,b)=>b.total-a.total||b.starts-a.starts||b.goals-a.goals||a.name.localeCompare(b.name));
+  const stats=[...map.values()].map(r=>({...r,total:r.starts+r.subApps})).sort((a,b)=>b.total-a.total||b.minutes-a.minutes||b.starts-a.starts||b.goals-a.goals||a.name.localeCompare(b.name));
   const el=document.getElementById('player-stats');
   if(!stats.length){el.innerHTML='<div class="empty">No player statistics available yet.</div>';return;}
-  el.innerHTML='<table class="stats-table"><thead><tr><th>Player</th><th>Starts</th><th>Sub Apps</th><th>Total Apps</th><th>Goals</th><th>Captaincies</th></tr></thead><tbody>'+stats.map(r=>'<tr><td>'+esc(r.name)+'</td><td>'+r.starts+'</td><td>'+r.subApps+'</td><td class="stats-total">'+r.total+'</td><td class="stats-goals">'+r.goals+'</td><td>'+r.captaincies+'</td></tr>').join('')+'</tbody></table>';
+  el.innerHTML='<table class="stats-table"><thead><tr><th>Player</th><th>Starts</th><th>Sub Apps</th><th>Total Apps</th><th>Minutes</th><th>Goals</th><th>Captaincies</th></tr></thead><tbody>'+stats.map(r=>'<tr><td>'+esc(r.name)+'</td><td>'+r.starts+'</td><td>'+r.subApps+'</td><td class="stats-total">'+r.total+'</td><td>'+r.minutes+'</td><td class="stats-goals">'+r.goals+'</td><td>'+r.captaincies+'</td></tr>').join('')+'</tbody></table>';
 }
 function download(name,text,type){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);}
 function downloadCSV(){const rows=[['Date','Venue','Opponent','Result','Players','Goalscorers']];(data.fixtures||[]).forEach(x=>rows.push([x.date||'',x.venue||'',x.opponent||'',x.result||'',(x.players||[]).join('; '),x.goalscorers||'']));download('Tiverton_Town_SL1_Fixtures_2026-27.csv',rows.map(r=>r.map(v=>'"'+String(v).replaceAll('"','""')+'"').join(',')).join('\r\n'),'text/csv');}
