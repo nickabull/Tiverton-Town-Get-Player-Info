@@ -40,7 +40,7 @@ def player_text(pd: dict, is_sub: bool) -> str:
 
 def main() -> None:
     payload = json.loads(DATA.read_text(encoding="utf-8-sig"))
-    fixtures = sorted(payload.get("fixtures", []), key=lambda x: x.get("date", ""))
+    fixtures = sorted([x for x in payload.get("fixtures", []) if x.get("result")], key=lambda x: x.get("date", ""))
 
     wb = Workbook()
     ws = wb.active
