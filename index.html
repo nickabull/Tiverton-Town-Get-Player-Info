@@ -61,13 +61,22 @@ button.secondary{background:white}
 <script src="data.js"></script>
 <script>
 const data = window.TIVVY_DATA || {fixtures:[],updated:'',source:''};
+const manualUpcomingFixtures=[
+  {date:'2026-10-06',venue:'H',opponent:'Hartpury',result:'',upcoming:true},
+  {date:'2026-10-10',venue:'A',opponent:'Shaftesbury',result:'',upcoming:true},
+  {date:'2026-10-13',venue:'A',opponent:'Falmouth Town',result:'',upcoming:true},
+  {date:'2026-10-17',venue:'H',opponent:'Portland United',result:'',upcoming:true}
+];
 function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
 function formatDate(s){if(!s)return '';const m=String(s).match(/^(\d{4})-(\d{2})-(\d{2})$/);return m?m[3]+'/'+m[2]:s;}
 function scoreHtml(s){const v=String(s||'-').trim();const m=v.match(/^(\d+)\s*[-–]\s*(\d+)$/);if(!m)return esc(v);return '<span class="tiv-goals">'+esc(m[1])+'</span><span class="dash">-</span><span>'+esc(m[2])+'</span>';}
 function shortName(name){const p=String(name||'').trim().split(/\s+/).filter(Boolean);if(p.length<2)return String(name||'');return p[0].charAt(0).toUpperCase()+' '+p.slice(1).join(' ');}
 function render(){
   const el=document.getElementById('fixtures');
-  const rows=(data.fixtures||[]).slice().sort((a,b)=>(a.date||'').localeCompare(b.date||''));
+  const rows=(data.fixtures||[]).slice();
+  const existingKeys=new Set(rows.map(x=>(x.date||'')+'|'+(x.opponent||'')));
+  manualUpcomingFixtures.forEach(x=>{if(!existingKeys.has(x.date+'|'+x.opponent))rows.push(x);});
+  rows.sort((a,b)=>(a.date||'').localeCompare(b.date||''));
   if(!rows.length){el.innerHTML='<div class="empty">No SL1 fixtures were found in the latest update.</div>';}
   else{el.innerHTML=rows.map(x=>{
     const va=String(x.venue||'').toUpperCase()==='A'?'away':'home';
