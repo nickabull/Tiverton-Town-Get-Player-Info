@@ -61,6 +61,15 @@ button.secondary{background:white}
 <script src="data.js"></script>
 <script>
 const data = window.TIVVY_DATA || {fixtures:[],updated:'',source:''};
+const knownOfficialReports={
+  '2026-08-08':'https://www.tivertontownfc.uk/post/hungerford-1-1-tiverton',
+  '2026-08-11':'https://www.tivertontownfc.uk/post/slough-s-early-nod-does-the-job',
+  '2026-08-15':'https://www.tivertontownfc.uk/post/westbury-united-1-0-tiverton-town',
+  '2026-08-31':'https://www.tivertontownfc.uk/post/match-report-tiverton-town-1-2-exmouth-town-slee-blackwell-solicitors-stadium',
+  '2026-09-15':'https://www.tivertontownfc.uk/post/defeat-despite-debut-day-delight',
+  '2026-09-29':'https://www.tivertontownfc.uk/post/late-drama-in-midweek-devon-vs-somerset-battle',
+  '2026-10-03':'https://www.tivertontownfc.uk/post/four-first-half-goals-decides-dramatic-encounter'
+};
 const manualUpcomingFixtures=[
   {date:'2026-10-06',venue:'H',opponent:'Hartpury',result:'',upcoming:true},
   {date:'2026-10-10',venue:'A',opponent:'Shaftesbury',result:'',upcoming:true},
@@ -109,7 +118,7 @@ function render(){
     } else if(players.length) detail=players.map(n=>'<span class="player"><span class="player-name">'+esc(shortName(n))+'</span></span>').join('<span class="separator">,&nbsp;</span>');
     else detail=x.upcoming?'<span class="upcoming-note">UPCOMING FIXTURE</span>':'<span>Player appearances not loaded</span>';
     const logo=x.opponentLogoUrl?'<img class="opp-logo" src="'+esc(x.opponentLogoUrl)+'" alt="" loading="lazy" onerror="this.style.display=\'none\'">':'';
-    const report=x.officialReportUrl?'<a class="report-link" href="'+esc(x.officialReportUrl)+'" target="_blank" rel="noopener">MATCH REPORT ↗</a>':'';
+    const reportUrl=x.officialReportUrl||knownOfficialReports[x.date]||''; const report=reportUrl?'<a class="report-link" href="'+esc(reportUrl)+'" target="_blank" rel="noopener">MATCH REPORT ↗</a>':'';
     return '<div class="fixture-row '+va+(x.upcoming?' upcoming':'')+'"><div class="date">'+esc(formatDate(x.date))+'</div><div class="opponent">'+logo+'<span class="opponent-name">'+esc(x.opponent||'')+'</span></div><div class="score">'+(x.upcoming?'—':scoreHtml(x.result||'-'))+'</div><div class="details">'+detail+'</div><div class="report-cell">'+report+'</div></div>';
   }).join('');}
   const completedCount=rows.filter(x=>!x.upcoming && x.result).length;const upcomingCount=rows.filter(x=>x.upcoming).length;document.getElementById('status').textContent='Last updated: '+(data.updated||'unknown')+' · '+completedCount+' SL1 results'+(upcomingCount?' · '+upcomingCount+' upcoming':'');
