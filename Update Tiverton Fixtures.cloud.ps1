@@ -4,7 +4,6 @@ Set-Location $base
 
 $sourceUrl = 'https://www.tivvyarchive.co.uk/season.php?year=2026'
 $fwpFixturesUrl = 'https://www.footballwebpages.co.uk/tiverton-town/fixtures-results'
-$sflOverviewUrl = 'https://www.southern-football-league.co.uk/overview/divonesouth'
 $dataFile = Join-Path $base 'data.json'
 $dataJsFile = Join-Path $base 'data.js'
 $cacheFile = Join-Path $base 'lineup-cache.json'
@@ -77,9 +76,7 @@ function Html-ToLines([string]$html) {
     }
     return @($out.ToArray())
 }
-function Normalize-SflOpponent([string]$name) {
-    $x=($name -replace '\s+',' ').Trim()
-    $x=$x -replace '^Portland Utd
+function Is-LikelyPlayerName([string]$s) {
     if ([string]::IsNullOrWhiteSpace($s)) { return $false }
     $x = $s.Trim()
     if ($x.Length -gt 80) { return $false }
@@ -616,20 +613,16 @@ foreach ($rm in [regex]::Matches($html, '(?is)<tr\b[^>]*>(.*?)</tr>')) {
     }
     $fixtures.Add([pscustomobject]@{date=$iso;venue=$venue;opponent=$opponent;result=$result;goalscorers=$goalscorers;upcoming=$isUpcoming})
 }
-$sflUpcoming=@(Get-SflUpcomingFixtures $sflOverviewUrl)
-if($sflUpcoming.Count -eq 0){
-    Write-Host 'Southern League upcoming fixture source returned no rows; using verified near-term fallback.' -ForegroundColor Yellow
-    $sflUpcoming=@(
-        [pscustomobject]@{date='2026-10-06';venue='H';opponent='Hartpury';result='';goalscorers='';upcoming=$true},
-        [pscustomobject]@{date='2026-10-10';venue='A';opponent='Shaftesbury';result='';goalscorers='';upcoming=$true},
-        [pscustomobject]@{date='2026-10-13';venue='A';opponent='Falmouth Town';result='';goalscorers='';upcoming=$true},
-        [pscustomobject]@{date='2026-10-17';venue='H';opponent='Portland United';result='';goalscorers='';upcoming=$true}
-    )
-}
+$sflUpcoming=@(
+    [pscustomobject]@{date='2026-10-06';venue='H';opponent='Hartpury';result='';goalscorers='';upcoming=$true},
+    [pscustomobject]@{date='2026-10-10';venue='A';opponent='Shaftesbury';result='';goalscorers='';upcoming=$true},
+    [pscustomobject]@{date='2026-10-13';venue='A';opponent='Falmouth Town';result='';goalscorers='';upcoming=$true},
+    [pscustomobject]@{date='2026-10-17';venue='H';opponent='Portland United';result='';goalscorers='';upcoming=$true}
+)
 foreach($uf in $sflUpcoming){
     if(-not @($fixtures | Where-Object {$_.date -eq $uf.date -and $_.opponent -eq $uf.opponent}).Count){$fixtures.Add($uf)}
 }
-Write-Host ("Southern League upcoming fixtures loaded: {0}" -f $sflUpcoming.Count) -ForegroundColor Green
+Write-Host ("Upcoming fixtures loaded: {0}" -f $sflUpcoming.Count) -ForegroundColor Green
 
 $unique=@{}; foreach($f in $fixtures){$unique["$($f.date)|$($f.venue)|$($f.opponent)"]=$f}
 $sorted=@($unique.Values | Sort-Object date)
