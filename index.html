@@ -1,0 +1,109 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tiverton Town SL1 Fixtures 2026/27</title>
+<style>
+
+:root{
+  --league-yellow:#f2c400;
+  --tiverton:#7fc8f8;
+  --page:#f4f4f4;
+}
+*{box-sizing:border-box}
+body{font-family:Arial,sans-serif;margin:0;background:var(--page);color:#111}
+header{background:linear-gradient(115deg,#111 0%,#242424 45%,#111 100%);padding:18px 24px;color:#fff;border-bottom:5px solid var(--league-yellow);position:relative;overflow:hidden}
+header:after{content:'';position:absolute;inset:0;background:linear-gradient(120deg,transparent 0 58%,rgba(242,196,0,.12) 58% 72%,transparent 72%);pointer-events:none}
+.hero{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:110px 1fr 170px;align-items:center;gap:22px;position:relative;z-index:1}
+.hero-logo{height:92px;max-width:160px;object-fit:contain;display:block;margin:auto;filter:drop-shadow(0 4px 5px rgba(0,0,0,.35))}
+.hero-league{width:160px;height:78px;object-fit:cover;object-position:center;background:#ed1c24;border:2px solid rgba(255,255,255,.65);border-radius:6px}
+.hero-copy{text-align:left}.eyebrow{color:var(--league-yellow);font-size:13px;font-weight:800;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px}
+h1{margin:0;font-size:clamp(25px,3vw,38px);line-height:1.05}.subtitle{margin-top:6px;color:#ddd;font-size:14px}
+.logo-fallback{display:none;font-weight:900;color:var(--league-yellow);text-align:center}
+#status{margin-top:9px;font-size:13px;color:#bbb}
+@media (max-width:700px){
+  header{padding:12px 10px}.hero{grid-template-columns:70px 1fr;gap:12px}.hero-logo{height:64px}.hero-league{display:none}.hero-copy{text-align:left}.eyebrow{font-size:10px;letter-spacing:1.3px}.subtitle{font-size:12px}
+}
+
+
+.toolbar{padding:12px 16px;background:#fff;display:flex;gap:10px;align-items:center;flex-wrap:wrap;position:sticky;top:0;z-index:20;box-shadow:0 1px 5px #aaa}
+button{padding:9px 14px;border:1px solid #333;background:var(--league-yellow);font-weight:bold;cursor:pointer;font:inherit;color:#111}
+button.secondary{background:white}
+.fixture-board{width:100%;background:#fff;padding:10px 0 38px;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch}
+.fixture-row{min-height:46px;display:grid;grid-template-columns:120px 390px 90px max-content;align-items:center;padding:0 14px;font-family:"Arial Narrow",Arial,sans-serif;font-size:clamp(18px,1.5vw,27px);line-height:1.06;width:max-content;min-width:100%}
+.fixture-row:nth-child(odd){background:rgba(242,196,0,.96)}
+.fixture-row:nth-child(even){background:#fff}
+.fixture-row + .fixture-row{margin-top:8px}
+.date,.opponent,.score{font-weight:800}.score .tiv-goals{color:#d71920;font-weight:900}.score .dash{padding:0 2px}.excel-link{display:inline-block;padding:9px 14px;border:1px solid #333;background:#fff;font-weight:bold;color:#111;text-decoration:none}.opponent{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.fixture-row.home .opponent{text-transform:uppercase}.fixture-row.away .opponent{text-transform:none}.score{text-align:center}.details{font-size:.70em;font-weight:700;white-space:nowrap;overflow:visible;text-overflow:clip;padding-left:12px;min-width:max-content;display:flex;align-items:center;gap:0}.player{display:inline-flex;align-items:baseline;gap:4px}.player-name{white-space:nowrap}.player-meta{font-size:.82em;font-weight:900;white-space:nowrap}.sub-label{display:inline-flex;align-items:center;margin-left:16px;padding:5px 9px;background:#111;color:#ffd000;font-size:.76em;font-weight:900;letter-spacing:.04em;border-radius:3px}.sub-player{padding:3px 6px;border:1px solid rgba(0,0,0,.28);border-radius:3px;background:rgba(255,255,255,.45)}.unused{opacity:.52}.separator{padding:0}.empty{padding:50px 20px;text-align:center;color:#666}
+@media(max-width:850px){#status{display:none}.fixture-row{font-size:17px}}
+@media(max-width:580px){.toolbar{position:static}.fixture-row{font-size:15px}}
+@media print{.toolbar{display:none}header{padding:8px}.fixture-row{break-inside:avoid}}
+
+</style>
+</head>
+<body>
+<header>
+<div class="hero">
+  <div><img class="hero-logo" src="tiverton-town-logo.png" alt="Tiverton Town FC crest" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><div class="logo-fallback">TIVERTON<br>TOWN FC</div></div>
+  <div class="hero-copy"><div class="eyebrow">Tiverton Town • 2026/27</div><h1>Tiverton Town Fixtures Centre</h1><div class="subtitle">Southern League Division One South · SL1 fixtures and player appearances</div><div id="status">Waiting for fixture data…</div></div>
+  <div><img class="hero-league" src="https://www.voicenewspapers.co.uk/tindle-static/image/2024/08/30/12/41/Untitled-design-119.jpeg?crop=752%3A500&amp;height=500&amp;width=752" alt="Pitching In Southern League" onerror="this.style.display='none'"></div>
+</div>
+</header>
+<div class="toolbar">
+  <button onclick="location.reload()">Refresh display</button>
+  <button class="secondary" onclick="downloadCSV()">Download CSV</button>
+  <a class="excel-link" href="Tiverton_Town_SL1_Fixtures_2026-27.xlsx" download>Download Excel</a>
+  <button class="secondary" onclick="downloadHTML()">Download HTML</button>
+</div>
+<main id="fixtures" class="fixture-board"></main>
+<script src="data.js"></script>
+<script>
+const data = window.TIVVY_DATA || {fixtures:[],updated:'',source:''};
+function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
+function formatDate(s){if(!s)return '';const m=String(s).match(/^(\d{4})-(\d{2})-(\d{2})$/);return m?m[3]+'/'+m[2]:s;}
+function scoreHtml(s){const v=String(s||'-').trim();const m=v.match(/^(\d+)\s*[-–]\s*(\d+)$/);if(!m)return esc(v);return '<span class="tiv-goals">'+esc(m[1])+'</span><span class="dash">-</span><span>'+esc(m[2])+'</span>';}
+function render(){
+  const el=document.getElementById('fixtures');
+  const rows=(data.fixtures||[]).slice().sort((a,b)=>(a.date||'').localeCompare(b.date||''));
+  if(!rows.length){el.innerHTML='<div class="empty">No SL1 fixtures were found. Run <b>Update Tiverton Fixtures.cmd</b> to refresh the data.</div>';}
+  else{el.innerHTML=rows.map(x=>{
+    const va=String(x.venue||'').toUpperCase()==='A'?'away':'home';
+    const starters=Array.isArray(x.starters)?x.starters:[];
+    const subs=Array.isArray(x.subs)?x.subs:[];
+    const players=Array.isArray(x.players)?x.players:[];
+    const starterDetails=Array.isArray(x.starterDetails)?x.starterDetails:starters.map(n=>({name:n}));
+    const subDetails=Array.isArray(x.subDetails)?x.subDetails:subs.map(n=>({name:n,sub:true}));
+    const playerHtml=p=>{
+      const bits=[];
+      if(p.captain) bits.push('C');
+      const goalCount=Number(p.goalCount||0);
+      const goalMinutes=Array.isArray(p.goalMinutes)?p.goalMinutes.filter(Boolean):[];
+      if(goalCount>0){
+        const g=goalCount===1?'G':goalCount+'G';
+        bits.push(goalMinutes.length?g+' '+goalMinutes.map(m=>m+"'").join(', '):g);
+      }
+      // A time beside a starter means the player went off; beside a substitute it means they came on.
+      const subTime=p.sub?p.onMinute:p.offMinute;
+      if(subTime) bits.push(esc(subTime)+"'");
+      const meta=bits.length?'<span class="player-meta">('+bits.join(' / ')+')</span>':'';
+      const cls=p.sub?'player sub-player'+(p.used===false?' unused':''):'player';
+      const title=p.sub?(p.used===false?'Named substitute — unused':'Substitute came on'+(p.onMinute?' at '+p.onMinute+" minutes":'')):(p.offMinute?'Starter — went off at '+p.offMinute+' minutes':'Starter');
+      return '<span class="'+cls+'" title="'+esc(title)+'"><span class="player-name">'+esc(p.name)+'</span>'+meta+'</span>';
+    };
+    let detail='';
+    if(starterDetails.length||subDetails.length){
+      detail=starterDetails.map(playerHtml).join('<span class="separator">,&nbsp;</span>');
+      if(subDetails.length) detail+='<span class="sub-label" title="Times in brackets show when used substitutes came on">SUBS:</span>'+subDetails.map(playerHtml).join('<span class="separator">,&nbsp;</span>');
+    } else if(players.length) detail=players.map(n=>'<span class="player"><span class="player-name">'+esc(n)+'</span></span>').join('<span class="separator">,&nbsp;</span>');
+    else detail='<span>Player appearances not loaded</span>';
+    return '<div class="fixture-row '+va+'"><div class="date">'+esc(formatDate(x.date))+'</div><div class="opponent">'+esc(x.opponent||'')+'</div><div class="score">'+scoreHtml(x.result||'-')+'</div><div class="details">'+detail+'</div></div>';
+  }).join('');}
+  document.getElementById('status').textContent='Last updated: '+(data.updated||'unknown')+' · '+rows.length+' SL1 games';
+}
+function download(name,text,type){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);}
+function downloadCSV(){const rows=[['Date','Venue','Opponent','Result','Players','Goalscorers']];(data.fixtures||[]).forEach(x=>rows.push([x.date||'',x.venue||'',x.opponent||'',x.result||'',(x.players||[]).join('; '),x.goalscorers||'']));download('Tiverton_Town_SL1_Fixtures_2026-27.csv',rows.map(r=>r.map(v=>'"'+String(v).replaceAll('"','""')+'"').join(',')).join('\r\n'),'text/csv');}
+function downloadHTML(){download('Tiverton_Town_SL1_Fixtures_2026-27.html','<!doctype html>'+document.documentElement.outerHTML,'text/html');}
+render();
+</script>
+</body></html>
