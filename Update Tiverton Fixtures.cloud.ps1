@@ -606,7 +606,12 @@ foreach ($rm in [regex]::Matches($html, '(?is)<tr\b[^>]*>(.*?)</tr>')) {
         $afterScore=if($scoreIndexes.Count){($scoreIndexes | Measure-Object -Maximum).Maximum}else{$oppIndex}
         for($i=[int]$afterScore+1;$i -lt $cells.Count;$i++){
             $v=$cells[$i].Trim()
-            if(-not $v -or $v -match '^\d+
+            if(-not $v -or $v -match '^\d+$' -or $v -match '^(Report|Photos?|Video)$'){continue}
+            $goalscorerParts.Add($v)
+        }
+        $goalscorers=($goalscorerParts.ToArray() -join ' ').Trim()
+    }
+    $fixtures.Add([pscustomobject]@{date=$iso;venue=$venue;opponent=$opponent;result=$result;goalscorers=$goalscorers;upcoming=$isUpcoming})
 }
 $unique=@{}; foreach($f in $fixtures){$unique["$($f.date)|$($f.venue)|$($f.opponent)"]=$f}
 $sorted=@($unique.Values | Sort-Object date)
