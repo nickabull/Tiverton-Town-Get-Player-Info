@@ -292,6 +292,7 @@ function Get-KnownTivertonReportUrl([string]$date) {
         '2026-09-15'='https://www.tivertontownfc.uk/post/defeat-despite-debut-day-delight'
         '2026-09-29'='https://www.tivertontownfc.uk/post/late-drama-in-midweek-devon-vs-somerset-battle'
         '2026-10-03'='https://www.tivertontownfc.uk/post/four-first-half-goals-decides-dramatic-encounter'
+        '2026-10-06'='https://www.tivertontownfc.uk/post/tivvy-finally-rewarded-for-good-form'
     }
     if($known.ContainsKey($date)){ return [string]$known[$date] }
     return ''
@@ -626,6 +627,7 @@ $knownIds = @{
  '2026-09-15'=4472
  '2026-09-29'=4476
  '2026-10-03'=4477
+ '2026-10-06'=4478
 }
 
 $knownLeagueFallback=@{
@@ -720,6 +722,7 @@ foreach($f in $sorted){
     $verifiedBench=@{
         '2026-09-29'=@('Billy Tucker','Aiden Horne','Asa Hall','Matt Wood','Caleb Pryce-Hall')
         '2026-10-03'=@('Asa Hall','Jack Kennell','Corey Koerner','Matt Wood')
+        '2026-10-06'=@('Corey Koerner','Aaron Wellington','Billy Tucker','Jack Kennell','Louis Slough')
     }
     if($verifiedBench.ContainsKey($f.date)){
         # For these verified reports, use the complete official bench in the report's own order.
@@ -738,6 +741,7 @@ foreach($f in $sorted){
     $verifiedFinalGoals=@{
         '2026-09-29'=@([pscustomobject]@{name='Owen Howe';minute='36'},[pscustomobject]@{name='Finn Roberts';minute='64'})
         '2026-10-03'=@([pscustomobject]@{name='Aiden Horne';minute='25'},[pscustomobject]@{name='Finn Roberts';minute='38'})
+        '2026-10-06'=@([pscustomobject]@{name='Owen Howe';minute='41'},[pscustomobject]@{name='Ryan Keates';minute='47'},[pscustomobject]@{name='Matt Wood';minute='71'})
     }
     if($verifiedFinalGoals.ContainsKey($f.date)){
         foreach($vg in @($verifiedFinalGoals[$f.date])){
@@ -751,6 +755,7 @@ foreach($f in $sorted){
     $verifiedLatestFacts=@{
         '2026-09-29'=[pscustomobject]@{captain='Ed Palmer';off=@{'Ryan Keates'='57';'Josh Bissett'='85'};on=@{'Billy Tucker'='57';'Aiden Horne'='85'}}
         '2026-10-03'=[pscustomobject]@{captain='Ed Palmer';off=@{'Ryan Keates'='54';'Finn Roberts'='68';'Aaron Wellington'='71'};on=@{'Asa Hall'='54';'Corey Koerner'='68';'Jack Kennell'='71'}}
+        '2026-10-06'=[pscustomobject]@{captain='Ed Palmer';off=@{'Ryan Keates'='52';'Finn Roberts'='57';'Aiden Horne'='66';'Josh Bissett'='87';'Owen Howe'='90+1'};on=@{'Jack Kennell'='52';'Corey Koerner'='57';'Aaron Wellington'='66';'Billy Tucker'='87';'Louis Slough'='90+1'}}
     }
     if($verifiedLatestFacts.ContainsKey($f.date)){
         $vf=$verifiedLatestFacts[$f.date]
