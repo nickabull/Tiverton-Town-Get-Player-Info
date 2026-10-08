@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tiverton Town Stats Centre 2026/27</title>
+<style>
+:root{--y:#f2c400;--b:#111;--bg:#f2f2f0;--line:#d7d7d0;--muted:#666;--red:#d71920;--blue:#7fc8f8}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:#171717}
+header{background:linear-gradient(115deg,#111 0%,#242424 45%,#111 100%);color:#fff;border-bottom:5px solid var(--y);padding:18px 22px}
+.hero{max-width:1320px;margin:auto;display:grid;grid-template-columns:100px 1fr 170px;gap:20px;align-items:center}.logo{height:86px;max-width:145px;object-fit:contain}.league-logo{width:160px;height:78px;object-fit:cover;border:2px solid #aaa;border-radius:6px}
+.eyebrow{color:var(--y);font-size:12px;font-weight:900;letter-spacing:.16em;text-transform:uppercase}h1{margin:4px 0;font-size:clamp(30px,4vw,46px)}.subtitle{color:#ccc;font-size:14px}.status{margin-top:7px;color:#aaa;font-size:12px}
+nav{position:sticky;top:0;z-index:30;background:#fff;border-bottom:1px solid #ccc;box-shadow:0 2px 7px #bbb;display:flex;gap:7px;flex-wrap:wrap;padding:10px 14px;justify-content:center}nav a{color:#111;text-decoration:none;border:1px solid #333;padding:8px 11px;border-radius:7px;font-size:13px;font-weight:800}nav a:hover{background:var(--y)}
+main{max-width:1320px;margin:auto;padding:20px 18px 55px}.section{margin:0 0 22px;background:#fff;border:1px solid var(--line);box-shadow:0 1px 5px #ccc}.section-head{background:#1d1d1d;color:#fff;border-top:5px solid var(--y);padding:12px 15px}.section-head h2{margin:0;font-size:23px}.section-head p{margin:4px 0 0;color:#bbb;font-size:13px}
+.cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;padding:14px}.card{border:1px solid var(--line);border-radius:9px;padding:14px;background:#fafafa;min-height:110px}.card h3{margin:0 0 8px;font-size:11px;color:#666;text-transform:uppercase;letter-spacing:.08em}.big{font-size:32px;font-weight:900}.value{font-size:21px;font-weight:900}.small{font-size:12px;color:var(--muted);margin-top:6px;line-height:1.35}
+.form{display:flex;gap:6px}.pill{width:33px;height:33px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;border:1px solid #777}.w{background:#b9e4b3}.d{background:#eee69b}.l{background:#efb0b0}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:14px}.panel{border:1px solid var(--line);border-radius:8px;overflow:hidden;background:#fff}.panel h3{margin:0;padding:10px 12px;background:#f6e782;font-size:15px}
+table{width:100%;border-collapse:collapse}th,td{padding:8px 9px;border-bottom:1px solid #e6e6e0;font-size:13px;text-align:left}th{background:#f5f5f1;color:#555;font-size:11px;text-transform:uppercase}.num{text-align:right;font-weight:900}.tiv{font-weight:900}.tiv td:nth-child(2){background:#d9effd}.goal{color:var(--red);font-weight:900}
+.matrix-wrap{overflow:auto;padding:14px}.matrix{border-collapse:collapse;width:max-content;min-width:100%}.matrix th,.matrix td{border:1px solid #333;width:54px;min-width:54px;height:38px;text-align:center;padding:0 4px}.matrix th{background:var(--y);font-weight:900}.matrix .diag{background:#f2d966}.matrix .tiv-axis{background:var(--blue)!important}.matrix .score{font-weight:900}
+.matches{overflow:auto}.match-table{min-width:880px}.match-table td:nth-child(2){font-weight:800}.match-table .score{font-weight:900;text-align:center}.report{font-weight:900;color:#111}
+.players{overflow:auto}.players table{min-width:760px}.players td:first-child{font-weight:800}
+.bar-row{display:grid;grid-template-columns:82px 1fr 36px;gap:8px;align-items:center;padding:6px 0}.bar{height:14px;background:#eee;border-radius:7px;overflow:hidden}.bar span{display:block;height:100%;background:var(--y)}
+.note{padding:11px 14px;border-left:5px solid var(--y);background:#fff8d3;font-size:12px;color:#555}
+@media(max-width:900px){.cards{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}}@media(max-width:650px){.hero{grid-template-columns:68px 1fr}.logo{height:60px}.league-logo{display:none}.cards{grid-template-columns:1fr}main{padding:12px 8px 40px}nav{justify-content:flex-start;overflow-x:auto;flex-wrap:nowrap}}
+</style>
+</head>
+<body>
+<header><div class="hero">
+<img class="logo" src="https://ilcalcio.net/assets/74/79/74798e74ec395fe9614ced7aa31c4dc3.png" alt="Tiverton Town FC">
+<div><div class="eyebrow">Tiverton Town · 2026/27</div><h1>Tiverton Town Stats Centre</h1><div class="subtitle">Results · league table · player stats · match details · season trends</div><div id="status" class="status">Loading both data feeds…</div></div>
+<img class="league-logo" src="https://www.voicenewspapers.co.uk/tindle-static/image/2024/08/30/12/41/Untitled-design-119.jpeg?crop=752%3A500&amp;height=500&amp;width=752" alt="Pitching In Southern League">
+</div></header>
+<nav><a href="#season">Season So Far</a><a href="#league">League Table</a><a href="#players">Players</a><a href="#matches">Tivvy Matches</a><a href="#matrix">League Matrix</a><a href="#trends">Trends</a></nav>
+<main>
+<section class="section" id="season"><div class="section-head"><h2>The Season So Far</h2><p>Headline league numbers calculated automatically</p></div><div class="cards">
+<div class="card"><h3>League record</h3><div class="big" id="record">—</div><div class="small" id="recordSub"></div></div>
+<div class="card"><h3>Points</h3><div class="big" id="points">—</div><div class="small" id="ppg"></div></div>
+<div class="card"><h3>Goals</h3><div class="big" id="goals">—</div><div class="small" id="goalSub"></div></div>
+<div class="card"><h3>Goal difference</h3><div class="big" id="gd">—</div><div class="small" id="gdSub"></div></div>
+<div class="card"><h3>League position</h3><div class="big" id="position">—</div><div class="small" id="positionSub"></div></div>
+<div class="card"><h3>Home record</h3><div class="value" id="home">—</div><div class="small" id="homeSub"></div></div>
+<div class="card"><h3>Away record</h3><div class="value" id="away">—</div><div class="small" id="awaySub"></div></div>
+<div class="card"><h3>Last 5</h3><div class="form" id="form"></div><div class="small" id="formSub"></div></div>
+<div class="card"><h3>Clean sheets</h3><div class="big" id="clean">—</div><div class="small" id="cleanSub"></div></div>
+<div class="card"><h3>Biggest win</h3><div class="value" id="bigWin">—</div><div class="small" id="bigWinSub"></div></div>
+<div class="card"><h3>Players used</h3><div class="big" id="playersUsed">—</div><div class="small">Starts or used substitute appearances</div></div>
+<div class="card"><h3>Starting XIs used</h3><div class="big" id="xis">—</div><div class="small" id="xiSub"></div></div>
+</div></section>
+
+<section class="section" id="league"><div class="section-head"><h2>Division One South League Table</h2><p>Live table from the results feed</p></div><div class="matches" id="leagueTable"></div></section>
+
+<section class="section" id="players"><div class="section-head"><h2>Player Stats</h2><p>Starts, substitute appearances, minutes, goals and captaincies</p></div><div class="players" id="playerTable"></div></section>
+
+<section class="section" id="matches"><div class="section-head"><h2>Tiverton Town Match Centre</h2><p>Every loaded league game, scorers, captain, substitutions and reports</p></div><div class="matches" id="matchCentre"></div></section>
+
+<section class="section" id="matrix"><div class="section-head"><h2>Division One South Results Matrix</h2><p>Home teams across the top · away teams down the side</p></div><div class="matrix-wrap" id="resultsMatrix"></div></section>
+
+<section class="section" id="trends"><div class="section-head"><h2>Form & Trends</h2><p>Goal timings and player leaders</p></div><div class="grid2">
+<div class="panel"><h3>Goals by 15-minute period</h3><div id="goalBands" style="padding:12px"></div></div>
+<div class="panel"><h3>Top scorers</h3><div id="scorers"></div></div>
+<div class="panel"><h3>Most appearances</h3><div id="apps"></div></div>
+<div class="panel"><h3>Most minutes</h3><div id="minutes"></div></div>
+</div><div class="note">Minutes are approximate where stoppage time or incomplete event data affects the calculation. This combined page leaves the existing source pages untouched while we test the one-stop-shop layout.</div></section>
+</main>
+<script>
+const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+const fmt=s=>{const m=String(s||'').match(/^(\d{4})-(\d{2})-(\d{2})$/);return m?m[3]+'/'+m[2]+'/'+m[1]:s||''};
+const parseScore=s=>{const m=String(s||'').match(/^(\d+)\s*[-–]\s*(\d+)$/);return m?{gf:+m[1],ga:+m[2]}:null};
+const minute=v=>{const m=String(v||'').match(/^(\d{1,3})(?:\+(\d{1,2}))?$/);return m?+m[1]+ +(m[2]||0):null};
+const reports={
+'2026-08-08':'https://www.tivertontownfc.uk/post/hungerford-1-1-tiverton',
+'2026-08-11':'https://www.tivertontownfc.uk/post/slough-s-early-nod-does-the-job',
+'2026-08-15':'https://www.tivertontownfc.uk/post/westbury-united-1-0-tiverton-town',
+'2026-08-31':'https://www.tivertontownfc.uk/post/match-report-tiverton-town-1-2-exmouth-town-slee-blackwell-solicitors-stadium',
+'2026-09-15':'https://www.tivertontownfc.uk/post/defeat-despite-debut-day-delight',
+'2026-09-29':'https://www.tivertontownfc.uk/post/late-drama-in-midweek-devon-vs-somerset-battle',
+'2026-10-03':'https://www.tivertontownfc.uk/post/four-first-half-goals-decides-dramatic-encounter',
+'2026-10-06':'https://www.tivertontownfc.uk/post/tivvy-finally-rewarded-for-good-form'};
+async function getJSON(url){const r=await fetch(url,{cache:'no-store'});if(!r.ok)throw new Error(url+' '+r.status);return r.json()}
+function rec(rows){let w=0,d=0,l=0,gf=0,ga=0;rows.forEach(x=>{const r=parseScore(x.result);if(!r)return;gf+=r.gf;ga+=r.ga;if(r.gf>r.ga)w++;else if(r.gf===r.ga)d++;else l++});return{p:rows.length,w,d,l,gf,ga,pts:w*3+d}}
+function statTable(arr,val,label){return '<table><thead><tr><th>Player</th><th class="num">'+label+'</th></tr></thead><tbody>'+arr.slice(0,10).map(x=>'<tr><td>'+esc(x.name)+'</td><td class="num">'+esc(val(x))+'</td></tr>').join('')+'</tbody></table>'}
+function buildPlayerStats(fixtures){
+ const map=new Map(),get=n=>{n=String(n||'').trim();if(!map.has(n))map.set(n,{name:n,starts:0,subs:0,mins:0,goals:0,caps:0});return map.get(n)},xi=new Set(),goalTimes=[];
+ fixtures.forEach(x=>{const st=Array.isArray(x.starterDetails)?x.starterDetails:[],sb=Array.isArray(x.subDetails)?x.subDetails:[];if(st.length)xi.add(st.map(p=>p.name).sort().join('|'));
+  const ev=[...st,...sb].flatMap(p=>[minute(p.offMinute),minute(p.onMinute),...(Array.isArray(p.goalMinutes)?p.goalMinutes.map(minute):[])]).filter(Number.isFinite);const end=Math.max(90,...ev);
+  st.forEach(p=>{if(!p?.name)return;const r=get(p.name);r.starts++;r.goals+=Number(p.goalCount||0);if(p.captain)r.caps++;const off=minute(p.offMinute);r.mins+=Number.isFinite(off)?Math.min(off,end):end;(p.goalMinutes||[]).forEach(m=>{const v=minute(m);if(Number.isFinite(v))goalTimes.push(v)})});
+  sb.forEach(p=>{if(!p?.name)return;const r=get(p.name);const used=p.used!==false&&(p.onMinute||p.used===true);if(used){r.subs++;const on=minute(p.onMinute);if(Number.isFinite(on))r.mins+=Math.max(0,end-on)}r.goals+=Number(p.goalCount||0);if(p.captain)r.caps++;(p.goalMinutes||[]).forEach(m=>{const v=minute(m);if(Number.isFinite(v))goalTimes.push(v)})});
+ });
+ return{stats:[...map.values()].map(x=>({...x,apps:x.starts+x.subs})),xis:xi.size,goalTimes};
+}
+function render(player,results){
+ const fixtures=(player.fixtures||[]).filter(x=>x.result&&parseScore(x.result)).sort((a,b)=>(a.date||'').localeCompare(b.date||''));
+ const all=rec(fixtures),home=rec(fixtures.filter(x=>String(x.venue).toUpperCase()==='H')),away=rec(fixtures.filter(x=>String(x.venue).toUpperCase()==='A'));
+ document.getElementById('status').textContent='Player data: '+(player.updated||'unknown')+' · League data: '+(results.updated||'unknown');
+ document.getElementById('record').textContent=all.w+'-'+all.d+'-'+all.l;document.getElementById('recordSub').textContent=all.p+' played · W-D-L';
+ document.getElementById('points').textContent=all.pts;document.getElementById('ppg').textContent=(all.p?(all.pts/all.p).toFixed(2):'0.00')+' points per game';
+ document.getElementById('goals').textContent=all.gf;document.getElementById('goalSub').textContent=all.ga+' conceded · '+(all.p?(all.gf/all.p).toFixed(2):'0.00')+' scored per game';
+ const gd=all.gf-all.ga;document.getElementById('gd').textContent=(gd>0?'+':'')+gd;document.getElementById('gdSub').textContent='GF '+all.gf+' · GA '+all.ga;
+ [['home',home],['away',away]].forEach(([k,r])=>{document.getElementById(k).textContent='W '+r.w+' · D '+r.d+' · L '+r.l;document.getElementById(k+'Sub').textContent=r.pts+' pts · GF '+r.gf+' · GA '+r.ga});
+ const pos=(results.leagueTable||[]).find(x=>String(x.team).toLowerCase()==='tiverton town');document.getElementById('position').textContent=pos?pos.pos:'—';document.getElementById('positionSub').textContent=pos?'Played '+pos.p+' · '+pos.pts+' pts':'League table unavailable';
+ const last5=fixtures.slice(-5);document.getElementById('form').innerHTML=last5.map(x=>{const r=parseScore(x.result),c=r.gf>r.ga?'W':r.gf===r.ga?'D':'L';return '<span class="pill '+c.toLowerCase()+'" title="'+esc(x.opponent+' '+x.result)+'">'+c+'</span>'}).join('');document.getElementById('formSub').textContent=last5.map(x=>fmt(x.date)+' '+x.result).join(' · ');
+ const cleans=fixtures.filter(x=>parseScore(x.result).ga===0);document.getElementById('clean').textContent=cleans.length;document.getElementById('cleanSub').textContent=cleans.length?cleans.map(x=>x.opponent).join(' · '):'None yet';
+ const wins=fixtures.map(x=>({x,r:parseScore(x.result)})).filter(o=>o.r.gf>o.r.ga).sort((a,b)=>(b.r.gf-b.r.ga)-(a.r.gf-a.r.ga));if(wins[0]){document.getElementById('bigWin').textContent=wins[0].x.result;document.getElementById('bigWinSub').textContent=fmt(wins[0].x.date)+' v '+wins[0].x.opponent}
+ const ps=buildPlayerStats(fixtures),stats=ps.stats;document.getElementById('playersUsed').textContent=stats.filter(x=>x.apps).length;document.getElementById('xis').textContent=ps.xis;document.getElementById('xiSub').textContent='Across '+fixtures.length+' league games';
+
+ const ls=(results.leagueTable||[]);document.getElementById('leagueTable').innerHTML=ls.length?'<table><thead><tr><th>Pos</th><th>Team</th><th class="num">P</th><th class="num">GD</th><th class="num">Pts</th></tr></thead><tbody>'+ls.map(x=>'<tr class="'+(String(x.team).toLowerCase()==='tiverton town'?'tiv':'')+'"><td>'+esc(x.pos)+'</td><td>'+esc(x.team)+'</td><td class="num">'+esc(x.p)+'</td><td class="num">'+esc(x.gd)+'</td><td class="num">'+esc(x.pts)+'</td></tr>').join('')+'</tbody></table>':'<div class="note">League table temporarily unavailable.</div>';
+
+ const sorted=stats.slice().sort((a,b)=>b.apps-a.apps||b.starts-a.starts||b.mins-a.mins);document.getElementById('playerTable').innerHTML='<table><thead><tr><th>Player</th><th class="num">Apps</th><th class="num">Starts</th><th class="num">Sub</th><th class="num">Minutes</th><th class="num">Goals</th><th class="num">Captain</th></tr></thead><tbody>'+sorted.map(x=>'<tr><td>'+esc(x.name)+'</td><td class="num">'+x.apps+'</td><td class="num">'+x.starts+'</td><td class="num">'+x.subs+'</td><td class="num">'+x.mins+'</td><td class="num goal">'+x.goals+'</td><td class="num">'+x.caps+'</td></tr>').join('')+'</tbody></table>';
+
+ document.getElementById('matchCentre').innerHTML='<table class="match-table"><thead><tr><th>Date</th><th>Opponent</th><th>H/A</th><th>Score</th><th>Scorers</th><th>Captain</th><th>Subs used</th><th>Report</th></tr></thead><tbody>'+fixtures.slice().reverse().map(x=>{const st=x.starterDetails||[],sb=x.subDetails||[];const scorers=[...st,...sb].filter(p=>Number(p.goalCount||0)>0).map(p=>p.name+(p.goalMinutes?.length?' '+p.goalMinutes.map(m=>m+"'").join(', '):''));const cap=[...st,...sb].find(p=>p.captain);const used=sb.filter(p=>p.used!==false&&(p.onMinute||p.used===true)).map(p=>p.name+(p.onMinute?' '+p.onMinute+"'":''));const url=x.officialReportUrl||reports[x.date]||'';return '<tr><td>'+fmt(x.date)+'</td><td>'+esc(x.opponent)+'</td><td>'+esc(x.venue)+'</td><td class="score">'+esc(x.result)+'</td><td>'+esc(scorers.join(' · ')||'—')+'</td><td>'+esc(cap?.name||'—')+'</td><td>'+esc(used.join(' · ')||'—')+'</td><td>'+(url?'<a class="report" href="'+esc(url)+'" target="_blank" rel="noopener">Report ↗</a>':'—')+'</td></tr>'}).join('')+'</tbody></table>';
+
+ const teams=results.teams||[],codes=results.codes||{},lookup={};(results.results||[]).forEach(x=>lookup[x.home+'|'+x.away]=x.score);let mh='<table class="matrix"><tr><th class="tiv-axis">A/H</th>'+teams.map(h=>'<th class="'+(h==='Tiverton Town'?'tiv-axis':'')+'" title="'+esc(h)+'">'+esc(codes[h]||h.slice(0,3))+'</th>').join('')+'</tr>';teams.forEach(a=>{mh+='<tr><th class="'+(a==='Tiverton Town'?'tiv-axis':'')+'" title="'+esc(a)+'">'+esc(codes[a]||a.slice(0,3))+'</th>';teams.forEach(h=>{const v=lookup[h+'|'+a]||'';mh+='<td class="'+(h===a?'diag ':'')+(v?'score':'')+'">'+esc(v)+'</td>'});mh+='</tr>'});mh+='</table>';document.getElementById('resultsMatrix').innerHTML=mh;
+
+ document.getElementById('scorers').innerHTML=statTable(stats.filter(x=>x.goals).sort((a,b)=>b.goals-a.goals||b.apps-a.apps),x=>x.goals,'Goals');document.getElementById('apps').innerHTML=statTable(stats.slice().sort((a,b)=>b.apps-a.apps||b.starts-a.starts),x=>x.apps,'Apps');document.getElementById('minutes').innerHTML=statTable(stats.slice().sort((a,b)=>b.mins-a.mins),x=>x.mins,'Minutes');
+ const bands=[['0–15',0,15],['16–30',16,30],['31–45+',31,50],['46–60',46,60],['61–75',61,75],['76–90+',76,120]],counts=bands.map(b=>ps.goalTimes.filter(m=>m>=b[1]&&m<=b[2]).length),mx=Math.max(1,...counts);document.getElementById('goalBands').innerHTML=bands.map((b,i)=>'<div class="bar-row"><strong>'+b[0]+'</strong><div class="bar"><span style="width:'+(counts[i]/mx*100)+'%"></span></div><strong>'+counts[i]+'</strong></div>').join('');
+}
+Promise.all([getJSON('data.json'),getJSON('/Tiverton-Town-Get-Results/data.json')]).then(([p,r])=>render(p,r)).catch(e=>{document.getElementById('status').textContent='Could not load one of the data feeds';document.querySelector('main').insertAdjacentHTML('afterbegin','<div class="note">One of the live data feeds is temporarily unavailable. '+esc(e.message)+'</div>')});
+</script>
+</body></html>
