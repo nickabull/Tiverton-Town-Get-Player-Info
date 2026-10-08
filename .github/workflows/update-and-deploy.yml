@@ -49,7 +49,7 @@ jobs:
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Force -Path _site | Out-Null
-          Copy-Item index.html,data.js,data.json,tiverton-town-logo.png,Tiverton_Town_SL1_Fixtures_2026-27.xlsx -Destination _site
+          Copy-Item index.html,season-so-far.html,data.js,data.json,tiverton-town-logo.png,Tiverton_Town_SL1_Fixtures_2026-27.xlsx -Destination _site
           New-Item -ItemType File -Force -Path _site/.nojekyll | Out-Null
 
       - name: Configure Pages
