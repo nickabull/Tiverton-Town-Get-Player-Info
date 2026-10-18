@@ -7,6 +7,449 @@
   },
   "fixtures": [
     {
+      "date": "2026-10-10",
+      "venue": "A",
+      "opponent": "Shaftesbury",
+      "opponentLogoUrl": "",
+      "result": "4-1",
+      "goalscorers": "Ed Palmer 2 Owen Howe Josh Bissett",
+      "starters": [
+        "Louis Smith",
+        "Mason Winter",
+        "Ed Palmer",
+        "Matt Wood",
+        "Aaron Wellington",
+        "Jack Kennell",
+        "Asa Hall",
+        "Corey Koerner",
+        "Josh Bissett",
+        "Jacob Wellington",
+        "Owen Howe"
+      ],
+      "subs": [
+        "Toby Stephens",
+        "Billy Tucker",
+        "Finn Roberts",
+        "Ryan Keates",
+        "Louis Slough"
+      ],
+      "starterDetails": [
+        {
+          "name": "Louis Smith",
+          "number": null,
+          "captain": false,
+          "onMinute": "",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": false,
+          "used": true
+        },
+        {
+          "name": "Mason Winter",
+          "number": null,
+          "captain": false,
+          "onMinute": "",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": false,
+          "used": true
+        },
+        {
+          "name": "Ed Palmer",
+          "number": null,
+          "captain": true,
+          "onMinute": "",
+          "offMinute": "",
+          "goalCount": 2,
+          "goalMinutes": [
+            "5",
+            "76"
+          ],
+          "sub": false,
+          "used": true
+        },
+        {
+          "name": "Matt Wood",
+          "number": null,
+          "captain": false,
+          "onMinute": "",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": false,
+          "used": true
+        },
+        {
+          "name": "Aaron Wellington",
+          "number": null,
+          "captain": false,
+          "onMinute": "",
+          "offMinute": "89",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": false,
+          "used": true
+        },
+        {
+          "name": "Jack Kennell",
+          "number": null,
+          "captain": false,
+          "onMinute": "",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": false,
+          "used": true
+        },
+        {
+          "name": "Asa Hall",
+          "number": null,
+          "captain": false,
+          "onMinute": "",
+          "offMinute": "65",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": false,
+          "used": true
+        },
+        {
+          "name": "Corey Koerner",
+          "number": null,
+          "captain": false,
+          "onMinute": "",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": false,
+          "used": true
+        },
+        {
+          "name": "Josh Bissett",
+          "number": null,
+          "captain": false,
+          "onMinute": "",
+          "offMinute": "78",
+          "goalCount": 1,
+          "goalMinutes": [
+            "62"
+          ],
+          "sub": false,
+          "used": true
+        },
+        {
+          "name": "Jacob Wellington",
+          "number": null,
+          "captain": false,
+          "onMinute": "",
+          "offMinute": "85",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": false,
+          "used": true
+        },
+        {
+          "name": "Owen Howe",
+          "number": null,
+          "captain": false,
+          "onMinute": "",
+          "offMinute": "",
+          "goalCount": 1,
+          "goalMinutes": [
+            "36"
+          ],
+          "sub": false,
+          "used": true
+        }
+      ],
+      "subDetails": [
+        {
+          "name": "Toby Stephens",
+          "number": null,
+          "captain": false,
+          "onMinute": "65",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": true,
+          "used": true
+        },
+        {
+          "name": "Billy Tucker",
+          "number": null,
+          "captain": false,
+          "onMinute": "78",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": true,
+          "used": true
+        },
+        {
+          "name": "Finn Roberts",
+          "number": null,
+          "captain": false,
+          "onMinute": "85",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": true,
+          "used": true
+        },
+        {
+          "name": "Ryan Keates",
+          "number": null,
+          "captain": false,
+          "onMinute": "89",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": true,
+          "used": true
+        },
+        {
+          "name": "Louis Slough",
+          "number": null,
+          "captain": false,
+          "onMinute": "",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": true,
+          "used": false
+        }
+      ],
+      "players": [
+        "Louis Smith",
+        "Mason Winter",
+        "Ed Palmer",
+        "Matt Wood",
+        "Aaron Wellington",
+        "Jack Kennell",
+        "Asa Hall",
+        "Corey Koerner",
+        "Josh Bissett",
+        "Jacob Wellington",
+        "Owen Howe",
+        "Toby Stephens",
+        "Billy Tucker",
+        "Finn Roberts",
+        "Ryan Keates",
+        "Louis Slough"
+      ],
+      "squadUrl": "https://www.tivvyarchive.co.uk/squad.php?id=4479",
+      "fwpUrl": "",
+      "officialReportUrl": "https://www.tivertontownfc.uk/post/four-goals-four-unbeaten-for-the-yellows",
+      "upcoming": false
+    },
+    {
+      "date": "2026-10-13",
+      "venue": "A",
+      "opponent": "Falmouth Town",
+      "opponentLogoUrl": "https://www.southern-football-league.co.uk/img/teams/falmouth-129eec7c-889e-4db4-8a55-78d83b44da33.png?variant=detail_s&fit=contain",
+      "result": "1-2",
+      "goalscorers": "Asa Hall",
+      "starters": [
+        "Louis Smith",
+        "Jack Kennell",
+        "Ed Palmer",
+        "Matt Wood",
+        "Aaron Wellington",
+        "Asa Hall",
+        "Toby Stephens",
+        "Corey Koerner",
+        "Josh Bissett",
+        "Jacob Wellington",
+        "Owen Howe"
+      ],
+      "subs": [
+        "Louis Slough",
+        "Finn Roberts",
+        "Aiden Horne"
+      ],
+      "starterDetails": [
+        {
+          "name": "Louis Smith",
+          "number": null,
+          "captain": false,
+          "onMinute": "",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": false,
+          "used": true
+        },
+        {
+          "name": "Jack Kennell",
+          "number": null,
+          "captain": false,
+          "onMinute": "",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": false,
+          "used": true
+        },
+        {
+          "name": "Ed Palmer",
+          "number": null,
+          "captain": true,
+          "onMinute": "",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": false,
+          "used": true
+        },
+        {
+          "name": "Matt Wood",
+          "number": null,
+          "captain": false,
+          "onMinute": "",
+          "offMinute": "65",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": false,
+          "used": true
+        },
+        {
+          "name": "Aaron Wellington",
+          "number": null,
+          "captain": false,
+          "onMinute": "",
+          "offMinute": "75",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": false,
+          "used": true
+        },
+        {
+          "name": "Asa Hall",
+          "number": null,
+          "captain": false,
+          "onMinute": "",
+          "offMinute": "",
+          "goalCount": 1,
+          "goalMinutes": [
+            "11"
+          ],
+          "sub": false,
+          "used": true
+        },
+        {
+          "name": "Toby Stephens",
+          "number": null,
+          "captain": false,
+          "onMinute": "",
+          "offMinute": "65",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": false,
+          "used": true
+        },
+        {
+          "name": "Corey Koerner",
+          "number": null,
+          "captain": false,
+          "onMinute": "",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": false,
+          "used": true
+        },
+        {
+          "name": "Josh Bissett",
+          "number": null,
+          "captain": false,
+          "onMinute": "",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": false,
+          "used": true
+        },
+        {
+          "name": "Jacob Wellington",
+          "number": null,
+          "captain": false,
+          "onMinute": "",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": false,
+          "used": true
+        },
+        {
+          "name": "Owen Howe",
+          "number": null,
+          "captain": false,
+          "onMinute": "",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": false,
+          "used": true
+        }
+      ],
+      "subDetails": [
+        {
+          "name": "Louis Slough",
+          "number": null,
+          "captain": false,
+          "onMinute": "65",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": true,
+          "used": true
+        },
+        {
+          "name": "Finn Roberts",
+          "number": null,
+          "captain": false,
+          "onMinute": "65",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": true,
+          "used": true
+        },
+        {
+          "name": "Aiden Horne",
+          "number": null,
+          "captain": false,
+          "onMinute": "75",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": true,
+          "used": true
+        }
+      ],
+      "players": [
+        "Louis Smith",
+        "Jack Kennell",
+        "Ed Palmer",
+        "Matt Wood",
+        "Aaron Wellington",
+        "Asa Hall",
+        "Toby Stephens",
+        "Corey Koerner",
+        "Josh Bissett",
+        "Jacob Wellington",
+        "Owen Howe",
+        "Louis Slough",
+        "Finn Roberts",
+        "Aiden Horne"
+      ],
+      "squadUrl": "https://www.tivvyarchive.co.uk/squad.php?id=4480",
+      "fwpUrl": "",
+      "officialReportUrl": "https://www.tivertontownfc.uk/post/five-hour-round-trip-ends-in-defeat",
+      "upcoming": false
+    },
+    {
       "date": "2026-10-17",
       "venue": "H",
       "opponent": "Portland United",
