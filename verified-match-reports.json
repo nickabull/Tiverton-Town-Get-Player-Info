@@ -1,0 +1,242 @@
+{
+  "checkedAt": "2026-10-18",
+  "note": "Published Darren Holmes reports. League games only; unused bench players are not appearances. Portland timings and captain follow the printed team sheet.",
+  "reportUrls": {
+    "2026-10-10": "https://www.tivertontownfc.uk/post/four-goals-four-unbeaten-for-the-yellows",
+    "2026-10-13": "https://www.tivertontownfc.uk/post/five-hour-round-trip-ends-in-defeat"
+  },
+  "fixtures": [
+    {
+      "date": "2026-10-17",
+      "venue": "H",
+      "opponent": "Portland United",
+      "opponentLogoUrl": "",
+      "result": "1-4",
+      "goalscorers": "Aiden Horne",
+      "starters": [
+        "Louis Smith",
+        "Mason Winter",
+        "Ed Palmer",
+        "Louis Slough",
+        "Jack Kennell",
+        "Finn Roberts",
+        "Aaron Wellington",
+        "Asa Hall",
+        "Jacob Wellington",
+        "Josh Bissett",
+        "Owen Howe"
+      ],
+      "subs": [
+        "Toby Stephens",
+        "Billy Tucker",
+        "Matt Wood",
+        "Aiden Horne",
+        "Ryan Keates"
+      ],
+      "starterDetails": [
+        {
+          "name": "Louis Smith",
+          "number": null,
+          "captain": false,
+          "onMinute": "",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": false,
+          "used": true
+        },
+        {
+          "name": "Mason Winter",
+          "number": null,
+          "captain": false,
+          "onMinute": "",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": false,
+          "used": true
+        },
+        {
+          "name": "Ed Palmer",
+          "number": null,
+          "captain": true,
+          "onMinute": "",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": false,
+          "used": true
+        },
+        {
+          "name": "Louis Slough",
+          "number": null,
+          "captain": false,
+          "onMinute": "",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": false,
+          "used": true
+        },
+        {
+          "name": "Jack Kennell",
+          "number": null,
+          "captain": false,
+          "onMinute": "",
+          "offMinute": "57",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": false,
+          "used": true
+        },
+        {
+          "name": "Finn Roberts",
+          "number": null,
+          "captain": false,
+          "onMinute": "",
+          "offMinute": "78",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": false,
+          "used": true
+        },
+        {
+          "name": "Aaron Wellington",
+          "number": null,
+          "captain": false,
+          "onMinute": "",
+          "offMinute": "57",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": false,
+          "used": true
+        },
+        {
+          "name": "Asa Hall",
+          "number": null,
+          "captain": false,
+          "onMinute": "",
+          "offMinute": "87",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": false,
+          "used": true
+        },
+        {
+          "name": "Jacob Wellington",
+          "number": null,
+          "captain": false,
+          "onMinute": "",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": false,
+          "used": true
+        },
+        {
+          "name": "Josh Bissett",
+          "number": null,
+          "captain": false,
+          "onMinute": "",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": false,
+          "used": true
+        },
+        {
+          "name": "Owen Howe",
+          "number": null,
+          "captain": false,
+          "onMinute": "",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": false,
+          "used": true
+        }
+      ],
+      "subDetails": [
+        {
+          "name": "Toby Stephens",
+          "number": null,
+          "captain": false,
+          "onMinute": "57",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": true,
+          "used": true
+        },
+        {
+          "name": "Billy Tucker",
+          "number": null,
+          "captain": false,
+          "onMinute": "57",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": true,
+          "used": true
+        },
+        {
+          "name": "Matt Wood",
+          "number": null,
+          "captain": false,
+          "onMinute": "87",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": true,
+          "used": true
+        },
+        {
+          "name": "Aiden Horne",
+          "number": null,
+          "captain": false,
+          "onMinute": "78",
+          "offMinute": "",
+          "goalCount": 1,
+          "goalMinutes": [
+            "90+1"
+          ],
+          "sub": true,
+          "used": true
+        },
+        {
+          "name": "Ryan Keates",
+          "number": null,
+          "captain": false,
+          "onMinute": "",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": true,
+          "used": false
+        }
+      ],
+      "players": [
+        "Louis Smith",
+        "Mason Winter",
+        "Ed Palmer",
+        "Louis Slough",
+        "Jack Kennell",
+        "Finn Roberts",
+        "Aaron Wellington",
+        "Asa Hall",
+        "Jacob Wellington",
+        "Josh Bissett",
+        "Owen Howe",
+        "Toby Stephens",
+        "Billy Tucker",
+        "Matt Wood",
+        "Aiden Horne",
+        "Ryan Keates"
+      ],
+      "squadUrl": "",
+      "fwpUrl": "",
+      "officialReportUrl": "https://www.tivertontownfc.uk/post/portland-floor-tivvy-with-four",
+      "upcoming": false
+    }
+  ]
+}

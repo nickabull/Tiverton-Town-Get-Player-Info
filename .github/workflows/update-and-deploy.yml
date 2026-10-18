@@ -40,6 +40,10 @@ jobs:
         shell: pwsh
         run: '& "./Update Tiverton Fixtures.cloud.ps1"'
 
+      - name: Apply verified official match reports
+        shell: pwsh
+        run: python ./apply_verified_reports.py
+
       - name: Build Excel download
         shell: pwsh
         run: python ./generate_excel.py
