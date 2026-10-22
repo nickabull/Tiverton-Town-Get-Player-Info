@@ -170,6 +170,22 @@ h1{font-size:clamp(29px,5vw,52px);line-height:1.1;margin:0}header p{margin:5px 0
   #table .scorers{grid-column:3;grid-row:2;font-size:13px}
   #table .action{grid-column:4;grid-row:1/3}
 }
+
+/* Match detail pop-up only. Fixture rows and main navigation are unchanged. */
+.match-detail-columns{display:block}
+@media(min-width:651px){
+  .dialog{width:min(980px,calc(100vw - 32px));max-height:calc(100dvh - 32px);padding:17px 25px}
+  .dialog .crestline{margin:0 0 4px;gap:15px}
+  .dialog .crestline img{width:48px;height:48px}
+  .dialog .meta{margin:7px 0 4px;font-size:16px}
+  .dialog .scoreline{font-size:clamp(22px,2.6vw,30px);line-height:1.2}
+  .dialog .close{top:12px;right:15px}
+  .dialog h3{margin:12px 0 5px;font-size:21px}
+  .match-detail-columns{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px 34px;align-items:start;margin-top:9px}
+  .match-detail-columns .players li{padding:1px 0;line-height:1.18;font-size:15px}
+  .match-detail-columns .details-goals{font-size:16px;margin:4px 0}
+  .match-detail-columns p{margin:5px 0}
+}
 </style></head><body>
 <header><img class="brand" src="tiverton-town-logo.png" alt="Tiverton Town badge"><div><h1>Tiverton Town FC</h1><p>2026–27 Season Fixtures & Results · Tivvy Match Centre</p></div></header>
 <nav class="hub-nav" aria-label="Tivvy sections">
@@ -234,12 +250,23 @@ function updateAwayDay(){
 function render(){const term=el('q').value.trim().toLowerCase(),filter=el('filter').value;const filtered=fixtures.filter(f=>(f.opposition+' '+f.competition).toLowerCase().includes(term)&&(filter==='all'||(filter==='results'?/^[WDL]|^ABD/i.test(f.result):!/^[WDL]|^ABD/i.test(f.result))));const head='<div class="row th" role="row"><div>DATE</div><div>OPPOSITION</div><div>VENUE</div><div>COMP</div><div>RESULTS</div><div>SCORERS</div><div></div></div>';el('table').innerHTML=head+(filtered.length?filtered.map(row).join(''):'<div style="padding:20px">No matching fixtures</div>');el('table').querySelectorAll('button[data-id]').forEach(b=>b.onclick=()=>openMatch(b.dataset.id))}
 function player(p){const extras=[];const name=String(p.name||'Unknown');const isGK=p.position==='GK'||name.trim().toLowerCase()==='louis smith';if(isGK)extras.push('<span class="player-gk">🧤 GK</span>');if(p.captain)extras.push('<span class="player-captain">(C)</span>');if(p.goalMinutes?.length)extras.push('<span class="player-goal">⚽ '+p.goalMinutes.map(m=>esc(m)+"'").join(', ')+'</span>');if(p.onMinute)extras.push('<span class="player-on">▲ on '+esc(p.onMinute)+"'</span>");if(p.offMinute)extras.push('<span class="player-off">▼ off '+esc(p.offMinute)+"'</span>");if(p.used===false)extras.push('<span class="player-unused">unused</span>');return '<li>'+esc(name)+(extras.length?' '+extras.join(' · '):'')+'</li>'}
 function openMatch(id){const f=fixtures.find(x=>x.id===id);if(!f)return;const m=matchFor(f),r=String(f.result||''),nums=r.match(/(\d+)\s*[-–]\s*(\d+)/);let line;if(nums){const home=f.homeAway==='H'?'TIVERTON TOWN':f.opposition,away=f.homeAway==='H'?f.opposition:'TIVERTON TOWN';const a=nums[1],b=nums[2];line=esc(home)+' '+(f.homeAway==='H'?'<span class="tivvy">'+a+'</span>':esc(a))+' – '+(f.homeAway==='A'?'<span class="tivvy">'+b+'</span>':esc(b))+' '+esc(away)}else line=esc(f.opposition)+' · '+esc(r||'Fixture');
-let parts='<div class="crestline"><img src="tiverton-town-logo.png" alt="Tiverton crest">'+(crest(f.opposition)?'<img src="'+esc(crest(f.opposition))+'" alt="'+esc(f.opposition)+' crest">':'')+'</div><div class="meta">'+esc(date(f.date))+' · '+(f.homeAway==='H'?'HOME':'AWAY')+' · '+esc(f.competition)+(f.kickOff?' · '+esc(f.kickOff):'')+'</div><div class="scoreline">'+line+'</div>';
-if(m?.starterDetails?.length){parts+='<div class="two"><section><h3>STARTING XI</h3><ul class="players">'+m.starterDetails.map(player).join('')+'</ul></section><section><h3>SUBSTITUTES</h3>'+(m.subDetails?.length?'<ul class="players">'+m.subDetails.map(player).join('')+'</ul>':'<p>Not available</p>')+'</section></div>'}else parts+='<h3>MATCH SUMMARY</h3><p>Full teamsheet not currently available.</p>';
-const g=goals(f,m);if(g)parts+='<h3>TIVERTON GOALSCORERS</h3><p class="details-goals">'+g+'</p>';
+let parts='<div class="crestline"><img src="tiverton-town-logo.png" alt="Tiverton crest">'+(crest(f.opposition)?'<img src="'+esc(crest(f.opposition))+'" alt="'+esc(f.opposition)+' crest">':'')+'</div><div class="meta">'+esc(date(f.date))+' · '+(f.homeAway==='H'?'HOME':'AWAY')+' · '+esc(competitionLabel(f.competition))+(f.kickOff?' · '+esc(f.kickOff):'')+'</div><div class="scoreline">'+line+'</div>';
+parts+='<div class="match-detail-columns"><div class="match-detail-left">';
+if(m?.starterDetails?.length){
+  parts+='<section><h3>STARTING XI</h3><ul class="players">'+m.starterDetails.map(player).join('')+'</ul></section>';
+}else{
+  parts+='<h3>MATCH SUMMARY</h3><p>Full teamsheet not currently available.</p>';
+}
+parts+='</div><div class="match-detail-right">';
+if(m?.starterDetails?.length){
+  parts+='<section><h3>SUBSTITUTES</h3>'+(m.subDetails?.length?'<ul class="players">'+m.subDetails.map(player).join('')+'</ul>':'<p>Not available</p>')+'</section>';
+}
+const g=goals(f,m);
+if(g)parts+='<section><h3>TIVERTON GOALSCORERS</h3><p class="details-goals">'+g+'</p></section>';
 if(f.notes||m?.notes)parts+='<p>'+esc(f.notes||m.notes)+'</p>';
-if(m?.officialReportUrl&&/^https:\/\//.test(m.officialReportUrl))parts+='<h3>MATCH REPORT</h3><p><a class="report" href="'+esc(m.officialReportUrl)+'" target="_blank" rel="noopener">Read the official match report ↗</a></p>';
+if(m?.officialReportUrl&&/^https:\/\//.test(m.officialReportUrl))parts+='<section><h3>MATCH REPORT</h3><p><a class="report" href="'+esc(m.officialReportUrl)+'" target="_blank" rel="noopener">Read the official match report ↗</a></p></section>';
 if(!m&&!r)parts+='<p class="muted">Fixture information will be updated when available.</p>';
+parts+='</div></div>';
 el('matchBody').innerHTML=parts;el('modal').hidden=false;document.body.style.overflow='hidden';el('close').focus()}
 function closeMatch(){el('modal').hidden=true;document.body.style.overflow=''}
 el('close').onclick=closeMatch;el('modal').onclick=e=>{if(e.target===el('modal'))closeMatch()};window.onkeydown=e=>{if(e.key==='Escape')closeMatch()};el('q').oninput=render;el('filter').onchange=render;
