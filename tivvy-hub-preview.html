@@ -64,6 +64,46 @@ h1{font-size:clamp(29px,5vw,52px);line-height:1.1;margin:0}header p{margin:5px 0
   .dialog h3{margin:10px 0 3px}
 }
 
+
+/* Hub desktop fixture layout: large opponent crests and useful use of row space.
+   Mobile and the approved standalone Match Centre are not changed. */
+@media(min-width:651px){
+  #table>.row:not(.th){
+    grid-template-columns:116px 135px minmax(0,1fr) 120px;
+    grid-template-rows:auto auto auto;
+    min-height:148px;
+    column-gap:17px;
+    row-gap:9px;
+    padding:15px 20px;
+  }
+  #table .club{display:contents}
+  #table .club img{
+    grid-column:1;grid-row:1/4;
+    width:110px;height:110px;
+    object-fit:contain;
+    justify-self:center;align-self:center;
+  }
+  #table .club span{
+    grid-column:3;grid-row:1;
+    font-size:clamp(18px,1.6vw,23px);
+    font-weight:800;
+    line-height:1.2;
+    align-self:center;
+  }
+  #table .date{grid-column:2;grid-row:1;font-size:17px;align-self:center}
+  #table .comp{grid-column:2/4;grid-row:2;font-size:16px}
+  #table .mobile-score{font-size:20px}
+  #table .scorers{grid-column:2/4;grid-row:3;font-size:15px}
+  #table .action{grid-column:4;grid-row:1/4}
+}
+@media(min-width:651px) and (max-width:850px){
+  #table>.row:not(.th){grid-template-columns:82px 106px minmax(0,1fr) 98px;column-gap:10px;padding:12px;min-height:120px}
+  #table .club img{width:80px;height:80px}
+  #table .date{font-size:14px}
+  #table .club span{font-size:17px}
+  #table .action button{font-size:14px;padding:9px}
+}
+
 /* New hub navigation is isolated to this preview file. */
 .hub-nav{max-width:1144px;margin:10px auto 0;padding:0 18px;display:flex;gap:8px;overflow-x:auto;scrollbar-width:thin}
 .hub-tab{font:700 15px/1.25 Arial,Helvetica,sans-serif;white-space:nowrap;padding:13px 19px;background:#fff;border:2px solid #171717;color:#171717;cursor:pointer}
