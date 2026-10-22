@@ -190,13 +190,26 @@ h1{font-size:clamp(29px,5vw,52px);line-height:1.1;margin:0}header p{margin:5px 0
 <div class="modal" id="modal" hidden><div class="dialog" role="dialog" aria-modal="true" aria-labelledby="matchTitle"><button class="close" id="close" aria-label="Close match details">CLOSE ✕</button><h2 id="matchTitle">Tivvy Match Centre</h2><div id="matchBody"></div></div></div>
 <script>
 const BASE='./',CLUBS={romanglassstgeorge:'8aa829_6ad6695811c0498db90473766fc8bbd4~mv2.png',tavistock:'8aa829_ecc264bc646d41a9b6c372a0a3a23243~mv2.png',bridgwaterunited:'8aa829_199b1514dbef4b79882263529ff162ae~mv2.png',brixham:'8aa829_7f87e9823bb94650961f9d3160a065dc~mv2.png',shirehampton:'8aa829_ce9c7882df30410cb4c8d445b9077226~mv2.png',tauntontown:'d12aff_a4325afc73e54ed98cb25f2a2986cae0~mv2.png',ilminstertown:'8aa829_969cbd8d12cb4952bc614fe294f8294f~mv2.png',cullomptonrangers:'8aa829_4e91f106bc444b2f9ca4692d43864e53~mv2.png',portlandunited:'8aa829_65009eedd74649b3b7405d2be35faff4~mv2.png',bideford:'d12aff_6327d76501bf400a8fa826f32d319856~mv2.png',hungerfordtown:'f62a66_4fc40563b6a942d1aab1f3fdb82ef2df~mv2.png'};
+const EXTRA_CRESTS={
+  "larkhallathletic": "https://pbs.twimg.com/profile_images/1766410295151378433/OSwp_Pqt.jpg",
+  "hartpury": "https://www.hartpury.ac.uk/media/1ldnoiyh/hartpury_fc_roundel_red_-main.png",
+  "weymouth": "https://images.seeklogo.com/logo-png/64/1/weymouth-fc-logo-png_seeklogo-640038.png",
+  "melkshamtown": "https://images.seeklogo.com/logo-png/53/1/melksham-town-fc-logo-png_seeklogo-536816.png",
+  "bristolmanorfarm": "https://image.pngaaa.com/739/1721739-middle.png",
+  "willandrovers": "https://static.cdnlogo.com/logos/w/90/willand-rovers-fc_800.png",
+  "bishopscleeve": "https://assets.app.veo.co/crests/bishops-cleeve-football-club/Bishops_Cleeve_AFC_-Green_Logo.png",
+  "shaftesbury": "https://r2.thesportsdb.com/images/media/team/badge/p5j4xn1731964502.png",
+  "sholing": "https://media.touchlinefc.co.uk/sholing/2024/12/11161314/SholingCrest2425RedWhiteNeoSansPNG.png?class=1x1md",
+  "gosportborough": "https://seeklogo.com/images/G/gosport-borough-fc-logo-225B32FB00-seeklogo.com.png",
+  "stblazey": "https://pbs.twimg.com/profile_images/1720172915352641536/ie3JGsL2_400x400.jpg"
+};
 const NAMES={'a hall':'Asa Hall','o howe':'Owen Howe','l jagger cane':'Louis Jagger Cane','a wellington':'Aaron Wellington','j wellington':'Jacob Wellington','a horne':'Aiden Horne','r keates':'Ryan Keates','e palmer':'Ed Palmer','l slough':'Louis Slough','m winter':'Mason Winter','m wood':'Matt Wood','f roberts':'Finn Roberts','j kennell':'Jack Kennell','j bissett':'Josh Bissett','b tucker':'Billy Tucker','c koerner':'Corey Koerner'};
 let fixtures=[],details=[];
 const el=id=>document.getElementById(id),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const club=s=>String(s||'').toLowerCase().replace(/\b(football club|afc|fc)\b/g,'').replace(/[^a-z0-9]/g,'');
 const comp=s=>{let a=String(s||'').toLowerCase().replace(/[^a-z0-9]/g,'');if(a.includes('stluke'))return 'stlukescup';if(a.includes('sld1s')||a.includes('southernleague')||a.includes('divisiononesouth'))return 'league';if(a.includes('fatrophy'))return 'fatrophy';if(a.includes('facup'))return 'facup';if(a.includes('psf')||a.includes('friendly'))return 'friendly';return a};
 const date=s=>{const d=new Date(String(s||'')+'T12:00:00Z');return isNaN(d)?String(s||''):d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric',timeZone:'UTC'})};
-function crest(s){const x=CLUBS[club(s)];return x?'https://static.wixstatic.com/media/'+x:''}
+function crest(s){const key=club(s),x=CLUBS[key];return x?'https://static.wixstatic.com/media/'+x:(EXTRA_CRESTS[key]||'')}
 function matchFor(f){return details.find(m=>m.date===f.date&&club(m.opponent)===club(f.opposition)&&m.venue===f.homeAway&&comp(m.competition)===comp(f.competition)&&m.starterDetails?.length)||details.find(m=>m.date===f.date&&club(m.opponent)===club(f.opposition)&&m.venue===f.homeAway&&comp(m.competition)===comp(f.competition))||null}
 function goals(f,m){if(m){const events=[...(m.starterDetails||[]),...(m.subDetails||[])].flatMap(p=>(p.goalMinutes||[]).map(min=>({name:p.name,min})));if(events.length)return events.map(e=>'⚽ '+esc(e.name)+" "+esc(e.min)+"'").join(', ');if(m.scorerSummary?.length)return m.scorerSummary.map(p=>{const n=NAMES[String(p.name).toLowerCase()]||p.name;if(p.minutes?.length)return p.minutes.map(t=>'⚽ '+esc(n)+" "+esc(t)+"'").join(', ');return '⚽ '+esc(n)+(p.count>1?' ×'+esc(p.count):'')}).join(', ')}
 return String(f.scorers||'').split(',').map(s=>{s=s.trim();if(!s)return '';const found=s.match(/^(.+?)\s+(x\d+|\d+['’]?|\d+\+\d+['’]?)$/i);const name=found?found[1]:s;const full=NAMES[name.toLowerCase().replace(/\./g,'')]||name;return '⚽ '+esc(full)+(found?' '+esc(found[2].replace(/^x/,'×')):'')}).filter(Boolean).join(', ')}
