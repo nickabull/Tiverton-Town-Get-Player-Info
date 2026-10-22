@@ -267,6 +267,15 @@ if(f.notes||m?.notes)parts+='<p>'+esc(f.notes||m.notes)+'</p>';
 if(m?.officialReportUrl&&/^https:\/\//.test(m.officialReportUrl))parts+='<section><h3>MATCH REPORT</h3><p><a class="report" href="'+esc(m.officialReportUrl)+'" target="_blank" rel="noopener">Read the official match report ↗</a></p></section>';
 if(!m&&!r)parts+='<p class="muted">Fixture information will be updated when available.</p>';
 parts+='</div></div>';
+/* Preserve the original, approved mobile match-detail markup and order. */
+if(window.matchMedia('(max-width:650px)').matches){
+  parts='<div class="crestline"><img src="tiverton-town-logo.png" alt="Tiverton crest">'+(crest(f.opposition)?'<img src="'+esc(crest(f.opposition))+'" alt="'+esc(f.opposition)+' crest">':'')+'</div><div class="meta">'+esc(date(f.date))+' · '+(f.homeAway==='H'?'HOME':'AWAY')+' · '+esc(f.competition)+(f.kickOff?' · '+esc(f.kickOff):'')+'</div><div class="scoreline">'+line+'</div>';
+  if(m?.starterDetails?.length){parts+='<div class="two"><section><h3>STARTING XI</h3><ul class="players">'+m.starterDetails.map(player).join('')+'</ul></section><section><h3>SUBSTITUTES</h3>'+(m.subDetails?.length?'<ul class="players">'+m.subDetails.map(player).join('')+'</ul>':'<p>Not available</p>')+'</section></div>'}else parts+='<h3>MATCH SUMMARY</h3><p>Full teamsheet not currently available.</p>';
+  const mobileGoals=goals(f,m);if(mobileGoals)parts+='<h3>TIVERTON GOALSCORERS</h3><p class="details-goals">'+mobileGoals+'</p>';
+  if(f.notes||m?.notes)parts+='<p>'+esc(f.notes||m.notes)+'</p>';
+  if(m?.officialReportUrl&&/^https:\/\//.test(m.officialReportUrl))parts+='<h3>MATCH REPORT</h3><p><a class="report" href="'+esc(m.officialReportUrl)+'" target="_blank" rel="noopener">Read the official match report ↗</a></p>';
+  if(!m&&!r)parts+='<p class="muted">Fixture information will be updated when available.</p>';
+}
 el('matchBody').innerHTML=parts;el('modal').hidden=false;document.body.style.overflow='hidden';el('close').focus()}
 function closeMatch(){el('modal').hidden=true;document.body.style.overflow=''}
 el('close').onclick=closeMatch;el('modal').onclick=e=>{if(e.target===el('modal'))closeMatch()};window.onkeydown=e=>{if(e.key==='Escape')closeMatch()};el('q').oninput=render;el('filter').onchange=render;
