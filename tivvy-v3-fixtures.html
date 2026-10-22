@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+:root{--yellow:#ffdd00;--black:#242424;--red:#ef3340}*{box-sizing:border-box}
+body{margin:0;background:transparent;color:#191919;font:15px/1.45 Arial,sans-serif}
+#table{border:2px solid #111;background:white}.row{display:grid;grid-template-columns:100px minmax(205px,1.4fr) 42px 100px 94px minmax(180px,1.5fr) 92px;align-items:center;gap:9px;padding:12px 11px;min-height:62px;border-bottom:1px solid black}
+.row:last-child{border-bottom:0}.row:not(.head):nth-child(odd){background:var(--yellow)}.row:not(.head):nth-child(even){background:white}
+.head{background:var(--black)!important;color:var(--yellow);font:700 16px/1.25 Impact,'Arial Narrow',Arial,sans-serif;min-height:45px;letter-spacing:.4px}
+.club{display:flex;align-items:center;gap:9px;min-width:0}.club img{width:29px;height:29px;object-fit:contain;flex:none}.club span{min-width:0;overflow-wrap:anywhere}.score .tivvy{color:var(--red);font-weight:700}
+button.details{background:#000;color:var(--yellow);border:0;padding:9px 10px;cursor:pointer;font:700 17px Impact,'Arial Narrow',Arial,sans-serif;letter-spacing:.2px}
+button.details:focus-visible{outline:3px solid #065fc0;outline-offset:2px}.scorers{font-size:14px}
+.placeholder{padding:20px;text-align:center}.mobile-label{display:none}
+@media(max-width:880px){.row{grid-template-columns:88px minmax(160px,1.2fr) 32px 72px 78px minmax(130px,1fr) 73px;gap:6px;padding:9px 6px;font-size:12px}.head{font-size:13px}.scorers{font-size:12px}.club img{width:22px;height:22px}.details{font-size:14px!important;padding:7px 5px!important}}
+@media(max-width:650px){#table{border:1px solid #111}.row{display:grid;grid-template-columns:90px 1fr 83px;gap:7px 9px;min-height:unset;padding:11px 10px}.head{display:none}.date{grid-column:1;grid-row:1;font-weight:700}.club{grid-column:2;grid-row:1;font-weight:700}.action{grid-column:3;grid-row:1}.meta{grid-column:1/3;grid-row:2;font-size:12px}.score{grid-column:3;grid-row:2;text-align:right}.scorers{grid-column:1/-1;grid-row:3;font-size:13px}.scorers:empty{display:none}.club img{width:25px;height:25px}.mobile-label{display:inline}.details{font-size:14px!important}.row:not(.head):nth-child(odd){background:var(--yellow)}}
+</style></head><body>
+<div id="table" role="table" aria-label="Tiverton Town fixtures and results"><div class="placeholder">Loading fixtures…</div></div>
+<script>
+const CLUBS={
+  romanglassstgeorge:'8aa829_6ad6695811c0498db90473766fc8bbd4~mv2.png',
+  tavistock:'8aa829_ecc264bc646d41a9b6c372a0a3a23243~mv2.png',
+  bridgwaterunited:'8aa829_199b1514dbef4b79882263529ff162ae~mv2.png',
+  brixham:'8aa829_7f87e9823bb94650961f9d3160a065dc~mv2.png',
+  shirehampton:'8aa829_ce9c7882df30410cb4c8d445b9077226~mv2.png',
+  tauntontown:'d12aff_a4325afc73e54ed98cb25f2a2986cae0~mv2.png',
+  ilminstertown:'8aa829_969cbd8d12cb4952bc614fe294f8294f~mv2.png',
+  cullomptonrangers:'8aa829_4e91f106bc444b2f9ca4692d43864e53~mv2.png',
+  portlandunited:'8aa829_65009eedd74649b3b7405d2be35faff4~mv2.png',
+  bideford:'d12aff_6327d76501bf400a8fa826f32d319856~mv2.png',
+  hungerfordtown:'f62a66_4fc40563b6a942d1aab1f3fdb82ef2df~mv2.png'
+};
+let list=[];
+function key(t){return String(t||'').toLowerCase().replace(/\b(football club|afc|fc)\b/g,'').replace(/[^a-z0-9]/g,'')}
+function esc(t){return String(t??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function date(s){let d=new Date(s);return isNaN(d)?String(s||'').slice(0,10):d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric',timeZone:'UTC'})}
+function score(v,venue){let m=String(v||'').match(/^([WDL])\s+(\d+)\s*[-–]\s*(\d+)$/i);if(!m)return esc(v||'');let a=esc(m[2]),b=esc(m[3]);return esc(m[1])+' '+(venue==='H'?'<span class="tivvy">'+a+'</span>':a)+'–'+(venue==='A'?'<span class="tivvy">'+b+'</span>':b)}
+function names(s,dict){let raw=String(s||'');if(/avenir light|great go-to font|stylish font/i.test(raw))return '';return raw.split(',').map(x=>x.trim()).filter(Boolean).map(v=>{let m=v.match(/^(.+?)\s+([x×]\d+|\d+(?:\+\d+)?['’]?)$/i);let person=m?m[1]:v;let name=dict[person.toLowerCase().replace(/\./g,'')]||person;let tail=m?' '+m[2].replace(/^x/,'×'):'';return '⚽ '+name+tail}).join(', ')}
+function row(f,i,dict){
+ const k=key(f.opposition),img=CLUBS[k]?'https://static.wixstatic.com/media/'+CLUBS[k]:(f.crest||'');
+ const caption=esc(f.opposition);
+ const isZero=/^[WDL]\s+\d+\s*[-–]\s*\d+$/i.test(f.result||'')&&
+  Number((f.result.match(/\d+/g)||[])[(f.homeAway||'').toUpperCase()==='H'?0:1])===0;
+ const scorers=isZero?'':names(f.displayScorers||f.scorers,dict);
+ return '<div class="row" role="row">'+
+ '<div class="date">'+esc(date(f.date))+'</div>'+
+ '<div class="club">'+(img?'<img src="'+esc(img)+'" alt="" loading="lazy" onerror="this.remove()">':'')+'<span>'+caption+'</span></div>'+
+ '<div class="venue">'+esc(f.homeAway||'')+'</div>'+
+ '<div class="comp meta"><span class="mobile-label">'+esc(f.homeAway||'')+' · </span>'+esc(f.competition||'')+'</div>'+
+ '<div class="score">'+score(f.result,f.homeAway)+'</div>'+
+ '<div class="scorers">'+esc(scorers)+'</div>'+
+ '<div class="action"><button type="button" class="details" data-id="'+esc(f._id)+'" aria-label="Details for '+caption+'">Details</button></div>'+
+ '</div>';
+}
+function render(data){
+ list=Array.isArray(data.rows)?data.rows:[];
+ const dictionary=data.names||{};
+ const head='<div class="row head" role="row"><div>DATE</div><div>OPPOSITION</div><div>H/A</div><div>COMP</div><div>RESULTS</div><div>SCORERS</div><div></div></div>';
+ document.getElementById('table').innerHTML=head+list.map((f,i)=>row(f,i,dictionary)).join('');
+ document.querySelectorAll('button[data-id]').forEach(b=>b.addEventListener('click',()=>send({type:'OPEN_MATCH',id:b.dataset.id})));
+ height();
+}
+function send(o){window.parent.postMessage(o,'*')}
+function height(){send({type:'HEIGHT',height:document.documentElement.scrollHeight+6})}
+window.addEventListener('message',e=>{if(e.data&&e.data.type==='DATA')render(e.data)});
+window.addEventListener('resize',height);
+new ResizeObserver(height).observe(document.body);
+send({type:'READY'});
+</script></body></html>
