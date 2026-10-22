@@ -1,0 +1,391 @@
+{
+  "schemaVersion": 1,
+  "description": "Verified basic fallback records for matches without full Match Centre data, transcribed from Tiverton 2026-27 Wix CMS. No lineups or substitutions invented; fuller detail can be added from club reports and Tivvy Archive.",
+  "updated": "2026-10-22",
+  "fixtures": [
+    {
+      "date": "2026-07-04",
+      "venue": "A",
+      "opponent": "Roman Glass St George AFC",
+      "competition": "PSF",
+      "result": "4-2",
+      "status": "COMPLETED",
+      "detailsLevel": "basic",
+      "scorerSummary": [
+        {
+          "name": "Asa Hall",
+          "count": 2
+        },
+        {
+          "name": "Ryan Keates",
+          "count": 1
+        },
+        {
+          "name": "Aiden Horne",
+          "count": 1
+        }
+      ],
+      "starterDetails": [],
+      "subDetails": [],
+      "sourceDescription": "Tiverton Town 2026-27 Fixtures Wix CMS",
+      "notes": null
+    },
+    {
+      "date": "2026-07-07",
+      "venue": "A",
+      "opponent": "Tavistock AFC",
+      "competition": "PSF",
+      "result": "1-0",
+      "status": "COMPLETED",
+      "detailsLevel": "basic",
+      "scorerSummary": [
+        {
+          "name": "Aaron Wellington",
+          "count": 1
+        }
+      ],
+      "starterDetails": [],
+      "subDetails": [],
+      "sourceDescription": "Tiverton Town 2026-27 Fixtures Wix CMS",
+      "notes": null
+    },
+    {
+      "date": "2026-07-14",
+      "venue": "A",
+      "opponent": "Bridgwater United FC",
+      "competition": "PSF",
+      "result": "2-5",
+      "status": "COMPLETED",
+      "detailsLevel": "basic",
+      "scorerSummary": [
+        {
+          "name": "Aiden Horne",
+          "count": 1,
+          "minutes": [
+            "64"
+          ]
+        },
+        {
+          "name": "Jacob Wellington",
+          "count": 1,
+          "minutes": [
+            "75"
+          ]
+        }
+      ],
+      "starterDetails": [],
+      "subDetails": [],
+      "sourceDescription": "Tiverton Town 2026-27 Fixtures Wix CMS",
+      "notes": null
+    },
+    {
+      "date": "2026-07-18",
+      "venue": "H",
+      "opponent": "Brixham AFC",
+      "competition": "PSF",
+      "result": "2-0",
+      "status": "ABANDONED",
+      "detailsLevel": "basic",
+      "scorerSummary": [
+        {
+          "name": "Jacob Wellington",
+          "count": 1
+        },
+        {
+          "name": "Aiden Horne",
+          "count": 1
+        }
+      ],
+      "starterDetails": [],
+      "subDetails": [],
+      "sourceDescription": "Tiverton Town 2026-27 Fixtures Wix CMS",
+      "notes": "Abandoned after 34 minutes"
+    },
+    {
+      "date": "2026-07-21",
+      "venue": "H",
+      "opponent": "Shirehampton FC",
+      "competition": "PSF",
+      "result": "8-0",
+      "status": "COMPLETED",
+      "detailsLevel": "basic",
+      "scorerSummary": [
+        {
+          "name": "Owen Howe",
+          "count": 3
+        },
+        {
+          "name": "Louis Jagger Cane",
+          "count": 2
+        },
+        {
+          "name": "Asa Hall",
+          "count": 1
+        },
+        {
+          "name": "Aiden Horne",
+          "count": 1
+        },
+        {
+          "name": "F Hodge",
+          "count": 1
+        }
+      ],
+      "starterDetails": [],
+      "subDetails": [],
+      "sourceDescription": "Tiverton Town 2026-27 Fixtures Wix CMS",
+      "notes": null
+    },
+    {
+      "date": "2026-07-25",
+      "venue": "A",
+      "opponent": "Taunton Town FC",
+      "competition": "PSF",
+      "result": "0-2",
+      "status": "COMPLETED",
+      "detailsLevel": "basic",
+      "scorerSummary": [],
+      "starterDetails": [],
+      "subDetails": [],
+      "sourceDescription": "Tiverton Town 2026-27 Fixtures Wix CMS",
+      "notes": null
+    },
+    {
+      "date": "2026-07-28",
+      "venue": "H",
+      "opponent": "Ilminster Town FC",
+      "competition": "PSF",
+      "result": "2-1",
+      "status": "COMPLETED",
+      "detailsLevel": "basic",
+      "scorerSummary": [
+        {
+          "name": "Ed Palmer",
+          "count": 1
+        },
+        {
+          "name": "Louis Jagger Cane",
+          "count": 1
+        }
+      ],
+      "starterDetails": [],
+      "subDetails": [],
+      "sourceDescription": "Tiverton Town 2026-27 Fixtures Wix CMS",
+      "notes": null
+    },
+    {
+      "date": "2026-08-01",
+      "venue": "A",
+      "opponent": "Cullompton Rangers",
+      "competition": "PSF",
+      "result": "2-1",
+      "status": "COMPLETED",
+      "detailsLevel": "basic",
+      "scorerSummary": [
+        {
+          "name": "Aaron Wellington",
+          "count": 1
+        },
+        {
+          "name": "Louis Jagger Cane",
+          "count": 1
+        }
+      ],
+      "starterDetails": [],
+      "subDetails": [],
+      "sourceDescription": "Tiverton Town 2026-27 Fixtures Wix CMS",
+      "notes": null
+    },
+    {
+      "date": "2026-08-22",
+      "venue": "H",
+      "opponent": "Ivybridge Town",
+      "competition": "FA CUP",
+      "result": "2-1",
+      "status": "COMPLETED",
+      "detailsLevel": "basic",
+      "scorerSummary": [
+        {
+          "name": "Matt Wood",
+          "count": 1,
+          "minutes": [
+            "62"
+          ]
+        },
+        {
+          "name": "Owen Howe",
+          "count": 1,
+          "minutes": [
+            "90"
+          ]
+        }
+      ],
+      "starterDetails": [],
+      "subDetails": [],
+      "sourceDescription": "Tiverton Town 2026-27 Fixtures Wix CMS",
+      "notes": null
+    },
+    {
+      "date": "2026-08-29",
+      "venue": "A",
+      "opponent": "Bideford AFC",
+      "competition": "FA TROPHY",
+      "result": "2-1",
+      "status": "COMPLETED",
+      "detailsLevel": "basic",
+      "scorerSummary": [
+        {
+          "name": "Owen Howe",
+          "count": 1,
+          "minutes": [
+            "5"
+          ]
+        },
+        {
+          "name": "Jacob Wellington",
+          "count": 1,
+          "minutes": [
+            "59"
+          ]
+        }
+      ],
+      "starterDetails": [],
+      "subDetails": [],
+      "sourceDescription": "Tiverton Town 2026-27 Fixtures Wix CMS",
+      "notes": null
+    },
+    {
+      "date": "2026-09-05",
+      "venue": "A",
+      "opponent": "St Blazey AFC",
+      "competition": "FA CUP",
+      "result": "2-1",
+      "status": "COMPLETED",
+      "detailsLevel": "basic",
+      "scorerSummary": [
+        {
+          "name": "Louis Slough",
+          "count": 1,
+          "minutes": [
+            "77"
+          ]
+        },
+        {
+          "name": "Asa Hall",
+          "count": 1,
+          "minutes": [
+            "85"
+          ]
+        }
+      ],
+      "starterDetails": [],
+      "subDetails": [],
+      "sourceDescription": "Tiverton Town 2026-27 Fixtures Wix CMS",
+      "notes": null
+    },
+    {
+      "date": "2026-09-12",
+      "venue": "H",
+      "opponent": "Larkhall Athletic",
+      "competition": "FA TROPHY",
+      "result": "3-0",
+      "status": "COMPLETED",
+      "detailsLevel": "basic",
+      "scorerSummary": [
+        {
+          "name": "Billy Tucker",
+          "count": 1
+        },
+        {
+          "name": "Ed Palmer",
+          "count": 1,
+          "minutes": [
+            "67"
+          ]
+        },
+        {
+          "name": "Corey Koerner",
+          "count": 1
+        }
+      ],
+      "starterDetails": [],
+      "subDetails": [],
+      "sourceDescription": "Tiverton Town 2026-27 Fixtures Wix CMS",
+      "notes": null
+    },
+    {
+      "date": "2026-09-19",
+      "venue": "H",
+      "opponent": "Sholing FC",
+      "competition": "FA CUP",
+      "result": "0-1",
+      "status": "COMPLETED",
+      "detailsLevel": "basic",
+      "scorerSummary": [],
+      "starterDetails": [],
+      "subDetails": [],
+      "sourceDescription": "Tiverton Town 2026-27 Fixtures Wix CMS",
+      "notes": null
+    },
+    {
+      "date": "2026-09-22",
+      "venue": "H",
+      "opponent": "Ilfracombe Town",
+      "competition": "ST LUKE'S CUP",
+      "result": "5-1",
+      "status": "COMPLETED",
+      "detailsLevel": "basic",
+      "scorerSummary": [
+        {
+          "name": "Matt Wood",
+          "count": 1,
+          "minutes": [
+            "27"
+          ]
+        },
+        {
+          "name": "Aiden Horne",
+          "count": 3,
+          "minutes": [
+            "38",
+            "45+2",
+            "90+2"
+          ]
+        },
+        {
+          "name": "Ryan Keates",
+          "count": 1,
+          "minutes": [
+            "82"
+          ]
+        }
+      ],
+      "starterDetails": [],
+      "subDetails": [],
+      "sourceDescription": "Tiverton Town 2026-27 Fixtures Wix CMS",
+      "notes": null
+    },
+    {
+      "date": "2026-09-26",
+      "venue": "H",
+      "opponent": "Gosport Borough",
+      "competition": "FA TROPHY",
+      "result": "1-3",
+      "status": "COMPLETED",
+      "detailsLevel": "basic",
+      "scorerSummary": [
+        {
+          "name": "Finn Roberts",
+          "count": 1,
+          "minutes": [
+            "68"
+          ]
+        }
+      ],
+      "starterDetails": [],
+      "subDetails": [],
+      "sourceDescription": "Tiverton Town 2026-27 Fixtures Wix CMS",
+      "notes": null
+    }
+  ]
+}
