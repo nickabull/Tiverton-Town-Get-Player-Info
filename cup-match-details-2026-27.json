@@ -1,0 +1,105 @@
+{
+  "schemaVersion": 1,
+  "description": "Verified non-league Tiverton Town cup match records. Separate from league appearances and results.",
+  "updated": "2026-10-22",
+  "fixtures": [
+    {
+      "date": "2026-10-20",
+      "venue": "H",
+      "opponent": "Bideford AFC",
+      "competition": "ST LUKE'S CUP",
+      "competitionKey": "stlukescup",
+      "result": "2-4",
+      "goalscorers": "Mason Winter 38', Aiden Horne 56'",
+      "upcoming": false,
+      "officialReportUrl": "https://www.tivertontownfc.uk/post/bideford-mellow-yellows",
+      "sourceDescription": "Darren Holmes, Tivvy Bideford Cup Match Report, 20 October 2026",
+      "starterDetails": [
+        {
+          "name": "Louis Smith",
+          "captain": false,
+          "position": "GK"
+        },
+        {
+          "name": "Mason Winter",
+          "captain": false,
+          "goalMinutes": [
+            "38"
+          ],
+          "cards": [
+            {
+              "type": "yellow",
+              "minute": null
+            }
+          ]
+        },
+        {
+          "name": "Ed Palmer",
+          "captain": true,
+          "cards": [
+            {
+              "type": "yellow",
+              "minute": null
+            }
+          ]
+        },
+        {
+          "name": "Matt Wood"
+        },
+        {
+          "name": "Louis Slough"
+        },
+        {
+          "name": "Jack Kennell",
+          "offMinute": "87"
+        },
+        {
+          "name": "Ryan Keates",
+          "offMinute": "70"
+        },
+        {
+          "name": "Finn Roberts"
+        },
+        {
+          "name": "Jacob Wellington",
+          "offMinute": "83"
+        },
+        {
+          "name": "Josh Bissett"
+        },
+        {
+          "name": "Aiden Horne",
+          "goalMinutes": [
+            "56"
+          ]
+        }
+      ],
+      "subDetails": [
+        {
+          "name": "Aaron Wellington",
+          "sub": true,
+          "used": true,
+          "onMinute": "70"
+        },
+        {
+          "name": "Toby Stephens",
+          "sub": true,
+          "used": true,
+          "onMinute": "83"
+        },
+        {
+          "name": "Owen Howe",
+          "sub": true,
+          "used": true,
+          "onMinute": "87"
+        },
+        {
+          "name": "Asa Hall",
+          "sub": true,
+          "used": false
+        }
+      ],
+      "verificationNotes": "Starting XI follows printed report order; substitutions and booking recipients verified. Booking minutes not documented. No penalty goals verified. Cup fixture is distinct from postponed 20 October league Bideford match."
+    }
+  ]
+}
