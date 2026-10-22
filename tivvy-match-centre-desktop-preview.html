@@ -18,49 +18,40 @@ h1{font-size:clamp(29px,5vw,52px);line-height:1.1;margin:0}header p{margin:5px 0
 @media(max-width:950px){.row{grid-template-columns:84px minmax(155px,1.2fr) 56px 72px 72px minmax(110px,1fr) 72px;gap:6px;padding:9px 7px;font-size:12px}.th{font-size:14px}.scorers{font-size:12px}.club img{width:24px;height:24px}.action button{font-size:15px;padding:8px 6px}}
 @media(max-width:650px){header{padding:16px 12px}.brand{width:55px;height:55px}main{padding:16px 10px}.row{grid-template-columns:90px minmax(0,1fr) max-content;gap:6px 8px;min-height:0;padding:12px 9px}.th{display:none}.date{grid-column:1;grid-row:1;font-weight:700}.club{grid-column:2;grid-row:1;font-weight:700}.action{grid-column:3;grid-row:1 / span 3;justify-self:end;align-self:center}.venue{display:none}.comp{grid-column:1/3;grid-row:2;font-size:13px;display:flex;align-items:center;gap:14px}.mobile-score{display:inline;font-size:16px;font-weight:800;border-left:2px solid #222;padding-left:14px;line-height:1.2}.score{display:none}.scorers{grid-column:1/3;grid-row:3;font-size:13px}.scorers:empty{display:none}.mobile{display:inline}.dialog{padding:17px 17px}.dialog h2{font-size:27px;padding-right:100px}.dialog .close{top:14px;right:12px;font-size:20px}.two{grid-template-columns:1fr;gap:0}.players li{padding:0;line-height:1.08;font-size:14px}.dialog h3{margin:10px 0 3px}}
 
-/* Desktop cards intentionally follow the approved compact mobile layout. */
+/* Desktop uses the SAME card geometry and typography as the approved phone design.
+   Only the outer list changes to two columns on wide screens. */
 @media(min-width:651px){
-  header h1{font-family:Arial,Helvetica,sans-serif;font-size:42px;font-weight:900;letter-spacing:-1.2px;line-height:1.12}
-  main{padding-top:22px}
-  main h2{font-family:Arial,Helvetica,sans-serif;font-size:29px;font-weight:900;letter-spacing:-.6px}
   #table{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;background:transparent;border:0;align-items:stretch}
   #table>.th{display:none}
   #table>.row:not(.th){
     display:grid;
-    grid-template-columns:102px minmax(0,1fr) 100px;
-    grid-template-rows:minmax(40px,auto) minmax(30px,auto) minmax(24px,auto);
-    gap:7px 10px;
-    min-height:148px;height:auto;
-    padding:13px 15px;
-    margin:0;
+    grid-template-columns:90px minmax(0,1fr) max-content;
+    grid-template-rows:auto auto auto;
+    gap:6px 8px;
     align-items:center;
-    border:2px solid #171717;
+    min-height:0;height:auto;
+    padding:12px 9px;
+    border:2px solid #111;
     border-radius:0;
-    box-shadow:none!important;
-    filter:none;
-    text-shadow:none;
-    font-family:Arial,Helvetica,sans-serif;
-    font-size:14px;
+    box-shadow:none;
+    margin:0;
   }
-  #table>.row:not(.th):nth-child(odd){background:var(--y)}
-  #table>.row:not(.th):nth-child(even){background:#fff}
-  .row .date{grid-column:1;grid-row:1;font-size:13px;font-weight:700;white-space:nowrap;align-self:center}
-  .row .club{grid-column:2/4;grid-row:1;display:flex;align-items:center;gap:10px;font-size:17px;font-weight:700;line-height:1.2;min-width:0;align-self:center}
-  .row .club img{width:34px;height:34px;flex:0 0 34px;object-fit:contain}
-  .row .club span{overflow-wrap:normal;word-break:normal}
-  .row .venue,.row .score{display:none}
-  .row .comp{grid-column:1/3;grid-row:2;display:flex;align-items:center;gap:9px;font-size:14px;white-space:nowrap;min-width:0}
+  .row .date{grid-column:1;grid-row:1;font-weight:700;white-space:nowrap;font-size:13px;align-self:center}
+  .row .club{grid-column:2;grid-row:1;font-weight:700;font-size:15px;line-height:1.2;gap:9px;min-width:0}
+  .row .club img{width:29px;height:29px;flex:none}
+  .row .club span{overflow-wrap:anywhere}
+  .row .venue{display:none}
+  .row .comp{grid-column:1/3;grid-row:2;font-size:13px;display:flex;align-items:center;gap:14px}
   .row .comp .mobile{display:inline}
-  .row .comp .venue-label{font-weight:700}
-  .row .comp .mobile-score{display:inline;font-size:17px;font-weight:800;border-left:2px solid #222;padding-left:12px;line-height:1.2}
-  .row .scorers{grid-column:1/3;grid-row:3;font-size:13px;line-height:1.35;align-self:center;min-width:0}
+  .row .comp .mobile-score{display:inline;font-size:16px;font-weight:800;border-left:2px solid #222;padding-left:14px;line-height:1.2}
+  .row .score{display:none}
+  .row .scorers{grid-column:1/3;grid-row:3;font-size:13px;line-height:1.35}
   .row .scorers:empty{display:none}
-  .row .action{grid-column:3;grid-row:2 / span 2;justify-self:end;align-self:center}
-  .row .action button{font-size:18px;padding:8px 12px}
+  .row .action{grid-column:3;grid-row:1 / span 3;justify-self:end;align-self:center}
+  .row .action button{font-size:19px;padding:8px 12px}
 }
 @media(min-width:651px) and (max-width:1000px){
-  #table{grid-template-columns:1fr;gap:10px}
-  #table>.row:not(.th){min-height:135px}
+  #table{grid-template-columns:1fr}
 }
 </style></head><body>
 <header><img class="brand" src="tiverton-town-logo.png" alt="Tiverton Town badge"><div><h1>Tiverton Town FC</h1><p>2026–27 Season Fixtures & Results · Tivvy Match Centre</p></div></header>
