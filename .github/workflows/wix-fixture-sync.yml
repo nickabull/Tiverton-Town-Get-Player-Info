@@ -1,0 +1,34 @@
+name: Preview Wix fixture sync
+on:
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: "Apply safe, non-conflicting patches to Wix LIVE CMS"
+        required: true
+        type: boolean
+        default: false
+permissions:
+  contents: read
+jobs:
+  wix-sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check Wix credential is configured
+        env:
+          WIX_API_KEY: ${{ secrets.WIX_API_KEY }}
+        run: |
+          if [ -z "$WIX_API_KEY" ]; then echo "Missing WIX_API_KEY repository secret"; exit 1; fi
+      - name: Check match changes
+        env:
+          WIX_API_KEY: ${{ secrets.WIX_API_KEY }}
+          APPLY: ${{ inputs.apply }}
+        run: |
+          if [ "$APPLY" = "true" ]; then
+            python scripts/sync_wix_fixtures.py --apply
+          else
+            python scripts/sync_wix_fixtures.py
+          fi
