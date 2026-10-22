@@ -18,21 +18,19 @@ h1{font-size:clamp(29px,5vw,52px);line-height:1.1;margin:0}header p{margin:5px 0
 @media(max-width:950px){.row{grid-template-columns:84px minmax(155px,1.2fr) 56px 72px 72px minmax(110px,1fr) 72px;gap:6px;padding:9px 7px;font-size:12px}.th{font-size:14px}.scorers{font-size:12px}.club img{width:24px;height:24px}.action button{font-size:15px;padding:8px 6px}}
 @media(max-width:650px){header{padding:16px 12px}.brand{width:55px;height:55px}main{padding:16px 10px}.row{grid-template-columns:90px minmax(0,1fr) max-content;gap:6px 8px;min-height:0;padding:12px 9px}.th{display:none}.date{grid-column:1;grid-row:1;font-weight:700}.club{grid-column:2;grid-row:1;font-weight:700}.action{grid-column:3;grid-row:1 / span 3;justify-self:end;align-self:center}.venue{display:none}.comp{grid-column:1/3;grid-row:2;font-size:13px;display:flex;align-items:center;gap:14px}.mobile-score{display:inline;font-size:16px;font-weight:800;border-left:2px solid #222;padding-left:14px;line-height:1.2}.score{display:none}.scorers{grid-column:1/3;grid-row:3;font-size:13px}.scorers:empty{display:none}.mobile{display:inline}.dialog{padding:17px 17px}.dialog h2{font-size:27px;padding-right:100px}.dialog .close{top:14px;right:12px;font-size:20px}.two{grid-template-columns:1fr;gap:0}.players li{padding:0;line-height:1.08;font-size:14px}.dialog h3{margin:10px 0 3px}}
 
-/* Desktop: one full-width fixture per line, identical order to mobile.
-   Phone CSS and original mobile popup are unchanged. */
-#desktop-table{display:none}
+/* DESKTOP ONLY: the original mobile fixture list is a single vertical stack.
+   Each .row is one complete match across the full content width. */
 @media(min-width:651px){
   h1,h2,h3,.th,.action{font-family:Arial,Helvetica,sans-serif;letter-spacing:0}
   h1{font-weight:800;font-size:clamp(29px,4vw,48px)}
   h2{font-weight:800;font-size:30px}
-  .action button{font-family:Arial,Helvetica,sans-serif;font-weight:800;font-size:16px;letter-spacing:0}
   .searchbar{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
   .searchbar input,.searchbar select{width:100%;min-width:0;margin:0}
-  #table{display:none}
-  #desktop-table{display:block;border:2px solid #111;background:#fff}
-  .fixture-column{min-width:0}
-  .fixture-column .row{
+  #table{display:block;width:100%;border:2px solid #111;background:#fff}
+  #table>.th{display:none}
+  #table>.row:not(.th){
     display:grid;
+    width:100%;
     grid-template-columns:135px minmax(0,1fr) 120px;
     grid-template-rows:auto auto auto;
     gap:7px 12px;
@@ -42,20 +40,20 @@ h1{font-size:clamp(29px,5vw,52px);line-height:1.1;margin:0}header p{margin:5px 0
     border-bottom:1px solid #151515;
     font-size:15px;
   }
-  .fixture-column .row:last-child{border-bottom:0}
-  .fixture-column .row:nth-child(odd){background:#fff}
-  .fixture-column .row:nth-child(even){background:var(--y)}
-  .fixture-column .date{grid-column:1;grid-row:1;font-weight:700;white-space:nowrap}
-  .fixture-column .club{grid-column:2;grid-row:1;font-weight:700;font-size:16px}
-  .fixture-column .club img{width:30px;height:30px}
-  .fixture-column .action{grid-column:3;grid-row:1/span 3;justify-self:end;align-self:center}
-  .fixture-column .venue,.fixture-column .score{display:none}
-  .fixture-column .comp{grid-column:1/3;grid-row:2;font-size:14px;display:flex;align-items:center;gap:14px}
-  .fixture-column .mobile,.fixture-column .mobile-score{display:inline}
-  .fixture-column .mobile-score{font-size:17px;font-weight:800;border-left:2px solid #222;padding-left:14px;line-height:1.2}
-  .fixture-column .scorers{grid-column:1/3;grid-row:3;font-size:14px}
-  .fixture-column .scorers:empty{display:none}
-  .fixture-column .action button{font-size:16px;padding:10px 13px}
+  #table>.row:not(.th):last-child{border-bottom:0}
+  #table>.row:not(.th):nth-child(even){background:#fff}
+  #table>.row:not(.th):nth-child(odd){background:var(--y)}
+  #table .date{grid-column:1;grid-row:1;font-weight:700;white-space:nowrap}
+  #table .club{grid-column:2;grid-row:1;font-weight:700;font-size:16px}
+  #table .club img{width:30px;height:30px}
+  #table .action{grid-column:3;grid-row:1/span 3;justify-self:end;align-self:center}
+  #table .venue,#table .score{display:none}
+  #table .comp{grid-column:1/3;grid-row:2;font-size:14px;display:flex;align-items:center;gap:14px}
+  #table .mobile,#table .mobile-score{display:inline}
+  #table .mobile-score{font-size:17px;font-weight:800;border-left:2px solid #222;padding-left:14px;line-height:1.2}
+  #table .scorers{grid-column:1/3;grid-row:3;font-size:14px}
+  #table .scorers:empty{display:none}
+  #table .action button{font-family:Arial,Helvetica,sans-serif;font-weight:800;font-size:16px;letter-spacing:0;padding:10px 13px}
   .dialog{width:min(650px,100%);padding:17px}
   .dialog h2{font-size:27px;padding-right:100px}
   .dialog .close{top:14px;right:12px;font-size:20px}
@@ -68,7 +66,6 @@ h1{font-size:clamp(29px,5vw,52px);line-height:1.1;margin:0}header p{margin:5px 0
 <main><h2>Fixtures & Results</h2><div class="note">Season fixture list from Tiverton Town FC; full match information is shown where confirmed. Dates and kick-off times are subject to change.</div>
 <div class="searchbar"><input id="q" type="search" placeholder="Search club or competition" aria-label="Search fixtures"><select id="filter" aria-label="Filter fixtures"><option value="all">All fixtures</option><option value="results">Results</option><option value="upcoming">Upcoming & postponed</option></select></div>
 <div id="table" role="table" aria-label="Tiverton Town fixtures and results"><div id="status">Loading fixtures…</div></div>
-<div id="desktop-table" aria-label="Desktop fixtures and results"></div>
 </main><footer>Fixture details may change. For official club news visit <a href="https://www.tivertontownfc.uk/">tivertontownfc.uk</a>.</footer>
 <div class="modal" id="modal" hidden><div class="dialog" role="dialog" aria-modal="true" aria-labelledby="matchTitle"><button class="close" id="close" aria-label="Close match details">CLOSE ✕</button><h2 id="matchTitle">Tivvy Match Centre</h2><div id="matchBody"></div></div></div>
 <script>
@@ -85,7 +82,7 @@ function goals(f,m){if(m){const events=[...(m.starterDetails||[]),...(m.subDetai
 return String(f.scorers||'').split(',').map(s=>{s=s.trim();if(!s)return '';const found=s.match(/^(.+?)\s+(x\d+|\d+['’]?|\d+\+\d+['’]?)$/i);const name=found?found[1]:s;const full=NAMES[name.toLowerCase().replace(/\./g,'')]||name;return '⚽ '+esc(full)+(found?' '+esc(found[2].replace(/^x/,'×')):'')}).filter(Boolean).join(', ')}
 function result(f){const v=String(f.result||'');const m=v.match(/^([WDL])\s+(\d+)\s*[-–]\s*(\d+)$/i);if(!m)return esc(v||'—');const a=m[2],b=m[3];return esc(m[1])+' '+(f.homeAway==='H'?'<span class="tivvy">'+a+'</span>':a)+'–'+(f.homeAway==='A'?'<span class="tivvy">'+b+'</span>':b)}
 function row(f){const m=matchFor(f),img=crest(f.opposition)||m?.opponentLogoUrl||'';return '<div class="row" role="row"><div class="date">'+esc(date(f.date))+'</div><div class="club">'+(img?'<img src="'+esc(img)+'" alt="" loading="lazy" onerror="this.remove()">':'')+'<span>'+esc(f.opposition)+'</span></div><div class="venue">'+(f.homeAway==='H'?'HOME':f.homeAway==='A'?'Away':esc(f.homeAway))+'</div><div class="comp"><span class="mobile venue-label">'+(f.homeAway==='H'?'HOME':f.homeAway==='A'?'Away':esc(f.homeAway))+'</span><span class="mobile"> · </span>'+esc(f.competition)+'<span class="mobile-score">'+result(f)+'</span></div><div class="score">'+result(f)+'</div><div class="scorers">'+goals(f,m)+'</div><div class="action"><button data-id="'+esc(f.id)+'" type="button">Details</button></div></div>'}
-function render(){const term=el('q').value.trim().toLowerCase(),filter=el('filter').value;const filtered=fixtures.filter(f=>(f.opposition+' '+f.competition).toLowerCase().includes(term)&&(filter==='all'||(filter==='results'?/^[WDL]|^ABD/i.test(f.result):!/^[WDL]|^ABD/i.test(f.result))));const head='<div class="row th" role="row"><div>DATE</div><div>OPPOSITION</div><div>VENUE</div><div>COMP</div><div>RESULTS</div><div>SCORERS</div><div></div></div>';el('table').innerHTML=head+(filtered.length?filtered.map(row).join(''):'<div style="padding:20px">No matching fixtures</div>');el('table').querySelectorAll('button[data-id]').forEach(b=>b.onclick=()=>openMatch(b.dataset.id));el('desktop-table').innerHTML='<div class="fixture-column">'+(filtered.length?filtered.map(row).join(''):'<div class="row">No matching fixtures</div>')+'</div>';el('desktop-table').querySelectorAll('button[data-id]').forEach(b=>b.onclick=()=>openMatch(b.dataset.id))}
+function render(){const term=el('q').value.trim().toLowerCase(),filter=el('filter').value;const filtered=fixtures.filter(f=>(f.opposition+' '+f.competition).toLowerCase().includes(term)&&(filter==='all'||(filter==='results'?/^[WDL]|^ABD/i.test(f.result):!/^[WDL]|^ABD/i.test(f.result))));const head='<div class="row th" role="row"><div>DATE</div><div>OPPOSITION</div><div>VENUE</div><div>COMP</div><div>RESULTS</div><div>SCORERS</div><div></div></div>';el('table').innerHTML=head+(filtered.length?filtered.map(row).join(''):'<div style="padding:20px">No matching fixtures</div>');el('table').querySelectorAll('button[data-id]').forEach(b=>b.onclick=()=>openMatch(b.dataset.id))}
 function player(p){const extras=[];const name=String(p.name||'Unknown');const isGK=p.position==='GK'||name.trim().toLowerCase()==='louis smith';if(isGK)extras.push('<span class="player-gk">🧤 GK</span>');if(p.captain)extras.push('<span class="player-captain">(C)</span>');if(p.goalMinutes?.length)extras.push('<span class="player-goal">⚽ '+p.goalMinutes.map(m=>esc(m)+"'").join(', ')+'</span>');if(p.onMinute)extras.push('<span class="player-on">▲ on '+esc(p.onMinute)+"'</span>");if(p.offMinute)extras.push('<span class="player-off">▼ off '+esc(p.offMinute)+"'</span>");if(p.used===false)extras.push('<span class="player-unused">unused</span>');return '<li>'+esc(name)+(extras.length?' '+extras.join(' · '):'')+'</li>'}
 function openMatch(id){const f=fixtures.find(x=>x.id===id);if(!f)return;const m=matchFor(f),r=String(f.result||''),nums=r.match(/(\d+)\s*[-–]\s*(\d+)/);let line;if(nums){const home=f.homeAway==='H'?'TIVERTON TOWN':f.opposition,away=f.homeAway==='H'?f.opposition:'TIVERTON TOWN';const a=nums[1],b=nums[2];line=esc(home)+' '+(f.homeAway==='H'?'<span class="tivvy">'+a+'</span>':esc(a))+' – '+(f.homeAway==='A'?'<span class="tivvy">'+b+'</span>':esc(b))+' '+esc(away)}else line=esc(f.opposition)+' · '+esc(r||'Fixture');
 let parts='<div class="crestline"><img src="tiverton-town-logo.png" alt="Tiverton crest">'+(crest(f.opposition)?'<img src="'+esc(crest(f.opposition))+'" alt="'+esc(f.opposition)+' crest">':'')+'</div><div class="meta">'+esc(date(f.date))+' · '+(f.homeAway==='H'?'HOME':'AWAY')+' · '+esc(f.competition)+(f.kickOff?' · '+esc(f.kickOff):'')+'</div><div class="scoreline">'+line+'</div>';
