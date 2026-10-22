@@ -24,10 +24,10 @@ h1{font-size:clamp(29px,5vw,52px);line-height:1.1;margin:0}header p{margin:5px 0
   .preview-label{display:block;margin:0 0 17px;font-size:12px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase}
   #table{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;background:transparent;border:0;align-items:stretch}
   #table>.th{display:none}
-  #table>.row:not(.th){grid-template-columns:85px minmax(0,1fr) auto;grid-template-rows:68px 38px minmax(54px,1fr);align-items:center;gap:10px 10px;min-height:218px;height:100%;padding:17px;border:2px solid #171717;box-shadow:none}
+  #table>.row:not(.th){grid-template-columns:112px minmax(0,1fr) auto;grid-template-rows:68px 38px minmax(54px,1fr);align-items:center;gap:10px 10px;min-height:218px;height:100%;padding:17px;border:2px solid #171717;box-shadow:none}
   #table>.row:not(.th):nth-child(odd){background:var(--y)}
   #table>.row:not(.th):nth-child(even){background:#fff}
-  .row .date{grid-column:1;grid-row:1;font-size:14px;font-weight:800;align-self:start;padding-top:6px}
+  .row .date{grid-column:1;grid-row:1;font-size:14px;font-weight:800;align-self:start;padding-top:6px;white-space:nowrap}
   .row .club{grid-column:2/4;grid-row:1;font-size:19px;line-height:1.17;font-weight:800;align-self:start}
   .row .club img{width:42px;height:42px}
   .row .venue{display:none}
@@ -41,7 +41,7 @@ h1{font-size:clamp(29px,5vw,52px);line-height:1.1;margin:0}header p{margin:5px 0
 }
 @media(min-width:651px) and (max-width:950px){
   #table{gap:12px}
-  #table>.row:not(.th){grid-template-columns:70px minmax(0,1fr) auto;grid-template-rows:64px 38px minmax(54px,1fr);padding:13px;gap:8px;min-height:208px}
+  #table>.row:not(.th){grid-template-columns:96px minmax(0,1fr) auto;grid-template-rows:64px 38px minmax(54px,1fr);padding:13px;gap:8px;min-height:208px}
   .row .club{font-size:16px}
   .row .club img{width:32px;height:32px}
   .row .score{font-size:17px}
