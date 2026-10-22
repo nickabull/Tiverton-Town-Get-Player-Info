@@ -73,6 +73,16 @@ h1{font-size:clamp(29px,5vw,52px);line-height:1.1;margin:0}header p{margin:5px 0
 .hub-panel[hidden],#fixtures-panel[hidden]{display:none!important}
 .hub-panel iframe{width:100%;display:block;min-height:700px;border:0;background:#fff}
 @media(max-width:650px){.hub-nav{padding:0 10px;gap:6px}.hub-tab{padding:11px 13px;font-size:13px}.hub-panel{padding:12px 10px}}
+
+.away-panel-content{border:2px solid #171717;background:#fff;padding:24px;font-family:Arial,Helvetica,sans-serif}
+.away-panel-content h2{font-family:"Anton",Impact,"Arial Narrow",sans-serif;font-weight:400;font-size:32px;margin:0 0 18px}
+.away-fixture{display:grid;gap:14px;max-width:750px}
+.away-fixture .away-opponent{font-size:clamp(24px,3vw,38px);font-weight:800}
+.away-fixture .away-date{font-size:20px;font-weight:700}
+.away-fixture .away-info{font-size:16px}
+.away-fixture .away-tag{display:inline-block;background:#171717;color:#ffdd00;padding:5px 12px;font-weight:800;justify-self:start}
+.away-fixture .away-note{color:#555;font-size:13px}
+@media(max-width:650px){.away-panel-content{padding:17px}}
 </style></head><body>
 <header><img class="brand" src="tiverton-town-logo.png" alt="Tiverton Town badge"><div><h1>Tiverton Town FC</h1><p>2026–27 Season Fixtures & Results · Tivvy Match Centre</p></div></header>
 <nav class="hub-nav" aria-label="Tivvy sections">
@@ -80,6 +90,7 @@ h1{font-size:clamp(29px,5vw,52px);line-height:1.1;margin:0}header p{margin:5px 0
   <button type="button" class="hub-tab" data-section="league" aria-pressed="false">League Table</button>
   <button type="button" class="hub-tab" data-section="players" aria-pressed="false">Player Stats</button>
   <button type="button" class="hub-tab" data-section="season" aria-pressed="false">Season So Far</button>
+  <button type="button" class="hub-tab" data-section="away" aria-pressed="false">Next Away Day</button>
 </nav>
 <main id="fixtures-panel"><h2>Fixtures & Results</h2><div class="note">Season fixture list from Tiverton Town FC; full match information is shown where confirmed. Dates and kick-off times are subject to change.</div>
 <div class="searchbar"><input id="q" type="search" placeholder="Search club or competition" aria-label="Search fixtures"><select id="filter" aria-label="Filter fixtures"><option value="all">All fixtures</option><option value="results">Results</option><option value="upcoming">Upcoming & postponed</option></select></div>
@@ -87,7 +98,8 @@ h1{font-size:clamp(29px,5vw,52px);line-height:1.1;margin:0}header p{margin:5px 0
 </main>
 <section class="hub-panel" id="league-panel" hidden aria-label="League Table"><iframe title="League Table" loading="lazy" data-src="stats-centre.html#league"></iframe></section>
 <section class="hub-panel" id="players-panel" hidden aria-label="Player Stats"><iframe title="Player Stats" loading="lazy" data-src="stats-centre.html#players"></iframe></section>
-<section class="hub-panel" id="season-panel" hidden aria-label="Season So Far"><iframe title="Season So Far" loading="lazy" data-src="season-so-far.html"></iframe></section><footer>Fixture details may change. For official club news visit <a href="https://www.tivertontownfc.uk/">tivertontownfc.uk</a>.</footer>
+<section class="hub-panel" id="season-panel" hidden aria-label="Season So Far"><iframe title="Season So Far" loading="lazy" data-src="season-so-far.html"></iframe></section>
+<section class="hub-panel" id="away-panel" hidden aria-label="Next Away Day"><div class="away-panel-content"><h2>Next Away Day</h2><div id="away-details" aria-live="polite">Loading the next away fixture…</div></div></section><footer>Fixture details may change. For official club news visit <a href="https://www.tivertontownfc.uk/">tivertontownfc.uk</a>.</footer>
 <div class="modal" id="modal" hidden><div class="dialog" role="dialog" aria-modal="true" aria-labelledby="matchTitle"><button class="close" id="close" aria-label="Close match details">CLOSE ✕</button><h2 id="matchTitle">Tivvy Match Centre</h2><div id="matchBody"></div></div></div>
 <script>
 const BASE='./',CLUBS={romanglassstgeorge:'8aa829_6ad6695811c0498db90473766fc8bbd4~mv2.png',tavistock:'8aa829_ecc264bc646d41a9b6c372a0a3a23243~mv2.png',bridgwaterunited:'8aa829_199b1514dbef4b79882263529ff162ae~mv2.png',brixham:'8aa829_7f87e9823bb94650961f9d3160a065dc~mv2.png',shirehampton:'8aa829_ce9c7882df30410cb4c8d445b9077226~mv2.png',tauntontown:'d12aff_a4325afc73e54ed98cb25f2a2986cae0~mv2.png',ilminstertown:'8aa829_969cbd8d12cb4952bc614fe294f8294f~mv2.png',cullomptonrangers:'8aa829_4e91f106bc444b2f9ca4692d43864e53~mv2.png',portlandunited:'8aa829_65009eedd74649b3b7405d2be35faff4~mv2.png',bideford:'d12aff_6327d76501bf400a8fa826f32d319856~mv2.png',hungerfordtown:'f62a66_4fc40563b6a942d1aab1f3fdb82ef2df~mv2.png'};
@@ -103,6 +115,20 @@ function goals(f,m){if(m){const events=[...(m.starterDetails||[]),...(m.subDetai
 return String(f.scorers||'').split(',').map(s=>{s=s.trim();if(!s)return '';const found=s.match(/^(.+?)\s+(x\d+|\d+['’]?|\d+\+\d+['’]?)$/i);const name=found?found[1]:s;const full=NAMES[name.toLowerCase().replace(/\./g,'')]||name;return '⚽ '+esc(full)+(found?' '+esc(found[2].replace(/^x/,'×')):'')}).filter(Boolean).join(', ')}
 function result(f){const v=String(f.result||'');const m=v.match(/^([WDL])\s+(\d+)\s*[-–]\s*(\d+)$/i);if(!m)return esc(v||'—');const a=m[2],b=m[3];return esc(m[1])+' '+(f.homeAway==='H'?'<span class="tivvy">'+a+'</span>':a)+'–'+(f.homeAway==='A'?'<span class="tivvy">'+b+'</span>':b)}
 function row(f){const m=matchFor(f),img=crest(f.opposition)||m?.opponentLogoUrl||'';return '<div class="row" role="row"><div class="date">'+esc(date(f.date))+'</div><div class="club">'+(img?'<img src="'+esc(img)+'" alt="" loading="lazy" onerror="this.remove()">':'')+'<span>'+esc(f.opposition)+'</span></div><div class="venue">'+(f.homeAway==='H'?'HOME':f.homeAway==='A'?'Away':esc(f.homeAway))+'</div><div class="comp"><span class="mobile venue-label">'+(f.homeAway==='H'?'HOME':f.homeAway==='A'?'Away':esc(f.homeAway))+'</span><span class="mobile"> · </span>'+esc(f.competition)+'<span class="mobile-score">'+result(f)+'</span></div><div class="score">'+result(f)+'</div><div class="scorers">'+goals(f,m)+'</div><div class="action"><button data-id="'+esc(f.id)+'" type="button">Details</button></div></div>'}
+
+function updateAwayDay(){
+  const target=document.getElementById('away-details');
+  if(!target)return;
+  if(!fixtures.length){target.textContent='Away fixture information is not available yet.';return}
+  const now=new Date();
+  const today=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+'-'+String(now.getDate()).padStart(2,'0');
+  const next=fixtures.find(f=>f.homeAway==='A'&&f.date>=today&&!f.result);
+  if(!next){target.textContent='No upcoming away fixtures are currently listed.';return}
+  const date=new Date(next.date+'T12:00:00');
+  const formatted=date.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  const safe=x=>String(x||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  target.innerHTML='<div class="away-fixture"><span class="away-tag">AWAY FIXTURE</span><div class="away-opponent">Tiverton Town at '+safe(next.opposition)+'</div><div class="away-date">'+safe(formatted)+'</div><div class="away-info">Kick-off: '+safe(next.kickOff||'To be confirmed')+' &nbsp;·&nbsp; Competition: '+safe(next.competition)+'</div><div class="away-note">Fixture details are drawn from the Match Centre and may change. Travel and ground information can be added here when verified.</div></div>';
+}
 function render(){const term=el('q').value.trim().toLowerCase(),filter=el('filter').value;const filtered=fixtures.filter(f=>(f.opposition+' '+f.competition).toLowerCase().includes(term)&&(filter==='all'||(filter==='results'?/^[WDL]|^ABD/i.test(f.result):!/^[WDL]|^ABD/i.test(f.result))));const head='<div class="row th" role="row"><div>DATE</div><div>OPPOSITION</div><div>VENUE</div><div>COMP</div><div>RESULTS</div><div>SCORERS</div><div></div></div>';el('table').innerHTML=head+(filtered.length?filtered.map(row).join(''):'<div style="padding:20px">No matching fixtures</div>');el('table').querySelectorAll('button[data-id]').forEach(b=>b.onclick=()=>openMatch(b.dataset.id))}
 function player(p){const extras=[];const name=String(p.name||'Unknown');const isGK=p.position==='GK'||name.trim().toLowerCase()==='louis smith';if(isGK)extras.push('<span class="player-gk">🧤 GK</span>');if(p.captain)extras.push('<span class="player-captain">(C)</span>');if(p.goalMinutes?.length)extras.push('<span class="player-goal">⚽ '+p.goalMinutes.map(m=>esc(m)+"'").join(', ')+'</span>');if(p.onMinute)extras.push('<span class="player-on">▲ on '+esc(p.onMinute)+"'</span>");if(p.offMinute)extras.push('<span class="player-off">▼ off '+esc(p.offMinute)+"'</span>");if(p.used===false)extras.push('<span class="player-unused">unused</span>');return '<li>'+esc(name)+(extras.length?' '+extras.join(' · '):'')+'</li>'}
 function openMatch(id){const f=fixtures.find(x=>x.id===id);if(!f)return;const m=matchFor(f),r=String(f.result||''),nums=r.match(/(\d+)\s*[-–]\s*(\d+)/);let line;if(nums){const home=f.homeAway==='H'?'TIVERTON TOWN':f.opposition,away=f.homeAway==='H'?f.opposition:'TIVERTON TOWN';const a=nums[1],b=nums[2];line=esc(home)+' '+(f.homeAway==='H'?'<span class="tivvy">'+a+'</span>':esc(a))+' – '+(f.homeAway==='A'?'<span class="tivvy">'+b+'</span>':esc(b))+' '+esc(away)}else line=esc(f.opposition)+' · '+esc(r||'Fixture');
@@ -116,11 +142,11 @@ el('matchBody').innerHTML=parts;el('modal').hidden=false;document.body.style.ove
 function closeMatch(){el('modal').hidden=true;document.body.style.overflow=''}
 el('close').onclick=closeMatch;el('modal').onclick=e=>{if(e.target===el('modal'))closeMatch()};window.onkeydown=e=>{if(e.key==='Escape')closeMatch()};el('q').oninput=render;el('filter').onchange=render;
 async function getJSON(name){const r=await fetch(BASE+name+'?v=20261022',{cache:'no-store'});if(!r.ok)throw new Error(name+' HTTP '+r.status);return r.json()}
-(async()=>{try{const [list,league,cup,historical]=await Promise.all([getJSON('match-centre-fixtures-2026-27.json'),getJSON('data.json'),getJSON('cup-match-details-2026-27.json'),getJSON('historical-match-details-2026-27.json')]);fixtures=list.fixtures||[];details=[...(league.fixtures||[]).map(x=>({...x,competition:'SLD1S'})),...(cup.fixtures||[]),...(historical.fixtures||[])];fixtures.sort((a,b)=>a.date.localeCompare(b.date));render()}catch(e){el('table').innerHTML='<div id="status">Unable to load fixtures at present. Please refresh the page.</div>';console.error(e)}})();
+(async()=>{try{const [list,league,cup,historical]=await Promise.all([getJSON('match-centre-fixtures-2026-27.json'),getJSON('data.json'),getJSON('cup-match-details-2026-27.json'),getJSON('historical-match-details-2026-27.json')]);fixtures=list.fixtures||[];details=[...(league.fixtures||[]).map(x=>({...x,competition:'SLD1S'})),...(cup.fixtures||[]),...(historical.fixtures||[])];fixtures.sort((a,b)=>a.date.localeCompare(b.date));render();updateAwayDay()}catch(e){el('table').innerHTML='<div id="status">Unable to load fixtures at present. Please refresh the page.</div>';console.error(e)}})();
 
 (function(){
   const tabs=Array.from(document.querySelectorAll('.hub-tab'));
-  const names=['fixtures','league','players','season'];
+  const names=['fixtures','league','players','season','away'];
   function fit(frame){
     try{
       const doc=frame.contentDocument;
@@ -145,7 +171,8 @@ async function getJSON(name){const r=await fetch(BASE+name+'?v=20261022',{cache:
       const panel=document.getElementById(n==='fixtures'?'fixtures-panel':n+'-panel');
       panel.hidden=n!==name;
     });
-    if(name!=='fixtures'){
+    if(name==='away'){updateAwayDay();}
+    if(name!=='fixtures'&&name!=='away'){
       const frame=document.querySelector('#'+name+'-panel iframe');
       if(!frame.src||frame.src==='about:blank'){frame.addEventListener('load',()=>fit(frame),{once:true});frame.src=frame.dataset.src}
       else fit(frame);
