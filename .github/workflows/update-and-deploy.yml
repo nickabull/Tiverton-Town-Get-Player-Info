@@ -52,7 +52,7 @@ jobs:
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Force -Path _site | Out-Null
-          Copy-Item index.html,season-so-far.html,stats-centre.html,programme-player-stats.html,data.js,data.json,cup-match-details-2026-27.json,tiverton-town-logo.png,Tiverton_Town_SL1_Fixtures_2026-27.xlsx -Destination _site
+          Copy-Item index.html,season-so-far.html,stats-centre.html,programme-player-stats.html,data.js,data.json,cup-match-details-2026-27.json,historical-match-details-2026-27.json,tivvy-v3-fixtures.html,tiverton-town-logo.png,Tiverton_Town_SL1_Fixtures_2026-27.xlsx -Destination _site
           New-Item -ItemType File -Force -Path _site/.nojekyll | Out-Null
 
       - name: Configure Pages
