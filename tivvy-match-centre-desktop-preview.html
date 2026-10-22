@@ -18,39 +18,53 @@ h1{font-size:clamp(29px,5vw,52px);line-height:1.1;margin:0}header p{margin:5px 0
 @media(max-width:950px){.row{grid-template-columns:84px minmax(155px,1.2fr) 56px 72px 72px minmax(110px,1fr) 72px;gap:6px;padding:9px 7px;font-size:12px}.th{font-size:14px}.scorers{font-size:12px}.club img{width:24px;height:24px}.action button{font-size:15px;padding:8px 6px}}
 @media(max-width:650px){header{padding:16px 12px}.brand{width:55px;height:55px}main{padding:16px 10px}.row{grid-template-columns:90px minmax(0,1fr) max-content;gap:6px 8px;min-height:0;padding:12px 9px}.th{display:none}.date{grid-column:1;grid-row:1;font-weight:700}.club{grid-column:2;grid-row:1;font-weight:700}.action{grid-column:3;grid-row:1 / span 3;justify-self:end;align-self:center}.venue{display:none}.comp{grid-column:1/3;grid-row:2;font-size:13px;display:flex;align-items:center;gap:14px}.mobile-score{display:inline;font-size:16px;font-weight:800;border-left:2px solid #222;padding-left:14px;line-height:1.2}.score{display:none}.scorers{grid-column:1/3;grid-row:3;font-size:13px}.scorers:empty{display:none}.mobile{display:inline}.dialog{padding:17px 17px}.dialog h2{font-size:27px;padding-right:100px}.dialog .close{top:14px;right:12px;font-size:20px}.two{grid-template-columns:1fr;gap:0}.players li{padding:0;line-height:1.08;font-size:14px}.dialog h3{margin:10px 0 3px}}
 
-/* Standalone desktop card-layout preview. The live Match Centre is untouched. */
+/* Clean, aligned card layout for laptops and desktop; mobile retains its original design. */
 @media(min-width:651px){
-  main{padding-top:26px}
-  .preview-label{display:block;margin:0 0 17px;font-size:12px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase}
-  #table{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;background:transparent;border:0;align-items:stretch}
+  main{padding-top:25px}
+  #table{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;background:transparent;border:0;align-items:stretch}
   #table>.th{display:none}
-  #table>.row:not(.th){grid-template-columns:112px minmax(0,1fr) auto;grid-template-rows:68px 38px minmax(54px,1fr);align-items:center;gap:10px 10px;min-height:218px;height:100%;padding:17px;border:2px solid #171717;box-shadow:none}
+  #table>.row:not(.th){
+    display:grid;
+    grid-template-columns:112px minmax(0,1fr) 102px;
+    grid-template-rows:68px 42px minmax(52px,1fr);
+    column-gap:12px;row-gap:12px;
+    align-items:center;
+    min-height:224px;height:100%;margin:0;
+    padding:18px;
+    border:2px solid #171717;
+    border-radius:0;
+    box-shadow:none!important;
+    filter:none;
+    text-shadow:none;
+    font-family:Arial,Helvetica,sans-serif;
+    font-size:15px;
+  }
   #table>.row:not(.th):nth-child(odd){background:var(--y)}
   #table>.row:not(.th):nth-child(even){background:#fff}
-  .row .date{grid-column:1;grid-row:1;font-size:14px;font-weight:800;align-self:start;padding-top:6px;white-space:nowrap}
-  .row .club{grid-column:2/4;grid-row:1;font-size:19px;line-height:1.17;font-weight:800;align-self:start}
-  .row .club img{width:42px;height:42px}
+  .row .date{grid-column:1;grid-row:1;align-self:center;white-space:nowrap;font-size:14px;font-weight:700}
+  .row .club{grid-column:2/4;grid-row:1;align-self:center;display:flex;align-items:center;gap:12px;font-size:19px;line-height:1.2;font-weight:700;letter-spacing:0;text-shadow:none;min-width:0}
+  .row .club img{width:42px;height:42px;flex:0 0 42px;object-fit:contain}
+  .row .club span{overflow-wrap:normal;word-break:normal}
   .row .venue{display:none}
-  .row .comp{grid-column:1/3;grid-row:2;font-size:14px;display:flex;align-items:center;gap:7px}
+  .row .comp{grid-column:1/3;grid-row:2;display:flex;align-items:center;gap:8px;font-size:14px;white-space:nowrap;min-width:0}
   .row .comp .mobile{display:inline}
-  .row .comp .venue-label{font-weight:800}
-  .row .score{grid-column:3;grid-row:2;font-size:20px;font-weight:800;white-space:nowrap;text-align:right}
-  .row .scorers{grid-column:1/3;grid-row:3;font-size:14px;line-height:1.4;align-self:start;padding-top:5px}
-  .row .action{grid-column:3;grid-row:3;justify-self:end;align-self:end}
+  .row .comp .venue-label{font-weight:700}
+  .row .score{grid-column:3;grid-row:2;justify-self:end;text-align:right;white-space:nowrap;font-size:20px;font-weight:700}
+  .row .scorers{grid-column:1/3;grid-row:3;align-self:center;font-size:14px;line-height:1.35;padding:0;min-width:0}
+  .row .action{grid-column:3;grid-row:3;justify-self:end;align-self:center}
   .row .action button{font-size:19px;padding:9px 13px}
 }
 @media(min-width:651px) and (max-width:950px){
   #table{gap:12px}
-  #table>.row:not(.th){grid-template-columns:96px minmax(0,1fr) auto;grid-template-rows:64px 38px minmax(54px,1fr);padding:13px;gap:8px;min-height:208px}
-  .row .club{font-size:16px}
-  .row .club img{width:32px;height:32px}
+  #table>.row:not(.th){grid-template-columns:94px minmax(0,1fr) 82px;grid-template-rows:66px 40px minmax(54px,1fr);padding:13px;gap:8px;min-height:214px}
+  .row .club{font-size:16px;gap:8px}
+  .row .club img{width:32px;height:32px;flex-basis:32px}
   .row .score{font-size:17px}
   .row .action button{font-size:16px;padding:8px 10px}
 }
-@media(max-width:650px){.preview-label{display:block;margin-bottom:12px;font-size:11px;font-weight:800}}
 </style></head><body>
 <header><img class="brand" src="tiverton-town-logo.png" alt="Tiverton Town badge"><div><h1>Tiverton Town FC</h1><p>2026–27 Season Fixtures & Results · Tivvy Match Centre</p></div></header>
-<main><div class="preview-label">New card layout preview · Original Match Centre unchanged</div><h2>Fixtures & Results</h2><div class="note">Season fixture list from Tiverton Town FC; full match information is shown where confirmed. Dates and kick-off times are subject to change.</div>
+<main><h2>Fixtures & Results</h2><div class="note">Season fixture list from Tiverton Town FC; full match information is shown where confirmed. Dates and kick-off times are subject to change.</div>
 <div class="searchbar"><input id="q" type="search" placeholder="Search club or competition" aria-label="Search fixtures"><select id="filter" aria-label="Filter fixtures"><option value="all">All fixtures</option><option value="results">Results</option><option value="upcoming">Upcoming & postponed</option></select></div>
 <div id="table" role="table" aria-label="Tiverton Town fixtures and results"><div id="status">Loading fixtures…</div></div>
 </main><footer>Fixture details may change. For official club news visit <a href="https://www.tivertontownfc.uk/">tivertontownfc.uk</a>.</footer>
