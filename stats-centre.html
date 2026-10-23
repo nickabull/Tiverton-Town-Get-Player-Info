@@ -92,6 +92,13 @@ table{width:100%;border-collapse:collapse}th,td{padding:8px 9px;border-bottom:1p
 #players .directory-heading{display:flex;align-items:center;gap:10px}
 #players .directory-heading img{width:26px;height:26px;object-fit:contain}
 @media(max-width:650px){#players .section-head h2 .tivvy-crest{width:30px;height:30px}}
+/* Small crests alongside the existing three-letter matrix axis codes. */
+#matrix .matrix-axis-label{display:inline-flex;align-items:center;justify-content:center;gap:3px;vertical-align:middle;line-height:1.1}
+#matrix .matrix-axis-label .matrix-crest{display:block;width:12px;height:12px;object-fit:contain;flex:none}
+@media(max-width:650px){
+  #matrix .matrix-axis-label{flex-direction:column;gap:1px}
+  #matrix .matrix-axis-label .matrix-crest{width:11px;height:11px}
+}
 </style>
 </head>
 <body>
@@ -183,6 +190,9 @@ function buildPlayerStats(fixtures){
  });
  return{stats:[...map.values()].map(x=>({...x,apps:x.starts+x.subs})),xis:xi.size,goalTimes};
 }
+function matrixAxisLabel(name,codes){
+ return '<span class="matrix-axis-label">'+crestImg(name,'matrix-crest')+'<span>'+esc(codes[name]||name.slice(0,3))+'</span></span>';
+}
 function tivvyScore(score,home,away){const m=String(score||'').match(/^(\d+)\s*[-–]\s*(\d+)$/);if(!m)return esc(score||'');return (home==='Tiverton Town'?'<span class="tivvy-goals">'+m[1]+'</span>':m[1])+'-'+(away==='Tiverton Town'?'<span class="tivvy-goals">'+m[2]+'</span>':m[2]);}
 function tivvyFixtureScore(score){const m=String(score||'').match(/^(\d+)\s*[-–]\s*(\d+)$/);return m?'<span class="tivvy-goals">'+m[1]+'</span>-'+m[2]:esc(score||'');}
 function render(player,results){
@@ -226,7 +236,7 @@ function render(player,results){
 
  document.getElementById('matchCentre').innerHTML='<table class="match-table"><thead><tr><th>Date</th><th>Opponent</th><th>H/A</th><th>Score</th><th>Scorers</th><th>Captain</th><th>Subs used</th><th>Report</th></tr></thead><tbody>'+fixtures.slice().reverse().map(x=>{const st=x.starterDetails||[],sb=x.subDetails||[];const scorers=[...st,...sb].filter(p=>Number(p.goalCount||0)>0).map(p=>p.name+(p.goalMinutes?.length?' '+p.goalMinutes.map(m=>m+"'").join(', '):''));const cap=[...st,...sb].find(p=>p.captain);const used=sb.filter(p=>p.used!==false&&(p.onMinute||p.used===true)).map(p=>p.name+(p.onMinute?' '+p.onMinute+"'":''));const url=x.officialReportUrl||reports[x.date]||'';return '<tr><td>'+fmt(x.date)+'</td><td>'+esc(x.opponent)+'</td><td>'+esc(x.venue)+'</td><td class="score">'+tivvyFixtureScore(x.result)+'</td><td>'+esc(scorers.join(' · ')||'—')+'</td><td>'+esc(cap?.name||'—')+'</td><td>'+esc(used.join(' · ')||'—')+'</td><td>'+(url?'<a class="report" href="'+esc(url)+'" target="_blank" rel="noopener">Report ↗</a>':'—')+'</td></tr>'}).join('')+'</tbody></table>';
 
- const teams=results.teams||[],codes=results.codes||{},lookup={};(results.results||[]).forEach(x=>lookup[x.home+'|'+x.away]=x.score);let mh='<table class="matrix"><tr><th class="tiv-axis">A/H</th>'+teams.map(h=>'<th class="'+(h==='Tiverton Town'?'tiv-axis':'')+'" title="'+esc(h)+'">'+esc(codes[h]||h.slice(0,3))+'</th>').join('')+'</tr>';teams.forEach(a=>{mh+='<tr><th class="'+(a==='Tiverton Town'?'tiv-axis':'')+'" title="'+esc(a)+'">'+esc(codes[a]||a.slice(0,3))+'</th>';teams.forEach(h=>{const v=lookup[h+'|'+a]||'';mh+='<td class="'+(h===a?'diag ':'')+(v?'score':'')+'">'+tivvyScore(v,h,a)+'</td>'});mh+='</tr>'});mh+='</table>';document.getElementById('resultsMatrix').innerHTML=mh;document.getElementById('teamKey').innerHTML=teams.map(t=>'<div class="team-key-item"><span class="team-key-code">'+esc(codes[t]||t.slice(0,3))+'</span>'+crestImg(t)+'<span class="team-key-name">'+esc(t)+'</span></div>').join('');
+ const teams=results.teams||[],codes=results.codes||{},lookup={};(results.results||[]).forEach(x=>lookup[x.home+'|'+x.away]=x.score);let mh='<table class="matrix"><tr><th class="tiv-axis">A/H</th>'+teams.map(h=>'<th class="'+(h==='Tiverton Town'?'tiv-axis':'')+'" title="'+esc(h)+'">'+matrixAxisLabel(h,codes)+'</th>').join('')+'</tr>';teams.forEach(a=>{mh+='<tr><th class="'+(a==='Tiverton Town'?'tiv-axis':'')+'" title="'+esc(a)+'">'+matrixAxisLabel(a,codes)+'</th>';teams.forEach(h=>{const v=lookup[h+'|'+a]||'';mh+='<td class="'+(h===a?'diag ':'')+(v?'score':'')+'">'+tivvyScore(v,h,a)+'</td>'});mh+='</tr>'});mh+='</table>';document.getElementById('resultsMatrix').innerHTML=mh;document.getElementById('teamKey').innerHTML=teams.map(t=>'<div class="team-key-item"><span class="team-key-code">'+esc(codes[t]||t.slice(0,3))+'</span>'+crestImg(t)+'<span class="team-key-name">'+esc(t)+'</span></div>').join('');
 
  document.getElementById('scorers').innerHTML=statTable(stats.filter(x=>x.goals).sort((a,b)=>b.goals-a.goals||b.apps-a.apps),x=>x.goals,'Goals');document.getElementById('apps').innerHTML=statTable(stats.slice().sort((a,b)=>b.apps-a.apps||b.starts-a.starts),x=>x.apps,'Apps');document.getElementById('minutes').innerHTML=statTable(stats.slice().sort((a,b)=>b.mins-a.mins),x=>x.mins,'Minutes');
  const bands=[['0–15',0,15],['16–30',16,30],['31–45+',31,50],['46–60',46,60],['61–75',61,75],['76–90+',76,120]],counts=bands.map(b=>ps.goalTimes.filter(m=>m>=b[1]&&m<=b[2]).length),mx=Math.max(1,...counts);document.getElementById('goalBands').innerHTML=bands.map((b,i)=>'<div class="bar-row"><strong>'+b[0]+'</strong><div class="bar"><span style="width:'+(counts[i]/mx*100)+'%"></span></div><strong>'+counts[i]+'</strong></div>').join('');
