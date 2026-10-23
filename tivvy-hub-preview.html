@@ -351,6 +351,13 @@ body.wix-embed .hub-panel{padding-top:8px}
 .match-photo-credit{font:13px/1.4 Arial,Helvetica,sans-serif;color:#eee;margin:9px 0 5px}
 .match-photo-album{display:inline-block;margin-top:3px;color:var(--y);font-weight:800;text-decoration:underline}
 @media(max-width:650px){.match-photo-grid{gap:5px}.match-photos h3{font-size:21px}.match-photo-credit{font-size:12px}}
+
+/* Wix embed: hide the inner scrolling rail and hold navigation geometry steady. */
+html{scrollbar-width:none}html::-webkit-scrollbar,body::-webkit-scrollbar{display:none}
+body.wix-embed{overflow-y:visible!important;scrollbar-width:none}
+body.wix-embed .hub-nav{width:100%;max-width:1180px;box-sizing:border-box;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));overflow:visible;scrollbar-width:none}
+body.wix-embed .hub-tab{box-sizing:border-box;min-width:0;width:100%;margin:0;white-space:normal}
+@media(max-width:650px){body.wix-embed .hub-nav{grid-template-columns:repeat(6,minmax(0,1fr))}}
 </style></head><body>
 <script>if(new URLSearchParams(location.search).get('embed')==='1')document.body.classList.add('wix-embed');</script>
 <header><img class="brand" src="tiverton-town-logo.png" alt="Tiverton Town badge"><div><h1>Tiverton Town FC</h1><p>2026–27 Season Fixtures & Results · Tivvy Match Centre</p></div></header>
