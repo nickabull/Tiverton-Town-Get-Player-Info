@@ -126,6 +126,27 @@ footer{padding:7px 18px 12px!important;font-size:11px;color:#333}
 .away-fixture .away-note{color:#555;font-size:13px}
 @media(max-width:650px){.away-panel-content{padding:17px}}
 
+/* Next Away Day: derived from the league programme's Next Away Trip page. */
+.away-panel-content{padding:0;border:2px solid #111;background:#ffdd00}
+.away-panel-content>h2{background:#111;color:#ffdd00;margin:0;padding:14px 20px;font-family:"Anton",Impact,sans-serif;font-weight:400}
+#away-details{padding:18px}
+.away-fixture{display:block;max-width:none}
+.away-hero{display:flex;align-items:center;gap:18px;background:#111;color:#fff;padding:17px 20px;margin-bottom:14px}
+.away-hero img{width:82px;height:82px;object-fit:contain;background:#fff;padding:4px}
+.away-hero .away-tag{font-size:12px;padding:0;background:transparent;color:#ffdd00;letter-spacing:.8px}
+.away-hero .away-opponent{font-family:"Anton",Impact,sans-serif;font-size:clamp(25px,4vw,42px);font-weight:400;line-height:1.1}
+.away-hero .away-date{font-size:15px;font-weight:700}
+.away-hero .away-info{font-size:13px}
+.away-card-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.away-card{background:#fff;border:2px solid #111;padding:15px 17px}
+.away-card h3{font:400 21px/1.2 "Anton",Impact,sans-serif;letter-spacing:.2px;margin:0 0 8px}
+.away-card p{margin:0 0 8px;line-height:1.5}
+.away-card p:last-child{margin-bottom:0}
+.away-card strong{font-weight:800}
+.away-card a{font-weight:800;text-decoration:underline}
+.away-full{grid-column:1/-1}
+.away-footnote{margin:12px 2px 0;font-size:12px;color:#333}
+@media(max-width:650px){#away-details{padding:10px}.away-hero{padding:12px;gap:11px}.away-hero img{width:60px;height:60px}.away-hero .away-date{font-size:13px}.away-card-grid{grid-template-columns:1fr;gap:9px}.away-card{padding:12px}.away-full{grid-column:auto}}
 /* Fixture data now occupies fixed columns, so competition length cannot
    push dates, scorelines or scorers sideways. */
 @media(min-width:651px){
@@ -323,18 +344,52 @@ function updateNextKickoff(){
   const timer=document.getElementById('kickoff-timer');
   if(timer)timer.textContent=(days?days+'d ':'')+String(hours).padStart(2,'0')+'h '+String(mins).padStart(2,'0')+'m '+String(secs).padStart(2,'0')+'s';
 }
+const AWAY_GUIDES={
+  larkhallathletic:{
+    date:'2026-10-24',
+    ground:'Camella Stadium · Plain Ham',
+    address:'Charlcombe Lane, Bath, BA1 8DJ',
+    admission:'Adults £12 · Concessions £8 · Bath Spa students £7 · Children aged 5–15 £4 · Under 5s free',
+    tickets:'https://larkhallathletic.com/',
+    road:'Head for Plain Ham, Bath, BA1 8DJ. The local approach is via Larkhall and Charlcombe Lane. Allow time for the narrow final approach and parking.',
+    rail:'Arrive at Bath Spa, then arrange the final leg to Plain Ham. Check outward and return trains before travelling, and allow time for the uphill approach.',
+    form:'19th · P12 W3 D1 L8 · 10 points. Last five league games: W L D L W (oldest first). Won 2–0 at Melksham on 17 October.',
+    formAsOf:'17 October 2026',
+    before:'Recheck kick-off and travel arrangements. Contact the club about parking, access or dietary requirements.'
+  }
+};
 function updateAwayDay(){
   const target=document.getElementById('away-details');
   if(!target)return;
   if(!fixtures.length){target.textContent='Away fixture information is not available yet.';return}
   const now=new Date();
   const today=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+'-'+String(now.getDate()).padStart(2,'0');
-  const next=fixtures.find(f=>f.homeAway==='A'&&f.date>=today&&!f.result);
+  const next=[...fixtures].filter(f=>f.homeAway==='A'&&f.date>=today&&!f.result).sort((a,b)=>a.date.localeCompare(b.date))[0];
   if(!next){target.textContent='No upcoming away fixtures are currently listed.';return}
   const date=new Date(next.date+'T12:00:00');
   const formatted=date.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
   const safe=x=>String(x||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  target.innerHTML='<div class="away-fixture"><span class="away-tag">AWAY FIXTURE</span><div class="away-opponent">Tiverton Town at '+safe(next.opposition)+'</div><div class="away-date">'+safe(formatted)+'</div><div class="away-info">Kick-off: '+safe(next.kickOff||'To be confirmed')+' &nbsp;·&nbsp; Competition: '+safe(next.competition)+'</div><div class="away-note">Fixture details are drawn from the Match Centre and may change. Travel and ground information can be added here when verified.</div></div>';
+  const guide=AWAY_GUIDES[club(next.opposition)];
+  const verified=guide&&guide.date===next.date?guide:null;
+  const badge=crest(next.opposition);
+  const hero='<div class="away-hero">'+(badge?'<img src="'+safe(badge)+'" alt="'+safe(next.opposition)+' crest">':'')+
+    '<div><div class="away-tag">NEXT AWAY TRIP</div><div class="away-opponent">'+safe(next.opposition)+'</div>'+
+    '<div class="away-date">'+safe(formatted)+' · '+safe(next.kickOff||'Kick-off TBC')+'</div>'+
+    '<div class="away-info">'+safe(competitionLabel(next.competition))+'</div></div></div>';
+  if(!verified){
+    target.innerHTML='<div class="away-fixture">'+hero+
+      '<div class="away-card"><h3>TRAVEL GUIDE</h3><p>Ground, tickets and travel information for this fixture are being checked. Please consult the home club before travelling.</p></div>'+
+      '<p class="away-footnote">The opponent, date and kick-off are taken from the live Match Centre fixture list.</p></div>';
+    return;
+  }
+  target.innerHTML='<div class="away-fixture">'+hero+'<div class="away-card-grid">'+
+    '<section class="away-card"><h3>THE GROUND</h3><p><strong>'+safe(verified.ground)+'</strong></p><p>'+safe(verified.address)+'</p></section>'+
+    '<section class="away-card"><h3>ADMISSION</h3><p>'+safe(verified.admission)+'</p><p>Tickets: <a href="'+safe(verified.tickets)+'" target="_blank" rel="noopener noreferrer">Larkhall Athletic official website ↗</a></p></section>'+
+    '<section class="away-card"><h3>BY ROAD</h3><p>'+safe(verified.road)+'</p></section>'+
+    '<section class="away-card"><h3>BY RAIL</h3><p>'+safe(verified.rail)+'</p></section>'+
+    '<section class="away-card"><h3>THE LARKS</h3><p>'+safe(verified.form)+'</p><p><small>League form snapshot: '+safe(verified.formAsOf)+'</small></p></section>'+
+    '<section class="away-card"><h3>BEFORE YOU GO</h3><p>'+safe(verified.before)+'</p></section>'+
+    '</div><p class="away-footnote">Travel and admission information adapted from the Tiverton Town programme. Prices and arrangements may change; please check with the home club.</p></div>';
 }
 /* Collapsible monthly groups on both desktop and mobile. The fixture rows and
    match-details popups themselves remain exactly as previously approved. */
