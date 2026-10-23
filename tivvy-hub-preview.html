@@ -148,6 +148,11 @@ footer{padding:7px 18px 12px!important;font-size:11px;color:#333}
   .matrix-explorer-table td{padding:10px 6px;border:1px solid #111;text-align:center;font-weight:700}
   .matrix-explorer-table td:first-child{text-align:left;font-weight:600}
   .matrix-explorer-table tbody tr:nth-child(even){background:#ffdd00}
+
+  .matrix-explorer-table .club-name{display:flex;align-items:center;gap:8px;min-width:0}
+  .matrix-explorer-table .club-crest{width:25px;height:25px;object-fit:contain;flex:none}
+  .matrix-explorer-selected{display:flex;align-items:center;gap:10px;padding:9px 12px;background:#111;color:#ffdd00;font:400 20px/1.2 "Anton",Impact,sans-serif;text-transform:uppercase}
+  .matrix-explorer-selected img{width:35px;height:35px;object-fit:contain}
   .matrix-explorer-table .empty-score{color:#777;font-weight:400}.matrix-explorer-table .tivvy-goals{color:#d71920!important;font-weight:900}
   .matrix-explorer-note{font:400 12px/1.4 Arial,Helvetica,sans-serif;padding:8px 0 13px;color:#333}
   .matrix-full-label{background:#111;border-bottom:6px solid #ffdd00;padding:12px 15px;color:#fff}
@@ -323,13 +328,13 @@ body.wix-embed .hub-panel{padding-top:8px}
     <div id="matrix-explorer-results" aria-live="polite">Loading league results…</div>
   </div>
   <div class="matrix-full-label"><h3>Full Results Matrix</h3><p>Swipe sideways to see every club and every result</p></div>
-  <iframe scrolling="no" title="Full Results Matrix" loading="lazy" data-src="stats-centre.html?matrix-style=20261023-1501#matrix"></iframe>
+  <iframe scrolling="no" title="Full Results Matrix" loading="lazy" data-src="stats-centre.html?matrix-style=20261023-1521#matrix"></iframe>
 </section>
 <section class="hub-panel" id="players-panel" hidden aria-label="Player Stats"><iframe scrolling="no" title="Player Stats" loading="lazy" data-src="stats-centre.html?player-style=20261023-1517#players"></iframe></section>
 <section class="hub-panel" id="away-panel" hidden aria-label="Next Away Day"><div class="away-panel-content"><h2>Next Away Day</h2><div id="away-details" aria-live="polite">Loading the next away fixture…</div></div></section>
 <div class="modal" id="modal" hidden><div class="dialog" role="dialog" aria-modal="true" aria-labelledby="matchTitle"><button class="close" id="close" aria-label="Close match details">CLOSE ✕</button><h2 id="matchTitle">Tivvy Match Centre</h2><div id="matchBody"></div></div></div>
 <script>
-const BASE='./',CLUBS={romanglassstgeorge:'8aa829_6ad6695811c0498db90473766fc8bbd4~mv2.png',tavistock:'8aa829_ecc264bc646d41a9b6c372a0a3a23243~mv2.png',bridgwaterunited:'8aa829_199b1514dbef4b79882263529ff162ae~mv2.png',brixham:'8aa829_7f87e9823bb94650961f9d3160a065dc~mv2.png',shirehampton:'8aa829_ce9c7882df30410cb4c8d445b9077226~mv2.png',tauntontown:'d12aff_a4325afc73e54ed98cb25f2a2986cae0~mv2.png',ilminstertown:'8aa829_969cbd8d12cb4952bc614fe294f8294f~mv2.png',cullomptonrangers:'8aa829_4e91f106bc444b2f9ca4692d43864e53~mv2.png',portlandunited:'8aa829_65009eedd74649b3b7405d2be35faff4~mv2.png',bideford:'d12aff_6327d76501bf400a8fa826f32d319856~mv2.png',hungerfordtown:'f62a66_4fc40563b6a942d1aab1f3fdb82ef2df~mv2.png'};
+const BASE='./',CLUBS={romanglassstgeorge:'8aa829_6ad6695811c0498db90473766fc8bbd4~mv2.png',tavistock:'8aa829_ecc264bc646d41a9b6c372a0a3a23243~mv2.png',bridgwaterunited:'8aa829_199b1514dbef4b79882263529ff162ae~mv2.png',brixham:'8aa829_7f87e9823bb94650961f9d3160a065dc~mv2.png',shirehampton:'8aa829_ce9c7882df30410cb4c8d445b9077226~mv2.png',tauntontown:'d12aff_a4325afc73e54ed98cb25f2a2986cae0~mv2.png',ilminstertown:'8aa829_969cbd8d12cb4952bc614fe294f8294f~mv2.png',cullomptonrangers:'8aa829_4e91f106bc444b2f9ca4692d43864e53~mv2.png',portlandunited:'8aa829_65009eedd74649b3b7405d2be35faff4~mv2.png',bideford:'8aa829_da6d2deb112945e1ab17de6e6f36462d~mv2.png',hungerfordtown:'f62a66_4fc40563b6a942d1aab1f3fdb82ef2df~mv2.png',barnstapletown:'8aa829_4c6bb278ab2c46c49336767c95cedb89~mv2.png',bishopscleeve:'8aa829_bc015fb499ab4b4fa71b63804bc47f9b~mv2.png',bristolmanorfarm:'8aa829_7cf5ed3ed4bc40f2b3faa6e90e66080b~mv2.png',dorchester:'8aa829_2fb4a520831d4bfa8ea7e1fdf138ac51~mv2.png',dorchestertown:'8aa829_2fb4a520831d4bfa8ea7e1fdf138ac51~mv2.png',exmouthtown:'8aa829_b4cc913ef31345aabfac3ebba6b7df54~mv2.png',falmouthtown:'8aa829_78892dbf0f4c4813b85618cb3419d7a7~mv2.png',hartpury:'8aa829_e2d06cb8e952431f8aed9b329a02aa8c~mv2.png',hungerford:'f62a66_4fc40563b6a942d1aab1f3fdb82ef2df~mv2.png',larkhallathletic:'8aa829_71765df901f54fbb909ebb009efa011b~mv2.png',melkshamtown:'8aa829_e8ab9d4f1f854d039d17f7dcde8a3b4f~mv2.png',paultonrovers:'8aa829_26e00a2cd0bc450ebd9bf1d912f5695d~mv2.png',portlandutd:'8aa829_65009eedd74649b3b7405d2be35faff4~mv2.png',shaftesbury:'8aa829_379295bfca974bf593c6d737ce238ad3~mv2.png',slimbridge:'8aa829_025e16a547cc4520ad5e926a61a69e3b~mv2.png',sportingclubinkberrow:'8aa829_a2aefe84c95b41cb924fb838ab493574~mv2.png',swindonsm:'8aa829_fc13ce065bd543e68de0c684030ace1f~mv2.png',swindonsupermarine:'8aa829_fc13ce065bd543e68de0c684030ace1f~mv2.png',tivertontown:'8aa829_88bbff928f6b42f49eba4aef6c32fcb2~mv2.png',westbury:'8aa829_997c5e0c7f114de7918338be91b3a2c5~mv2.png',westburyunited:'8aa829_997c5e0c7f114de7918338be91b3a2c5~mv2.png',weymouth:'8aa829_60e64f23139143509c99a9e4bde185d3~mv2.png',willandrovers:'8aa829_d3c15347e48c4200a3118dda1ac54a04~mv2.png',worcesterraiders:'8aa829_54f9d56e0e9849fb996257f2521be89e~mv2.png',worcestershireraiders:'8aa829_54f9d56e0e9849fb996257f2521be89e~mv2.png'};
 const EXTRA_CRESTS={
   "larkhallathletic": "https://static.wixstatic.com/media/8aa829_71765df901f54fbb909ebb009efa011b~mv2.png",
   "hartpury": "https://www.hartpury.ac.uk/media/1ldnoiyh/hartpury_fc_roundel_red_-main.png",
@@ -530,9 +535,10 @@ async function getJSON(name){const r=await fetch(BASE+name+'?v=20261022',{cache:
         const render=()=>{
           const team=select.value;
           const opponents=teams.filter(t=>t!==team);
+          const clubLogo=t=>{const src=crest(t);return src?'<img class="club-crest" loading="lazy" src="'+esc(src)+'" alt="" onerror="this.remove()">':'';};
           const cell=(v,home,away)=>{if(!v)return '<span class="empty-score">—</span>';const m=String(v).match(/^(\d+)\s*[-–]\s*(\d+)$/);if(!m)return esc(v);return (home==='Tiverton Town'?'<span class="tivvy-goals">'+m[1]+'</span>':m[1])+'-'+(away==='Tiverton Town'?'<span class="tivvy-goals">'+m[2]+'</span>':m[2]);};
-          output.innerHTML='<table class="matrix-explorer-table"><thead><tr><th scope="col">Opposition</th><th scope="col">Home</th><th scope="col">Away</th></tr></thead><tbody>'+
-            opponents.map(opp=>'<tr><td>'+esc(opp)+'</td><td>'+cell(scores.get(team+'|'+opp),team,opp)+'</td><td>'+cell(scores.get(opp+'|'+team),opp,team)+'</td></tr>').join('')+
+          output.innerHTML='<div class="matrix-explorer-selected">'+clubLogo(team)+esc(team)+'</div><table class="matrix-explorer-table"><thead><tr><th scope="col">Opposition</th><th scope="col">Home</th><th scope="col">Away</th></tr></thead><tbody>'+
+            opponents.map(opp=>'<tr><td><span class="club-name">'+clubLogo(opp)+'<span>'+esc(opp)+'</span></span></td><td>'+cell(scores.get(team+'|'+opp),team,opp)+'</td><td>'+cell(scores.get(opp+'|'+team),opp,team)+'</td></tr>').join('')+
             '</tbody></table><div class="matrix-explorer-note">Scores are shown home team first. A dash means the result is not yet recorded.</div>';
         };
         select.addEventListener('change',render);
