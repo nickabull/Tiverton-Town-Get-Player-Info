@@ -110,6 +110,9 @@ h1{font-size:clamp(29px,5vw,52px);line-height:1.1;margin:0}header p{margin:5px 0
 .hub-tab:hover,.hub-tab:focus-visible{background:#171717;color:#ffdd00}
 .hub-tab.active{background:#171717;color:#ffdd00}
 .hub-panel{max-width:1180px;margin:0 auto;padding:8px 18px 0}
+/* Consistent Tivvy section title bars, including the fixtures view. */
+#fixtures-panel>h2{background:#111;color:#ffdd00;font-family:"Anton",Impact,"Arial Narrow",sans-serif;font-weight:400;letter-spacing:.2px;border-top:5px solid #ffdd00;padding:12px 16px;margin:0 0 12px}
+.away-panel-content>h2{border-top:5px solid #ffdd00!important}
 .hub-panel[hidden],#fixtures-panel[hidden]{display:none!important}
 footer{padding:7px 18px 12px!important;font-size:11px;color:#333}
 #fixtures-panel{padding-bottom:5px}
@@ -479,7 +482,7 @@ async function getJSON(name){const r=await fetch(BASE+name+'?v=20261022',{cache:
           'body{background:#ffdd00!important}',
           'main{padding:0!important;max-width:none!important}',
           '#matrix{background:transparent!important;border:0!important;box-shadow:none!important;margin:0!important}',
-          '#matrix .section-head{border-top:0!important;background:#111!important}',
+          '#matrix .section-head{border-top:5px solid #ffdd00!important;background:#111!important}',
           '#matrix .matrix-wrap{padding:0!important;background:#fff!important;border:1px solid #111!important}',
           '#matrix .matrix{width:100%!important;min-width:0!important;table-layout:fixed!important}',
           '#matrix .matrix th,#matrix .matrix td{width:auto!important;min-width:0!important;max-width:none!important;padding:0 1px!important;height:31px!important;font-size:clamp(8px,.8vw,11px)!important;white-space:nowrap!important;overflow:hidden!important}',
@@ -501,7 +504,7 @@ async function getJSON(name){const r=await fetch(BASE+name+'?v=20261022',{cache:
           'body{background:#ffdd00!important}',
           'main{padding:0!important;max-width:none!important}',
           '#players{background:transparent!important;border:0!important;box-shadow:none!important;margin:0!important}',
-          '#players .section-head{background:#111!important;border-top:0!important}',
+          '#players .section-head{background:#111!important;border-top:5px solid #ffdd00!important}',
           '#players .players{background:#fff!important;overflow-x:auto!important}',
           '#players .players table{width:100%!important;border-collapse:collapse!important;border-left:2px solid #111!important;border-right:2px solid #111!important}',
           '#players .players table thead th{background:#111!important;color:#ffdd00!important;border-bottom:2px solid #111!important}',
@@ -510,13 +513,13 @@ async function getJSON(name){const r=await fetch(BASE+name+'?v=20261022',{cache:
           '#players .players table tbody td{border-bottom:1px solid #111!important}',
           '#players .players table tbody tr:last-child td{border-bottom:2px solid #111!important}'
         ].join(''):'';
-        st.textContent='header,footer{display:none!important}body{margin:0!important}'+(section?'nav{display:none!important}main>.section:not(#'+section+'){display:none!important}main{padding:0!important}':'')+(frame.dataset.src?.includes('season-so-far.html')?[
+        st.textContent='@import url("https://fonts.googleapis.com/css2?family=Anton&display=swap");header,footer{display:none!important}body{margin:0!important}.section-head h2,.strap h2{font-family:"Anton",Impact,"Arial Narrow",sans-serif!important;font-weight:400!important;letter-spacing:.2px!important}'+(section?'nav{display:none!important}main>.section:not(#'+section+'){display:none!important}main{padding:0!important}':'')+(frame.dataset.src?.includes('match-centre-league-table.html')?'.strap{border-top:5px solid #ffdd00!important}.strap h2{color:#ffdd00!important}':'')+(frame.dataset.src?.includes('season-so-far.html')?[
           '.nav{display:none!important}',
           ':root{--bg:#ffdd00!important;--yellow:#ffdd00!important}',
           'html,body{background:#ffdd00!important}',
           '.wrap{padding:0 0 8px!important;max-width:none!important;background:#ffdd00!important}',
           '.section{margin-top:12px!important}',
-          '.section-head{background:#111!important;border-top:0!important}',
+          '.section-head{background:#111!important;border-top:5px solid #ffdd00!important}',
           '.grid,.two{background:#fff!important;border-color:#111!important}',
           '.card{background:#fff!important;border-radius:0!important;box-shadow:none!important}',
           '.panel{border-radius:0!important;box-shadow:none!important}',
