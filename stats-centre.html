@@ -62,6 +62,15 @@ table{width:100%;border-collapse:collapse}th,td{padding:8px 9px;border-bottom:1p
 </div><div class="note">Minutes are approximate where stoppage time or incomplete event data affects the calculation. This combined page leaves the existing source pages untouched while we test the one-stop-shop layout.</div></section>
 </main>
 <script>
+function formatUKTimestamp(value){
+ const raw=String(value||'').trim();
+ if(!raw)return 'unknown';
+ const iso=raw.replace(/ UTC$/i,'Z').replace(' ','T');
+ const d=new Date(iso);
+ if(Number.isNaN(d.getTime()))return raw;
+ return new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/London',day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23',timeZoneName:'short'}).format(d);
+}
+
 const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 const fmt=s=>{const m=String(s||'').match(/^(\d{4})-(\d{2})-(\d{2})$/);return m?m[3]+'/'+m[2]+'/'+m[1]:s||''};
 const parseScore=s=>{const m=String(s||'').match(/^(\d+)\s*[-–]\s*(\d+)$/);return m?{gf:+m[1],ga:+m[2]}:null};
@@ -90,7 +99,7 @@ function buildPlayerStats(fixtures){
 function render(player,results){
  const fixtures=(player.fixtures||[]).filter(x=>x.result&&parseScore(x.result)).sort((a,b)=>(a.date||'').localeCompare(b.date||''));
  const all=rec(fixtures),home=rec(fixtures.filter(x=>String(x.venue).toUpperCase()==='H')),away=rec(fixtures.filter(x=>String(x.venue).toUpperCase()==='A'));
- document.getElementById('status').textContent='Player data: '+(player.updated||'unknown')+' · League data: '+(results.updated||'unknown');
+ document.getElementById('status').textContent='Player data: '+formatUKTimestamp(player.updated)+' · League data: '+formatUKTimestamp(results.updated);
  document.getElementById('record').textContent=all.w+'-'+all.d+'-'+all.l;document.getElementById('recordSub').textContent=all.p+' played · W-D-L';
  document.getElementById('points').textContent=all.pts;document.getElementById('ppg').textContent=(all.p?(all.pts/all.p).toFixed(2):'0.00')+' points per game';
  document.getElementById('goals').textContent=all.gf;document.getElementById('goalSub').textContent=all.ga+' conceded · '+(all.p?(all.gf/all.p).toFixed(2):'0.00')+' scored per game';
