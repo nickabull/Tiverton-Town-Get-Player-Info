@@ -81,6 +81,15 @@ table{width:100%;border-collapse:collapse}th,td{padding:8px 9px;border-bottom:1p
  #players .directory-controls{flex-direction:column}
  #players .directory-controls input,#players .directory-controls select{width:100%;flex:auto}
 }
+
+/* Club crests sourced from Tiverton Town's approved Wix media library. */
+#matrix .team-key-item{grid-template-columns:48px 29px minmax(0,1fr)}
+#matrix .team-key-item .club-crest{width:27px;height:27px;object-fit:contain}
+#players .section-head h2{display:flex;align-items:center;gap:11px}
+#players .section-head h2 .tivvy-crest{width:37px;height:37px;object-fit:contain;flex:none}
+#players .directory-heading{display:flex;align-items:center;gap:10px}
+#players .directory-heading img{width:26px;height:26px;object-fit:contain}
+@media(max-width:650px){#players .section-head h2 .tivvy-crest{width:30px;height:30px}}
 </style>
 </head>
 <body>
@@ -108,12 +117,12 @@ table{width:100%;border-collapse:collapse}th,td{padding:8px 9px;border-bottom:1p
 
 <section class="section" id="league"><div class="section-head"><h2>Division One South League Table</h2><p>Live table from the results feed</p></div><div class="matches" id="leagueTable"></div></section>
 
-<section class="section" id="players"><div class="section-head"><h2>Player Stats</h2><p>2026/27 league player leaders · appearances, goals and minutes</p></div>
+<section class="section" id="players"><div class="section-head"><h2><img class="tivvy-crest" src="https://static.wixstatic.com/media/8aa829_88bbff928f6b42f49eba4aef6c32fcb2~mv2.png" alt="">Player Stats</h2><p>2026/27 league player leaders · appearances, goals and minutes</p></div>
 <div class="player-centre">
 <div id="playerOverview" class="player-overview" aria-label="Player statistics at a glance"></div>
 <div id="playerLeaderboards" class="player-leaderboards" aria-label="Player leaderboards"></div>
 <div class="player-directory">
-<div class="directory-heading">Explore the Squad</div>
+<div class="directory-heading"><img src="https://static.wixstatic.com/media/8aa829_88bbff928f6b42f49eba4aef6c32fcb2~mv2.png" alt="">Explore the Squad</div>
 <div class="directory-controls"><input id="playerSearch" type="search" placeholder="Find a player…" aria-label="Search players"><select id="playerSort" aria-label="Sort player statistics"><option value="apps">Most appearances</option><option value="goals">Most goals</option><option value="mins">Most minutes</option><option value="starts">Most starts</option><option value="caps">Most captaincies</option><option value="name">Player name A–Z</option></select></div>
 <div id="playerCards" class="player-card-grid" aria-live="polite"></div>
 <div class="player-directory-note">League matches with recorded team sheets only. Minutes are estimated from substitution and match-event data where necessary.</div>
@@ -133,6 +142,11 @@ table{width:100%;border-collapse:collapse}th,td{padding:8px 9px;border-bottom:1p
 </div><div class="note">Minutes are approximate where stoppage time or incomplete event data affects the calculation. This combined page leaves the existing source pages untouched while we test the one-stop-shop layout.</div></section>
 </main>
 <script>
+const WIX_CRESTS={"barnstapletown":"8aa829_4c6bb278ab2c46c49336767c95cedb89~mv2.png","bideford":"8aa829_da6d2deb112945e1ab17de6e6f36462d~mv2.png","bishopscleeve":"8aa829_bc015fb499ab4b4fa71b63804bc47f9b~mv2.png","bristolmanorfarm":"8aa829_7cf5ed3ed4bc40f2b3faa6e90e66080b~mv2.png","dorchester":"8aa829_2fb4a520831d4bfa8ea7e1fdf138ac51~mv2.png","dorchestertown":"8aa829_2fb4a520831d4bfa8ea7e1fdf138ac51~mv2.png","exmouthtown":"8aa829_b4cc913ef31345aabfac3ebba6b7df54~mv2.png","falmouthtown":"8aa829_78892dbf0f4c4813b85618cb3419d7a7~mv2.png","hartpury":"8aa829_e2d06cb8e952431f8aed9b329a02aa8c~mv2.png","hungerford":"f62a66_4fc40563b6a942d1aab1f3fdb82ef2df~mv2.png","hungerfordtown":"f62a66_4fc40563b6a942d1aab1f3fdb82ef2df~mv2.png","larkhallathletic":"8aa829_71765df901f54fbb909ebb009efa011b~mv2.png","melkshamtown":"8aa829_e8ab9d4f1f854d039d17f7dcde8a3b4f~mv2.png","paultonrovers":"8aa829_26e00a2cd0bc450ebd9bf1d912f5695d~mv2.png","portlandunited":"8aa829_65009eedd74649b3b7405d2be35faff4~mv2.png","portlandutd":"8aa829_65009eedd74649b3b7405d2be35faff4~mv2.png","shaftesbury":"8aa829_379295bfca974bf593c6d737ce238ad3~mv2.png","slimbridge":"8aa829_025e16a547cc4520ad5e926a61a69e3b~mv2.png","sportingclubinkberrow":"8aa829_a2aefe84c95b41cb924fb838ab493574~mv2.png","swindonsm":"8aa829_fc13ce065bd543e68de0c684030ace1f~mv2.png","swindonsupermarine":"8aa829_fc13ce065bd543e68de0c684030ace1f~mv2.png","tivertontown":"8aa829_88bbff928f6b42f49eba4aef6c32fcb2~mv2.png","westbury":"8aa829_997c5e0c7f114de7918338be91b3a2c5~mv2.png","westburyunited":"8aa829_997c5e0c7f114de7918338be91b3a2c5~mv2.png","weymouth":"8aa829_60e64f23139143509c99a9e4bde185d3~mv2.png","willandrovers":"8aa829_d3c15347e48c4200a3118dda1ac54a04~mv2.png","worcesterraiders":"8aa829_54f9d56e0e9849fb996257f2521be89e~mv2.png","worcestershireraiders":"8aa829_54f9d56e0e9849fb996257f2521be89e~mv2.png"};
+const crestKey=s=>String(s||'').toLowerCase().replace(/[^a-z0-9]/g,'');
+const crestUrl=s=>{const file=WIX_CRESTS[crestKey(s)];return file?'https://static.wixstatic.com/media/'+file:''};
+const crestImg=(name,cls='club-crest')=>{const url=crestUrl(name);return url?'<img class="'+cls+'" src="'+url+'" alt="" loading="lazy" onerror="this.remove()">':''};
+
 function formatUKTimestamp(value){
  const raw=String(value||'').trim();
  if(!raw)return 'unknown';
@@ -210,7 +224,7 @@ function render(player,results){
 
  document.getElementById('matchCentre').innerHTML='<table class="match-table"><thead><tr><th>Date</th><th>Opponent</th><th>H/A</th><th>Score</th><th>Scorers</th><th>Captain</th><th>Subs used</th><th>Report</th></tr></thead><tbody>'+fixtures.slice().reverse().map(x=>{const st=x.starterDetails||[],sb=x.subDetails||[];const scorers=[...st,...sb].filter(p=>Number(p.goalCount||0)>0).map(p=>p.name+(p.goalMinutes?.length?' '+p.goalMinutes.map(m=>m+"'").join(', '):''));const cap=[...st,...sb].find(p=>p.captain);const used=sb.filter(p=>p.used!==false&&(p.onMinute||p.used===true)).map(p=>p.name+(p.onMinute?' '+p.onMinute+"'":''));const url=x.officialReportUrl||reports[x.date]||'';return '<tr><td>'+fmt(x.date)+'</td><td>'+esc(x.opponent)+'</td><td>'+esc(x.venue)+'</td><td class="score">'+tivvyFixtureScore(x.result)+'</td><td>'+esc(scorers.join(' · ')||'—')+'</td><td>'+esc(cap?.name||'—')+'</td><td>'+esc(used.join(' · ')||'—')+'</td><td>'+(url?'<a class="report" href="'+esc(url)+'" target="_blank" rel="noopener">Report ↗</a>':'—')+'</td></tr>'}).join('')+'</tbody></table>';
 
- const teams=results.teams||[],codes=results.codes||{},lookup={};(results.results||[]).forEach(x=>lookup[x.home+'|'+x.away]=x.score);let mh='<table class="matrix"><tr><th class="tiv-axis">A/H</th>'+teams.map(h=>'<th class="'+(h==='Tiverton Town'?'tiv-axis':'')+'" title="'+esc(h)+'">'+esc(codes[h]||h.slice(0,3))+'</th>').join('')+'</tr>';teams.forEach(a=>{mh+='<tr><th class="'+(a==='Tiverton Town'?'tiv-axis':'')+'" title="'+esc(a)+'">'+esc(codes[a]||a.slice(0,3))+'</th>';teams.forEach(h=>{const v=lookup[h+'|'+a]||'';mh+='<td class="'+(h===a?'diag ':'')+(v?'score':'')+'">'+tivvyScore(v,h,a)+'</td>'});mh+='</tr>'});mh+='</table>';document.getElementById('resultsMatrix').innerHTML=mh;document.getElementById('teamKey').innerHTML=teams.map(t=>'<div class="team-key-item"><span class="team-key-code">'+esc(codes[t]||t.slice(0,3))+'</span><span class="team-key-name">'+esc(t)+'</span></div>').join('');
+ const teams=results.teams||[],codes=results.codes||{},lookup={};(results.results||[]).forEach(x=>lookup[x.home+'|'+x.away]=x.score);let mh='<table class="matrix"><tr><th class="tiv-axis">A/H</th>'+teams.map(h=>'<th class="'+(h==='Tiverton Town'?'tiv-axis':'')+'" title="'+esc(h)+'">'+esc(codes[h]||h.slice(0,3))+'</th>').join('')+'</tr>';teams.forEach(a=>{mh+='<tr><th class="'+(a==='Tiverton Town'?'tiv-axis':'')+'" title="'+esc(a)+'">'+esc(codes[a]||a.slice(0,3))+'</th>';teams.forEach(h=>{const v=lookup[h+'|'+a]||'';mh+='<td class="'+(h===a?'diag ':'')+(v?'score':'')+'">'+tivvyScore(v,h,a)+'</td>'});mh+='</tr>'});mh+='</table>';document.getElementById('resultsMatrix').innerHTML=mh;document.getElementById('teamKey').innerHTML=teams.map(t=>'<div class="team-key-item"><span class="team-key-code">'+esc(codes[t]||t.slice(0,3))+'</span>'+crestImg(t)+'<span class="team-key-name">'+esc(t)+'</span></div>').join('');
 
  document.getElementById('scorers').innerHTML=statTable(stats.filter(x=>x.goals).sort((a,b)=>b.goals-a.goals||b.apps-a.apps),x=>x.goals,'Goals');document.getElementById('apps').innerHTML=statTable(stats.slice().sort((a,b)=>b.apps-a.apps||b.starts-a.starts),x=>x.apps,'Apps');document.getElementById('minutes').innerHTML=statTable(stats.slice().sort((a,b)=>b.mins-a.mins),x=>x.mins,'Minutes');
  const bands=[['0–15',0,15],['16–30',16,30],['31–45+',31,50],['46–60',46,60],['61–75',61,75],['76–90+',76,120]],counts=bands.map(b=>ps.goalTimes.filter(m=>m>=b[1]&&m<=b[2]).length),mx=Math.max(1,...counts);document.getElementById('goalBands').innerHTML=bands.map((b,i)=>'<div class="bar-row"><strong>'+b[0]+'</strong><div class="bar"><span style="width:'+(counts[i]/mx*100)+'%"></span></div><strong>'+counts[i]+'</strong></div>').join('');
