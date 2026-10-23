@@ -3,7 +3,7 @@
 <title>Tiverton Town FC | Tivvy Hub Preview</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
 <style>
-:root{--y:#ffcc02;--ink:#252323;--red:#ef3340}*{box-sizing:border-box}body{margin:0;background:var(--y);color:#171717;font:15px/1.45 Arial,Helvetica,sans-serif}
+:root{--y:#ffd800;--ink:#252323;--red:#ef3340}*{box-sizing:border-box}body{margin:0;background:var(--y);color:#171717;font:15px/1.45 Arial,Helvetica,sans-serif}
 header,main,footer{max-width:1180px;margin:auto;padding:18px 18px}header{display:flex;align-items:center;gap:17px;padding-top:24px;padding-bottom:18px;border-bottom:3px solid #161616}
 .brand{width:75px;height:75px;object-fit:contain}h1,h2,h3,.th,.action{font-family:Impact,"Arial Narrow",Arial,sans-serif;letter-spacing:.45px}
 h1{font-size:clamp(29px,5vw,52px);line-height:1.1;margin:0}header p{margin:5px 0 0;font-weight:700}a{color:inherit}h2{font-size:30px;margin:0 0 13px}
@@ -106,13 +106,13 @@ h1{font-size:clamp(29px,5vw,52px);line-height:1.1;margin:0}header p{margin:5px 0
 
 /* New hub navigation is isolated to this preview file. */
 .hub-nav{max-width:1180px;margin:10px auto 0;padding:0 18px;display:flex;gap:8px;overflow-x:auto;scrollbar-width:thin}
-.hub-tab{flex:1 1 0;min-width:0;font:400 clamp(15px,1.65vw,20px)/1.2 "Anton",Impact,"Arial Narrow",sans-serif;letter-spacing:.15px;white-space:nowrap;text-align:center;padding:12px 7px;background:#ffcc02;border:2px solid #171717;color:#171717;cursor:pointer}
-.hub-tab:hover,.hub-tab:focus-visible{background:#171717;color:#ffcc02}
-.hub-tab.active{background:#171717;color:#ffcc02}
+.hub-tab{flex:1 1 0;min-width:0;font:400 clamp(15px,1.65vw,20px)/1.2 "Anton",Impact,"Arial Narrow",sans-serif;letter-spacing:.15px;white-space:nowrap;text-align:center;padding:12px 7px;background:#ffd800;border:2px solid #171717;color:#171717;cursor:pointer}
+.hub-tab:hover,.hub-tab:focus-visible{background:#171717;color:#ffd800}
+.hub-tab.active{background:#171717;color:#ffd800}
 .hub-panel{max-width:1180px;margin:0 auto;padding:14px 18px 0}
 /* Consistent Tivvy section title bars, including the fixtures view. */
 /* Every tab begins with the same height, yellow-on-black title band. */
-#fixtures-panel>h2,.away-panel-content>h2{box-sizing:border-box!important;min-height:112px!important;height:112px!important;background:#111!important;color:#ffcc02!important;font:400 36px/1.2 "Anton",Impact,"Arial Narrow",sans-serif!important;letter-spacing:.2px!important;text-transform:uppercase!important;border:0!important;border-bottom:6px solid #ffcc02!important;padding:18px 22px!important;margin:0!important}
+#fixtures-panel>h2,.away-panel-content>h2{box-sizing:border-box!important;min-height:112px!important;height:112px!important;background:#111!important;color:#ffd800!important;font:400 36px/1.2 "Anton",Impact,"Arial Narrow",sans-serif!important;letter-spacing:.2px!important;text-transform:uppercase!important;border:0!important;border-bottom:6px solid #ffd800!important;padding:18px 22px!important;margin:0!important}
 #fixtures-panel{padding-top:14px!important}
 body.wix-embed main#fixtures-panel{padding-top:8px!important}
 @media(max-width:650px){#fixtures-panel>h2,.away-panel-content>h2{height:auto!important;min-height:96px!important;font-size:27px!important;padding:13px 15px!important}}
@@ -136,27 +136,27 @@ footer{padding:7px 18px 12px!important;font-size:11px;color:#333}
 @media(max-width:650px){
   .matrix-explorer,.matrix-full-label{display:block}
   .matrix-explorer{font-family:Arial,Helvetica,sans-serif;color:#111}
-  .matrix-explorer-title{box-sizing:border-box;min-height:96px;padding:13px 15px;background:#111;border-bottom:6px solid #ffcc02;color:#fff}
-  .matrix-explorer-title h2{font:400 27px/1.2 "Anton",Impact,"Arial Narrow",sans-serif;color:#ffcc02;text-transform:uppercase;margin:0}
+  .matrix-explorer-title{box-sizing:border-box;min-height:96px;padding:13px 15px;background:#111;border-bottom:6px solid #ffd800;color:#fff}
+  .matrix-explorer-title h2{font:400 27px/1.2 "Anton",Impact,"Arial Narrow",sans-serif;color:#ffd800;text-transform:uppercase;margin:0}
   .matrix-explorer-title p{font:400 11px/1.35 Arial,Helvetica,sans-serif;letter-spacing:.5px;text-transform:uppercase;margin:5px 0 0;color:#fff}
   .matrix-explorer-controls{display:flex;flex-direction:column;gap:6px;padding:12px 0}
   .matrix-explorer-controls label{font:400 19px/1.2 "Anton",Impact,"Arial Narrow",sans-serif;text-transform:uppercase}
   .matrix-explorer-controls select{width:100%;min-height:45px;border:2px solid #111;border-radius:0;background:#fff;color:#111;font:700 16px Arial,Helvetica,sans-serif;padding:8px 10px}
   .matrix-explorer-table{width:100%;border-collapse:collapse;table-layout:fixed;background:#fff;font:400 13px/1.25 Arial,Helvetica,sans-serif}
-  .matrix-explorer-table th{background:#111;color:#ffcc02;text-transform:uppercase;font:400 16px/1.2 "Anton",Impact,"Arial Narrow",sans-serif;padding:10px 6px;border:1px solid #111}
+  .matrix-explorer-table th{background:#111;color:#ffd800;text-transform:uppercase;font:400 16px/1.2 "Anton",Impact,"Arial Narrow",sans-serif;padding:10px 6px;border:1px solid #111}
   .matrix-explorer-table th:first-child{text-align:left;width:56%}
   .matrix-explorer-table td{padding:10px 6px;border:1px solid #111;text-align:center;font-weight:700}
   .matrix-explorer-table td:first-child{text-align:left;font-weight:600}
-  .matrix-explorer-table tbody tr:nth-child(even){background:#ffcc02}
+  .matrix-explorer-table tbody tr:nth-child(even){background:#ffd800}
 
   .matrix-explorer-table .club-name{display:flex;align-items:center;gap:8px;min-width:0}
   .matrix-explorer-table .club-crest{width:25px;height:25px;object-fit:contain;flex:none}
-  .matrix-explorer-selected{display:flex;align-items:center;gap:10px;padding:9px 12px;background:#111;color:#ffcc02;font:400 20px/1.2 "Anton",Impact,sans-serif;text-transform:uppercase}
+  .matrix-explorer-selected{display:flex;align-items:center;gap:10px;padding:9px 12px;background:#111;color:#ffd800;font:400 20px/1.2 "Anton",Impact,sans-serif;text-transform:uppercase}
   .matrix-explorer-selected img{width:35px;height:35px;object-fit:contain}
   .matrix-explorer-table .empty-score{color:#777;font-weight:400}.matrix-explorer-table .tivvy-goals{color:#d71920!important;font-weight:900}
   .matrix-explorer-note{font:400 12px/1.4 Arial,Helvetica,sans-serif;padding:8px 0 13px;color:#333}
-  .matrix-full-label{background:#111;border-bottom:6px solid #ffcc02;padding:12px 15px;color:#fff}
-  .matrix-full-label h3{font:400 24px/1.2 "Anton",Impact,"Arial Narrow",sans-serif;color:#ffcc02;margin:0}
+  .matrix-full-label{background:#111;border-bottom:6px solid #ffd800;padding:12px 15px;color:#fff}
+  .matrix-full-label h3{font:400 24px/1.2 "Anton",Impact,"Arial Narrow",sans-serif;color:#ffd800;margin:0}
   .matrix-full-label p{font:400 12px/1.35 Arial,Helvetica,sans-serif;margin:4px 0 0}
 }
 
@@ -166,12 +166,12 @@ footer{padding:7px 18px 12px!important;font-size:11px;color:#333}
 .away-fixture .away-opponent{font-size:clamp(24px,3vw,38px);font-weight:800}
 .away-fixture .away-date{font-size:20px;font-weight:700}
 .away-fixture .away-info{font-size:16px}
-.away-fixture .away-tag{display:inline-block;background:#171717;color:#ffcc02;padding:5px 12px;font-weight:800;justify-self:start}
+.away-fixture .away-tag{display:inline-block;background:#171717;color:#ffd800;padding:5px 12px;font-weight:800;justify-self:start}
 .away-fixture .away-note{color:#555;font-size:13px}
 @media(max-width:650px){.away-panel-content{padding:17px}}
 
 /* Next Away Day: derived from the league programme's Next Away Trip page. */
-.away-panel-content{padding:0;border:0;background:#ffcc02}
+.away-panel-content{padding:0;border:0;background:#ffd800}
 /* Away title inherits the unified Match Centre title band. */
 #away-details{padding:8px 0 0}
 .away-fixture{display:block;max-width:none}
@@ -179,7 +179,7 @@ footer{padding:7px 18px 12px!important;font-size:11px;color:#333}
 .away-hero img{width:82px;height:82px;object-fit:contain;background:transparent;padding:0}
 /* Larkhall's sourced crest is a square with white corners baked into the image. Clip to its circular badge. */
 /* The club-approved Wix crest is displayed without forced clipping. */
-.away-hero .away-tag{font-size:12px;padding:0;background:transparent;color:#ffcc02;letter-spacing:.8px}
+.away-hero .away-tag{font-size:12px;padding:0;background:transparent;color:#ffd800;letter-spacing:.8px}
 .away-hero .away-opponent{font-family:"Anton",Impact,sans-serif;font-size:clamp(25px,4vw,42px);font-weight:400;line-height:1.1}
 .away-hero .away-date{font-size:15px;font-weight:700}
 .away-hero .away-info{font-size:13px}
@@ -294,7 +294,7 @@ footer{padding:7px 18px 12px!important;font-size:11px;color:#333}
 
 
 /* Compact, data-driven next-match countdown on desktop and mobile. */
-.next-kickoff{display:flex;align-items:center;gap:12px;background:#111;color:#fff;padding:11px 14px;margin:0 0 14px;border-left:5px solid #ffcc02;min-width:0}
+.next-kickoff{display:flex;align-items:center;gap:12px;background:#111;color:#fff;padding:11px 14px;margin:0 0 14px;border-left:5px solid #ffd800;min-width:0}
 .next-kickoff[hidden]{display:none}
 .next-kickoff .next-crest{width:42px;height:42px;object-fit:contain;flex:none}
 .next-kickoff .next-copy{display:flex;flex-direction:column;min-width:0;gap:2px}
@@ -322,13 +322,13 @@ footer{padding:7px 18px 12px!important;font-size:11px;color:#333}
 /* Shared month accordion: applies to desktop AND mobile. */
 #table .fixture-month{display:block;margin:0;border-bottom:3px solid var(--y)}
 #table .fixture-month:last-child{border-bottom:0}
-#table .month-heading{display:flex;align-items:center;gap:12px;min-height:53px;padding:12px 16px;background:#111;color:#ffcc02;cursor:pointer;list-style:none;user-select:none;font-family:Arial,Helvetica,sans-serif}
+#table .month-heading{display:flex;align-items:center;gap:12px;min-height:53px;padding:12px 16px;background:#111;color:#ffd800;cursor:pointer;list-style:none;user-select:none;font-family:Arial,Helvetica,sans-serif}
 #table .month-heading::-webkit-details-marker{display:none}
 #table .month-heading::marker{content:""}
 #table .month-heading:focus-visible{outline:3px solid #1866d2;outline-offset:-3px}
 #table .month-title{font-size:19px;font-weight:900;line-height:1.2}
 #table .month-count{margin-left:auto;font-size:13px;font-weight:700;color:#fff;white-space:nowrap}
-#table .month-chevron{display:block;width:10px;height:10px;border-right:3px solid #ffcc02;border-bottom:3px solid #ffcc02;transform:rotate(45deg);transition:transform .15s;margin-left:5px;flex:none}
+#table .month-chevron{display:block;width:10px;height:10px;border-right:3px solid #ffd800;border-bottom:3px solid #ffd800;transform:rotate(45deg);transition:transform .15s;margin-left:5px;flex:none}
 #table details[open]>.month-heading .month-chevron{transform:rotate(225deg)}
 #table .month-fixtures>.row:last-child{border-bottom:0}
 @media(max-width:650px){
@@ -678,10 +678,10 @@ async function getJSON(name){const r=await fetch(BASE+name+'?v=20261022',{cache:
         const st=doc.createElement('style');
         st.id='hub-embed-style';
         const matrixStyle=section==='matrix'?[
-          'body{background:#ffcc02!important}',
+          'body{background:#ffd800!important}',
           'main{padding:0!important;max-width:none!important}',
           '#matrix{background:transparent!important;border:0!important;box-shadow:none!important;margin:0!important}',
-          '#matrix .section-head{border:0!important;border-bottom:6px solid #ffcc02!important;background:#111!important}',
+          '#matrix .section-head{border:0!important;border-bottom:6px solid #ffd800!important;background:#111!important}',
           '#matrix .matrix-wrap{padding:0!important;background:#fff!important;border:1px solid #111!important}',
           '#matrix .matrix{width:100%!important;min-width:0!important;table-layout:fixed!important}',
           '#matrix .matrix th,#matrix .matrix td{width:auto!important;min-width:0!important;max-width:none!important;padding:0 1px!important;height:31px!important;font-size:clamp(8px,.8vw,11px)!important;white-space:nowrap!important;overflow:hidden!important}',
@@ -691,45 +691,45 @@ async function getJSON(name){const r=await fetch(BASE+name+'?v=20261022',{cache:
 
           '#matrix .team-key{padding:10px 0 0!important;background:transparent!important}',
           '#matrix .team-key-item{background:#fff!important;border-radius:0!important;box-shadow:none!important}',
-          '#matrix .team-key-item.tiv-key{background:#111!important;color:#ffcc02!important;border:2px solid #111!important;font-weight:900!important}',
-          '#matrix .team-key-item.tiv-key .team-key-code{background:#ffcc02!important;color:#111!important}',
+          '#matrix .team-key-item.tiv-key{background:#111!important;color:#ffd800!important;border:2px solid #111!important;font-weight:900!important}',
+          '#matrix .team-key-item.tiv-key .team-key-code{background:#ffd800!important;color:#111!important}',
 
           '#matrix .matrix .tiv-row>td,#matrix .matrix td.tiv-col{background:#dedede!important}',
           '#matrix .matrix .tiv-row>td.tiv-col{background:#c3c3c3!important}',
-          '#matrix .matrix .tiv-row>th,#matrix .matrix th.tiv-axis{background:#111!important;color:#ffcc02!important;font-weight:900!important}',
+          '#matrix .matrix .tiv-row>th,#matrix .matrix th.tiv-axis{background:#111!important;color:#ffd800!important;font-weight:900!important}',
           '#matrix .matrix td.tiv-col{border-left:2px solid #888!important;border-right:2px solid #888!important}',
           '#matrix .matrix .tiv-row>td{border-top:2px solid #888!important;border-bottom:2px solid #888!important}'
         ].join(''):'';
         const playerStyle=section==='players'?[
-          'body{background:#ffcc02!important}',
+          'body{background:#ffd800!important}',
           'main{padding:0!important;max-width:none!important}',
           '#players{background:transparent!important;border:0!important;box-shadow:none!important;margin:0!important}',
-          '#players .section-head{background:#111!important;border:0!important;border-bottom:6px solid #ffcc02!important}',
+          '#players .section-head{background:#111!important;border:0!important;border-bottom:6px solid #ffd800!important}',
           '#players .players{background:#fff!important;overflow-x:auto!important}',
           '#players .players table{width:100%!important;border-collapse:collapse!important;border-left:2px solid #111!important;border-right:2px solid #111!important}',
-          '#players .players table thead th{background:#111!important;color:#ffcc02!important;border-bottom:2px solid #111!important}',
-          '#players .players table tbody tr:nth-child(odd) td{background:#ffcc02!important}',
+          '#players .players table thead th{background:#111!important;color:#ffd800!important;border-bottom:2px solid #111!important}',
+          '#players .players table tbody tr:nth-child(odd) td{background:#ffd800!important}',
           '#players .players table tbody tr:nth-child(even) td{background:#fff!important}',
           '#players .players table tbody td{border-bottom:1px solid #111!important}',
           '#players .players table tbody tr:last-child td{border-bottom:2px solid #111!important}'
         ].join(''):'';
-        st.textContent='@import url("https://fonts.googleapis.com/css2?family=Anton&display=swap");html,body{overflow-y:hidden!important}header,footer{display:none!important}body{margin:0!important}.section-head h2,.strap h2{font-family:"Anton",Impact,"Arial Narrow",sans-serif!important;font-weight:400!important;letter-spacing:.2px!important}'+(section?'nav{display:none!important}main>.section:not(#'+section+'){display:none!important}main{padding:0!important}':'')+(frame.dataset.src?.includes('match-centre-league-table.html')?'.strap{border:0!important;border-bottom:6px solid #ffcc02!important}.strap h2{color:#ffcc02!important}':'')+(frame.dataset.src?.includes('season-so-far.html')?[
+        st.textContent='@import url("https://fonts.googleapis.com/css2?family=Anton&display=swap");html,body{overflow-y:hidden!important}header,footer{display:none!important}body{margin:0!important}.section-head h2,.strap h2{font-family:"Anton",Impact,"Arial Narrow",sans-serif!important;font-weight:400!important;letter-spacing:.2px!important}'+(section?'nav{display:none!important}main>.section:not(#'+section+'){display:none!important}main{padding:0!important}':'')+(frame.dataset.src?.includes('match-centre-league-table.html')?'.strap{border:0!important;border-bottom:6px solid #ffd800!important}.strap h2{color:#ffd800!important}':'')+(frame.dataset.src?.includes('season-so-far.html')?[
           '.nav{display:none!important}',
-          ':root{--bg:#ffcc02!important;--yellow:#ffcc02!important}',
-          'html,body{background:#ffcc02!important}',
-          '.wrap{padding:0 0 8px!important;max-width:none!important;background:#ffcc02!important}',
+          ':root{--bg:#ffd800!important;--yellow:#ffd800!important}',
+          'html,body{background:#ffd800!important}',
+          '.wrap{padding:0 0 8px!important;max-width:none!important;background:#ffd800!important}',
           '.section{margin-top:0!important}',
-          '.section-head{background:#111!important;border:0!important;border-bottom:6px solid #ffcc02!important}',
+          '.section-head{background:#111!important;border:0!important;border-bottom:6px solid #ffd800!important}',
           '.grid,.two{background:#fff!important;border-color:#111!important}',
           '.card{background:#fff!important;border-radius:0!important;box-shadow:none!important}',
           '.panel{border-radius:0!important;box-shadow:none!important}',
-          '.panel h3{background:#ffcc02!important}',
+          '.panel h3{background:#ffd800!important}',
           'th{background:#fff!important;color:#111!important}'
         ].join(''):'')+matrixStyle+playerStyle;
         /* Apply the same title-band geometry inside every same-origin tab. */
         st.textContent += [
-          '.section-head,.strap{box-sizing:border-box!important;height:112px!important;min-height:112px!important;background:#111!important;color:#fff!important;border-top:0!important;border-bottom:6px solid #ffcc02!important;padding:18px 22px!important;margin:0!important}',
-          '.section-head h2,.strap h2{font:400 36px/1.2 "Anton",Impact,"Arial Narrow",sans-serif!important;color:#ffcc02!important;text-transform:uppercase!important;letter-spacing:.2px!important;margin:0!important}',
+          '.section-head,.strap{box-sizing:border-box!important;height:112px!important;min-height:112px!important;background:#111!important;color:#fff!important;border-top:0!important;border-bottom:6px solid #ffd800!important;padding:18px 22px!important;margin:0!important}',
+          '.section-head h2,.strap h2{font:400 36px/1.2 "Anton",Impact,"Arial Narrow",sans-serif!important;color:#ffd800!important;text-transform:uppercase!important;letter-spacing:.2px!important;margin:0!important}',
           '.section-head p,.strap .small{font:400 12px/1.35 Arial,Helvetica,sans-serif!important;color:#fff!important;text-transform:uppercase!important;letter-spacing:.5px!important;margin:4px 0 0!important}',
           '@media(max-width:650px){.section-head,.strap{height:auto!important;min-height:96px!important;padding:13px 15px!important}.section-head h2,.strap h2{font-size:27px!important}.section-head p,.strap .small{font-size:11px!important}}'
         ].join('');
