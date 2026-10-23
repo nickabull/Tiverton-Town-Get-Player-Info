@@ -187,6 +187,25 @@ h1{font-size:clamp(29px,5vw,52px);line-height:1.1;margin:0}header p{margin:5px 0
   .match-detail-columns p{margin:5px 0}
 }
 
+
+/* Compact, data-driven next-match countdown on desktop and mobile. */
+.next-kickoff{display:flex;align-items:center;gap:12px;background:#111;color:#fff;padding:11px 14px;margin:0 0 14px;border-left:5px solid #ffdd00;min-width:0}
+.next-kickoff[hidden]{display:none}
+.next-kickoff .next-crest{width:42px;height:42px;object-fit:contain;flex:none}
+.next-kickoff .next-copy{display:flex;flex-direction:column;min-width:0;gap:2px}
+.next-kickoff .next-label{font-weight:900;font-size:12px;color:var(--y);letter-spacing:.5px}
+.next-kickoff .next-opponent{font-size:17px;font-weight:900;line-height:1.2;overflow-wrap:anywhere}
+.next-kickoff .next-meta{font-size:12px;color:#eee}
+.next-kickoff .next-timer{margin-left:auto;display:flex;align-items:center;gap:5px;flex:none;color:var(--y);font-weight:900;font-size:21px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.next-kickoff .next-timer small{font-size:11px;font-weight:700;color:#fff;margin-left:5px}
+@media(max-width:650px){
+ .next-kickoff{padding:10px;gap:9px;flex-wrap:wrap}
+ .next-kickoff .next-crest{width:36px;height:36px}
+ .next-kickoff .next-opponent{font-size:15px}
+ .next-kickoff .next-meta{font-size:11px}
+ .next-kickoff .next-timer{width:100%;justify-content:flex-end;font-size:20px;border-top:1px solid #444;padding-top:5px}
+}
+
 /* Latest completed result: same approved match row, with a separate label. */
 #table .latest-result{display:block;border-bottom:4px solid var(--y)}
 #table .latest-heading{display:flex;align-items:center;gap:12px;background:#111;color:var(--y);font-family:Arial,Helvetica,sans-serif;font-weight:900;font-size:19px;padding:9px 14px}
@@ -224,6 +243,7 @@ h1{font-size:clamp(29px,5vw,52px);line-height:1.1;margin:0}header p{margin:5px 0
 </nav>
 <main id="fixtures-panel"><h2>Fixtures & Results</h2><div class="note">Season fixture list from Tiverton Town FC; full match information is shown where confirmed. Dates and kick-off times are subject to change.</div>
 <div class="searchbar"><input id="q" type="search" placeholder="Search club or competition" aria-label="Search fixtures"><select id="filter" aria-label="Filter fixtures"><option value="all">All fixtures</option><option value="results">Results</option><option value="upcoming">Upcoming & postponed</option></select></div>
+<section id="next-kickoff" class="next-kickoff" aria-label="Countdown to next Tiverton Town match" hidden></section>
 <div id="table" role="table" aria-label="Tiverton Town fixtures and results"><div id="status">Loading fixtures…</div></div>
 </main>
 <section class="hub-panel" id="league-panel" hidden aria-label="League Table"><iframe title="League Table" loading="lazy" data-src="stats-centre.html#league"></iframe></section>
@@ -262,6 +282,39 @@ function result(f){const v=String(f.result||'');const m=v.match(/^([WDL])\s+(\d+
 function competitionLabel(code){return ({'PSF':'Pre-season Friendly','SLD1S':'Southern League Div 1 South','FA CUP':'FA Cup','FA TROPHY':'FA Trophy',"ST LUKE'S CUP":"St Luke's Cup"})[code]||code}
 function row(f){const m=matchFor(f),img=crest(f.opposition)||m?.opponentLogoUrl||'';return '<div class="row" role="row"><div class="date">'+esc(date(f.date))+'</div><div class="club">'+(img?'<img src="'+esc(img)+'" alt="" loading="lazy" onerror="this.remove()">':'')+'<span>'+esc(f.opposition)+'</span></div><div class="venue">'+(f.homeAway==='H'?'HOME':f.homeAway==='A'?'Away':esc(f.homeAway))+'</div><div class="comp"><span class="mobile venue-label">'+(f.homeAway==='H'?'HOME':f.homeAway==='A'?'Away':esc(f.homeAway))+'</span><span class="mobile"> · </span><span class="comp-name">'+esc(competitionLabel(f.competition))+'</span><span class="mobile-score">'+result(f)+'</span></div><div class="score">'+result(f)+'</div><div class="scorers">'+goals(f,m)+'</div><div class="action"><button data-id="'+esc(f.id)+'" type="button">Details</button></div></div>'}
 
+/* Europe/London kick-off times, including BST/GMT changes. */
+function kickoffTime(f){
+  if(!/^\\d{4}-\\d{2}-\\d{2}$/.test(String(f.date||''))||!/^\\d{1,2}:\\d{2}$/.test(String(f.kickOff||'')))return NaN;
+  const [year,month,day]=f.date.split('-').map(Number);
+  const [hour,minute]=f.kickOff.split(':').map(Number);
+  const utc=Date.UTC(year,month-1,day,hour,minute);
+  const zone=new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/London',timeZoneName:'shortOffset'}).formatToParts(new Date(utc)).find(x=>x.type==='timeZoneName')?.value||'GMT';
+  const match=zone.match(/GMT([+-])(\\d{1,2})(?::(\\d{2}))?/);
+  const offset=match?(match[1]==='-'?-1:1)*(Number(match[2])*60+Number(match[3]||0)):0;
+  return utc-offset*60000;
+}
+let countdownFixtureId='';
+function updateNextKickoff(){
+  const target=document.getElementById('next-kickoff');
+  if(!target||!fixtures.length)return;
+  const now=Date.now();
+  const next=fixtures.filter(f=>!String(f.result||'').trim()&&kickoffTime(f)>now).sort((a,b)=>kickoffTime(a)-kickoffTime(b))[0];
+  if(!next){target.hidden=true;countdownFixtureId='';return}
+  if(countdownFixtureId!==next.id){
+    const img=crest(next.opposition)||matchFor(next)?.opponentLogoUrl||'';
+    const label=next.homeAway==='H'?'HOME':'AWAY';
+    const when=new Date(kickoffTime(next)).toLocaleDateString('en-GB',{timeZone:'Europe/London',weekday:'short',day:'numeric',month:'short'});
+    target.innerHTML=(img?'<img class="next-crest" src="'+esc(img)+'" alt="" onerror="this.remove()">':'')+
+      '<div class="next-copy"><span class="next-label">NEXT MATCH · '+label+'</span><span class="next-opponent">'+esc(next.opposition)+'</span><span class="next-meta">'+esc(when)+' · '+esc(next.kickOff)+' · '+esc(competitionLabel(next.competition))+'</span></div>'+
+      '<div class="next-timer"><span id="kickoff-timer" role="timer"></span><small>TO KICK-OFF</small></div>';
+    countdownFixtureId=next.id;
+  }
+  target.hidden=false;
+  const seconds=Math.max(0,Math.floor((kickoffTime(next)-now)/1000));
+  const days=Math.floor(seconds/86400),hours=Math.floor(seconds%86400/3600),mins=Math.floor(seconds%3600/60),secs=seconds%60;
+  const timer=document.getElementById('kickoff-timer');
+  if(timer)timer.textContent=(days?days+'d ':'')+String(hours).padStart(2,'0')+'h '+String(mins).padStart(2,'0')+'m '+String(secs).padStart(2,'0')+'s';
+}
 function updateAwayDay(){
   const target=document.getElementById('away-details');
   if(!target)return;
@@ -341,9 +394,10 @@ if(window.matchMedia('(max-width:650px)').matches){
 }
 el('matchBody').innerHTML=parts;el('modal').hidden=false;document.body.style.overflow='hidden';el('close').focus()}
 function closeMatch(){el('modal').hidden=true;document.body.style.overflow=''}
+setInterval(updateNextKickoff,1000);
 el('close').onclick=closeMatch;el('modal').onclick=e=>{if(e.target===el('modal'))closeMatch()};window.onkeydown=e=>{if(e.key==='Escape')closeMatch()};el('q').oninput=render;el('filter').onchange=render;
 async function getJSON(name){const r=await fetch(BASE+name+'?v=20261022',{cache:'no-store'});if(!r.ok)throw new Error(name+' HTTP '+r.status);return r.json()}
-(async()=>{try{const [list,league,cup,historical]=await Promise.all([getJSON('match-centre-fixtures-2026-27.json'),getJSON('data.json'),getJSON('cup-match-details-2026-27.json'),getJSON('historical-match-details-2026-27.json')]);fixtures=list.fixtures||[];details=[...(league.fixtures||[]).map(x=>({...x,competition:'SLD1S'})),...(cup.fixtures||[]),...(historical.fixtures||[])];fixtures.sort((a,b)=>a.date.localeCompare(b.date));render();updateAwayDay()}catch(e){el('table').innerHTML='<div id="status">Unable to load fixtures at present. Please refresh the page.</div>';console.error(e)}})();
+(async()=>{try{const [list,league,cup,historical]=await Promise.all([getJSON('match-centre-fixtures-2026-27.json'),getJSON('data.json'),getJSON('cup-match-details-2026-27.json'),getJSON('historical-match-details-2026-27.json')]);fixtures=list.fixtures||[];details=[...(league.fixtures||[]).map(x=>({...x,competition:'SLD1S'})),...(cup.fixtures||[]),...(historical.fixtures||[])];fixtures.sort((a,b)=>a.date.localeCompare(b.date));render();updateAwayDay();updateNextKickoff()}catch(e){el('table').innerHTML='<div id="status">Unable to load fixtures at present. Please refresh the page.</div>';console.error(e)}})();
 
 (function(){
   const tabs=Array.from(document.querySelectorAll('.hub-tab'));
