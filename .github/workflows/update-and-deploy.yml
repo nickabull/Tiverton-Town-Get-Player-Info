@@ -27,14 +27,12 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Set up Python
-        if: github.event_name != 'push'
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
           cache: pip
 
-      - name: Install Excel dependency
-        if: github.event_name != 'push'
+      - name: Install data dependencies
         shell: pwsh
         run: python -m pip install -r requirements.txt
 
@@ -47,6 +45,10 @@ jobs:
         if: github.event_name != 'push'
         shell: pwsh
         run: python ./apply_verified_reports.py
+
+      - name: Refresh Southern League attendances
+        shell: pwsh
+        run: python ./league_attendances.py
 
       - name: Build Excel download
         if: github.event_name != 'push'
