@@ -294,7 +294,7 @@ footer{padding:7px 18px 12px!important;font-size:11px;color:#333}
 
 
 /* Compact, data-driven next-match countdown on desktop and mobile. */
-.next-kickoff{display:flex;align-items:center;gap:12px;background:#111;color:#fff;padding:11px 14px;margin:0 0 14px;border-left:5px solid #ffd800;min-width:0}
+.next-kickoff{display:flex;align-items:center;gap:12px;background:#111;color:#fff;padding:11px 14px;margin:0 0 14px;border:2px solid #111;border-radius:0;min-width:0;width:100%}
 .next-kickoff[hidden]{display:none}
 .next-kickoff .next-crest{width:42px;height:42px;object-fit:contain;flex:none}
 .next-kickoff .next-copy{display:flex;flex-direction:column;min-width:0;gap:2px}
@@ -393,8 +393,21 @@ header h1{font-family:"Anton",Impact,"Arial Narrow",sans-serif;font-weight:400}
 .share-url{display:block;margin-top:12px;font-size:13px}.share-url input{display:block;width:100%;font:16px Arial;padding:10px;margin-top:5px}
 .match-attendance{margin:12px 0;font-size:16px}.match-attendance a{font-size:12px;margin-left:8px}
 .next-info{font:700 12px Arial,sans-serif;align-self:flex-start;padding:6px 10px;margin-top:7px;min-height:36px}
+/* Homepage summary uses the same live next-match and latest-result data. */
+body.home-summary .hub-nav,body.home-summary>header,body.home-summary>footer,
+body.home-summary .hub-panel,body.home-summary #fixtures-panel>h2,
+body.home-summary .note,body.home-summary .fixtures-scroll-hint,
+body.home-summary .searchbar,body.home-summary .fixture-month,
+body.home-summary .action,body.home-summary .next-info{display:none!important}
+body.home-summary main#fixtures-panel{padding:0!important;max-width:none}
+body.home-summary #table{border:0;background:transparent}
+body.home-summary #table .latest-result{border:2px solid #111;margin-bottom:14px}
+body.home-summary .match-centre-link{display:block;background:#111;color:var(--y);font:20px/1.3 Anton,Impact,Arial,sans-serif;text-align:center;padding:14px;text-decoration:none;border:2px solid #111}
+body.home-summary .match-centre-link:focus-visible{outline:3px solid #2782ef;outline-offset:-4px}
+body.home-summary .latest-result .row{grid-template-columns:94px minmax(150px,1fr) 64px 110px 100px minmax(120px,1fr)}
+@media(max-width:650px){body.home-summary .latest-result .row{grid-template-columns:90px minmax(0,1fr) max-content}body.home-summary .next-kickoff .next-timer{justify-content:center}}
 </style></head><body>
-<script>if(new URLSearchParams(location.search).get('embed')==='1')document.body.classList.add('wix-embed');</script>
+<script>const displayOptions=new URLSearchParams(location.search);if(displayOptions.get('embed')==='1')document.body.classList.add('wix-embed');if(displayOptions.get('view')==='home')document.body.classList.add('home-summary','wix-embed');</script>
 <header><img class="brand" src="tiverton-town-logo.png" alt="Tiverton Town badge"><div><h1>Tivvy Match Centre</h1><p>Fixtures, Results, Tables &amp; Player Stats</p></div></header>
 <nav class="hub-nav" aria-label="Tivvy sections">
   <button type="button" class="hub-tab active" data-section="fixtures" aria-pressed="true">Fixtures &amp; Results</button>
@@ -741,7 +754,7 @@ function closeMatch(){syncMatchURL(null);mobileDialogObserver?.disconnect();el('
 setInterval(updateNextKickoff,1000);
 el('close').onclick=closeMatch;el('modal').onclick=e=>{if(e.target===el('modal'))closeMatch()};window.onkeydown=e=>{if(e.key==='Escape')closeMatch()};el('q').oninput=render;el('filter').onchange=render;
 async function getJSON(name){const r=await fetch(BASE+name+'?v=20261022',{cache:'no-store'});if(!r.ok)throw new Error(name+' HTTP '+r.status);return r.json()}
-(async()=>{try{const [list,league,cup,historical]=await Promise.all([getJSON('match-centre-fixtures-2026-27.json'),getJSON('data.json'),getJSON('cup-match-details-2026-27.json'),getJSON('historical-match-details-2026-27.json')]);fixtures=list.fixtures||[];details=[...(league.fixtures||[]).map(x=>({...x,competition:'SLD1S'})),...(cup.fixtures||[]),...(historical.fixtures||[])];fixtures.sort((a,b)=>a.date.localeCompare(b.date));populateCompetitionFilter();render();updateAwayDay();updateNextKickoff();const shared=new URLSearchParams(location.search).get('match');if(shared)openMatch(shared)}catch(e){el('table').innerHTML='<div id="status">Unable to load fixtures at present. Please refresh the page.</div>';console.error(e)}})();
+(async()=>{try{const [list,league,cup,historical]=await Promise.all([getJSON('match-centre-fixtures-2026-27.json'),getJSON('data.json'),getJSON('cup-match-details-2026-27.json'),getJSON('historical-match-details-2026-27.json')]);fixtures=list.fixtures||[];details=[...(league.fixtures||[]).map(x=>({...x,competition:'SLD1S'})),...(cup.fixtures||[]),...(historical.fixtures||[])];fixtures.sort((a,b)=>a.date.localeCompare(b.date));populateCompetitionFilter();render();updateAwayDay();updateNextKickoff();if(document.body.classList.contains('home-summary')){const link=document.createElement('a');link.className='match-centre-link';link.href='https://www.tivertontownfc.uk/match-centre';link.target='_top';link.textContent='OPEN THE MATCH CENTRE ↗';el('fixtures-panel').append(link)}const shared=new URLSearchParams(location.search).get('match');if(shared)openMatch(shared)}catch(e){el('table').innerHTML='<div id="status">Unable to load fixtures at present. Please refresh the page.</div>';console.error(e)}})();
 
 (function(){
   const tabs=Array.from(document.querySelectorAll('.hub-tab'));
