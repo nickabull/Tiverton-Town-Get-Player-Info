@@ -27,7 +27,7 @@ body{background:#ffdd00}
 .wrap{max-width:1180px;padding:0 0 16px}
 .tools{margin:0 0 12px;background:transparent;border:0;border-radius:0;padding:4px 0 0;gap:12px}
 .btn{background:#111;color:#ffdd00;border-radius:0;padding:9px 13px}
-.page{aspect-ratio:auto;box-shadow:none;border:2px solid #111;padding:0 0 14px;overflow:visible;background:#fff}
+.page{aspect-ratio:auto;box-shadow:none;border:2px solid #111;border-top:0;padding:0 0 14px;overflow:visible;background:#fff}
 .strap{border-top:0;margin-bottom:0;padding:14px 18px}
 .strap h2{font-family:"Anton",Impact,"Arial Narrow",sans-serif;font-size:clamp(25px,4vw,36px);font-weight:400;letter-spacing:.25px;line-height:1.2;text-shadow:none;-webkit-text-stroke:0}
 .strap .small{font-size:12px}
@@ -72,7 +72,36 @@ const SITES={
 };
 const esc=s=>String(s??'').replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
 function rankClass(pos,n){if(pos===1)return'auto';if(pos>=2&&pos<=5)return'playoff';if(n>=4&&pos>=n-3&&pos<=n-2)return'relplay';if(n>=2&&pos>=n-1)return'relegation';return''}
-CLUBS={romanglassstgeorge:'8aa829_6ad6695811c0498db90473766fc8bbd4~mv2.png',tavistock:'8aa829_ecc264bc646d41a9b6c372a0a3a23243~mv2.png',bridgwaterunited:'8aa829_199b1514dbef4b79882263529ff162ae~mv2.png',brixham:'8aa829_7f87e9823bb94650961f9d3160a065dc~mv2.png',shirehampton:'8aa829_ce9c7882df30410cb4c8d445b9077226~mv2.png',tauntontown:'d12aff_a4325afc73e54ed98cb25f2a2986cae0~mv2.png',ilminstertown:'8aa829_969cbd8d12cb4952bc614fe294f8294f~mv2.png',cullomptonrangers:'8aa829_4e91f106bc444b2f9ca4692d43864e53~mv2.png',portlandunited:'8aa829_65009eedd74649b3b7405d2be35faff4~mv2.png',bideford:'d12aff_6327d76501bf400a8fa826f32d319856~mv2.png',hungerfordtown:'f62a66_4fc40563b6a942d1aab1f3fdb82ef2df~mv2.png'};
+CLUBS={
+  'barnstapletown':'8aa829_4c6bb278ab2c46c49336767c95cedb89~mv2.png',
+  'bideford':'8aa829_da6d2deb112945e1ab17de6e6f36462d~mv2.png',
+  'bishopscleeve':'8aa829_bc015fb499ab4b4fa71b63804bc47f9b~mv2.png',
+  'bristolmanorfarm':'8aa829_7cf5ed3ed4bc40f2b3faa6e90e66080b~mv2.png',
+  'dorchester':'8aa829_2fb4a520831d4bfa8ea7e1fdf138ac51~mv2.png',
+  'dorchestertown':'8aa829_2fb4a520831d4bfa8ea7e1fdf138ac51~mv2.png',
+  'exmouthtown':'8aa829_b4cc913ef31345aabfac3ebba6b7df54~mv2.png',
+  'falmouthtown':'8aa829_78892dbf0f4c4813b85618cb3419d7a7~mv2.png',
+  'hartpury':'8aa829_e2d06cb8e952431f8aed9b329a02aa8c~mv2.png',
+  'hungerford':'f62a66_4fc40563b6a942d1aab1f3fdb82ef2df~mv2.png',
+  'hungerfordtown':'f62a66_4fc40563b6a942d1aab1f3fdb82ef2df~mv2.png',
+  'larkhallathletic':'8aa829_71765df901f54fbb909ebb009efa011b~mv2.png',
+  'melkshamtown':'8aa829_e8ab9d4f1f854d039d17f7dcde8a3b4f~mv2.png',
+  'paultonrovers':'8aa829_26e00a2cd0bc450ebd9bf1d912f5695d~mv2.png',
+  'portlandunited':'8aa829_65009eedd74649b3b7405d2be35faff4~mv2.png',
+  'portlandutd':'8aa829_65009eedd74649b3b7405d2be35faff4~mv2.png',
+  'shaftesbury':'8aa829_379295bfca974bf593c6d737ce238ad3~mv2.png',
+  'slimbridge':'8aa829_025e16a547cc4520ad5e926a61a69e3b~mv2.png',
+  'sportingclubinkberrow':'8aa829_a2aefe84c95b41cb924fb838ab493574~mv2.png',
+  'swindonsm':'8aa829_fc13ce065bd543e68de0c684030ace1f~mv2.png',
+  'swindonsupermarine':'8aa829_fc13ce065bd543e68de0c684030ace1f~mv2.png',
+  'tivertontown':'8aa829_88bbff928f6b42f49eba4aef6c32fcb2~mv2.png',
+  'westbury':'8aa829_997c5e0c7f114de7918338be91b3a2c5~mv2.png',
+  'westburyunited':'8aa829_997c5e0c7f114de7918338be91b3a2c5~mv2.png',
+  'weymouth':'8aa829_60e64f23139143509c99a9e4bde185d3~mv2.png',
+  'willandrovers':'8aa829_d3c15347e48c4200a3118dda1ac54a04~mv2.png',
+  'worcesterraiders':'8aa829_54f9d56e0e9849fb996257f2521be89e~mv2.png',
+  'worcestershireraiders':'8aa829_54f9d56e0e9849fb996257f2521be89e~mv2.png'
+};
 const EXTRA_CRESTS={
   "larkhallathletic": "https://pbs.twimg.com/profile_images/1766410295151378433/OSwp_Pqt.jpg",
   "hartpury": "https://www.hartpury.ac.uk/media/1ldnoiyh/hartpury_fc_roundel_red_-main.png",
