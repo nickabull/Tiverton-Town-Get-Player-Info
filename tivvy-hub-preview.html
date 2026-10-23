@@ -233,7 +233,13 @@ footer{padding:7px 18px 12px!important;font-size:11px;color:#333}
   #table .month-title{font-size:17px}
   #table .month-count{font-size:12px}
 }
+/* Opt-in Wix embed presentation: Wix supplies its own site header and footer. */
+body.wix-embed>header,body.wix-embed>footer{display:none!important}
+body.wix-embed .hub-nav{padding-top:10px;margin-top:0;border-top:0}
+body.wix-embed main#fixtures-panel{padding-top:10px}
+body.wix-embed .hub-panel{padding-top:8px}
 </style></head><body>
+<script>if(new URLSearchParams(location.search).get('embed')==='1')document.body.classList.add('wix-embed');</script>
 <header><img class="brand" src="tiverton-town-logo.png" alt="Tiverton Town badge"><div><h1>Tiverton Town FC</h1><p>2026–27 Season Fixtures & Results · Tivvy Match Centre</p></div></header>
 <nav class="hub-nav" aria-label="Tivvy sections">
   <button type="button" class="hub-tab active" data-section="fixtures" aria-pressed="true">Fixtures &amp; Results</button>
