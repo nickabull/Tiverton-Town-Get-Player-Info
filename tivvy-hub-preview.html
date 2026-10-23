@@ -240,6 +240,13 @@ footer{padding:7px 18px 12px!important;font-size:11px;color:#333}
   #table .action{grid-column:4;grid-row:1/3}
 }
 
+/* Keep mobile scores intact while competition names can wrap naturally. */
+@media(max-width:650px){
+  #table .month-fixtures>.row:not(.th) .comp{min-width:0;gap:6px}
+  #table .month-fixtures>.row:not(.th) .comp-name{flex:1 1 0;min-width:0;overflow-wrap:normal}
+  #table .month-fixtures>.row:not(.th) .mobile-score{flex:0 0 auto;white-space:nowrap;min-width:max-content;padding-left:8px}
+}
+
 /* Match detail pop-up only. Fixture rows and main navigation are unchanged. */
 .match-detail-columns{display:block}
 @media(min-width:651px){
@@ -340,7 +347,7 @@ body.wix-embed .hub-panel{padding-top:8px}
   <div class="matrix-full-label"><h3>Full Results Matrix</h3><p>Swipe sideways to see every club and every result</p></div>
   <iframe scrolling="no" title="Full Results Matrix" loading="lazy" data-src="stats-centre.html?matrix-style=20261023-1521#matrix"></iframe>
 </section>
-<section class="hub-panel" id="players-panel" hidden aria-label="Player Stats"><iframe scrolling="no" title="Player Stats" loading="lazy" data-src="stats-centre.html?player-style=20261023-1620#players"></iframe></section>
+<section class="hub-panel" id="players-panel" hidden aria-label="Player Stats"><iframe scrolling="no" title="Player Stats" loading="lazy" data-src="stats-centre.html?player-style=20261023-1630#players"></iframe></section>
 <section class="hub-panel" id="away-panel" hidden aria-label="Next Away Day"><div class="away-panel-content"><h2>Next Away Day</h2><div id="away-details" aria-live="polite">Loading the next away fixture…</div></div></section>
 <div class="modal" id="modal" hidden><div class="dialog" role="dialog" aria-modal="true" aria-labelledby="matchTitle"><button class="close" id="close" aria-label="Close match details">CLOSE ✕</button><h2 id="matchTitle">Tivvy Match Centre</h2><div id="matchBody"></div></div></div>
 <script>
