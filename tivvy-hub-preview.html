@@ -305,6 +305,16 @@ body.wix-embed>header,body.wix-embed>footer{display:none!important}
 body.wix-embed .hub-nav{padding-top:10px;margin-top:0;border-top:0}
 body.wix-embed main#fixtures-panel{padding-top:10px}
 body.wix-embed .hub-panel{padding-top:8px}
+
+/* Viv Curtis match galleries: optional enhancement to the existing Details modal. */
+.match-photos{margin:18px 0 3px;border-top:4px solid var(--y);padding-top:11px}
+.match-photos h3{margin:0 0 10px!important;font:400 24px/1.1 "Anton",Impact,"Arial Narrow",sans-serif!important;text-transform:uppercase}
+.match-photo-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+.match-photo-grid a{display:block;min-width:0;border:2px solid var(--y);background:#222;aspect-ratio:4/3;overflow:hidden}
+.match-photo-grid img{display:block;width:100%;height:100%;object-fit:cover}
+.match-photo-credit{font:13px/1.4 Arial,Helvetica,sans-serif;color:#eee;margin:9px 0 5px}
+.match-photo-album{display:inline-block;margin-top:3px;color:var(--y);font-weight:800;text-decoration:underline}
+@media(max-width:650px){.match-photo-grid{gap:5px}.match-photos h3{font-size:21px}.match-photo-credit{font-size:12px}}
 </style></head><body>
 <script>if(new URLSearchParams(location.search).get('embed')==='1')document.body.classList.add('wix-embed');</script>
 <header><img class="brand" src="tiverton-town-logo.png" alt="Tiverton Town badge"><div><h1>Tiverton Town FC</h1><p>2026–27 Season Fixtures & Results · Tivvy Match Centre</p></div></header>
@@ -481,6 +491,68 @@ function render(){
   }));
 }
 function player(p){const extras=[];const name=String(p.name||'Unknown');const isGK=p.position==='GK'||name.trim().toLowerCase()==='louis smith';if(isGK)extras.push('<span class="player-gk">🧤 GK</span>');if(p.captain)extras.push('<span class="player-captain">(C)</span>');if(p.goalMinutes?.length)extras.push('<span class="player-goal">⚽ '+p.goalMinutes.map(m=>esc(m)+"'").join(', ')+'</span>');if(p.onMinute)extras.push('<span class="player-on">▲ on '+esc(p.onMinute)+"'</span>");if(p.offMinute)extras.push('<span class="player-off">▼ off '+esc(p.offMinute)+"'</span>");if(p.used===false)extras.push('<span class="player-unused">unused</span>');return '<li>'+esc(name)+(extras.length?' '+extras.join(' · '):'')+'</li>'}
+
+/* Viv's public Flickr catalogue is shared with the Control Centre photo library.
+   Load on demand, match opponent AND match date, and never show an unverified gallery. */
+let vivCataloguePromise;
+function vivSafeUrl(value,kind){
+  try{const u=new URL(value);if(u.protocol!=='https:')return '';
+    const allowed=kind==='image'?['live.staticflickr.com','farm66.staticflickr.com','farm1.staticflickr.com','farm2.staticflickr.com','farm3.staticflickr.com','farm4.staticflickr.com','farm5.staticflickr.com','farm6.staticflickr.com','farm7.staticflickr.com','farm8.staticflickr.com','farm9.staticflickr.com','static.wixstatic.com']:['www.flickr.com','flickr.com'];
+    return allowed.includes(u.hostname)?u.href:''}catch{return ''}
+}
+function vivCatalogue(){
+  if(!vivCataloguePromise)vivCataloguePromise=(async()=>{
+    const sources=['https://raw.githubusercontent.com/nickabull/Tiverton-Town-Control-Centre/main/data/flickr-gallery.json','https://nickabull.github.io/Tiverton-Town-Control-Centre/data/flickr-gallery.json'];
+    for(const url of sources){try{
+      const res=await fetch(url,{cache:'no-store'});if(!res.ok)continue;
+      const data=await res.json();
+      if(!Array.isArray(data.albums)||!Array.isArray(data.photo_fields)||!Array.isArray(data.rows))continue;
+      return data;
+    }catch(e){console.warn('Viv Flickr catalogue source unavailable',e)}}
+    return null;
+  })();
+  return vivCataloguePromise;
+}
+function vivPhotoCandidates(data,f){
+  if(!data||!f?.date||!f?.opposition)return null;
+  const clean=v=>String(v||'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
+  const ignored=new Set(['town','united','athletic','football','club','afc','fc','city','the','saint','saints','sports','rovers','albion']);
+  const token=clean(f.opposition).split(' ').filter(w=>w.length>=4&&!ignored.has(w)).sort((a,b)=>b.length-a.length)[0];
+  if(!token)return null;
+  const day=Date.parse(f.date+'T12:00:00Z');
+  const matches=new Map();
+  for(const a of data.albums){
+    if(!clean(a.title).split(' ').includes(token))continue;
+    matches.set(String(a.album_id),a);
+  }
+  if(!matches.size)return null;
+  const fields=data.photo_fields;
+  const idIdx=fields.indexOf('album_id'),dateIdx=fields.indexOf('date_taken'),thumbIdx=fields.indexOf('thumbnail_url'),photoIdx=fields.indexOf('photo_id');
+  if([idIdx,dateIdx,thumbIdx,photoIdx].some(i=>i<0))return null;
+  const found=[];
+  for(const row of data.rows){
+    const album=matches.get(String(row[idIdx]));if(!album)continue;
+    const taken=Date.parse(String(row[dateIdx]||'').slice(0,10)+'T12:00:00Z');
+    if(!Number.isFinite(taken)||Math.abs(taken-day)>86400000)continue;
+    const thumb=vivSafeUrl(row[thumbIdx],'image');
+    const photo=vivSafeUrl('https://www.flickr.com/photos/'+data.owner_id+'/'+row[photoIdx]+'/','link');
+    if(thumb&&photo)found.push({thumb,photo,album});
+    if(found.length>=3)break;
+  }
+  if(!found.length)return null;
+  const albumUrl=vivSafeUrl(found[0].album.source_url,'link');
+  return {found,albumUrl};
+}
+async function populateVivPhotos(f){
+  const slot=document.getElementById('viv-match-photos');if(!slot)return;
+  const expected=f.id;
+  try{
+    const data=await vivCatalogue();
+    if(document.getElementById('modal').hidden||!document.getElementById('viv-match-photos')||document.getElementById('viv-match-photos').dataset.fixture!==expected)return;
+    const result=vivPhotoCandidates(data,f);if(!result)return;
+    slot.innerHTML='<section class="match-photos"><h3>VIV’S MATCH PHOTOS</h3><div class="match-photo-grid">'+result.found.map((p,i)=>'<a href="'+esc(p.photo)+'" target="_blank" rel="noopener" aria-label="View match photo '+(i+1)+' on Flickr"><img loading="lazy" src="'+esc(p.thumb)+'" alt="Viv Curtis match photograph"></a>').join('')+'</div><p class="match-photo-credit">Photos: Viv Curtis'+(result.albumUrl?' · <a class="match-photo-album" href="'+esc(result.albumUrl)+'" target="_blank" rel="noopener">VIEW FULL GALLERY ↗</a>':'')+'</p></section>';
+  }catch(e){console.warn('Match photos not available',e)}
+}
 function openMatch(id){const f=fixtures.find(x=>x.id===id);if(!f)return;const m=matchFor(f),r=String(f.result||''),nums=r.match(/(\d+)\s*[-–]\s*(\d+)/);let line;if(nums){const home=f.homeAway==='H'?'TIVERTON TOWN':f.opposition,away=f.homeAway==='H'?f.opposition:'TIVERTON TOWN';const a=nums[1],b=nums[2];line=esc(home)+' '+(f.homeAway==='H'?'<span class="tivvy">'+a+'</span>':esc(a))+' – '+(f.homeAway==='A'?'<span class="tivvy">'+b+'</span>':esc(b))+' '+esc(away)}else line=esc(f.opposition)+' · '+esc(r||'Fixture');
 let parts='<div class="crestline"><img src="tiverton-town-logo.png" alt="Tiverton crest">'+(crest(f.opposition)?'<img src="'+esc(crest(f.opposition))+'" alt="'+esc(f.opposition)+' crest">':'')+'</div><div class="meta">'+esc(date(f.date))+' · '+(f.homeAway==='H'?'HOME':'AWAY')+' · '+esc(competitionLabel(f.competition))+(f.kickOff?' · '+esc(f.kickOff):'')+'</div><div class="scoreline">'+line+'</div>';
 parts+='<div class="match-detail-columns"><div class="match-detail-left">';
@@ -508,7 +580,7 @@ if(window.matchMedia('(max-width:650px)').matches){
   if(m?.officialReportUrl&&/^https:\/\//.test(m.officialReportUrl))parts+='<h3>MATCH REPORT</h3><p><a class="report" href="'+esc(m.officialReportUrl)+'" target="_blank" rel="noopener">Read the official match report ↗</a></p>';
   if(!m&&!r)parts+='<p class="muted">Fixture information will be updated when available.</p>';
 }
-el('matchBody').innerHTML=parts;el('modal').hidden=false;document.body.style.overflow='hidden';el('close').focus()}
+parts+='<div id="viv-match-photos" data-fixture="'+esc(f.id)+'"></div>';el('matchBody').innerHTML=parts;el('modal').hidden=false;document.body.style.overflow='hidden';el('close').focus();populateVivPhotos(f)}
 function closeMatch(){el('modal').hidden=true;document.body.style.overflow=''}
 setInterval(updateNextKickoff,1000);
 el('close').onclick=closeMatch;el('modal').onclick=e=>{if(e.target===el('modal'))closeMatch()};window.onkeydown=e=>{if(e.key==='Escape')closeMatch()};el('q').oninput=render;el('filter').onchange=render;
