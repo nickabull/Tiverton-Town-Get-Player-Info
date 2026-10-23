@@ -105,8 +105,8 @@ h1{font-size:clamp(29px,5vw,52px);line-height:1.1;margin:0}header p{margin:5px 0
 }
 
 /* New hub navigation is isolated to this preview file. */
-.hub-nav{max-width:1144px;margin:10px auto 0;padding:0 18px;display:flex;gap:8px;overflow-x:auto;scrollbar-width:thin}
-.hub-tab{font:700 15px/1.25 Arial,Helvetica,sans-serif;white-space:nowrap;padding:13px 19px;background:#fff;border:2px solid #171717;color:#171717;cursor:pointer}
+.hub-nav{max-width:1180px;margin:10px auto 0;padding:0 18px;display:flex;gap:8px;overflow-x:auto;scrollbar-width:thin}
+.hub-tab{flex:1 1 0;min-width:0;font:400 clamp(15px,1.65vw,20px)/1.2 "Anton",Impact,"Arial Narrow",sans-serif;letter-spacing:.15px;white-space:nowrap;text-align:center;padding:12px 7px;background:#ffdd00;border:2px solid #171717;color:#171717;cursor:pointer}
 .hub-tab:hover,.hub-tab:focus-visible{background:#171717;color:#ffdd00}
 .hub-tab.active{background:#171717;color:#ffdd00}
 .hub-panel{max-width:1180px;margin:0 auto;padding:8px 18px 0}
@@ -114,7 +114,7 @@ h1{font-size:clamp(29px,5vw,52px);line-height:1.1;margin:0}header p{margin:5px 0
 footer{padding:7px 18px 12px!important;font-size:11px;color:#333}
 #fixtures-panel{padding-bottom:5px}
 .hub-panel iframe{width:100%;display:block;height:1px;min-height:0;border:0;background:transparent}
-@media(max-width:650px){.hub-nav{padding:0 10px;gap:6px}.hub-tab{padding:11px 13px;font-size:13px}.hub-panel{padding:8px 10px 0}}
+@media(max-width:650px){.hub-nav{padding:0 10px;gap:6px}.hub-tab{flex:0 0 auto;min-width:max-content;padding:11px 13px;font-size:16px}.hub-panel{padding:8px 10px 0}}
 
 .away-panel-content{border:2px solid #171717;background:#fff;padding:24px;font-family:Arial,Helvetica,sans-serif}
 .away-panel-content h2{font-family:"Anton",Impact,"Arial Narrow",sans-serif;font-weight:400;font-size:32px;margin:0 0 18px}
