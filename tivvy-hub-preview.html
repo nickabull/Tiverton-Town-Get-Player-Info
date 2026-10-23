@@ -187,8 +187,16 @@ h1{font-size:clamp(29px,5vw,52px);line-height:1.1;margin:0}header p{margin:5px 0
   .match-detail-columns p{margin:5px 0}
 }
 
+/* Latest completed result: same approved match row, with a separate label. */
+#table .latest-result{display:block;border-bottom:4px solid var(--y)}
+#table .latest-heading{display:flex;align-items:center;gap:12px;background:#111;color:var(--y);font-family:Arial,Helvetica,sans-serif;font-weight:900;font-size:19px;padding:9px 14px}
+#table .latest-heading img{width:35px;height:35px;object-fit:contain}
+#table .latest-result .month-fixtures>.row{border-bottom:0}
+#table .latest-result .month-fixtures>.row{background:#fff}
+@media(max-width:650px){#table .latest-heading{font-size:17px;padding:8px 10px}#table .latest-heading img{width:30px;height:30px}}
+
 /* Shared month accordion: applies to desktop AND mobile. */
-#table .fixture-month{display:block;margin:0;border-bottom:2px solid #111}
+#table .fixture-month{display:block;margin:0;border-bottom:3px solid var(--y)}
 #table .fixture-month:last-child{border-bottom:0}
 #table .month-heading{display:flex;align-items:center;gap:12px;min-height:53px;padding:12px 16px;background:#111;color:#ffdc00;cursor:pointer;list-style:none;user-select:none;font-family:Arial,Helvetica,sans-serif}
 #table .month-heading::-webkit-details-marker{display:none}
@@ -286,11 +294,16 @@ function render(){
     monthsInitialised=true;
   }
   const autoReveal=Boolean(term)||filter!=='all';
+  // Latest completed match across all competitions, not affected by search/filter.
+  // Ignore postponed and unplayed fixtures, and future-dated results.
+  const now=new Date(),today=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+'-'+String(now.getDate()).padStart(2,'0');
+  const latest=[...fixtures].filter(f=>f.date<=today&&/^[WDL]\\s+\\d+\\s*[-–]\\s*\\d+$/i.test(String(f.result||''))).sort((a,b)=>a.date.localeCompare(b.date)).at(-1);
+  const latestHTML=latest?'<section class="latest-result" aria-label="Latest Tiverton Town result"><div class="latest-heading"><img src="tiverton-town-logo.png" alt="Tiverton Town crest"><span>LATEST RESULT</span></div><div class="month-fixtures">'+row(latest)+'</div></section>':'';
   const html=[...grouped].map(([key,games])=>{
     const opened=autoReveal||openMonths.has(key);
     return '<details class="fixture-month" data-month="'+esc(key)+'"'+(opened?' open':'')+'><summary class="month-heading"><span class="month-title">'+esc(monthName(key))+'</span><span class="month-count">'+games.length+' '+(games.length===1?'match':'matches')+'</span><span class="month-chevron" aria-hidden="true"></span></summary><div class="month-fixtures">'+games.map(row).join('')+'</div></details>';
   }).join('');
-  el('table').innerHTML=html||'<div style="padding:20px">No matching fixtures</div>';
+  el('table').innerHTML=latestHTML+(html||'<div style="padding:20px">No matching fixtures</div>');
   el('table').querySelectorAll('button[data-id]').forEach(b=>b.onclick=()=>openMatch(b.dataset.id));
   el('table').querySelectorAll('details.fixture-month').forEach(group=>group.addEventListener('toggle',()=>{
     if(autoReveal)return;
