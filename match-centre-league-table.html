@@ -59,11 +59,20 @@ th{font-size:11px}
 <section class="page">
 <div class="strap"><h2>THE LEAGUE TABLE</h2><div class="small">Southern League Division One South</div></div>
 <div class="table-scroller"><div id="tableWrap"></div></div>
-<div class="legend"><span><i class="sw s1"></i>Automatic promotion</span><span><i class="sw s2"></i>Play-offs</span><span><i class="sw s3"></i>Relegation play-offs</span><span><i class="sw s4"></i>Relegation</span><span><i class="sw s5"></i>Tiverton Town</span></div>
+<div class="legend"><span><i class="sw s1"></i>Automatic promotion</span><span><i class="sw s2"></i>Play-offs</span><span><i class="sw s3"></i>Relegation play-offs</span><span><i class="sw s4"></i>Relegation</span></div>
 <div class="footer"><span>Same live league table data as the programme</span><span id="updated"></span></div>
 </section>
 </main>
 <script>
+function formatUKTimestamp(value){
+ const raw=String(value||'').trim();
+ if(!raw)return 'unknown';
+ const iso=raw.replace(/ UTC$/i,'Z').replace(' ','T');
+ const d=new Date(iso);
+ if(Number.isNaN(d.getTime()))return raw;
+ return new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/London',day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23',timeZoneName:'short'}).format(d);
+}
+
 const SRC='https://nickabull.github.io/Tiverton-Town-Get-Results/data.json';
 const CRESTS='https://nickabull.github.io/Tiverton-Town-Control-Centre/data/crest-assets.json';
 const TIV='Tiverton Town';
@@ -141,7 +150,7 @@ async function load(){
   });
   h+='</tbody></table>';
   document.getElementById('tableWrap').innerHTML=h;
-  document.getElementById('updated').textContent='Feed updated '+(data.updated||'unknown');
+  document.getElementById('updated').textContent='Feed updated '+formatUKTimestamp(data.updated);
   // Live site stays clean: no production diagnostics or refresh controls.
  }catch(e){st.hidden=false;st.textContent='League table temporarily unavailable: '+e.message}
 }
