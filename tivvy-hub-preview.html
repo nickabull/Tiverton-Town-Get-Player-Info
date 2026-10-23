@@ -124,6 +124,35 @@ footer{padding:7px 18px 12px!important;font-size:11px;color:#333}
 .hub-panel iframe{width:100%;display:block;height:1px;min-height:0;border:0;background:transparent;overflow:hidden}
 @media(max-width:650px){.hub-nav{padding:0 10px;gap:6px}.hub-tab{flex:0 0 auto;min-width:max-content;padding:11px 13px;font-size:16px}.hub-panel{padding:14px 10px 0}}
 
+/* Mobile Match Centre: all six destinations visible without horizontal scrolling. */
+@media(max-width:650px){
+  .hub-nav{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:6px!important;overflow:visible!important;padding:0 10px!important}
+  .hub-tab{box-sizing:border-box!important;min-width:0!important;width:100%!important;white-space:normal!important;overflow-wrap:normal!important;display:flex!important;align-items:center!important;justify-content:center!important;min-height:53px!important;padding:7px 3px!important;font:400 clamp(12px,3.7vw,16px)/1.12 "Anton",Impact,"Arial Narrow",sans-serif!important;letter-spacing:0!important}
+}
+/* Mobile-only club explorer; the traditional full results matrix remains below it. */
+.matrix-explorer,.matrix-full-label{display:none}
+@media(max-width:650px){
+  .matrix-explorer,.matrix-full-label{display:block}
+  .matrix-explorer{font-family:Arial,Helvetica,sans-serif;color:#111}
+  .matrix-explorer-title{box-sizing:border-box;min-height:96px;padding:13px 15px;background:#111;border-bottom:6px solid #ffdd00;color:#fff}
+  .matrix-explorer-title h2{font:400 27px/1.2 "Anton",Impact,"Arial Narrow",sans-serif;color:#ffdd00;text-transform:uppercase;margin:0}
+  .matrix-explorer-title p{font:400 11px/1.35 Arial,Helvetica,sans-serif;letter-spacing:.5px;text-transform:uppercase;margin:5px 0 0;color:#fff}
+  .matrix-explorer-controls{display:flex;flex-direction:column;gap:6px;padding:12px 0}
+  .matrix-explorer-controls label{font:400 19px/1.2 "Anton",Impact,"Arial Narrow",sans-serif;text-transform:uppercase}
+  .matrix-explorer-controls select{width:100%;min-height:45px;border:2px solid #111;border-radius:0;background:#fff;color:#111;font:700 16px Arial,Helvetica,sans-serif;padding:8px 10px}
+  .matrix-explorer-table{width:100%;border-collapse:collapse;table-layout:fixed;background:#fff;font:400 13px/1.25 Arial,Helvetica,sans-serif}
+  .matrix-explorer-table th{background:#111;color:#ffdd00;text-transform:uppercase;font:400 16px/1.2 "Anton",Impact,"Arial Narrow",sans-serif;padding:10px 6px;border:1px solid #111}
+  .matrix-explorer-table th:first-child{text-align:left;width:56%}
+  .matrix-explorer-table td{padding:10px 6px;border:1px solid #111;text-align:center;font-weight:700}
+  .matrix-explorer-table td:first-child{text-align:left;font-weight:600}
+  .matrix-explorer-table tbody tr:nth-child(even){background:#ffdd00}
+  .matrix-explorer-table .empty-score{color:#777;font-weight:400}
+  .matrix-explorer-note{font:400 12px/1.4 Arial,Helvetica,sans-serif;padding:8px 0 13px;color:#333}
+  .matrix-full-label{background:#111;border-bottom:6px solid #ffdd00;padding:12px 15px;color:#fff}
+  .matrix-full-label h3{font:400 24px/1.2 "Anton",Impact,"Arial Narrow",sans-serif;color:#ffdd00;margin:0}
+  .matrix-full-label p{font:400 12px/1.35 Arial,Helvetica,sans-serif;margin:4px 0 0}
+}
+
 .away-panel-content{border:2px solid #171717;background:#fff;padding:24px;font-family:Arial,Helvetica,sans-serif}
 .away-panel-content h2{font-family:"Anton",Impact,"Arial Narrow",sans-serif;font-weight:400;font-size:32px;margin:0 0 18px}
 .away-fixture{display:grid;gap:14px;max-width:750px}
@@ -286,7 +315,15 @@ body.wix-embed .hub-panel{padding-top:8px}
 <div id="table" role="table" aria-label="Tiverton Town fixtures and results"><div id="status">Loading fixtures…</div></div>
 </main>
 <section class="hub-panel" id="league-panel" hidden aria-label="League Table"><iframe scrolling="no" title="League Table" loading="lazy" data-src="match-centre-league-table.html?v=20261023-1441"></iframe></section>
-<section class="hub-panel" id="matrix-panel" hidden aria-label="Results Matrix"><iframe scrolling="no" title="Results Matrix" loading="lazy" data-src="stats-centre.html?matrix-style=20261023-1441#matrix"></iframe></section>
+<section class="hub-panel" id="matrix-panel" hidden aria-label="Results Matrix">
+  <div class="matrix-explorer" id="matrix-explorer">
+    <div class="matrix-explorer-title"><h2>Division One South Results Matrix</h2><p>Choose a club to explore its home and away results</p></div>
+    <div class="matrix-explorer-controls"><label for="matrix-club">Select a club</label><select id="matrix-club" aria-label="Choose a club to see its results"><option value="">Loading clubs…</option></select></div>
+    <div id="matrix-explorer-results" aria-live="polite">Loading league results…</div>
+  </div>
+  <div class="matrix-full-label"><h3>Full Results Matrix</h3><p>Swipe sideways to see every club and every result</p></div>
+  <iframe scrolling="no" title="Full Results Matrix" loading="lazy" data-src="stats-centre.html?matrix-style=20261023-1454#matrix"></iframe>
+</section>
 <section class="hub-panel" id="players-panel" hidden aria-label="Player Stats"><iframe scrolling="no" title="Player Stats" loading="lazy" data-src="stats-centre.html?player-style=20261023-1441#players"></iframe></section>
 <section class="hub-panel" id="season-panel" hidden aria-label="Season So Far"><iframe scrolling="no" title="Season So Far" loading="lazy" data-src="season-so-far.html?v=20261023-1441"></iframe></section>
 <section class="hub-panel" id="away-panel" hidden aria-label="Next Away Day"><div class="away-panel-content"><h2>Next Away Day</h2><div id="away-details" aria-live="polite">Loading the next away fixture…</div></div></section>
@@ -475,6 +512,35 @@ async function getJSON(name){const r=await fetch(BASE+name+'?v=20261022',{cache:
 (function(){
   const tabs=Array.from(document.querySelectorAll('.hub-tab'));
   const names=['fixtures','league','matrix','players','season','away'];
+  let matrixExplorerPromise=null;
+  function loadMatrixExplorer(){
+    if(matrixExplorerPromise)return matrixExplorerPromise;
+    const select=document.getElementById('matrix-club');
+    const output=document.getElementById('matrix-explorer-results');
+    if(!select||!output)return Promise.resolve();
+    const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    matrixExplorerPromise=fetch('/Tiverton-Town-Get-Results/data.json',{cache:'no-store'})
+      .then(r=>{if(!r.ok)throw Error('Results feed '+r.status);return r.json()})
+      .then(data=>{
+        const teams=Array.isArray(data.teams)?data.teams:[];
+        if(!teams.length)throw Error('No clubs found in results feed');
+        const scores=new Map((data.results||[]).map(x=>[x.home+'|'+x.away,String(x.score||'')]));
+        select.innerHTML=teams.map(t=>'<option value="'+esc(t)+'">'+esc(t)+'</option>').join('');
+        select.value=teams.includes('Tiverton Town')?'Tiverton Town':teams[0];
+        const render=()=>{
+          const team=select.value;
+          const opponents=teams.filter(t=>t!==team);
+          const cell=v=>v?esc(v):'<span class="empty-score">—</span>';
+          output.innerHTML='<table class="matrix-explorer-table"><thead><tr><th scope="col">Opposition</th><th scope="col">Home</th><th scope="col">Away</th></tr></thead><tbody>'+
+            opponents.map(opp=>'<tr><td>'+esc(opp)+'</td><td>'+cell(scores.get(team+'|'+opp))+'</td><td>'+cell(scores.get(opp+'|'+team))+'</td></tr>').join('')+
+            '</tbody></table><div class="matrix-explorer-note">Scores are shown home team first. A dash means the result is not yet recorded.</div>';
+        };
+        select.addEventListener('change',render);
+        render();
+      })
+      .catch(e=>{output.textContent='League results are temporarily unavailable. The full matrix is still shown below.';matrixExplorerPromise=null;});
+    return matrixExplorerPromise;
+  }
   function fit(frame){
     try{
       const doc=frame.contentDocument;
@@ -492,7 +558,7 @@ async function getJSON(name){const r=await fetch(BASE+name+'?v=20261022',{cache:
           '#matrix .matrix{width:100%!important;min-width:0!important;table-layout:fixed!important}',
           '#matrix .matrix th,#matrix .matrix td{width:auto!important;min-width:0!important;max-width:none!important;padding:0 1px!important;height:31px!important;font-size:clamp(8px,.8vw,11px)!important;white-space:nowrap!important;overflow:hidden!important}',
           '#matrix .matrix-wrap{overflow-x:hidden!important}',
-          '@media(max-width:650px){#matrix .matrix{min-width:690px!important}#matrix .matrix-wrap{overflow-x:auto!important}#matrix .matrix th,#matrix .matrix td{font-size:9px!important}}',
+          '@media(max-width:650px){#matrix .section-head{display:none!important}#matrix .matrix{min-width:690px!important}#matrix .matrix-wrap{overflow-x:auto!important}#matrix .matrix th,#matrix .matrix td{font-size:9px!important}}',
 
           '#matrix .team-key{padding:10px 0 0!important;background:transparent!important}',
           '#matrix .team-key-item{background:#fff!important;border-radius:0!important;box-shadow:none!important}',
@@ -576,6 +642,7 @@ async function getJSON(name){const r=await fetch(BASE+name+'?v=20261022',{cache:
       panel.hidden=n!==name;
     });
     if(name==='away'){updateAwayDay();}
+    if(name==='matrix'){loadMatrixExplorer();}
     if(name!=='fixtures'&&name!=='away'){
       const frame=document.querySelector('#'+name+'-panel iframe');
       if(!frame.src||frame.src==='about:blank'){frame.addEventListener('load',()=>fit(frame),{once:true});frame.src=frame.dataset.src}
