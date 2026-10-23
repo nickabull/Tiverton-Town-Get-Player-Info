@@ -1,0 +1,94 @@
+{
+  "checkedAt": "2026-10-23",
+  "fixtures": [
+    {
+      "date": "2026-08-08",
+      "opponent": "Hungerford Town",
+      "venue": "A",
+      "competition": "SLD1S",
+      "attendance": 377,
+      "attendanceSource": "https://www.southern-football-league.co.uk/match/6a5a19f6ce9ef452b61f41ed"
+    },
+    {
+      "date": "2026-08-11",
+      "opponent": "Barnstaple Town",
+      "venue": "H",
+      "competition": "SLD1S",
+      "attendance": 416,
+      "attendanceSource": "https://www.southern-football-league.co.uk/match/6a5a19f5ce9ef452b61f41af"
+    },
+    {
+      "date": "2026-08-15",
+      "opponent": "Westbury United",
+      "venue": "A",
+      "competition": "SLD1S",
+      "attendance": 280,
+      "attendanceSource": "https://www.southern-football-league.co.uk/match/6a5a19f6ce9ef452b61f41e5"
+    },
+    {
+      "date": "2026-08-31",
+      "opponent": "Exmouth Town",
+      "venue": "H",
+      "competition": "SLD1S",
+      "attendance": 425,
+      "attendanceSource": "https://www.southern-football-league.co.uk/match/6a5a1a68ce9ef452b61f4286"
+    },
+    {
+      "date": "2026-09-15",
+      "opponent": "Dorchester Town",
+      "venue": "A",
+      "competition": "SLD1S",
+      "attendance": 402,
+      "attendanceSource": "https://www.southern-football-league.co.uk/match/6a5a1a66ce9ef452b61f4240"
+    },
+    {
+      "date": "2026-09-29",
+      "opponent": "Paulton Rovers",
+      "venue": "H",
+      "competition": "SLD1S",
+      "attendance": 182,
+      "attendanceSource": "https://www.southern-football-league.co.uk/match/6a5a1b0ece9ef452b61f430d"
+    },
+    {
+      "date": "2026-10-03",
+      "opponent": "Worcester Raiders",
+      "venue": "H",
+      "competition": "SLD1S",
+      "attendance": 170,
+      "attendanceSource": "https://www.southern-football-league.co.uk/match/6a5a1b0ece9ef452b61f433e"
+    },
+    {
+      "date": "2026-10-06",
+      "opponent": "Hartpury",
+      "venue": "H",
+      "competition": "SLD1S",
+      "attendance": 184,
+      "attendanceSource": "https://www.southern-football-league.co.uk/match/6a5a1aacce9ef452b61f42bb"
+    },
+    {
+      "date": "2026-10-10",
+      "opponent": "Shaftesbury",
+      "venue": "A",
+      "competition": "SLD1S",
+      "attendance": 170,
+      "attendanceSource": "https://www.southern-football-league.co.uk/match/6a5a1b78ce9ef452b61f436a"
+    },
+    {
+      "date": "2026-10-13",
+      "opponent": "Falmouth Town",
+      "venue": "A",
+      "competition": "SLD1S",
+      "attendance": 278,
+      "attendanceSource": "https://www.southern-football-league.co.uk/match/6a5a1b79ce9ef452b61f438e"
+    },
+    {
+      "date": "2026-10-17",
+      "opponent": "Portland United",
+      "venue": "H",
+      "competition": "SLD1S",
+      "attendance": 305,
+      "attendanceSource": "https://www.southern-football-league.co.uk/match/6a5a1b79ce9ef452b61f43c3"
+    }
+  ]
+}
+
