@@ -247,7 +247,7 @@ h1{font-size:clamp(29px,5vw,52px);line-height:1.1;margin:0}header p{margin:5px 0
 <div id="table" role="table" aria-label="Tiverton Town fixtures and results"><div id="status">Loading fixtures…</div></div>
 </main>
 <section class="hub-panel" id="league-panel" hidden aria-label="League Table"><iframe title="League Table" loading="lazy" data-src="match-centre-league-table.html?v=20261023-0109"></iframe></section>
-<section class="hub-panel" id="matrix-panel" hidden aria-label="Results Matrix"><iframe title="Results Matrix" loading="lazy" data-src="stats-centre.html#matrix"></iframe></section>
+<section class="hub-panel" id="matrix-panel" hidden aria-label="Results Matrix"><iframe title="Results Matrix" loading="lazy" data-src="stats-centre.html?matrix-style=20261023-0113#matrix"></iframe></section>
 <section class="hub-panel" id="players-panel" hidden aria-label="Player Stats"><iframe title="Player Stats" loading="lazy" data-src="stats-centre.html#players"></iframe></section>
 <section class="hub-panel" id="season-panel" hidden aria-label="Season So Far"><iframe title="Season So Far" loading="lazy" data-src="season-so-far.html"></iframe></section>
 <section class="hub-panel" id="away-panel" hidden aria-label="Next Away Day"><div class="away-panel-content"><h2>Next Away Day</h2><div id="away-details" aria-live="polite">Loading the next away fixture…</div></div></section><footer>Fixture details may change. For official club news visit <a href="https://www.tivertontownfc.uk/">tivertontownfc.uk</a>.</footer>
@@ -406,14 +406,42 @@ async function getJSON(name){const r=await fetch(BASE+name+'?v=20261022',{cache:
     try{
       const doc=frame.contentDocument;
       if(!doc||!doc.body)return;
+      const section=frame.dataset.src?.includes('stats-centre.html')?frame.dataset.src.split('#')[1]:null;
       if(!doc.getElementById('hub-embed-style')){
         const st=doc.createElement('style');
         st.id='hub-embed-style';
-        const section=frame.dataset.src&&frame.dataset.src.match(/stats-centre\.html#([a-z]+)/)?.[1];
-        st.textContent='header,footer{display:none!important}body{margin:0!important}'+(section?'nav{display:none!important}main>.section:not(#'+section+'){display:none!important}main{padding-top:0!important}':'');
+        const matrixStyle=section==='matrix'?[
+          'body{background:#ffdd00!important}',
+          'main{padding:0!important;max-width:none!important}',
+          '#matrix{background:transparent!important;border:0!important;box-shadow:none!important;margin:0!important}',
+          '#matrix .section-head{border-top:0!important;background:#111!important}',
+          '#matrix .matrix-wrap{padding:0!important;background:#fff!important;border:1px solid #111!important}',
+          '#matrix .team-key{padding:10px 0 0!important;background:transparent!important}',
+          '#matrix .team-key-item{background:#fff!important;border-radius:0!important;box-shadow:none!important}',
+          '#matrix .matrix .tiv-row>td,#matrix .matrix td.tiv-col{background:#dedede!important}',
+          '#matrix .matrix .tiv-row>td.tiv-col{background:#c3c3c3!important}',
+          '#matrix .matrix .tiv-row>th,#matrix .matrix th.tiv-axis{background:#c3c3c3!important}',
+          '#matrix .matrix td.tiv-col{border-left:2px solid #888!important;border-right:2px solid #888!important}',
+          '#matrix .matrix .tiv-row>td{border-top:2px solid #888!important;border-bottom:2px solid #888!important}'
+        ].join(''):'';
+        st.textContent='header,footer{display:none!important}body{margin:0!important}'+(section?'nav{display:none!important}main>.section:not(#'+section+'){display:none!important}main{padding-top:0!important}':'')+matrixStyle;
         doc.head.appendChild(st);
       }
-      const measure=()=>{const h=Math.max(doc.body.scrollHeight,doc.documentElement.scrollHeight);if(h>0)frame.style.height=(h+16)+'px'};
+      const measure=()=>{
+        if(section==='matrix'){
+          const matrix=doc.querySelector('#matrix .matrix');
+          if(matrix){
+            const headings=Array.from(matrix.querySelectorAll('tr:first-child th'));
+            const tivCol=headings.findIndex((th,i)=>i>0&&th.classList.contains('tiv-axis'));
+            Array.from(matrix.rows).slice(1).forEach(tr=>{
+              if(tr.querySelector('th.tiv-axis'))tr.classList.add('tiv-row');
+              if(tivCol>0&&tr.cells[tivCol])tr.cells[tivCol].classList.add('tiv-col');
+            });
+          }
+        }
+        const h=Math.max(doc.body.scrollHeight,doc.documentElement.scrollHeight);
+        if(h>0)frame.style.height=(h+16)+'px';
+      };
       measure();
       if(typeof ResizeObserver!=='undefined'){new ResizeObserver(measure).observe(doc.body)}
       setTimeout(measure,300);
