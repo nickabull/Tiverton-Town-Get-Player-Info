@@ -124,9 +124,11 @@ footer{padding:7px 18px 12px!important;font-size:11px;color:#333}
 .hub-panel iframe{width:100%;display:block;height:1px;min-height:0;border:0;background:transparent;overflow:hidden}
 @media(max-width:650px){.hub-nav{padding:0 10px;gap:6px}.hub-tab{flex:0 0 auto;min-width:max-content;padding:11px 13px;font-size:16px}.hub-panel{padding:14px 10px 0}}
 
-/* Mobile Match Centre: all six destinations visible without horizontal scrolling. */
+/* Mobile Match Centre: five destinations visible without horizontal scrolling. */
 @media(max-width:650px){
-  .hub-nav{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:6px!important;overflow:visible!important;padding:0 10px!important}
+  .hub-nav{display:grid!important;grid-template-columns:repeat(6,minmax(0,1fr))!important;gap:6px!important;overflow:visible!important;padding:0 10px!important}
+  .hub-tab:nth-child(-n+3){grid-column:span 2}
+  .hub-tab:nth-child(n+4){grid-column:span 3}
   .hub-tab{box-sizing:border-box!important;min-width:0!important;width:100%!important;white-space:normal!important;overflow-wrap:normal!important;display:flex!important;align-items:center!important;justify-content:center!important;min-height:53px!important;padding:7px 3px!important;font:400 clamp(12px,3.7vw,16px)/1.12 "Anton",Impact,"Arial Narrow",sans-serif!important;letter-spacing:0!important}
 }
 /* Mobile-only club explorer; the traditional full results matrix remains below it. */
@@ -306,7 +308,6 @@ body.wix-embed .hub-panel{padding-top:8px}
   <button type="button" class="hub-tab" data-section="league" aria-pressed="false">League Table</button>
   <button type="button" class="hub-tab" data-section="matrix" aria-pressed="false">Results Matrix</button>
   <button type="button" class="hub-tab" data-section="players" aria-pressed="false">Player Stats</button>
-  <button type="button" class="hub-tab" data-section="season" aria-pressed="false">Season So Far</button>
   <button type="button" class="hub-tab" data-section="away" aria-pressed="false">Next Away Day</button>
 </nav>
 <main id="fixtures-panel"><h2>Fixtures & Results</h2><div class="note">Season fixture list from Tiverton Town FC; full match information is shown where confirmed. Dates and kick-off times are subject to change.</div>
@@ -324,8 +325,7 @@ body.wix-embed .hub-panel{padding-top:8px}
   <div class="matrix-full-label"><h3>Full Results Matrix</h3><p>Swipe sideways to see every club and every result</p></div>
   <iframe scrolling="no" title="Full Results Matrix" loading="lazy" data-src="stats-centre.html?matrix-style=20261023-1501#matrix"></iframe>
 </section>
-<section class="hub-panel" id="players-panel" hidden aria-label="Player Stats"><iframe scrolling="no" title="Player Stats" loading="lazy" data-src="stats-centre.html?player-style=20261023-1501#players"></iframe></section>
-<section class="hub-panel" id="season-panel" hidden aria-label="Season So Far"><iframe scrolling="no" title="Season So Far" loading="lazy" data-src="season-so-far.html?v=20261023-1501"></iframe></section>
+<section class="hub-panel" id="players-panel" hidden aria-label="Player Stats"><iframe scrolling="no" title="Player Stats" loading="lazy" data-src="stats-centre.html?player-style=20261023-1509#players"></iframe></section>
 <section class="hub-panel" id="away-panel" hidden aria-label="Next Away Day"><div class="away-panel-content"><h2>Next Away Day</h2><div id="away-details" aria-live="polite">Loading the next away fixture…</div></div></section>
 <div class="modal" id="modal" hidden><div class="dialog" role="dialog" aria-modal="true" aria-labelledby="matchTitle"><button class="close" id="close" aria-label="Close match details">CLOSE ✕</button><h2 id="matchTitle">Tivvy Match Centre</h2><div id="matchBody"></div></div></div>
 <script>
@@ -511,7 +511,7 @@ async function getJSON(name){const r=await fetch(BASE+name+'?v=20261022',{cache:
 
 (function(){
   const tabs=Array.from(document.querySelectorAll('.hub-tab'));
-  const names=['fixtures','league','matrix','players','season','away'];
+  const names=['fixtures','league','matrix','players','away'];
   let matrixExplorerPromise=null;
   function loadMatrixExplorer(){
     if(matrixExplorerPromise)return matrixExplorerPromise;
@@ -652,6 +652,6 @@ async function getJSON(name){const r=await fetch(BASE+name+'?v=20261022',{cache:
     history.replaceState(null,'','#'+name);
   }
   tabs.forEach(b=>b.addEventListener('click',()=>show(b.dataset.section)));
-  show(names.includes(location.hash.slice(1))?location.hash.slice(1):'fixtures');
+  show(location.hash.slice(1)==='season'?'players':(names.includes(location.hash.slice(1))?location.hash.slice(1):'fixtures'));
 })();
 </script></body></html>
