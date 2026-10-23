@@ -3,6 +3,9 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Tiverton Town — Division One South League Table</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
 <style>
 :root{--y:#f2c400;--ink:#111;--green:#9bd18b;--blue:#9dc3e6;--orange:#f4b183;--red:#f4a6a6;--bg:#ececea;--line:#bbb}
 *{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--ink)}
@@ -26,8 +29,10 @@ body{background:#ffdd00}
 .btn{background:#111;color:#ffdd00;border-radius:0;padding:9px 13px}
 .page{aspect-ratio:auto;box-shadow:none;border:2px solid #111;padding:0 0 14px;overflow:visible;background:#fff}
 .strap{border-top:0;margin-bottom:0;padding:14px 18px}
-.strap h2{font-family:Impact,"Arial Narrow",Arial,sans-serif;font-size:clamp(25px,4vw,36px);font-weight:900}
+.strap h2{font-family:"Anton",Impact,"Arial Narrow",sans-serif;font-size:clamp(25px,4vw,36px);font-weight:400;letter-spacing:.25px;line-height:1.2;text-shadow:none;-webkit-text-stroke:0}
 .strap .small{font-size:12px}
+.error-status{background:#fff3ef;border:2px solid #a62020;color:#8a1414;padding:11px 14px;margin-bottom:12px;font-size:13px;font-weight:700}
+.error-status[hidden]{display:none}
 .table-scroller{width:100%;overflow-x:auto}
 table{min-width:640px;width:100%;table-layout:fixed}
 th,td{padding:8px 5px;font-size:13px}
@@ -50,7 +55,7 @@ th{font-size:11px}
 </style></head>
 <body>
 <main class="wrap" aria-label="League table">
-<div class="tools"><button class="btn" onclick="load()">Refresh data</button><span id="status" class="status">Loading…</span></div>
+<div id="status" class="error-status" role="status" hidden></div>
 <section class="page">
 <div class="strap"><h2>THE LEAGUE TABLE</h2><div class="small">Southern League Division One South</div></div>
 <div class="table-scroller"><div id="tableWrap"></div></div>
@@ -92,7 +97,7 @@ function crest(team,assetId){
   : `<span class="fallback">${esc(initials)}</span>`;
 }
 async function load(){
- const st=document.getElementById('status'); st.textContent='Refreshing…';
+ const st=document.getElementById('status'); st.hidden=true; st.textContent='';
  try{
   const [data,crestDb]=await Promise.all([
    fetch(SRC+'?v='+Date.now()).then(r=>{if(!r.ok)throw new Error('Results feed '+r.status);return r.json()}),
@@ -108,9 +113,8 @@ async function load(){
   h+='</tbody></table>';
   document.getElementById('tableWrap').innerHTML=h;
   document.getElementById('updated').textContent='Feed updated '+(data.updated||'unknown');
-  const mapped=rows.filter(r=>assets[r.team]).length;
-  st.innerHTML='<span class="ok">'+rows.length+' clubs loaded · '+mapped+'/'+rows.length+' mapped to approved Canva crest assets</span>';
- }catch(e){st.innerHTML='<span class="bad">'+esc(e.message)+'</span>'}
+  // Live site stays clean: no production diagnostics or refresh controls.
+ }catch(e){st.hidden=false;st.textContent='League table temporarily unavailable: '+e.message}
 }
 load();
 </script></body></html>
