@@ -62,7 +62,14 @@ table{width:100%;border-collapse:collapse}th,td{padding:8px 9px;border-bottom:1p
 #players .player-full-table{margin-top:14px;background:#fff;border:2px solid #111}
 #players .player-full-table summary{cursor:pointer;background:#111;color:#ffdd00;padding:12px 14px;font:400 20px/1.2 "Anton",Impact,sans-serif}
 #players .player-full-table[open] summary{border-bottom:5px solid #ffdd00}
-#players .player-full-table .players{overflow-x:auto}
+#players .player-full-table .players{overflow-x:auto;overscroll-behavior-x:contain}
+#players .player-table-hint{display:none;background:#ffdd00;color:#111;padding:10px 12px;border-bottom:2px solid #111;font:400 16px/1.2 "Anton",Impact,"Arial Narrow",sans-serif;text-transform:uppercase}
+#players .player-full-table table th:first-child,#players .player-full-table table td:first-child{position:sticky;left:0;z-index:2;min-width:150px;box-shadow:2px 0 0 #111}
+#players .player-full-table table th:first-child{z-index:3}
+@media(max-width:750px){
+ #players .player-table-hint{display:block}
+ #players .player-full-table table{min-width:760px}
+}
 @media(max-width:750px){
  #players .player-overview{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;padding:10px 0}
  #players .player-highlight{padding:12px 10px}
@@ -111,7 +118,7 @@ table{width:100%;border-collapse:collapse}th,td{padding:8px 9px;border-bottom:1p
 <div id="playerCards" class="player-card-grid" aria-live="polite"></div>
 <div class="player-directory-note">League matches with recorded team sheets only. Minutes are estimated from substitution and match-event data where necessary.</div>
 </div>
-<details class="player-full-table"><summary>View Full Player Stats Table</summary><div class="players" id="playerTable"></div></details>
+<details class="player-full-table"><summary>View Full Player Stats Table</summary><div class="player-table-hint" aria-label="Swipe left to see more statistics">SWIPE LEFT TO SEE MORE &nbsp;←</div><div class="players" id="playerTable" role="region" aria-label="Scrollable full player statistics table" tabindex="0"></div></details>
 </div></section>
 
 <section class="section" id="matches"><div class="section-head"><h2>Tiverton Town Match Centre</h2><p>Every loaded league game, scorers, captain, substitutions and reports</p></div><div class="matches" id="matchCentre"></div></section>
@@ -175,7 +182,7 @@ function render(player,results){
  const last5=fixtures.slice(-5);document.getElementById('form').innerHTML=last5.map(x=>{const r=parseScore(x.result),c=r.gf>r.ga?'W':r.gf===r.ga?'D':'L';return '<span class="pill '+c.toLowerCase()+'" title="'+esc(x.opponent+' '+x.result)+'">'+c+'</span>'}).join('');document.getElementById('formSub').textContent=last5.map(x=>fmt(x.date)+' '+x.result).join(' · ');
  const cleans=fixtures.filter(x=>parseScore(x.result).ga===0);document.getElementById('clean').textContent=cleans.length;document.getElementById('cleanSub').textContent=cleans.length?cleans.map(x=>x.opponent).join(' · '):'None yet';
  const wins=fixtures.map(x=>({x,r:parseScore(x.result)})).filter(o=>o.r.gf>o.r.ga).sort((a,b)=>(b.r.gf-b.r.ga)-(a.r.gf-a.r.ga));if(wins[0]){document.getElementById('bigWin').textContent=wins[0].x.result;document.getElementById('bigWinSub').textContent=fmt(wins[0].x.date)+' v '+wins[0].x.opponent}
- const ps=buildPlayerStats(fixtures),stats=ps.stats;document.getElementById('playersUsed').textContent=stats.filter(x=>x.apps).length;document.getElementById('xis').textContent=ps.xis;document.getElementById('xiSub').textContent='Across '+fixtures.length+' league games';
+ const ps=buildPlayerStats(fixtures),stats=ps.stats.filter(x=>x.apps>0);document.getElementById('playersUsed').textContent=stats.filter(x=>x.apps).length;document.getElementById('xis').textContent=ps.xis;document.getElementById('xiSub').textContent='Across '+fixtures.length+' league games';
 
  const ls=(results.leagueTable||[]);document.getElementById('leagueTable').innerHTML=ls.length?'<table><thead><tr><th>Pos</th><th>Team</th><th class="num">P</th><th class="num">GD</th><th class="num">Pts</th></tr></thead><tbody>'+ls.map(x=>'<tr class="'+(String(x.team).toLowerCase()==='tiverton town'?'tiv':'')+'"><td>'+esc(x.pos)+'</td><td>'+esc(x.team)+'</td><td class="num">'+esc(x.p)+'</td><td class="num">'+esc(x.gd)+'</td><td class="num">'+esc(x.pts)+'</td></tr>').join('')+'</tbody></table>':'<div class="note">League table temporarily unavailable.</div>';
 
