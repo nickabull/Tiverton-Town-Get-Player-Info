@@ -30,7 +30,7 @@ h1{font-size:clamp(29px,5vw,52px);line-height:1.1;margin:0}header p{margin:5px 0
   .searchbar input,.searchbar select{width:100%;min-width:0;margin:0}
   #table{display:block;width:100%;border:2px solid #111;background:#fff}
   #table>.th{display:none}
-  #table>.row:not(.th){
+  #table .month-fixtures>.row:not(.th){
     display:grid;
     width:100%;
     grid-template-columns:135px minmax(0,1fr) 120px;
@@ -42,9 +42,9 @@ h1{font-size:clamp(29px,5vw,52px);line-height:1.1;margin:0}header p{margin:5px 0
     border-bottom:1px solid #151515;
     font-size:15px;
   }
-  #table>.row:not(.th):last-child{border-bottom:0}
-  #table>.row:not(.th):nth-child(even){background:#fff}
-  #table>.row:not(.th):nth-child(odd){background:var(--y)}
+  #table .month-fixtures>.row:not(.th):last-child{border-bottom:0}
+  #table .month-fixtures>.row:not(.th):nth-child(even){background:#fff}
+  #table .month-fixtures>.row:not(.th):nth-child(odd){background:var(--y)}
   #table .date{grid-column:1;grid-row:1;font-weight:700;white-space:nowrap}
   #table .club{grid-column:2;grid-row:1;font-weight:700;font-size:16px}
   #table .club img{width:30px;height:30px}
@@ -68,7 +68,7 @@ h1{font-size:clamp(29px,5vw,52px);line-height:1.1;margin:0}header p{margin:5px 0
 /* Hub desktop fixture layout: large opponent crests and useful use of row space.
    Mobile and the approved standalone Match Centre are not changed. */
 @media(min-width:651px){
-  #table>.row:not(.th){
+  #table .month-fixtures>.row:not(.th){
     grid-template-columns:116px 135px minmax(0,1fr) 120px;
     grid-template-rows:auto auto auto;
     min-height:148px;
@@ -97,7 +97,7 @@ h1{font-size:clamp(29px,5vw,52px);line-height:1.1;margin:0}header p{margin:5px 0
   #table .action{grid-column:4;grid-row:1/4}
 }
 @media(min-width:651px) and (max-width:850px){
-  #table>.row:not(.th){grid-template-columns:82px 106px minmax(0,1fr) 98px;column-gap:10px;padding:12px;min-height:120px}
+  #table .month-fixtures>.row:not(.th){grid-template-columns:82px 106px minmax(0,1fr) 98px;column-gap:10px;padding:12px;min-height:120px}
   #table .club img{width:80px;height:80px}
   #table .date{font-size:14px}
   #table .club span{font-size:17px}
@@ -132,7 +132,7 @@ h1{font-size:clamp(29px,5vw,52px);line-height:1.1;margin:0}header p{margin:5px 0
   #table .club span{min-width:0}
 }
 @media(min-width:1051px){
-  #table>.row:not(.th){
+  #table .month-fixtures>.row:not(.th){
     grid-template-columns:94px 105px minmax(165px,1.3fr) 58px 108px 77px minmax(160px,1fr) 99px;
     grid-template-rows:auto;
     column-gap:10px;
@@ -153,7 +153,7 @@ h1{font-size:clamp(29px,5vw,52px);line-height:1.1;margin:0}header p{margin:5px 0
   #table .action{grid-column:8;grid-row:1;justify-self:end;align-self:center}
 }
 @media(min-width:651px) and (max-width:1050px){
-  #table>.row:not(.th){
+  #table .month-fixtures>.row:not(.th){
     grid-template-columns:82px minmax(190px,245px) minmax(0,1fr) 98px;
     grid-template-rows:auto auto;
     column-gap:12px;row-gap:9px;
@@ -185,6 +185,24 @@ h1{font-size:clamp(29px,5vw,52px);line-height:1.1;margin:0}header p{margin:5px 0
   .match-detail-columns .players li{padding:1px 0;line-height:1.18;font-size:15px}
   .match-detail-columns .details-goals{font-size:16px;margin:4px 0}
   .match-detail-columns p{margin:5px 0}
+}
+
+/* Shared month accordion: applies to desktop AND mobile. */
+#table .fixture-month{display:block;margin:0;border-bottom:2px solid #111}
+#table .fixture-month:last-child{border-bottom:0}
+#table .month-heading{display:flex;align-items:center;gap:12px;min-height:53px;padding:12px 16px;background:#111;color:#ffdc00;cursor:pointer;list-style:none;user-select:none;font-family:Arial,Helvetica,sans-serif}
+#table .month-heading::-webkit-details-marker{display:none}
+#table .month-heading::marker{content:""}
+#table .month-heading:focus-visible{outline:3px solid #1866d2;outline-offset:-3px}
+#table .month-title{font-size:19px;font-weight:900;line-height:1.2}
+#table .month-count{margin-left:auto;font-size:13px;font-weight:700;color:#fff;white-space:nowrap}
+#table .month-chevron{display:block;width:10px;height:10px;border-right:3px solid #ffdc00;border-bottom:3px solid #ffdc00;transform:rotate(45deg);transition:transform .15s;margin-left:5px;flex:none}
+#table details[open]>.month-heading .month-chevron{transform:rotate(225deg)}
+#table .month-fixtures>.row:last-child{border-bottom:0}
+@media(max-width:650px){
+  #table .month-heading{padding:11px 12px;min-height:48px}
+  #table .month-title{font-size:17px}
+  #table .month-count{font-size:12px}
 }
 </style></head><body>
 <header><img class="brand" src="tiverton-town-logo.png" alt="Tiverton Town badge"><div><h1>Tiverton Town FC</h1><p>2026–27 Season Fixtures & Results · Tivvy Match Centre</p></div></header>
@@ -249,7 +267,37 @@ function updateAwayDay(){
   const safe=x=>String(x||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   target.innerHTML='<div class="away-fixture"><span class="away-tag">AWAY FIXTURE</span><div class="away-opponent">Tiverton Town at '+safe(next.opposition)+'</div><div class="away-date">'+safe(formatted)+'</div><div class="away-info">Kick-off: '+safe(next.kickOff||'To be confirmed')+' &nbsp;·&nbsp; Competition: '+safe(next.competition)+'</div><div class="away-note">Fixture details are drawn from the Match Centre and may change. Travel and ground information can be added here when verified.</div></div>';
 }
-function render(){const term=el('q').value.trim().toLowerCase(),filter=el('filter').value;const filtered=fixtures.filter(f=>(f.opposition+' '+f.competition).toLowerCase().includes(term)&&(filter==='all'||(filter==='results'?/^[WDL]|^ABD/i.test(f.result):!/^[WDL]|^ABD/i.test(f.result))));const head='<div class="row th" role="row"><div>DATE</div><div>OPPOSITION</div><div>VENUE</div><div>COMP</div><div>RESULTS</div><div>SCORERS</div><div></div></div>';el('table').innerHTML=head+(filtered.length?filtered.map(row).join(''):'<div style="padding:20px">No matching fixtures</div>');el('table').querySelectorAll('button[data-id]').forEach(b=>b.onclick=()=>openMatch(b.dataset.id))}
+/* Collapsible monthly groups on both desktop and mobile. The fixture rows and
+   match-details popups themselves remain exactly as previously approved. */
+const openMonths=new Set();
+let monthsInitialised=false;
+function monthKey(f){return String(f.date||'').slice(0,7)}
+function monthName(key){return new Date(key+'-01T12:00:00').toLocaleDateString('en-GB',{month:'long',year:'numeric'})}
+function render(){
+  const term=el('q').value.trim().toLowerCase(),filter=el('filter').value;
+  const filtered=fixtures.filter(f=>(f.opposition+' '+f.competition+' '+competitionLabel(f.competition)).toLowerCase().includes(term)&&(filter==='all'||(filter==='results'?/^[WDL]|^ABD/i.test(f.result):!/^[WDL]|^ABD/i.test(f.result))));
+  const grouped=new Map();
+  filtered.forEach(f=>{const key=monthKey(f);if(!grouped.has(key))grouped.set(key,[]);grouped.get(key).push(f)});
+  if(!monthsInitialised&&fixtures.length){
+    const allKeys=[...new Set(fixtures.map(monthKey))];
+    const now=new Date(),current=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0');
+    const initial=allKeys.includes(current)?current:(allKeys.find(k=>k>current)||allKeys[allKeys.length-1]);
+    if(initial)openMonths.add(initial);
+    monthsInitialised=true;
+  }
+  const autoReveal=Boolean(term)||filter!=='all';
+  const html=[...grouped].map(([key,games])=>{
+    const opened=autoReveal||openMonths.has(key);
+    return '<details class="fixture-month" data-month="'+esc(key)+'"'+(opened?' open':'')+'><summary class="month-heading"><span class="month-title">'+esc(monthName(key))+'</span><span class="month-count">'+games.length+' '+(games.length===1?'match':'matches')+'</span><span class="month-chevron" aria-hidden="true"></span></summary><div class="month-fixtures">'+games.map(row).join('')+'</div></details>';
+  }).join('');
+  el('table').innerHTML=html||'<div style="padding:20px">No matching fixtures</div>';
+  el('table').querySelectorAll('button[data-id]').forEach(b=>b.onclick=()=>openMatch(b.dataset.id));
+  el('table').querySelectorAll('details.fixture-month').forEach(group=>group.addEventListener('toggle',()=>{
+    if(autoReveal)return;
+    const key=group.dataset.month;
+    if(group.open)openMonths.add(key);else openMonths.delete(key);
+  }));
+}
 function player(p){const extras=[];const name=String(p.name||'Unknown');const isGK=p.position==='GK'||name.trim().toLowerCase()==='louis smith';if(isGK)extras.push('<span class="player-gk">🧤 GK</span>');if(p.captain)extras.push('<span class="player-captain">(C)</span>');if(p.goalMinutes?.length)extras.push('<span class="player-goal">⚽ '+p.goalMinutes.map(m=>esc(m)+"'").join(', ')+'</span>');if(p.onMinute)extras.push('<span class="player-on">▲ on '+esc(p.onMinute)+"'</span>");if(p.offMinute)extras.push('<span class="player-off">▼ off '+esc(p.offMinute)+"'</span>");if(p.used===false)extras.push('<span class="player-unused">unused</span>');return '<li>'+esc(name)+(extras.length?' '+extras.join(' · '):'')+'</li>'}
 function openMatch(id){const f=fixtures.find(x=>x.id===id);if(!f)return;const m=matchFor(f),r=String(f.result||''),nums=r.match(/(\d+)\s*[-–]\s*(\d+)/);let line;if(nums){const home=f.homeAway==='H'?'TIVERTON TOWN':f.opposition,away=f.homeAway==='H'?f.opposition:'TIVERTON TOWN';const a=nums[1],b=nums[2];line=esc(home)+' '+(f.homeAway==='H'?'<span class="tivvy">'+a+'</span>':esc(a))+' – '+(f.homeAway==='A'?'<span class="tivvy">'+b+'</span>':esc(b))+' '+esc(away)}else line=esc(f.opposition)+' · '+esc(r||'Fixture');
 let parts='<div class="crestline"><img src="tiverton-town-logo.png" alt="Tiverton crest">'+(crest(f.opposition)?'<img src="'+esc(crest(f.opposition))+'" alt="'+esc(f.opposition)+' crest">':'')+'</div><div class="meta">'+esc(date(f.date))+' · '+(f.homeAway==='H'?'HOME':'AWAY')+' · '+esc(competitionLabel(f.competition))+(f.kickOff?' · '+esc(f.kickOff):'')+'</div><div class="scoreline">'+line+'</div>';
