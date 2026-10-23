@@ -367,6 +367,20 @@ header h1{font-family:"Anton",Impact,"Arial Narrow",sans-serif;font-weight:400}
 .dialog #matchTitle{font-family:"Anton",Impact,"Arial Narrow",sans-serif;font-weight:400}
 #table .action button{font-family:"Anton",Impact,"Arial Narrow",sans-serif!important;font-weight:400!important;letter-spacing:.2px}
 
+/* Mobile fixtures: give the opponent the full space beside the date,
+   and let the competition use the row width instead of squeezing words. */
+@media(max-width:650px){
+  #table .month-fixtures>.row:not(.th) .club{grid-column:2/-1;grid-row:1;min-width:0}
+  #table .month-fixtures>.row:not(.th) .club span{overflow-wrap:normal;word-break:normal;hyphens:none}
+  #table .month-fixtures>.row:not(.th) .comp{grid-column:1/-1;grid-row:2}
+  #table .month-fixtures>.row:not(.th) .comp .comp-name{overflow-wrap:normal;word-break:normal}
+  #table .month-fixtures>.row:not(.th) .action{grid-column:3;grid-row:3}
+  #table .month-fixtures>.row:not(.th) .scorers{grid-column:1/3;grid-row:3}
+  .modal{align-items:flex-start;padding:12px}
+  .modal .dialog{margin-top:var(--mobile-dialog-top,0px);max-height:var(--mobile-dialog-height,calc(100dvh - 24px))}
+  .dialog #matchTitle{font-size:23px;line-height:1.2;padding-right:78px}
+  .dialog .close{font-size:16px}
+}
 </style></head><body>
 <script>if(new URLSearchParams(location.search).get('embed')==='1')document.body.classList.add('wix-embed');</script>
 <header><img class="brand" src="tiverton-town-logo.png" alt="Tiverton Town badge"><div><h1>Tivvy Match Centre</h1><p>Fixtures, Results, Tables &amp; Player Stats</p></div></header>
@@ -633,8 +647,30 @@ if(window.matchMedia('(max-width:650px)').matches){
   if(m?.officialReportUrl&&/^https:\/\//.test(m.officialReportUrl))parts+='<h3>MATCH REPORT</h3><p><a class="report" href="'+esc(m.officialReportUrl)+'" target="_blank" rel="noopener">Read the official match report ↗</a></p>';
   if(!m&&!r)parts+='<p class="muted">Fixture information will be updated when available.</p>';
 }
-parts+='<div id="viv-match-photos" data-fixture="'+esc(f.id)+'"></div>';el('matchBody').innerHTML=parts;el('modal').hidden=false;document.body.style.overflow='hidden';el('close').focus();populateVivPhotos(f)}
-function closeMatch(){el('modal').hidden=true;document.body.style.overflow=''}
+parts+='<div id="viv-match-photos" data-fixture="'+esc(f.id)+'"></div>';el('matchBody').innerHTML=parts;el('modal').hidden=false;document.body.style.overflow='hidden';positionMobileMatch();el('close').focus(window.matchMedia('(max-width:650px)').matches?{preventScroll:true}:undefined);populateVivPhotos(f)}
+/* A Wix iframe can be much taller than the phone screen. Measure its visible
+   intersection on opening, rather than centring the dialog in the whole iframe. */
+let mobileDialogObserver=null;
+function positionMobileMatch(){
+  if(!window.matchMedia('(max-width:650px)').matches)return;
+  const modal=el('modal');
+  const place=(top,height)=>{
+    modal.style.setProperty('--mobile-dialog-top',Math.max(0,top)+'px');
+    modal.style.setProperty('--mobile-dialog-height',Math.max(1,height)+'px');
+  };
+  const embedded=window.self!==window.top;
+  const row=document.activeElement?.closest('.row');
+  place(embedded&&row?Math.max(0,row.getBoundingClientRect().top-12):0,(window.visualViewport?.height||window.innerHeight)-24);
+  mobileDialogObserver?.disconnect();
+  if(embedded&&typeof IntersectionObserver!=='undefined'){
+    mobileDialogObserver=new IntersectionObserver(entries=>{
+      const visible=entries[0]?.intersectionRect;
+      if(!modal.hidden&&visible?.height>24)place(visible.top,visible.height-24);
+    });
+    mobileDialogObserver.observe(modal);
+  }
+}
+function closeMatch(){mobileDialogObserver?.disconnect();el('modal').hidden=true;document.body.style.overflow=''}
 setInterval(updateNextKickoff,1000);
 el('close').onclick=closeMatch;el('modal').onclick=e=>{if(e.target===el('modal'))closeMatch()};window.onkeydown=e=>{if(e.key==='Escape')closeMatch()};el('q').oninput=render;el('filter').onchange=render;
 async function getJSON(name){const r=await fetch(BASE+name+'?v=20261022',{cache:'no-store'});if(!r.ok)throw new Error(name+' HTTP '+r.status);return r.json()}
