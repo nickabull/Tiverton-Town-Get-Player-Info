@@ -527,9 +527,30 @@ const openMonths=new Set();
 let monthsInitialised=false;
 function monthKey(f){return String(f.date||'').slice(0,7)}
 function monthName(key){return new Date(key+'-01T12:00:00').toLocaleDateString('en-GB',{month:'long',year:'numeric'})}
+/* Keep competition choices in the existing dropdown, alongside result filters.
+   Build them from the feed so newly added competitions appear automatically. */
+function populateCompetitionFilter(){
+  const filter=el('filter'),selected=filter.value;
+  const labels={friendly:'Pre Season',league:'Southern League',fatrophy:'FA Trophy',facup:'FA Cup',stlukescup:"Devon Cup (St Luke's)"};
+  const order=['friendly','league','fatrophy','facup','stlukescup'];
+  const competitions=new Map();
+  fixtures.forEach(f=>{const key=comp(f.competition);if(key&&!competitions.has(key))competitions.set(key,labels[key]||competitionLabel(f.competition))});
+  const keys=[...competitions.keys()].sort((a,b)=>{
+    const ai=order.indexOf(a),bi=order.indexOf(b);
+    return (ai<0?order.length:ai)-(bi<0?order.length:bi)||competitions.get(a).localeCompare(competitions.get(b));
+  });
+  filter.innerHTML='<option value="all">All fixtures</option><optgroup label="Match status"><option value="results">Results</option><option value="upcoming">Upcoming &amp; postponed</option></optgroup><optgroup label="Competition">'+keys.map(key=>'<option value="competition:'+esc(key)+'">'+esc(competitions.get(key))+'</option>').join('')+'</optgroup>';
+  filter.value=['all','results','upcoming',...keys.map(key=>'competition:'+key)].includes(selected)?selected:'all';
+}
+function fixtureMatchesFilter(f,filter){
+  if(filter==='all')return true;
+  if(filter==='results')return /^[WDL]|^ABD/i.test(f.result);
+  if(filter==='upcoming')return !/^[WDL]|^ABD/i.test(f.result);
+  return filter.startsWith('competition:')&&comp(f.competition)===filter.slice('competition:'.length);
+}
 function render(){
   const term=el('q').value.trim().toLowerCase(),filter=el('filter').value;
-  const filtered=fixtures.filter(f=>(f.opposition+' '+f.competition+' '+competitionLabel(f.competition)).toLowerCase().includes(term)&&(filter==='all'||(filter==='results'?/^[WDL]|^ABD/i.test(f.result):!/^[WDL]|^ABD/i.test(f.result))));
+  const filtered=fixtures.filter(f=>(f.opposition+' '+f.competition+' '+competitionLabel(f.competition)).toLowerCase().includes(term)&&fixtureMatchesFilter(f,filter));
   const grouped=new Map();
   filtered.forEach(f=>{const key=monthKey(f);if(!grouped.has(key))grouped.set(key,[]);grouped.get(key).push(f)});
   if(!monthsInitialised&&fixtures.length){
@@ -540,10 +561,10 @@ function render(){
     monthsInitialised=true;
   }
   const autoReveal=Boolean(term)||filter!=='all';
-  // Latest completed match across all competitions, not affected by search/filter.
+  // Latest completed match in the selected competition; other filters retain the season summary.
   // Ignore postponed and unplayed fixtures, and future-dated results.
   const now=new Date(),today=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+'-'+String(now.getDate()).padStart(2,'0');
-  const latest=[...fixtures].filter(f=>f.date<=today&&/^[WDL]\s+\d+\s*[-–]\s*\d+$/i.test(String(f.result||''))).sort((a,b)=>a.date.localeCompare(b.date)).at(-1);
+  const latest=[...fixtures].filter(f=>(!filter.startsWith('competition:')||fixtureMatchesFilter(f,filter))&&f.date<=today&&/^[WDL]\s+\d+\s*[-–]\s*\d+$/i.test(String(f.result||''))).sort((a,b)=>a.date.localeCompare(b.date)).at(-1);
   const latestHTML=latest?'<section class="latest-result" aria-label="Latest Tiverton Town result"><div class="latest-heading"><img src="tiverton-town-logo.png" alt="Tiverton Town crest"><span>LATEST RESULT</span></div><div class="month-fixtures">'+row(latest)+'</div></section>':'';
   const html=[...grouped].map(([key,games])=>{
     const opened=autoReveal||openMonths.has(key);
@@ -674,7 +695,7 @@ function closeMatch(){mobileDialogObserver?.disconnect();el('modal').hidden=true
 setInterval(updateNextKickoff,1000);
 el('close').onclick=closeMatch;el('modal').onclick=e=>{if(e.target===el('modal'))closeMatch()};window.onkeydown=e=>{if(e.key==='Escape')closeMatch()};el('q').oninput=render;el('filter').onchange=render;
 async function getJSON(name){const r=await fetch(BASE+name+'?v=20261022',{cache:'no-store'});if(!r.ok)throw new Error(name+' HTTP '+r.status);return r.json()}
-(async()=>{try{const [list,league,cup,historical]=await Promise.all([getJSON('match-centre-fixtures-2026-27.json'),getJSON('data.json'),getJSON('cup-match-details-2026-27.json'),getJSON('historical-match-details-2026-27.json')]);fixtures=list.fixtures||[];details=[...(league.fixtures||[]).map(x=>({...x,competition:'SLD1S'})),...(cup.fixtures||[]),...(historical.fixtures||[])];fixtures.sort((a,b)=>a.date.localeCompare(b.date));render();updateAwayDay();updateNextKickoff()}catch(e){el('table').innerHTML='<div id="status">Unable to load fixtures at present. Please refresh the page.</div>';console.error(e)}})();
+(async()=>{try{const [list,league,cup,historical]=await Promise.all([getJSON('match-centre-fixtures-2026-27.json'),getJSON('data.json'),getJSON('cup-match-details-2026-27.json'),getJSON('historical-match-details-2026-27.json')]);fixtures=list.fixtures||[];details=[...(league.fixtures||[]).map(x=>({...x,competition:'SLD1S'})),...(cup.fixtures||[]),...(historical.fixtures||[])];fixtures.sort((a,b)=>a.date.localeCompare(b.date));populateCompetitionFilter();render();updateAwayDay();updateNextKickoff()}catch(e){el('table').innerHTML='<div id="status">Unable to load fixtures at present. Please refresh the page.</div>';console.error(e)}})();
 
 (function(){
   const tabs=Array.from(document.querySelectorAll('.hub-tab'));
