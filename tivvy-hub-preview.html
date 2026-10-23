@@ -133,6 +133,8 @@ footer{padding:7px 18px 12px!important;font-size:11px;color:#333}
 .away-fixture{display:block;max-width:none}
 .away-hero{display:flex;align-items:center;gap:18px;background:#111;color:#fff;padding:17px 20px;margin-bottom:14px}
 .away-hero img{width:82px;height:82px;object-fit:contain;background:transparent;padding:0}
+/* Larkhall's sourced crest is a square with white corners baked into the image. Clip to its circular badge. */
+.away-hero img.away-crest-larkhall{clip-path:circle(42% at 50% 50%)}
 .away-hero .away-tag{font-size:12px;padding:0;background:transparent;color:#ffdd00;letter-spacing:.8px}
 .away-hero .away-opponent{font-family:"Anton",Impact,sans-serif;font-size:clamp(25px,4vw,42px);font-weight:400;line-height:1.1}
 .away-hero .away-date{font-size:15px;font-weight:700}
@@ -372,7 +374,7 @@ function updateAwayDay(){
   const guide=AWAY_GUIDES[club(next.opposition)];
   const verified=guide&&guide.date===next.date?guide:null;
   const badge=crest(next.opposition);
-  const hero='<div class="away-hero">'+(badge?'<img src="'+safe(badge)+'" alt="'+safe(next.opposition)+' crest">':'')+
+  const hero='<div class="away-hero">'+(badge?'<img class="'+(club(next.opposition)==='larkhallathletic'?'away-crest-larkhall':'')+'" src="'+safe(badge)+'" alt="'+safe(next.opposition)+' crest">':'')+
     '<div><div class="away-tag">NEXT AWAY TRIP</div><div class="away-opponent">'+safe(next.opposition)+'</div>'+
     '<div class="away-date">'+safe(formatted)+' · '+safe(next.kickOff||'Kick-off TBC')+'</div>'+
     '<div class="away-info">'+safe(competitionLabel(next.competition))+'</div></div></div>';
