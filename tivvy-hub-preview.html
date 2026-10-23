@@ -146,7 +146,7 @@ footer{padding:7px 18px 12px!important;font-size:11px;color:#333}
   .matrix-explorer-table td{padding:10px 6px;border:1px solid #111;text-align:center;font-weight:700}
   .matrix-explorer-table td:first-child{text-align:left;font-weight:600}
   .matrix-explorer-table tbody tr:nth-child(even){background:#ffdd00}
-  .matrix-explorer-table .empty-score{color:#777;font-weight:400}
+  .matrix-explorer-table .empty-score{color:#777;font-weight:400}.matrix-explorer-table .tivvy-goals{color:#d71920!important;font-weight:900}
   .matrix-explorer-note{font:400 12px/1.4 Arial,Helvetica,sans-serif;padding:8px 0 13px;color:#333}
   .matrix-full-label{background:#111;border-bottom:6px solid #ffdd00;padding:12px 15px;color:#fff}
   .matrix-full-label h3{font:400 24px/1.2 "Anton",Impact,"Arial Narrow",sans-serif;color:#ffdd00;margin:0}
@@ -530,9 +530,9 @@ async function getJSON(name){const r=await fetch(BASE+name+'?v=20261022',{cache:
         const render=()=>{
           const team=select.value;
           const opponents=teams.filter(t=>t!==team);
-          const cell=v=>v?esc(v):'<span class="empty-score">—</span>';
+          const cell=(v,home,away)=>{if(!v)return '<span class="empty-score">—</span>';const m=String(v).match(/^(\d+)\s*[-–]\s*(\d+)$/);if(!m)return esc(v);return (home==='Tiverton Town'?'<span class="tivvy-goals">'+m[1]+'</span>':m[1])+'-'+(away==='Tiverton Town'?'<span class="tivvy-goals">'+m[2]+'</span>':m[2]);};
           output.innerHTML='<table class="matrix-explorer-table"><thead><tr><th scope="col">Opposition</th><th scope="col">Home</th><th scope="col">Away</th></tr></thead><tbody>'+
-            opponents.map(opp=>'<tr><td>'+esc(opp)+'</td><td>'+cell(scores.get(team+'|'+opp))+'</td><td>'+cell(scores.get(opp+'|'+team))+'</td></tr>').join('')+
+            opponents.map(opp=>'<tr><td>'+esc(opp)+'</td><td>'+cell(scores.get(team+'|'+opp),team,opp)+'</td><td>'+cell(scores.get(opp+'|'+team),opp,team)+'</td></tr>').join('')+
             '</tbody></table><div class="matrix-explorer-note">Scores are shown home team first. A dash means the result is not yet recorded.</div>';
         };
         select.addEventListener('change',render);
@@ -558,6 +558,7 @@ async function getJSON(name){const r=await fetch(BASE+name+'?v=20261022',{cache:
           '#matrix .matrix{width:100%!important;min-width:0!important;table-layout:fixed!important}',
           '#matrix .matrix th,#matrix .matrix td{width:auto!important;min-width:0!important;max-width:none!important;padding:0 1px!important;height:31px!important;font-size:clamp(8px,.8vw,11px)!important;white-space:nowrap!important;overflow:hidden!important}',
           '#matrix .matrix-wrap{overflow-x:hidden!important}',
+          '#matrix .matrix .tivvy-goals{color:#d71920!important;font-weight:900!important}',
           '@media(max-width:650px){#matrix .section-head{display:none!important}#matrix .matrix{min-width:690px!important}#matrix .matrix-wrap{overflow-x:auto!important}#matrix .matrix th,#matrix .matrix td{font-size:9px!important}}',
 
           '#matrix .team-key{padding:10px 0 0!important;background:transparent!important}',
