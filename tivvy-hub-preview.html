@@ -511,6 +511,7 @@ async function getJSON(name){const r=await fetch(BASE+name+'?v=20261022',{cache:
           '#players .players table tbody tr:last-child td{border-bottom:2px solid #111!important}'
         ].join(''):'';
         st.textContent='header,footer{display:none!important}body{margin:0!important}'+(section?'nav{display:none!important}main>.section:not(#'+section+'){display:none!important}main{padding:0!important}':'')+(frame.dataset.src?.includes('season-so-far.html')?[
+          '.nav{display:none!important}',
           ':root{--bg:#ffdd00!important;--yellow:#ffdd00!important}',
           'html,body{background:#ffdd00!important}',
           '.wrap{padding:0 0 8px!important;max-width:none!important;background:#ffdd00!important}',
