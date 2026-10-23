@@ -66,6 +66,15 @@ table{width:100%;border-collapse:collapse}th,td{padding:8px 10px;border-bottom:1
 </main>
 <script src="data.js"></script>
 <script>
+function formatUKTimestamp(value){
+ const raw=String(value||'').trim();
+ if(!raw)return 'unknown';
+ const iso=raw.replace(/ UTC$/i,'Z').replace(' ','T');
+ const d=new Date(iso);
+ if(Number.isNaN(d.getTime()))return raw;
+ return new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/London',day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23',timeZoneName:'short'}).format(d);
+}
+
 const data=window.TIVVY_DATA||{fixtures:[]};
 const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 const fmt=s=>{const m=String(s||'').match(/^(\d{4})-(\d{2})-(\d{2})$/);return m?m[3]+'/'+m[2]:s||''};
@@ -74,7 +83,7 @@ const minute=v=>{const m=String(v||'').match(/^(\d{1,3})(?:\+(\d{1,2}))?$/);retu
 const completed=(data.fixtures||[]).filter(x=>x.result&&parseScore(x.result)).sort((a,b)=>(a.date||'').localeCompare(b.date||''));
 function rec(rows){let w=0,d=0,l=0,gf=0,ga=0;rows.forEach(x=>{const r=parseScore(x.result);gf+=r.gf;ga+=r.ga;if(r.gf>r.ga)w++;else if(r.gf===r.ga)d++;else l++});return {p:rows.length,w,d,l,gf,ga,pts:w*3+d}}
 const all=rec(completed),home=rec(completed.filter(x=>String(x.venue).toUpperCase()==='H')),away=rec(completed.filter(x=>String(x.venue).toUpperCase()==='A'));
-document.getElementById('updated').textContent='Last updated '+(data.updated||'unknown')+' · '+all.p+' completed league matches';
+document.getElementById('updated').textContent='Last updated '+formatUKTimestamp(data.updated)+' · '+all.p+' completed league matches';
 document.getElementById('record').textContent=all.w+'-'+all.d+'-'+all.l;document.getElementById('recordSub').textContent=all.p+' played · W-D-L';
 document.getElementById('points').textContent=all.pts;document.getElementById('ppg').textContent=(all.p?(all.pts/all.p).toFixed(2):'0.00')+' points per game';
 document.getElementById('goals').textContent=all.gf;document.getElementById('goalSub').textContent=all.ga+' conceded · '+(all.p?(all.gf/all.p).toFixed(2):'0.00')+' scored per game';
