@@ -247,6 +247,35 @@ footer{padding:7px 18px 12px!important;font-size:11px;color:#333}
   #table .month-fixtures>.row:not(.th) .mobile-score{flex:0 0 auto;white-space:nowrap;min-width:max-content;padding-left:8px}
 }
 
+
+/* Mobile fixture scores: reserve a fixed, unbreakable score column.
+   Only the competition label may wrap; approved row arrangement is preserved. */
+@media(max-width:650px){
+  #table .month-fixtures>.row:not(.th) .comp{
+    display:grid!important;
+    grid-template-columns:64px minmax(0,1fr) max-content!important;
+    column-gap:6px!important;
+    align-items:center;
+    width:100%;
+    min-width:0;
+  }
+  #table .month-fixtures>.row:not(.th) .comp>.mobile:not(.venue-label){display:none!important}
+  #table .month-fixtures>.row:not(.th) .comp .venue-label{grid-column:1;min-width:0}
+  #table .month-fixtures>.row:not(.th) .comp .comp-name{grid-column:2;min-width:0;overflow-wrap:break-word}
+  #table .month-fixtures>.row:not(.th) .comp .mobile-score{
+    grid-column:3;
+    justify-self:end;
+    white-space:nowrap!important;
+    word-break:keep-all!important;
+    overflow-wrap:normal!important;
+    min-width:max-content;
+    border-left:2px solid #111;
+    padding-left:7px;
+    font-size:16px;
+    line-height:1.15;
+  }
+}
+
 /* Match detail pop-up only. Fixture rows and main navigation are unchanged. */
 .match-detail-columns{display:block}
 @media(min-width:651px){
