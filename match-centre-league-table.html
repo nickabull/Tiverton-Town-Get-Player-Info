@@ -134,6 +134,33 @@ function crest(team,assetId){
   ? `<img class="logo" src="${esc(src)}" alt="" title="Club crest" onerror="this.style.display='none';this.nextElementSibling.style.display='inline-flex'"><span class="fallback" style="display:none">${esc(initials)}</span>`
   : `<span class="fallback">${esc(initials)}</span>`;
 }
+/* Some league-table feeds omit W/D/L. Recover those counts only when
+   the recorded results reconcile with the published table row. */
+function addLeagueRecords(rows,results){
+ const aliases={swindonsupermarine:'swindonsm',dorchestertown:'dorchester',hungerfordtown:'hungerford',westburyunited:'westbury',scinkberrow:'sportingclubinkberrow',portlandunited:'portlandutd'};
+ const key=name=>{const k=normalizeTeam(name);return aliases[k]||k};
+ const records=new Map(),seen=new Set();
+ const get=name=>{const k=key(name);if(!records.has(k))records.set(k,{p:0,w:0,d:0,l:0,gf:0,ga:0});return records.get(k)};
+ (results||[]).forEach(match=>{
+  const score=String(match.score||'').match(/^(\d+)\s*[-–]\s*(\d+)$/);
+  if(!score||!match.home||!match.away)return;
+  const id=key(match.home)+'|'+key(match.away);
+  if(seen.has(id))return;
+  seen.add(id);
+  const home=+score[1],away=+score[2];
+  [[match.home,home,away],[match.away,away,home]].forEach(([team,gf,ga])=>{
+   const r=get(team);r.p++;r.gf+=gf;r.ga+=ga;r[gf>ga?'w':gf===ga?'d':'l']++;
+  });
+ });
+ return rows.map(row=>{
+  if([row.w,row.d,row.l].every(v=>v!==null&&v!==undefined&&v!==''))return row;
+  const r=records.get(key(row.team));
+  if(!r||r.p!==Number(row.p)||r.gf-r.ga!==Number(row.gd))return row;
+  // Points deductions can change Pts without changing the team's match record.
+  const value=(v,fallback)=>v===null||v===undefined||v===''?fallback:v;
+  return {...row,w:value(row.w,r.w),d:value(row.d,r.d),l:value(row.l,r.l)};
+ });
+}
 async function load(){
  const st=document.getElementById('status'); st.hidden=true; st.textContent='';
  try{
@@ -141,12 +168,12 @@ async function load(){
    fetch(SRC+'?v='+Date.now()).then(r=>{if(!r.ok)throw new Error('Results feed '+r.status);return r.json()}),
    fetch(CRESTS+'?v='+Date.now()).then(r=>r.json())
   ]);
-  const rows=(data.leagueTable||[]).slice().sort((a,b)=>a.pos-b.pos), n=rows.length, assets=crestDb.assets||{};
+  const rows=addLeagueRecords(data.leagueTable||[],data.results).sort((a,b)=>a.pos-b.pos), n=rows.length, assets=crestDb.assets||{};
   if(!rows.length) throw new Error('No league table rows in feed');
   let h='<table><thead><tr><th class="pos">Pos</th><th class="crest"></th><th class="club">Club</th><th class="num">P</th><th class="num">W</th><th class="num">D</th><th class="num">L</th><th class="gd">GD</th><th class="pts">Pts</th></tr></thead><tbody>';
   rows.forEach(r=>{
     const team=r.team||'', cls=rankClass(+r.pos,n)+' '+(team===TIV?'tivvy':'');
-    h+='<tr class="'+cls+'"><td class="pos">'+esc(r.pos)+'</td><td class="crest">'+crest(team,assets[team])+'</td><td class="club"><span class="clubname">'+esc(team)+'</span></td><td>'+esc(r.p??'')+'</td><td>'+esc(r.w??'')+'</td><td>'+esc(r.d??'')+'</td><td>'+esc(r.l??'')+'</td><td>'+esc(r.gd??'')+'</td><td class="pts">'+esc(r.pts??'')+'</td></tr>';
+    h+='<tr class="'+cls+'"><td class="pos">'+esc(r.pos)+'</td><td class="crest">'+crest(team,assets[team])+'</td><td class="club"><span class="clubname">'+esc(team)+'</span></td><td>'+esc(r.p??'')+'</td><td>'+esc(r.w??'—')+'</td><td>'+esc(r.d??'—')+'</td><td>'+esc(r.l??'—')+'</td><td>'+esc(r.gd??'')+'</td><td class="pts">'+esc(r.pts??'')+'</td></tr>';
   });
   h+='</tbody></table>';
   document.getElementById('tableWrap').innerHTML=h;
