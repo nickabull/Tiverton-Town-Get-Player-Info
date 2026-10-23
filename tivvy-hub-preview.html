@@ -416,11 +416,19 @@ async function getJSON(name){const r=await fetch(BASE+name+'?v=20261022',{cache:
           '#matrix{background:transparent!important;border:0!important;box-shadow:none!important;margin:0!important}',
           '#matrix .section-head{border-top:0!important;background:#111!important}',
           '#matrix .matrix-wrap{padding:0!important;background:#fff!important;border:1px solid #111!important}',
+          '#matrix .matrix{width:100%!important;min-width:0!important;table-layout:fixed!important}',
+          '#matrix .matrix th,#matrix .matrix td{width:auto!important;min-width:0!important;max-width:none!important;padding:0 1px!important;height:31px!important;font-size:clamp(8px,.8vw,11px)!important;white-space:nowrap!important;overflow:hidden!important}',
+          '#matrix .matrix-wrap{overflow-x:hidden!important}',
+          '@media(max-width:650px){#matrix .matrix{min-width:690px!important}#matrix .matrix-wrap{overflow-x:auto!important}#matrix .matrix th,#matrix .matrix td{font-size:9px!important}}',
+
           '#matrix .team-key{padding:10px 0 0!important;background:transparent!important}',
           '#matrix .team-key-item{background:#fff!important;border-radius:0!important;box-shadow:none!important}',
+          '#matrix .team-key-item.tiv-key{background:#111!important;color:#ffdd00!important;border:2px solid #111!important;font-weight:900!important}',
+          '#matrix .team-key-item.tiv-key .team-key-code{background:#ffdd00!important;color:#111!important}',
+
           '#matrix .matrix .tiv-row>td,#matrix .matrix td.tiv-col{background:#dedede!important}',
           '#matrix .matrix .tiv-row>td.tiv-col{background:#c3c3c3!important}',
-          '#matrix .matrix .tiv-row>th,#matrix .matrix th.tiv-axis{background:#c3c3c3!important}',
+          '#matrix .matrix .tiv-row>th,#matrix .matrix th.tiv-axis{background:#111!important;color:#ffdd00!important;font-weight:900!important}',
           '#matrix .matrix td.tiv-col{border-left:2px solid #888!important;border-right:2px solid #888!important}',
           '#matrix .matrix .tiv-row>td{border-top:2px solid #888!important;border-bottom:2px solid #888!important}'
         ].join(''):'';
@@ -438,6 +446,9 @@ async function getJSON(name){const r=await fetch(BASE+name+'?v=20261022',{cache:
               if(tivCol>0&&tr.cells[tivCol])tr.cells[tivCol].classList.add('tiv-col');
             });
           }
+          doc.querySelectorAll('#matrix .team-key-item').forEach(item=>{
+            if(item.querySelector('.team-key-code')?.textContent.trim()==='TIV')item.classList.add('tiv-key');
+          });
         }
         const h=Math.max(doc.body.scrollHeight,doc.documentElement.scrollHeight);
         if(h>0)frame.style.height=(h+16)+'px';
