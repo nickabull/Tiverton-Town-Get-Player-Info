@@ -248,7 +248,7 @@ h1{font-size:clamp(29px,5vw,52px);line-height:1.1;margin:0}header p{margin:5px 0
 </main>
 <section class="hub-panel" id="league-panel" hidden aria-label="League Table"><iframe title="League Table" loading="lazy" data-src="match-centre-league-table.html?v=20261023-0109"></iframe></section>
 <section class="hub-panel" id="matrix-panel" hidden aria-label="Results Matrix"><iframe title="Results Matrix" loading="lazy" data-src="stats-centre.html?matrix-style=20261023-0113#matrix"></iframe></section>
-<section class="hub-panel" id="players-panel" hidden aria-label="Player Stats"><iframe title="Player Stats" loading="lazy" data-src="stats-centre.html#players"></iframe></section>
+<section class="hub-panel" id="players-panel" hidden aria-label="Player Stats"><iframe title="Player Stats" loading="lazy" data-src="stats-centre.html?player-style=20261023-0121#players"></iframe></section>
 <section class="hub-panel" id="season-panel" hidden aria-label="Season So Far"><iframe title="Season So Far" loading="lazy" data-src="season-so-far.html"></iframe></section>
 <section class="hub-panel" id="away-panel" hidden aria-label="Next Away Day"><div class="away-panel-content"><h2>Next Away Day</h2><div id="away-details" aria-live="polite">Loading the next away fixture…</div></div></section><footer>Fixture details may change. For official club news visit <a href="https://www.tivertontownfc.uk/">tivertontownfc.uk</a>.</footer>
 <div class="modal" id="modal" hidden><div class="dialog" role="dialog" aria-modal="true" aria-labelledby="matchTitle"><button class="close" id="close" aria-label="Close match details">CLOSE ✕</button><h2 id="matchTitle">Tivvy Match Centre</h2><div id="matchBody"></div></div></div>
@@ -432,7 +432,20 @@ async function getJSON(name){const r=await fetch(BASE+name+'?v=20261022',{cache:
           '#matrix .matrix td.tiv-col{border-left:2px solid #888!important;border-right:2px solid #888!important}',
           '#matrix .matrix .tiv-row>td{border-top:2px solid #888!important;border-bottom:2px solid #888!important}'
         ].join(''):'';
-        st.textContent='header,footer{display:none!important}body{margin:0!important}'+(section?'nav{display:none!important}main>.section:not(#'+section+'){display:none!important}main{padding-top:0!important}':'')+matrixStyle;
+        const playerStyle=section==='players'?[
+          'body{background:#ffdd00!important}',
+          'main{padding:0!important;max-width:none!important}',
+          '#players{background:transparent!important;border:0!important;box-shadow:none!important;margin:0!important}',
+          '#players .section-head{background:#111!important;border-top:0!important}',
+          '#players .players{background:#fff!important;overflow-x:auto!important}',
+          '#players .players table{width:100%!important;border-collapse:collapse!important;border-left:2px solid #111!important;border-right:2px solid #111!important}',
+          '#players .players table thead th{background:#111!important;color:#ffdd00!important;border-bottom:2px solid #111!important}',
+          '#players .players table tbody tr:nth-child(odd) td{background:#ffdd00!important}',
+          '#players .players table tbody tr:nth-child(even) td{background:#fff!important}',
+          '#players .players table tbody td{border-bottom:1px solid #111!important}',
+          '#players .players table tbody tr:last-child td{border-bottom:2px solid #111!important}'
+        ].join(''):'';
+        st.textContent='header,footer{display:none!important}body{margin:0!important}'+(section?'nav{display:none!important}main>.section:not(#'+section+'){display:none!important}main{padding-top:0!important}':'')+matrixStyle+playerStyle;
         doc.head.appendChild(st);
       }
       const measure=()=>{
