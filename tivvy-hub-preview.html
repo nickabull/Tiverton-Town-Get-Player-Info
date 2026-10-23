@@ -116,7 +116,7 @@ h1{font-size:clamp(29px,5vw,52px);line-height:1.1;margin:0}header p{margin:5px 0
 .hub-panel[hidden],#fixtures-panel[hidden]{display:none!important}
 footer{padding:7px 18px 12px!important;font-size:11px;color:#333}
 #fixtures-panel{padding-bottom:5px}
-.hub-panel iframe{width:100%;display:block;height:1px;min-height:0;border:0;background:transparent}
+.hub-panel iframe{width:100%;display:block;height:1px;min-height:0;border:0;background:transparent;overflow:hidden}
 @media(max-width:650px){.hub-nav{padding:0 10px;gap:6px}.hub-tab{flex:0 0 auto;min-width:max-content;padding:11px 13px;font-size:16px}.hub-panel{padding:8px 10px 0}}
 
 .away-panel-content{border:2px solid #171717;background:#fff;padding:24px;font-family:Arial,Helvetica,sans-serif}
@@ -280,10 +280,10 @@ body.wix-embed .hub-panel{padding-top:8px}
 <section id="next-kickoff" class="next-kickoff" aria-label="Countdown to next Tiverton Town match" hidden></section>
 <div id="table" role="table" aria-label="Tiverton Town fixtures and results"><div id="status">Loading fixtures…</div></div>
 </main>
-<section class="hub-panel" id="league-panel" hidden aria-label="League Table"><iframe title="League Table" loading="lazy" data-src="match-centre-league-table.html?v=20261023-0109"></iframe></section>
-<section class="hub-panel" id="matrix-panel" hidden aria-label="Results Matrix"><iframe title="Results Matrix" loading="lazy" data-src="stats-centre.html?matrix-style=20261023-0113#matrix"></iframe></section>
-<section class="hub-panel" id="players-panel" hidden aria-label="Player Stats"><iframe title="Player Stats" loading="lazy" data-src="stats-centre.html?player-style=20261023-0121#players"></iframe></section>
-<section class="hub-panel" id="season-panel" hidden aria-label="Season So Far"><iframe title="Season So Far" loading="lazy" data-src="season-so-far.html?v=20261023-0127"></iframe></section>
+<section class="hub-panel" id="league-panel" hidden aria-label="League Table"><iframe scrolling="no" title="League Table" loading="lazy" data-src="match-centre-league-table.html?v=20261023-1349"></iframe></section>
+<section class="hub-panel" id="matrix-panel" hidden aria-label="Results Matrix"><iframe scrolling="no" title="Results Matrix" loading="lazy" data-src="stats-centre.html?matrix-style=20261023-0113#matrix"></iframe></section>
+<section class="hub-panel" id="players-panel" hidden aria-label="Player Stats"><iframe scrolling="no" title="Player Stats" loading="lazy" data-src="stats-centre.html?player-style=20261023-0121#players"></iframe></section>
+<section class="hub-panel" id="season-panel" hidden aria-label="Season So Far"><iframe scrolling="no" title="Season So Far" loading="lazy" data-src="season-so-far.html?v=20261023-0127"></iframe></section>
 <section class="hub-panel" id="away-panel" hidden aria-label="Next Away Day"><div class="away-panel-content"><h2>Next Away Day</h2><div id="away-details" aria-live="polite">Loading the next away fixture…</div></div></section><footer>Fixture details may change. For official club news visit <a href="https://www.tivertontownfc.uk/">tivertontownfc.uk</a>.</footer>
 <div class="modal" id="modal" hidden><div class="dialog" role="dialog" aria-modal="true" aria-labelledby="matchTitle"><button class="close" id="close" aria-label="Close match details">CLOSE ✕</button><h2 id="matchTitle">Tivvy Match Centre</h2><div id="matchBody"></div></div></div>
 <script>
@@ -513,7 +513,7 @@ async function getJSON(name){const r=await fetch(BASE+name+'?v=20261022',{cache:
           '#players .players table tbody td{border-bottom:1px solid #111!important}',
           '#players .players table tbody tr:last-child td{border-bottom:2px solid #111!important}'
         ].join(''):'';
-        st.textContent='@import url("https://fonts.googleapis.com/css2?family=Anton&display=swap");header,footer{display:none!important}body{margin:0!important}.section-head h2,.strap h2{font-family:"Anton",Impact,"Arial Narrow",sans-serif!important;font-weight:400!important;letter-spacing:.2px!important}'+(section?'nav{display:none!important}main>.section:not(#'+section+'){display:none!important}main{padding:0!important}':'')+(frame.dataset.src?.includes('match-centre-league-table.html')?'.strap{border-top:5px solid #ffdd00!important}.strap h2{color:#ffdd00!important}':'')+(frame.dataset.src?.includes('season-so-far.html')?[
+        st.textContent='@import url("https://fonts.googleapis.com/css2?family=Anton&display=swap");html,body{overflow-y:hidden!important}header,footer{display:none!important}body{margin:0!important}.section-head h2,.strap h2{font-family:"Anton",Impact,"Arial Narrow",sans-serif!important;font-weight:400!important;letter-spacing:.2px!important}'+(section?'nav{display:none!important}main>.section:not(#'+section+'){display:none!important}main{padding:0!important}':'')+(frame.dataset.src?.includes('match-centre-league-table.html')?'.strap{border-top:5px solid #ffdd00!important}.strap h2{color:#ffdd00!important}':'')+(frame.dataset.src?.includes('season-so-far.html')?[
           '.nav{display:none!important}',
           ':root{--bg:#ffdd00!important;--yellow:#ffdd00!important}',
           'html,body{background:#ffdd00!important}',
