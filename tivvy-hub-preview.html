@@ -354,6 +354,10 @@ body.wix-embed .hub-panel{padding-top:8px}
 
 /* Wix embed: hide the inner scrolling rail and hold navigation geometry steady. */
 html{scrollbar-width:none}html::-webkit-scrollbar,body::-webkit-scrollbar{display:none}
+/* Desktop scroll cue; maintain existing mobile layout and hidden scrollbars. */
+.fixtures-scroll-hint{display:block;text-align:right;margin:5px 0 10px;font:700 12px/1.3 Arial,Helvetica,sans-serif;color:#171717}
+@media(max-width:650px){.fixtures-scroll-hint{display:none}}
+
 body.wix-embed{overflow-y:visible!important;scrollbar-width:none}
 body.wix-embed .hub-nav{width:100%;max-width:1180px;box-sizing:border-box;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));overflow:visible;scrollbar-width:none}
 body.wix-embed .hub-tab{box-sizing:border-box;min-width:0;width:100%;margin:0;white-space:normal}
@@ -370,6 +374,7 @@ header h1{font-family:"Anton",Impact,"Arial Narrow",sans-serif;font-weight:400}
   <button type="button" class="hub-tab" data-section="away" aria-pressed="false">Next Away Day</button>
 </nav>
 <main id="fixtures-panel"><h2>Fixtures & Results</h2><div class="note">Season fixture list from Tiverton Town FC; full match information is shown where confirmed. Dates and kick-off times are subject to change.</div>
+<div class="fixtures-scroll-hint" aria-label="Scroll down for more fixtures">Scroll for more fixtures ↓</div>
 <div class="searchbar"><input id="q" type="search" placeholder="Search club or competition" aria-label="Search fixtures"><select id="filter" aria-label="Filter fixtures"><option value="all">All fixtures</option><option value="results">Results</option><option value="upcoming">Upcoming & postponed</option></select></div>
 <section id="next-kickoff" class="next-kickoff" aria-label="Countdown to next Tiverton Town match" hidden></section>
 <div id="table" role="table" aria-label="Tiverton Town fixtures and results"><div id="status">Loading fixtures…</div></div>
