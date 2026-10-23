@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tiverton Town — Division One South League Table</title>
+<style>
+:root{--y:#f2c400;--ink:#111;--green:#9bd18b;--blue:#9dc3e6;--orange:#f4b183;--red:#f4a6a6;--bg:#ececea;--line:#bbb}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--ink)}
+header{background:#111;color:#fff;border-bottom:5px solid var(--y)}.h{max-width:980px;margin:auto;padding:16px 20px}.ey{color:var(--y);font-size:12px;font-weight:900;letter-spacing:.13em;text-transform:uppercase}h1{margin:4px 0 2px}.sub{color:#bbb;font-size:13px}
+.wrap{max-width:980px;margin:auto;padding:18px}.tools{background:#fff;border:1px solid #ddd;border-radius:10px;padding:12px 14px;margin-bottom:16px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}.btn{background:#111;color:#fff;border:0;border-radius:7px;padding:9px 12px;font-weight:800;cursor:pointer}.status{font-size:12px;color:#666}.ok{color:#238636;font-weight:800}.bad{color:#b42318;font-weight:800}
+.page{background:#fff;aspect-ratio:794/1123;box-shadow:0 2px 12px rgba(0,0,0,.12);padding:34px 34px;overflow:hidden}.strap{background:#111;color:#fff;border-top:8px solid var(--y);padding:12px 15px;margin-bottom:12px}.strap h2{margin:0;font-size:28px}.strap .small{font-size:11px;color:#ddd;margin-top:3px;text-transform:uppercase;letter-spacing:.08em}
+table{width:100%;border-collapse:collapse;table-layout:fixed}th,td{border-bottom:1px solid #ddd;padding:8px 6px;font-size:10px;text-align:center}th{background:#111;color:#fff;font-size:9px;text-transform:uppercase}.pos{width:7%}.club{width:39%;text-align:left}.crest{width:9%;}.num{width:7.5%}.gd{width:9%}.pts{width:9%;font-weight:900}.clubname{font-weight:800}
+.logo{width:24px;height:24px;object-fit:contain;vertical-align:middle}.fallback{width:24px;height:24px;border-radius:50%;background:#111;color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:7px;font-weight:900}
+.auto td{background:var(--green)}.playoff td{background:var(--blue)}.relplay td{background:var(--orange)}.relegation td{background:var(--red)}.tivvy td{font-weight:900;background:var(--y)!important}.tivvy td{box-shadow:inset 0 1px 0 rgba(0,0,0,.08),inset 0 -1px 0 rgba(0,0,0,.08)}
+.legend{display:flex;flex-wrap:wrap;gap:8px 14px;font-size:8px;margin-top:10px}.legend span{display:inline-flex;align-items:center;gap:4px}.sw{width:11px;height:11px;border:1px solid #777}.s1{background:var(--green)}.s2{background:var(--blue)}.s3{background:var(--orange)}.s4{background:var(--red)}.s5{background:var(--y)}
+.footer{font-size:8px;color:#666;margin-top:10px;display:flex;justify-content:space-between}
+@media(max-width:700px){.page{aspect-ratio:auto;min-height:1123px;padding:20px}.club{width:35%}th,td{font-size:9px;padding:7px 4px}}
+@media print{body{background:#fff}header,.tools{display:none}.wrap{padding:0}.page{box-shadow:none;width:794px;height:1123px}}
+
+/* Match Centre presentation: programme typography, colours and rank bands;
+   responsive website layout without A4 fixed height, drop shadows or page clipping. */
+:root{--y:#ffdd00}
+body{background:#ffdd00}
+.wrap{max-width:1180px;padding:0 0 16px}
+.tools{margin:0 0 12px;background:transparent;border:0;border-radius:0;padding:4px 0 0;gap:12px}
+.btn{background:#111;color:#ffdd00;border-radius:0;padding:9px 13px}
+.page{aspect-ratio:auto;box-shadow:none;border:2px solid #111;padding:0 0 14px;overflow:visible;background:#fff}
+.strap{border-top:0;margin-bottom:0;padding:14px 18px}
+.strap h2{font-family:Impact,"Arial Narrow",Arial,sans-serif;font-size:clamp(25px,4vw,36px);font-weight:900}
+.strap .small{font-size:12px}
+.table-scroller{width:100%;overflow-x:auto}
+table{min-width:640px;width:100%;table-layout:fixed}
+th,td{padding:8px 5px;font-size:13px}
+th{font-size:11px}
+.club{width:35%}.crest{width:7%}.pos{width:7%}.num{width:8%}.gd{width:8%}.pts{width:8%}
+.logo,.fallback{width:30px;height:30px}
+.legend{font-size:12px;gap:9px 16px;margin:14px 15px 0}
+.sw{width:14px;height:14px}
+.footer{font-size:11px;margin:13px 15px 0;gap:8px;flex-wrap:wrap}
+@media(max-width:700px){
+ .wrap{padding:0 0 12px}
+ .page{min-height:0;padding:0 0 12px}
+ .strap{padding:11px 12px}
+ .strap h2{font-size:27px}
+ th,td{font-size:12px;padding:7px 4px}
+ th{font-size:10px}
+ .legend{font-size:11px}
+}
+@media print{body{background:#fff}.page{width:100%;height:auto}}
+</style></head>
+<body>
+<main class="wrap" aria-label="League table">
+<div class="tools"><button class="btn" onclick="load()">Refresh data</button><span id="status" class="status">Loading…</span></div>
+<section class="page">
+<div class="strap"><h2>THE LEAGUE TABLE</h2><div class="small">Southern League Division One South</div></div>
+<div class="table-scroller"><div id="tableWrap"></div></div>
+<div class="legend"><span><i class="sw s1"></i>Automatic promotion</span><span><i class="sw s2"></i>Play-offs</span><span><i class="sw s3"></i>Relegation play-offs</span><span><i class="sw s4"></i>Relegation</span><span><i class="sw s5"></i>Tiverton Town</span></div>
+<div class="footer"><span>Same live league table data as the programme</span><span id="updated"></span></div>
+</section>
+</main>
+<script>
+const SRC='https://nickabull.github.io/Tiverton-Town-Get-Results/data.json';
+const CRESTS='https://nickabull.github.io/Tiverton-Town-Control-Centre/data/crest-assets.json';
+const TIV='Tiverton Town';
+const SITES={
+'Barnstaple Town':'barnstapletownfc.co.uk','Bideford':'bidefordafc.com','Bishops Cleeve':'bishopscleevefc.co.uk','Bristol Manor Farm':'bristolmanorfarm.com','Dorchester':'dorchestertownfc.co.uk','Dorchester Town':'dorchestertownfc.co.uk','Exmouth Town':'exmouth-townfc.co.uk','Falmouth Town':'falmouthtownafc.co.uk','Hartpury':'hartpury.ac.uk','Hungerford':'hungerfordtown.com','Hungerford Town':'hungerfordtown.com','Larkhall Athletic':'larkhallathletic.com','Melksham Town':'melkshamtownfc.net','Paulton Rovers':'paultonrovers.co.uk','Portland Utd':'portlandunitedfc.uk','Portland United':'portlandunitedfc.uk','Shaftesbury':'shaftesburyfc.co.uk','Slimbridge AFC':'slimbridgeafc.co.uk','Slimbridge':'slimbridgeafc.co.uk','Sporting Club Inkberrow':'inkberrowfootballclub.co.uk','Swindon SM':'swindonsupermarinefc.com','Swindon Supermarine':'swindonsupermarinefc.com','Tiverton Town':'tivertontownfc.co.uk','Westbury':'westburyunited.co.uk','Westbury United':'westburyunited.co.uk','Weymouth FC':'theterras.com','Weymouth':'theterras.com','Willand Rovers':'willandrovers.co.uk','Worcester Raiders':'worcesterraidersfc.com'
+};
+const esc=s=>String(s??'').replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
+function rankClass(pos,n){if(pos===1)return'auto';if(pos>=2&&pos<=5)return'playoff';if(n>=4&&pos>=n-3&&pos<=n-2)return'relplay';if(n>=2&&pos>=n-1)return'relegation';return''}
+CLUBS={romanglassstgeorge:'8aa829_6ad6695811c0498db90473766fc8bbd4~mv2.png',tavistock:'8aa829_ecc264bc646d41a9b6c372a0a3a23243~mv2.png',bridgwaterunited:'8aa829_199b1514dbef4b79882263529ff162ae~mv2.png',brixham:'8aa829_7f87e9823bb94650961f9d3160a065dc~mv2.png',shirehampton:'8aa829_ce9c7882df30410cb4c8d445b9077226~mv2.png',tauntontown:'d12aff_a4325afc73e54ed98cb25f2a2986cae0~mv2.png',ilminstertown:'8aa829_969cbd8d12cb4952bc614fe294f8294f~mv2.png',cullomptonrangers:'8aa829_4e91f106bc444b2f9ca4692d43864e53~mv2.png',portlandunited:'8aa829_65009eedd74649b3b7405d2be35faff4~mv2.png',bideford:'d12aff_6327d76501bf400a8fa826f32d319856~mv2.png',hungerfordtown:'f62a66_4fc40563b6a942d1aab1f3fdb82ef2df~mv2.png'};
+const EXTRA_CRESTS={
+  "larkhallathletic": "https://pbs.twimg.com/profile_images/1766410295151378433/OSwp_Pqt.jpg",
+  "hartpury": "https://www.hartpury.ac.uk/media/1ldnoiyh/hartpury_fc_roundel_red_-main.png",
+  "weymouth": "https://images.seeklogo.com/logo-png/64/1/weymouth-fc-logo-png_seeklogo-640038.png",
+  "melkshamtown": "https://images.seeklogo.com/logo-png/53/1/melksham-town-fc-logo-png_seeklogo-536816.png",
+  "bristolmanorfarm": "https://image.pngaaa.com/739/1721739-middle.png",
+  "willandrovers": "https://static.cdnlogo.com/logos/w/90/willand-rovers-fc_800.png",
+  "bishopscleeve": "https://assets.app.veo.co/crests/bishops-cleeve-football-club/Bishops_Cleeve_AFC_-Green_Logo.png",
+  "shaftesbury": "https://r2.thesportsdb.com/images/media/team/badge/p5j4xn1731964502.png",
+  "sholing": "https://media.touchlinefc.co.uk/sholing/2024/12/11161314/SholingCrest2425RedWhiteNeoSansPNG.png?class=1x1md",
+  "gosportborough": "https://seeklogo.com/images/G/gosport-borough-fc-logo-225B32FB00-seeklogo.com.png",
+  "stblazey": "https://pbs.twimg.com/profile_images/1720172915352641536/ie3JGsL2_400x400.jpg",
+  "swindonsupermarine": "https://media.touchlinefc.co.uk/farnborough/2022/09/SwindonSupermarineFC-New.png?class=1x1md"
+};
+const normalizeTeam=s=>String(s||'').toLowerCase().replace(/\\b(football club|afc|fc)\\b/g,'').replace(/[^a-z0-9]/g,'');
+function crest(team,assetId){
+ const key=normalizeTeam(team),x=CLUBS[key];
+ const src=x?'https://static.wixstatic.com/media/'+x:(EXTRA_CRESTS[key]||'');
+ const initials=(team||'').split(/\\s+/).map(x=>x[0]).join('').slice(0,3).toUpperCase();
+ return src?'<img class="logo" src="'+esc(src)+'" alt="" title="Club crest" onerror="this.style.display=\\'none\\';this.nextElementSibling.style.display=\\'inline-flex\\'"><span class="fallback" style="display:none">'+esc(initials)+'</span>':'<span class="fallback">'+esc(initials)+'</span>';
+}
+async function load(){
+ const st=document.getElementById('status'); st.textContent='Refreshing…';
+ try{
+  const [data,crestDb]=await Promise.all([
+   fetch(SRC+'?v='+Date.now()).then(r=>{if(!r.ok)throw new Error('Results feed '+r.status);return r.json()}),
+   fetch(CRESTS+'?v='+Date.now()).then(r=>r.json())
+  ]);
+  const rows=(data.leagueTable||[]).slice().sort((a,b)=>a.pos-b.pos), n=rows.length, assets=crestDb.assets||{};
+  if(!rows.length) throw new Error('No league table rows in feed');
+  let h='<table><thead><tr><th class="pos">Pos</th><th class="crest"></th><th class="club">Club</th><th class="num">P</th><th class="num">W</th><th class="num">D</th><th class="num">L</th><th class="gd">GD</th><th class="pts">Pts</th></tr></thead><tbody>';
+  rows.forEach(r=>{
+    const team=r.team||'', cls=rankClass(+r.pos,n)+' '+(team===TIV?'tivvy':'');
+    h+='<tr class="'+cls+'"><td class="pos">'+esc(r.pos)+'</td><td class="crest">'+crest(team,assets[team])+'</td><td class="club"><span class="clubname">'+esc(team)+'</span></td><td>'+esc(r.p??'')+'</td><td>'+esc(r.w??'')+'</td><td>'+esc(r.d??'')+'</td><td>'+esc(r.l??'')+'</td><td>'+esc(r.gd??'')+'</td><td class="pts">'+esc(r.pts??'')+'</td></tr>';
+  });
+  h+='</tbody></table>';
+  document.getElementById('tableWrap').innerHTML=h;
+  document.getElementById('updated').textContent='Feed updated '+(data.updated||'unknown');
+  const mapped=rows.filter(r=>assets[r.team]).length;
+  st.innerHTML='<span class="ok">'+rows.length+' clubs loaded · '+mapped+'/'+rows.length+' mapped to approved Canva crest assets</span>';
+ }catch(e){st.innerHTML='<span class="bad">'+esc(e.message)+'</span>'}
+}
+load();
+</script></body></html>
