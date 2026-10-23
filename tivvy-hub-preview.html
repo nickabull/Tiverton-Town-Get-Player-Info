@@ -297,7 +297,7 @@ function render(){
   // Latest completed match across all competitions, not affected by search/filter.
   // Ignore postponed and unplayed fixtures, and future-dated results.
   const now=new Date(),today=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+'-'+String(now.getDate()).padStart(2,'0');
-  const latest=[...fixtures].filter(f=>f.date<=today&&/^[WDL]\\s+\\d+\\s*[-–]\\s*\\d+$/i.test(String(f.result||''))).sort((a,b)=>a.date.localeCompare(b.date)).at(-1);
+  const latest=[...fixtures].filter(f=>f.date<=today&&/^[WDL]\s+\d+\s*[-–]\s*\d+$/i.test(String(f.result||''))).sort((a,b)=>a.date.localeCompare(b.date)).at(-1);
   const latestHTML=latest?'<section class="latest-result" aria-label="Latest Tiverton Town result"><div class="latest-heading"><img src="tiverton-town-logo.png" alt="Tiverton Town crest"><span>LATEST RESULT</span></div><div class="month-fixtures">'+row(latest)+'</div></section>':'';
   const html=[...grouped].map(([key,games])=>{
     const opened=autoReveal||openMonths.has(key);
