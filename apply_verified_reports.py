@@ -23,7 +23,10 @@ def apply(data):
 
 if __name__ == '__main__':
     data = apply(json.loads((BASE / 'data.json').read_text(encoding='utf-8-sig')))
+    from league_attendances import apply_seed
+    data = apply_seed(data)
     raw = json.dumps(data, ensure_ascii=False, separators=(',', ':'))
     (BASE / 'data.json').write_text(raw)
     (BASE / 'data.js').write_text('window.TIVVY_DATA = ' + raw + ';\n')
     print(f"Verified club reports applied: {len(data['fixtures'])} league fixtures")
+
