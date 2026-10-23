@@ -21,6 +21,59 @@ table{width:100%;border-collapse:collapse}th,td{padding:8px 9px;border-bottom:1p
 .bar-row{display:grid;grid-template-columns:82px 1fr 36px;gap:8px;align-items:center;padding:6px 0}.bar{height:14px;background:#eee;border-radius:7px;overflow:hidden}.bar span{display:block;height:100%;background:var(--y)}
 .note{padding:11px 14px;border-left:5px solid var(--y);background:#fff8d3;font-size:12px;color:#555}
 @media(max-width:900px){.cards{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}}@media(max-width:650px){.hero{grid-template-columns:68px 1fr}.logo{height:60px}.league-logo{display:none}.cards{grid-template-columns:1fr}main{padding:12px 8px 40px}nav{justify-content:flex-start;overflow-x:auto;flex-wrap:nowrap}}
+
+/* Tivvy Player Centre: native mobile cards, no horizontal scrolling. */
+#players .player-centre{font-family:Arial,Helvetica,sans-serif;background:#ffdd00}
+#players .player-overview{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;padding:14px 0}
+#players .player-highlight{background:#111;color:#fff;padding:16px 13px;min-width:0}
+#players .player-highlight .label{font:400 17px/1.2 "Anton",Impact,"Arial Narrow",sans-serif;text-transform:uppercase;color:#ffdd00}
+#players .player-highlight .number{font:400 37px/1.2 "Anton",Impact,"Arial Narrow",sans-serif;color:#fff;margin:7px 0}
+#players .player-highlight .detail{font:400 12px/1.35 Arial,Helvetica,sans-serif;color:#fff;overflow-wrap:anywhere}
+#players .player-highlight .number.goals{color:#d71920}
+#players .player-leaderboards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;padding-bottom:14px}
+#players .leaderboard{background:#fff;border:2px solid #111;min-width:0}
+#players .leaderboard h3{background:#111;color:#ffdd00;font:400 21px/1.2 "Anton",Impact,"Arial Narrow",sans-serif;text-transform:uppercase;margin:0;padding:10px 12px}
+#players .leaderboard ol{margin:0;padding:0;list-style:none;counter-reset:rank}
+#players .leaderboard li{display:grid;grid-template-columns:23px minmax(0,1fr) auto;align-items:center;gap:8px;padding:9px 10px;border-top:1px solid #111;font:400 13px/1.25 Arial,Helvetica,sans-serif;counter-increment:rank}
+#players .leaderboard li:nth-child(even){background:#ffdd00}
+#players .leaderboard li::before{content:counter(rank);font:400 16px "Anton",Impact,sans-serif;color:#555}
+#players .leaderboard .leader-name{font-weight:700;overflow-wrap:anywhere}
+#players .leaderboard .leader-value{font-weight:900;font-size:17px}
+#players .leaderboard.goals .leader-value{color:#d71920}
+#players .player-directory{background:#fff;border:2px solid #111}
+#players .directory-heading{background:#111;color:#ffdd00;padding:10px 12px;font:400 23px/1.2 "Anton",Impact,"Arial Narrow",sans-serif}
+#players .directory-controls{display:flex;gap:8px;padding:10px;background:#ffdd00}
+#players .directory-controls input,#players .directory-controls select{min-width:0;border:2px solid #111;border-radius:0;background:#fff;color:#111;font:400 14px Arial,Helvetica,sans-serif;padding:10px;min-height:44px}
+#players .directory-controls input{flex:2}#players .directory-controls select{flex:1}
+#players .player-card-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;padding:10px}
+#players .player-card{border:2px solid #111;background:#fff;min-width:0}
+#players .player-card:nth-child(4n+2),#players .player-card:nth-child(4n+3){background:#ffdd00}
+#players .player-card-header{display:flex;align-items:center;justify-content:space-between;gap:7px;background:#111;color:#fff;padding:9px 10px}
+#players .player-card-header h4{font:400 19px/1.15 "Anton",Impact,"Arial Narrow",sans-serif;color:#fff;margin:0;overflow-wrap:anywhere}
+#players .player-card-header .rank{color:#ffdd00;font:400 16px "Anton",Impact,sans-serif;white-space:nowrap}
+#players .player-card-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0}
+#players .player-card-stat{text-align:center;padding:9px 2px;border-right:1px solid #111;border-bottom:1px solid #111}
+#players .player-card-stat:nth-child(3n){border-right:0}
+#players .player-card-stat:nth-last-child(-n+3){border-bottom:0}
+#players .player-card-stat strong{display:block;font:400 23px/1.1 "Anton",Impact,sans-serif}
+#players .player-card-stat strong.goals{color:#d71920}
+#players .player-card-stat span{display:block;font:400 10px/1.2 Arial,Helvetica,sans-serif;text-transform:uppercase;margin-top:4px}
+#players .player-directory-note{padding:9px 12px;background:#fff;font:400 12px/1.4 Arial,Helvetica,sans-serif;color:#444}
+#players .player-full-table{margin-top:14px;background:#fff;border:2px solid #111}
+#players .player-full-table summary{cursor:pointer;background:#111;color:#ffdd00;padding:12px 14px;font:400 20px/1.2 "Anton",Impact,sans-serif}
+#players .player-full-table[open] summary{border-bottom:5px solid #ffdd00}
+#players .player-full-table .players{overflow-x:auto}
+@media(max-width:750px){
+ #players .player-overview{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;padding:10px 0}
+ #players .player-highlight{padding:12px 10px}
+ #players .player-highlight .label{font-size:15px}
+ #players .player-highlight .number{font-size:31px}
+ #players .player-leaderboards{grid-template-columns:1fr;gap:9px;padding-bottom:10px}
+ #players .player-card-grid{grid-template-columns:1fr;gap:9px}
+ #players .player-card-header h4{font-size:21px}
+ #players .directory-controls{flex-direction:column}
+ #players .directory-controls input,#players .directory-controls select{width:100%;flex:auto}
+}
 </style>
 </head>
 <body>
@@ -48,7 +101,18 @@ table{width:100%;border-collapse:collapse}th,td{padding:8px 9px;border-bottom:1p
 
 <section class="section" id="league"><div class="section-head"><h2>Division One South League Table</h2><p>Live table from the results feed</p></div><div class="matches" id="leagueTable"></div></section>
 
-<section class="section" id="players"><div class="section-head"><h2>Player Stats</h2><p>Starts, substitute appearances, minutes, goals and captaincies</p></div><div class="players" id="playerTable"></div></section>
+<section class="section" id="players"><div class="section-head"><h2>Player Stats</h2><p>2026/27 league player leaders · appearances, goals and minutes</p></div>
+<div class="player-centre">
+<div id="playerOverview" class="player-overview" aria-label="Player statistics at a glance"></div>
+<div id="playerLeaderboards" class="player-leaderboards" aria-label="Player leaderboards"></div>
+<div class="player-directory">
+<div class="directory-heading">Explore the Squad</div>
+<div class="directory-controls"><input id="playerSearch" type="search" placeholder="Find a player…" aria-label="Search players"><select id="playerSort" aria-label="Sort player statistics"><option value="apps">Most appearances</option><option value="goals">Most goals</option><option value="mins">Most minutes</option><option value="starts">Most starts</option><option value="caps">Most captaincies</option><option value="name">Player name A–Z</option></select></div>
+<div id="playerCards" class="player-card-grid" aria-live="polite"></div>
+<div class="player-directory-note">League matches with recorded team sheets only. Minutes are estimated from substitution and match-event data where necessary.</div>
+</div>
+<details class="player-full-table"><summary>View Full Player Stats Table</summary><div class="players" id="playerTable"></div></details>
+</div></section>
 
 <section class="section" id="matches"><div class="section-head"><h2>Tiverton Town Match Centre</h2><p>Every loaded league game, scorers, captain, substitutions and reports</p></div><div class="matches" id="matchCentre"></div></section>
 
@@ -115,6 +179,26 @@ function render(player,results){
 
  const ls=(results.leagueTable||[]);document.getElementById('leagueTable').innerHTML=ls.length?'<table><thead><tr><th>Pos</th><th>Team</th><th class="num">P</th><th class="num">GD</th><th class="num">Pts</th></tr></thead><tbody>'+ls.map(x=>'<tr class="'+(String(x.team).toLowerCase()==='tiverton town'?'tiv':'')+'"><td>'+esc(x.pos)+'</td><td>'+esc(x.team)+'</td><td class="num">'+esc(x.p)+'</td><td class="num">'+esc(x.gd)+'</td><td class="num">'+esc(x.pts)+'</td></tr>').join('')+'</tbody></table>':'<div class="note">League table temporarily unavailable.</div>';
 
+
+ const overview=document.getElementById('playerOverview');
+ const mostGoals=stats.slice().sort((a,b)=>b.goals-a.goals||b.apps-a.apps)[0];
+ const mostApps=stats.slice().sort((a,b)=>b.apps-a.apps||b.starts-a.starts)[0];
+ const mostMins=stats.slice().sort((a,b)=>b.mins-a.mins)[0];
+ const captains=stats.slice().sort((a,b)=>b.caps-a.caps)[0];
+ const highlight=(label,number,detail,red)=>'<div class="player-highlight"><div class="label">'+esc(label)+'</div><div class="number'+(red?' goals':'')+'">'+esc(number)+'</div><div class="detail">'+esc(detail||'—')+'</div></div>';
+ overview.innerHTML=highlight('Top scorer',mostGoals?.goals||0,mostGoals?.goals?mostGoals.name:'No goals recorded',true)+highlight('Most appearances',mostApps?.apps||0,mostApps?.name)+highlight('Most minutes',mostMins?.mins||0,mostMins?.name)+highlight('Most captaincies',captains?.caps||0,captains?.caps?captains.name:'No captaincies recorded');
+ const leaders=(title,field,red)=>{const top=stats.filter(x=>x[field]>0).slice().sort((a,b)=>b[field]-a[field]||b.apps-a.apps).slice(0,5);return '<div class="leaderboard'+(red?' goals':'')+'"><h3>'+esc(title)+'</h3><ol>'+(top.length?top.map(x=>'<li><span class="leader-name">'+esc(x.name)+'</span><span class="leader-value">'+x[field]+'</span></li>').join(''):'<li><span class="leader-name">No records yet</span></li>')+'</ol></div>'};
+ document.getElementById('playerLeaderboards').innerHTML=leaders('Golden Boot','goals',true)+leaders('Appearance Leaders','apps',false)+leaders('Minutes Played','mins',false);
+ const search=document.getElementById('playerSearch'),sort=document.getElementById('playerSort'),cards=document.getElementById('playerCards');
+ const cardStat=(value,label,red)=>'<div class="player-card-stat"><strong'+(red?' class="goals"':'')+'>'+value+'</strong><span>'+label+'</span></div>';
+ const renderPlayerCards=()=>{
+   const query=search.value.trim().toLocaleLowerCase('en-GB'),field=sort.value;
+   const list=stats.filter(x=>x.name.toLocaleLowerCase('en-GB').includes(query)).slice().sort((a,b)=>field==='name'?a.name.localeCompare(b.name):b[field]-a[field]||b.apps-a.apps||a.name.localeCompare(b.name));
+   cards.innerHTML=list.length?list.map((x,i)=>'<article class="player-card"><div class="player-card-header"><h4>'+esc(x.name)+'</h4><span class="rank">#'+(i+1)+'</span></div><div class="player-card-stats">'+cardStat(x.apps,'Apps')+cardStat(x.starts,'Starts')+cardStat(x.subs,'Sub on')+cardStat(x.mins,'Minutes')+cardStat(x.goals,'Goals',true)+cardStat(x.caps,'Captain')+'</div></article>').join(''):'<p style="padding:12px">No players match that search.</p>';
+ };
+ search.addEventListener('input',renderPlayerCards);
+ sort.addEventListener('change',renderPlayerCards);
+ renderPlayerCards();
  const sorted=stats.slice().sort((a,b)=>b.apps-a.apps||b.starts-a.starts||b.mins-a.mins);document.getElementById('playerTable').innerHTML='<table><thead><tr><th>Player</th><th class="num">Apps</th><th class="num">Starts</th><th class="num">Sub</th><th class="num">Minutes</th><th class="num">Goals</th><th class="num">Captain</th></tr></thead><tbody>'+sorted.map(x=>'<tr><td>'+esc(x.name)+'</td><td class="num">'+x.apps+'</td><td class="num">'+x.starts+'</td><td class="num">'+x.subs+'</td><td class="num">'+x.mins+'</td><td class="num goal">'+x.goals+'</td><td class="num">'+x.caps+'</td></tr>').join('')+'</tbody></table>';
 
  document.getElementById('matchCentre').innerHTML='<table class="match-table"><thead><tr><th>Date</th><th>Opponent</th><th>H/A</th><th>Score</th><th>Scorers</th><th>Captain</th><th>Subs used</th><th>Report</th></tr></thead><tbody>'+fixtures.slice().reverse().map(x=>{const st=x.starterDetails||[],sb=x.subDetails||[];const scorers=[...st,...sb].filter(p=>Number(p.goalCount||0)>0).map(p=>p.name+(p.goalMinutes?.length?' '+p.goalMinutes.map(m=>m+"'").join(', '):''));const cap=[...st,...sb].find(p=>p.captain);const used=sb.filter(p=>p.used!==false&&(p.onMinute||p.used===true)).map(p=>p.name+(p.onMinute?' '+p.onMinute+"'":''));const url=x.officialReportUrl||reports[x.date]||'';return '<tr><td>'+fmt(x.date)+'</td><td>'+esc(x.opponent)+'</td><td>'+esc(x.venue)+'</td><td class="score">'+tivvyFixtureScore(x.result)+'</td><td>'+esc(scorers.join(' · ')||'—')+'</td><td>'+esc(cap?.name||'—')+'</td><td>'+esc(used.join(' · ')||'—')+'</td><td>'+(url?'<a class="report" href="'+esc(url)+'" target="_blank" rel="noopener">Report ↗</a>':'—')+'</td></tr>'}).join('')+'</tbody></table>';
