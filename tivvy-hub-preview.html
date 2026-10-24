@@ -512,6 +512,21 @@ function updateNextKickoff(){
   if(timer)timer.textContent=(days?days+'d ':'')+String(hours).padStart(2,'0')+'h '+String(mins).padStart(2,'0')+'m '+String(secs).padStart(2,'0')+'s';
 }
 const AWAY_GUIDES={
+  weymouth:{
+    date:'2026-10-31',
+    ground:'Bob Lucas Stadium',
+    address:'Radipole Lane, Weymouth, Dorset, DT4 9XJ',
+    admission:'Online: Adults £14, concessions £11, ages 16-17 £6. Ticket office: Adults £15, concessions £12, ages 16-17 £7. Under-16s £2. Check the home club’s under-13 accompaniment policy.',
+    tickets:'https://uptheterras.co.uk/',
+    ticketLabel:'Weymouth FC official website',
+    road:'From Tiverton, travel towards Dorchester and Weymouth via the A35/A354, then follow signs for the Bob Lucas Stadium. Parking is limited: check arrangements before departure.',
+    rail:'Weymouth railway station is approximately two miles from the stadium. Allow for a connecting bus or taxi and check outward and return train times.',
+    form:'Weymouth were league leaders at the last verified pre-weekend snapshot (P11 W10 D1 L0, 31 points). This may change following subsequent fixtures.',
+    formAsOf:'24 October 2026 (pre-weekend snapshot)',
+    formLabel:'THE TERRAS',
+    before:'Saturday 31 October, 15:00. Confirm admission, parking, access and any segregation with Weymouth FC before travelling.'
+  },
+
   larkhallathletic:{
     date:'2026-10-24',
     ground:'Camella Stadium · Plain Ham',
@@ -551,10 +566,10 @@ function updateAwayDay(){
   }
   target.innerHTML='<div class="away-fixture">'+hero+'<div class="away-card-grid">'+
     '<section class="away-card"><h3>THE GROUND</h3><p><strong>'+safe(verified.ground)+'</strong></p><p>'+safe(verified.address)+'</p></section>'+
-    '<section class="away-card"><h3>ADMISSION</h3><p>'+safe(verified.admission)+'</p><p>Tickets: <a href="'+safe(verified.tickets)+'" target="_blank" rel="noopener noreferrer">Larkhall Athletic official website ↗</a></p></section>'+
+    '<section class="away-card"><h3>ADMISSION</h3><p>'+safe(verified.admission)+'</p><p>Tickets: <a href="'+safe(verified.tickets)+'" target="_blank" rel="noopener noreferrer">'+safe(verified.ticketLabel||next.opposition+' official website')+' ↗</a></p></section>'+
     '<section class="away-card"><h3>BY ROAD</h3><p>'+safe(verified.road)+'</p></section>'+
     '<section class="away-card"><h3>BY RAIL</h3><p>'+safe(verified.rail)+'</p></section>'+
-    '<section class="away-card"><h3>THE LARKS</h3><p>'+safe(verified.form)+'</p><p><small>League form snapshot: '+safe(verified.formAsOf)+'</small></p></section>'+
+    '<section class="away-card"><h3>'+safe(verified.formLabel||'THE LARKS')+'</h3><p>'+safe(verified.form)+'</p><p><small>League form snapshot: '+safe(verified.formAsOf)+'</small></p></section>'+
     '<section class="away-card"><h3>BEFORE YOU GO</h3><p>'+safe(verified.before)+'</p></section>'+
     '</div><p class="away-footnote">Prices and arrangements may change; please check with the home club.</p></div>';
 }
