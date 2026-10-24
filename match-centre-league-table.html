@@ -168,7 +168,19 @@ async function load(){
    fetch(SRC+'?v='+Date.now()).then(r=>{if(!r.ok)throw new Error('Results feed '+r.status);return r.json()}),
    fetch(CRESTS+'?v='+Date.now()).then(r=>r.json())
   ]);
-  const rows=addLeagueRecords(data.leagueTable||[],data.results).sort((a,b)=>a.pos-b.pos), n=rows.length, assets=crestDb.assets||{};
+  const liveRows=addLeagueRecords(data.leagueTable||[],data.results).sort((a,b)=>a.pos-b.pos);
+  let rows=liveRows, sourceLabel='Feed updated '+formatUKTimestamp(data.updated);
+  // Official verified 24 Oct standings remain the baseline until the shared feed catches up.
+  try {
+   const snapshot=await fetch('match-centre-league-snapshot-2026-10-24.json?v=20261024',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('snapshot unavailable');return r.json()});
+   const liveTiv=liveRows.find(r=>normalizeTeam(r.team)==='tivertontown');
+   const snapTiv=(snapshot.leagueTable||[]).find(r=>normalizeTeam(r.team)==='tivertontown');
+   if(snapTiv && (!liveTiv || Number(liveTiv.p)<Number(snapTiv.p) || (Number(liveTiv.p)===Number(snapTiv.p) && Number(liveTiv.pts)<Number(snapTiv.pts)))) {
+     rows=snapshot.leagueTable;
+     sourceLabel='Official standings checked 24 October 2026';
+   }
+  } catch(e){console.info('Using live standings feed:',e.message)}
+  const n=rows.length, assets=crestDb.assets||{};
   if(!rows.length) throw new Error('No league table rows in feed');
   let h='<table><thead><tr><th class="pos">Pos</th><th class="crest"></th><th class="club">Club</th><th class="num">P</th><th class="num">W</th><th class="num">D</th><th class="num">L</th><th class="gd">GD</th><th class="pts">Pts</th></tr></thead><tbody>';
   rows.forEach(r=>{
@@ -177,7 +189,7 @@ async function load(){
   });
   h+='</tbody></table>';
   document.getElementById('tableWrap').innerHTML=h;
-  document.getElementById('updated').textContent='Feed updated '+formatUKTimestamp(data.updated);
+  document.getElementById('updated').textContent=sourceLabel;
   // Live site stays clean: no production diagnostics or refresh controls.
  }catch(e){st.hidden=false;st.textContent='League table temporarily unavailable: '+e.message}
 }
