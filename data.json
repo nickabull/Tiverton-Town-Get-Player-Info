@@ -2614,10 +2614,13 @@
           "goalMinutes": [
             "2",
             "28",
-            "64 (pen)"
+            "64"
           ],
           "sub": false,
-          "used": true
+          "used": true,
+          "penaltyMinutes": [
+            "64"
+          ]
         },
         {
           "name": "Asa Hall",
