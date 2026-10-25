@@ -5,13 +5,14 @@ on:
   push:
     branches: [main]
   schedule:
+    - cron: '17 * * * *' # Hourly report discovery; full fixture refresh stays twice daily.
     - cron: '30 23 * * *'
       timezone: 'Europe/London'
     - cron: '30 7 * * *'
       timezone: 'Europe/London'
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -37,7 +38,7 @@ jobs:
         run: python -m pip install -r requirements.txt
 
       - name: Update fixture data
-        if: github.event_name != 'push'
+        if: github.event_name != 'push' && github.event.schedule != '17 * * * *'
         shell: pwsh
         run: '& "./Update Tiverton Fixtures.cloud.ps1"'
 
@@ -46,12 +47,29 @@ jobs:
         shell: pwsh
         run: python ./apply_verified_reports.py
 
+      - name: Discover published Darren match reports
+        shell: pwsh
+        run: python ./refresh_match_reports.py
+
+      - name: Retain discovered report links
+        shell: pwsh
+        run: |
+          git config user.name "Tivvy Match Centre"
+          git config user.email "actions@users.noreply.github.com"
+          git add match-report-links.json
+          git diff --cached --quiet
+          if ($LASTEXITCODE -eq 1) {
+            git commit -m "Retain discovered official match report links"
+            git push origin HEAD:main
+          }
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
       - name: Refresh Southern League attendances
         shell: pwsh
         run: python ./league_attendances.py
 
       - name: Build Excel download
-        if: github.event_name != 'push'
+        if: github.event_name != 'push' && github.event.schedule != '17 * * * *'
         shell: pwsh
         run: python ./generate_excel.py
 
@@ -59,7 +77,7 @@ jobs:
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Force -Path _site | Out-Null
-          Copy-Item index.html,season-so-far.html,stats-centre.html,programme-player-stats.html,data.js,data.json,cup-match-details-2026-27.json,historical-match-details-2026-27.json,match-centre-fixtures-2026-27.json,tivvy-match-centre.html,tivvy-match-centre-desktop-preview.html,tivvy-hub-preview.html,match-centre-league-table.html,tivvy-v3-fixtures.html,tiverton-town-logo.png,Tiverton_Town_SL1_Fixtures_2026-27.xlsx -Destination _site
+          Copy-Item match-report-links.json,index.html,season-so-far.html,stats-centre.html,programme-player-stats.html,data.js,data.json,cup-match-details-2026-27.json,historical-match-details-2026-27.json,match-centre-fixtures-2026-27.json,tivvy-match-centre.html,tivvy-match-centre-desktop-preview.html,tivvy-hub-preview.html,match-centre-league-table.html,tivvy-v3-fixtures.html,tiverton-town-logo.png,Tiverton_Town_SL1_Fixtures_2026-27.xlsx -Destination _site
           New-Item -ItemType File -Force -Path _site/.nojekyll | Out-Null
 
       - name: Configure Pages
