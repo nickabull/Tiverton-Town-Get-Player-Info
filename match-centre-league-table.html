@@ -52,13 +52,31 @@ th{font-size:11px}
  .legend{font-size:11px}
 }
 @media print{body{background:#fff}.page{width:100%;height:auto}}
+
+/* Compact, readable standings above the full sideways-scroll table on phones only. */
+.mobile-standings,.mobile-full-label{display:none}
+@media(max-width:700px){
+ .mobile-standings,.mobile-full-label{display:block}
+ .mobile-standings{background:#fff;margin:0 0 12px}
+ .mobile-standings .compact-table{min-width:0;width:100%;table-layout:fixed;border-collapse:collapse}
+ .compact-table th,.compact-table td{padding:7px 3px;font-size:12px;line-height:1.2;text-align:center;border-bottom:1px solid #ccc}
+ .compact-table th{font:700 12px Arial,sans-serif;color:#fff;background:#111}
+ .compact-table .compact-pos{width:14%}
+ .compact-table .compact-crest{width:18%}
+ .compact-table .compact-code{width:31%;text-align:left;font-weight:900;letter-spacing:.03em}
+ .compact-table .compact-played{width:15%}
+ .compact-table .compact-points{width:22%;font-weight:900}
+ .compact-table .logo,.compact-table .fallback{width:22px;height:22px}
+ .mobile-full-label{background:#111;color:#ffdd00;font:400 22px/1.2 "Anton",Impact,"Arial Narrow",sans-serif;padding:11px 12px;border-bottom:4px solid #ffdd00}
+ .mobile-full-label small{display:block;color:white;font:12px/1.4 Arial,sans-serif;margin-top:4px}
+}
 </style></head>
 <body>
 <main class="wrap" aria-label="League table">
 <div id="status" class="error-status" role="status" hidden></div>
 <section class="page">
 <div class="strap"><h2>THE LEAGUE TABLE</h2><div class="small">Southern League Division One South</div></div>
-<div class="table-scroller"><div id="tableWrap"></div></div>
+<div class="mobile-standings" id="mobileStandings" aria-label="Compact league table"></div><div class="mobile-full-label">FULL LEAGUE TABLE<small>Swipe sideways to see all the columns &#8596;</small></div><div class="table-scroller"><div id="tableWrap"></div></div>
 <div class="legend"><span><i class="sw s1"></i>Automatic promotion</span><span><i class="sw s2"></i>Play-offs</span><span><i class="sw s3"></i>Relegation play-offs</span><span><i class="sw s4"></i>Relegation</span></div>
 <div class="footer"><span>Live Southern League table</span><span id="updated"></span></div>
 </section>
@@ -189,6 +207,11 @@ async function load(){
   });
   h+='</tbody></table>';
   document.getElementById('tableWrap').innerHTML=h;
+
+  const compactCodes={weymouth:'WEY',swindonsupermarine:'SSM',dorchestertown:'DOR',hungerfordtown:'HUN',westburyunited:'WES',hartpury:'HAR',falmouthtown:'FAL',worcesterraiders:'WOR',bishopscleeve:'BIC',sportingclubinkberrow:'INK',portlandunited:'POR',shaftesbury:'SHA',willandrovers:'WIL',tivertontown:'TIV',bideford:'BID',exmouthtown:'EXM',paultonrovers:'PAU',larkhallathletic:'LAR',barnstapletown:'BAR',slimbridge:'SLI',melkshamtown:'MEL',bristolmanorfarm:'BMF'};
+  let compact='<table class="compact-table"><thead><tr><th class="compact-pos">POS</th><th class="compact-crest"></th><th class="compact-code">CLUB</th><th class="compact-played">P</th><th class="compact-points">PTS</th></tr></thead><tbody>';
+  rows.forEach(r=>{const team=r.team||'',key=normalizeTeam(team),code=compactCodes[key]||team.slice(0,3).toUpperCase(),cls=rankClass(+r.pos,n)+' '+(key==='tivertontown'?'tivvy':'');compact+='<tr class="'+cls+'"><td>'+esc(r.pos)+'</td><td>'+crest(team,assets[team])+'</td><td class="compact-code" title="'+esc(team)+'">'+esc(code)+'</td><td>'+esc(r.p??'')+'</td><td class="compact-points">'+esc(r.pts??'')+'</td></tr>';});
+  compact+='</tbody></table>';document.getElementById('mobileStandings').innerHTML=compact;
   document.getElementById('updated').textContent=sourceLabel;
   // Live site stays clean: no production diagnostics or refresh controls.
  }catch(e){st.hidden=false;st.textContent='League table temporarily unavailable: '+e.message}
