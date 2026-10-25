@@ -60,8 +60,12 @@ table{width:100%;border-collapse:collapse}th,td{padding:8px 9px;border-bottom:1p
 #players .player-card-stat span{display:block;font:400 10px/1.2 Arial,Helvetica,sans-serif;text-transform:uppercase;margin-top:4px}
 #players .player-directory-note{padding:9px 12px;background:#fff;font:400 12px/1.4 Arial,Helvetica,sans-serif;color:#444}
 #players .player-full-table{margin-top:14px;background:#fff;border:2px solid #111}
-#players .player-full-table summary{cursor:pointer;background:#111;color:#ffdd00;padding:12px 14px;font:400 20px/1.2 "Anton",Impact,sans-serif}
-#players .player-full-table[open] summary{border-bottom:5px solid #ffdd00}
+#players .player-full-table-toggle{display:block;width:100%;border:0;border-radius:0;text-align:left;cursor:pointer;background:#111;color:#ffdd00;padding:12px 14px;font:400 20px/1.2 "Anton",Impact,sans-serif;touch-action:manipulation}
+#players .player-full-table-toggle::before{content:"▶ ";}
+#players .player-full-table-toggle[aria-expanded="true"]::before{content:"▼ ";}
+#players .player-full-table-toggle:focus-visible{outline:3px solid #2782ef;outline-offset:-3px}
+#players #playerFullTablePanel[hidden]{display:none!important}
+#players .player-full-table-toggle[aria-expanded="true"]{border-bottom:5px solid #ffdd00}
 #players .player-full-table .players{overflow-x:auto;overscroll-behavior-x:contain}
 #players .player-table-hint{display:none;background:#ffdd00;color:#111;padding:10px 12px;border-bottom:2px solid #111;font:400 16px/1.2 "Anton",Impact,"Arial Narrow",sans-serif;text-transform:uppercase}
 #players .player-full-table table th:first-child,#players .player-full-table table td:first-child{position:sticky;left:0;z-index:2;min-width:150px;box-shadow:2px 0 0 #111}
@@ -136,7 +140,7 @@ table{width:100%;border-collapse:collapse}th,td{padding:8px 9px;border-bottom:1p
 <div id="playerCards" class="player-card-grid" aria-live="polite"></div>
 <div class="player-directory-note">League matches with recorded team sheets only. Minutes are estimated from substitution and match-event data where necessary.</div>
 </div>
-<details class="player-full-table"><summary>View Full Player Stats Table</summary><div class="player-table-hint" aria-label="Swipe left to see more statistics">SWIPE LEFT TO SEE MORE &nbsp;←</div><div class="players" id="playerTable" role="region" aria-label="Scrollable full player statistics table" tabindex="0"></div></details>
+<div class="player-full-table"><button type="button" class="player-full-table-toggle" id="playerFullTableToggle" aria-expanded="false" aria-controls="playerFullTablePanel">View Full Player Stats Table</button><div id="playerFullTablePanel" hidden><div class="player-table-hint" aria-label="Swipe left to see more statistics">SWIPE LEFT TO SEE MORE &nbsp;←</div><div class="players" id="playerTable" role="region" aria-label="Scrollable full player statistics table" tabindex="0"></div></div></div>
 </div></section>
 
 <section class="section" id="matches"><div class="section-head"><h2>Tiverton Town Match Centre</h2><p>Every loaded league game, scorers, captain, substitutions and reports</p></div><div class="matches" id="matchCentre"></div></section>
@@ -151,6 +155,13 @@ table{width:100%;border-collapse:collapse}th,td{padding:8px 9px;border-bottom:1p
 </div><div class="note">Minutes are approximate where stoppage time or incomplete event data affects the calculation. This combined page leaves the existing source pages untouched while we test the one-stop-shop layout.</div></section>
 </main>
 <script>
+const fullTableToggle=document.getElementById('playerFullTableToggle');
+const fullTablePanel=document.getElementById('playerFullTablePanel');
+fullTableToggle.addEventListener('click',()=>{
+ const expanded=fullTableToggle.getAttribute('aria-expanded')!=='true';
+ fullTableToggle.setAttribute('aria-expanded',String(expanded));
+ fullTablePanel.hidden=!expanded;
+});
 const WIX_CRESTS={"barnstapletown":"8aa829_4c6bb278ab2c46c49336767c95cedb89~mv2.png","bideford":"8aa829_da6d2deb112945e1ab17de6e6f36462d~mv2.png","bishopscleeve":"8aa829_bc015fb499ab4b4fa71b63804bc47f9b~mv2.png","bristolmanorfarm":"8aa829_7cf5ed3ed4bc40f2b3faa6e90e66080b~mv2.png","dorchester":"8aa829_2fb4a520831d4bfa8ea7e1fdf138ac51~mv2.png","dorchestertown":"8aa829_2fb4a520831d4bfa8ea7e1fdf138ac51~mv2.png","exmouthtown":"8aa829_b4cc913ef31345aabfac3ebba6b7df54~mv2.png","falmouthtown":"8aa829_78892dbf0f4c4813b85618cb3419d7a7~mv2.png","hartpury":"8aa829_e2d06cb8e952431f8aed9b329a02aa8c~mv2.png","hungerford":"f62a66_4fc40563b6a942d1aab1f3fdb82ef2df~mv2.png","hungerfordtown":"f62a66_4fc40563b6a942d1aab1f3fdb82ef2df~mv2.png","larkhallathletic":"8aa829_71765df901f54fbb909ebb009efa011b~mv2.png","melkshamtown":"8aa829_e8ab9d4f1f854d039d17f7dcde8a3b4f~mv2.png","paultonrovers":"8aa829_26e00a2cd0bc450ebd9bf1d912f5695d~mv2.png","portlandunited":"8aa829_65009eedd74649b3b7405d2be35faff4~mv2.png","portlandutd":"8aa829_65009eedd74649b3b7405d2be35faff4~mv2.png","shaftesbury":"8aa829_379295bfca974bf593c6d737ce238ad3~mv2.png","slimbridge":"8aa829_025e16a547cc4520ad5e926a61a69e3b~mv2.png","scinkberrow":"8aa829_a2aefe84c95b41cb924fb838ab493574~mv2.png","sportingclubinkberrow":"8aa829_a2aefe84c95b41cb924fb838ab493574~mv2.png","swindonsm":"8aa829_fc13ce065bd543e68de0c684030ace1f~mv2.png","swindonsupermarine":"8aa829_fc13ce065bd543e68de0c684030ace1f~mv2.png","tivertontown":"8aa829_88bbff928f6b42f49eba4aef6c32fcb2~mv2.png","westbury":"8aa829_997c5e0c7f114de7918338be91b3a2c5~mv2.png","westburyunited":"8aa829_997c5e0c7f114de7918338be91b3a2c5~mv2.png","weymouth":"8aa829_60e64f23139143509c99a9e4bde185d3~mv2.png","willandrovers":"8aa829_d3c15347e48c4200a3118dda1ac54a04~mv2.png","worcesterraiders":"8aa829_54f9d56e0e9849fb996257f2521be89e~mv2.png","worcestershireraiders":"8aa829_54f9d56e0e9849fb996257f2521be89e~mv2.png"};
 const crestKey=s=>String(s||'').toLowerCase().replace(/\./g,'').replace(/\b(football club|afc|fc)\b/g,'').replace(/[^a-z0-9]/g,'');
 const crestUrl=s=>{const file=WIX_CRESTS[crestKey(s)];return file?'https://static.wixstatic.com/media/'+file:''};
