@@ -66,7 +66,7 @@ function buildPlayerProfiles(fixtures) {
   const message = data => { if (embedded) window.parent.postMessage(data, location.origin); };
   const find = name => profiles.find(p => playerKey(p.name) === playerKey(name));
   const stat = (value, label, red = false) => '<div class="profile-stat"><strong' + (red ? ' class="profile-goals"' : '') + '>' + esc(value) + '</strong><span>' + esc(label) + '</span></div>';
-  const nameButton = name => '<button type="button" class="player-name-link" data-player-name="' + esc(name) + '">' + esc(name) + '</button>';
+  const nameButton = name => '<button type="button" class="player-name-link" data-player-name="' + esc(name) + '">' + esc(name) + ' <span class="player-link-arrow" aria-hidden="true">↗</span></button>';
   window.playerProfileNameButton = nameButton;
   function setURL(name) {
     const url = new URL(location.href);

@@ -75,3 +75,12 @@
  #playerProfile .profile-compare-control select{display:block;width:100%;margin-top:8px}
  #playerProfile .profile-compare-table th,#playerProfile .profile-compare-table td{padding:10px 6px;font-size:12px}
 }
+
+/* Make the deeper player profiles discoverable before the first statistics card. */
+#players .player-profile-hint{display:flex;align-items:center;gap:12px;border:2px solid #111;background:#fff;color:#111;padding:13px 14px;margin:0 0 12px}
+#players .profile-hint-arrow{display:flex;align-items:center;justify-content:center;width:38px;height:38px;background:#111;color:#ffd800;font:28px/1 Arial,sans-serif;flex:none}
+#players .player-profile-hint strong{display:block;font:400 21px/1.2 Anton,Impact,sans-serif;text-transform:uppercase}
+#players .player-profile-hint p{margin:5px 0 0;font:12px/1.4 Arial,Helvetica,sans-serif}
+#players .player-link-arrow{display:inline-block;vertical-align:baseline;margin-left:3px;font:700 .85em/1 Arial,Helvetica,sans-serif;text-decoration:none}
+#players .player-highlight .player-link-arrow{color:#ffd800}
+@media(max-width:650px){#players .player-profile-hint{padding:11px 10px;gap:9px}#players .player-profile-hint strong{font-size:18px}#players .player-profile-hint p{font-size:12px}}

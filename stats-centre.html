@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Tiverton Town Stats Centre 2026/27</title>
-<link rel="stylesheet" href="player-profiles.css?v=20261025">
+<link rel="stylesheet" href="player-profiles.css?v=20261025-tap">
 <style>
 :root{--y:#f2c400;--b:#111;--bg:#f2f2f0;--line:#d7d7d0;--muted:#666;--red:#d71920;--blue:#7fc8f8}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:#171717}
@@ -134,6 +134,7 @@ table{width:100%;border-collapse:collapse}th,td{padding:8px 9px;border-bottom:1p
 <section class="section" id="players"><div class="section-head"><h2><img class="tivvy-crest" src="https://static.wixstatic.com/media/8aa829_88bbff928f6b42f49eba4aef6c32fcb2~mv2.png" alt="">Player Stats</h2><p>2026/27 league player leaders · appearances, goals and minutes</p></div>
 <div class="player-centre">
 <section id="playerProfile" hidden aria-label="Individual player profile"></section>
+<div class="player-profile-hint"><span class="profile-hint-arrow" aria-hidden="true">↗</span><div><strong>Tap a player’s name for their full stats</strong><p>Explore their matches, goals and minutes — and compare teammates.</p></div></div>
 <div id="playerOverview" class="player-overview" aria-label="Player statistics at a glance"></div>
 <div id="playerLeaderboards" class="player-leaderboards" aria-label="Player leaderboards"></div>
 <div class="player-directory">
@@ -156,7 +157,7 @@ table{width:100%;border-collapse:collapse}th,td{padding:8px 9px;border-bottom:1p
 <div class="panel"><h3>Most minutes</h3><div id="minutes"></div></div>
 </div><div class="note">Minutes are approximate where stoppage time or incomplete event data affects the calculation. This combined page leaves the existing source pages untouched while we test the one-stop-shop layout.</div></section>
 </main>
-<script src="player-profiles.js?v=20261025"></script>
+<script src="player-profiles.js?v=20261025-tap"></script>
 <script>
 const fullTableToggle=document.getElementById('playerFullTableToggle');
 const fullTablePanel=document.getElementById('playerFullTablePanel');
@@ -232,7 +233,7 @@ function render(player,results){
  const mostApps=stats.slice().sort((a,b)=>b.apps-a.apps||b.starts-a.starts)[0];
  const mostMins=stats.slice().sort((a,b)=>b.mins-a.mins)[0];
  const captains=stats.slice().sort((a,b)=>b.caps-a.caps)[0];
- const highlight=(label,number,detail,red)=>'<div class="player-highlight"><div class="label">'+esc(label)+'</div><div class="number'+(red?' goals':'')+'">'+esc(number)+'</div><div class="detail">'+esc(detail||'—')+'</div></div>';
+ const highlight=(label,number,detail,red)=>'<div class="player-highlight"><div class="label">'+esc(label)+'</div><div class="number'+(red?' goals':'')+'">'+esc(number)+'</div><div class="detail">'+(stats.some(x=>x.name===detail)?window.playerProfileNameButton(detail):esc(detail||'—'))+'</div></div>';
  overview.innerHTML=highlight('Top scorer',mostGoals?.goals||0,mostGoals?.goals?mostGoals.name:'No goals recorded',true)+highlight('Most appearances',mostApps?.apps||0,mostApps?.name)+highlight('Most minutes',mostMins?.mins||0,mostMins?.name)+highlight('Most captaincies',captains?.caps||0,captains?.caps?captains.name:'No captaincies recorded');
  const leaders=(title,field,red)=>{const top=stats.filter(x=>x[field]>0).slice().sort((a,b)=>b[field]-a[field]||b.apps-a.apps).slice(0,5);return '<div class="leaderboard'+(red?' goals':'')+'"><h3>'+esc(title)+'</h3><ol>'+(top.length?top.map(x=>'<li><span class="leader-name">'+window.playerProfileNameButton(x.name)+'</span><span class="leader-value">'+x[field]+'</span></li>').join(''):'<li><span class="leader-name">No records yet</span></li>')+'</ol></div>'};
  document.getElementById('playerLeaderboards').innerHTML=leaders('Golden Boot','goals',true)+leaders('Appearance Leaders','apps',false)+leaders('Minutes Played','mins',false);
