@@ -182,7 +182,7 @@ async function getJSON(url){const r=await fetch(url,{cache:'no-store'});if(!r.ok
 function rec(rows){let w=0,d=0,l=0,gf=0,ga=0;rows.forEach(x=>{const r=parseScore(x.result);if(!r)return;gf+=r.gf;ga+=r.ga;if(r.gf>r.ga)w++;else if(r.gf===r.ga)d++;else l++});return{p:rows.length,w,d,l,gf,ga,pts:w*3+d}}
 function statTable(arr,val,label){return '<table><thead><tr><th>Player</th><th class="num">'+label+'</th></tr></thead><tbody>'+arr.slice(0,10).map(x=>'<tr><td>'+esc(x.name)+'</td><td class="num">'+esc(val(x))+'</td></tr>').join('')+'</tbody></table>'}
 function buildPlayerStats(fixtures){
- const map=new Map(),get=n=>{n=String(n||'').trim();if(!map.has(n))map.set(n,{name:n,starts:0,subs:0,mins:0,goals:0,caps:0});return map.get(n)},xi=new Set(),goalTimes=[];
+ const map=new Map(),get=n=>{n=String(n||'').trim().replace(/^Louis Slough$/i,'Louie Slough');if(!map.has(n))map.set(n,{name:n,starts:0,subs:0,mins:0,goals:0,caps:0});return map.get(n)},xi=new Set(),goalTimes=[];
  fixtures.forEach(x=>{const st=Array.isArray(x.starterDetails)?x.starterDetails:[],sb=Array.isArray(x.subDetails)?x.subDetails:[];if(st.length)xi.add(st.map(p=>p.name).sort().join('|'));
   const ev=[...st,...sb].flatMap(p=>[minute(p.offMinute),minute(p.onMinute),...(Array.isArray(p.goalMinutes)?p.goalMinutes.map(minute):[])]).filter(Number.isFinite);const end=Math.max(90,...ev);
   st.forEach(p=>{if(!p?.name)return;const r=get(p.name);r.starts++;r.goals+=Number(p.goalCount||0);if(p.captain)r.caps++;const off=minute(p.offMinute);r.mins+=Number.isFinite(off)?Math.min(off,end):end;(p.goalMinutes||[]).forEach(m=>{const v=minute(m);if(Number.isFinite(v))goalTimes.push(v)})});
