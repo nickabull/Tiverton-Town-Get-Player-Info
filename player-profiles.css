@@ -84,3 +84,5 @@
 #players .player-link-arrow{display:inline-block;vertical-align:baseline;margin-left:3px;font:700 .85em/1 Arial,Helvetica,sans-serif;text-decoration:none}
 #players .player-highlight .player-link-arrow{color:#ffd800}
 @media(max-width:650px){#players .player-profile-hint{padding:11px 10px;gap:9px}#players .player-profile-hint strong{font-size:18px}#players .player-profile-hint p{font-size:12px}}
+
+#playerProfile>.profile-panel+.profile-panel{margin-top:12px}
