@@ -412,6 +412,7 @@ body.home-summary .match-centre-link{display:block;background:#111;color:var(--y
 body.home-summary .match-centre-link:focus-visible{outline:3px solid #2782ef;outline-offset:-4px}
 body.home-summary .latest-result .row{grid-template-columns:94px minmax(150px,1fr) 64px 110px 100px minmax(120px,1fr)}
 @media(max-width:650px){body.home-summary .latest-result .row{grid-template-columns:90px minmax(0,1fr) max-content}body.home-summary .next-kickoff .next-timer{justify-content:center}}
+.match-player-link{font:inherit;color:inherit;background:none;border:0;border-radius:0;padding:0;text-align:left;cursor:pointer;text-decoration:underline;text-decoration-color:#777;text-underline-offset:3px}.match-player-link:focus-visible{outline:3px solid #2782ef;outline-offset:2px}
 </style></head><body>
 <script>const displayOptions=new URLSearchParams(location.search);if(displayOptions.get('embed')==='1')document.body.classList.add('wix-embed');if(displayOptions.get('view')==='home')document.body.classList.add('home-summary','wix-embed');</script>
 <header><img class="brand" src="tiverton-town-logo.png" alt="Tiverton Town badge"><div><h1>Tivvy Match Centre</h1><p>Fixtures, Results, Tables &amp; Player Stats</p></div></header>
@@ -438,7 +439,7 @@ body.home-summary .latest-result .row{grid-template-columns:94px minmax(150px,1f
   <div class="matrix-full-label"><h3>Full Results Matrix</h3><p>Swipe sideways to see every club and every result</p></div>
   <iframe scrolling="no" title="Full Results Matrix" loading="lazy" data-src="stats-centre.html?matrix-style=20261023-readable-crests#matrix"></iframe>
 </section>
-<section class="hub-panel" id="players-panel" hidden aria-label="Player Stats"><iframe scrolling="no" title="Player Stats" loading="lazy" data-src="stats-centre.html?player-style=20261025-table-button#players"></iframe></section>
+<section class="hub-panel" id="players-panel" hidden aria-label="Player Stats"><iframe scrolling="no" title="Player Stats" loading="lazy" data-src="stats-centre.html?player-style=20261025-profiles#players"></iframe></section>
 <section class="hub-panel" id="away-panel" hidden aria-label="Next Away Day"><div class="away-panel-content"><h2>Next Away Day</h2><div id="away-details" aria-live="polite">Loading the next away fixture…</div></div></section>
 <div class="modal" id="modal" hidden><div class="dialog" role="dialog" aria-modal="true" aria-labelledby="matchTitle"><button class="close" id="close" aria-label="Close match details">CLOSE ✕</button><h2 id="matchTitle">Tivvy Match Centre</h2><div id="matchBody"></div></div></div>
 <script>
@@ -636,7 +637,7 @@ function render(){
     if(group.open)openMonths.add(key);else openMonths.delete(key);
   }));
 }
-function player(p){const extras=[];const name=String(p.name||'Unknown');const isGK=p.position==='GK'||name.trim().toLowerCase()==='louis smith';if(isGK)extras.push('<span class="player-gk">🧤 GK</span>');if(p.captain)extras.push('<span class="player-captain">(C)</span>');if(p.goalMinutes?.length)extras.push('<span class="player-goal">⚽ '+p.goalMinutes.map(m=>'<span class="goal-time">'+esc(m)+"'</span>").join(', ')+'</span>');if(p.onMinute)extras.push('<span class="player-on">▲ on '+esc(p.onMinute)+"'</span>");if(p.offMinute)extras.push('<span class="player-off">▼ off '+esc(p.offMinute)+"'</span>");if(p.used===false)extras.push('<span class="player-unused">unused</span>');return '<li>'+esc(name)+(extras.length?' '+extras.join(' · '):'')+'</li>'}
+function player(p){const extras=[];const name=String(p.name||'Unknown');const isGK=p.position==='GK'||name.trim().toLowerCase()==='louis smith';if(isGK)extras.push('<span class="player-gk">🧤 GK</span>');if(p.captain)extras.push('<span class="player-captain">(C)</span>');if(p.goalMinutes?.length)extras.push('<span class="player-goal">⚽ '+p.goalMinutes.map(m=>'<span class="goal-time">'+esc(m)+"'</span>").join(', ')+'</span>');if(p.onMinute)extras.push('<span class="player-on">▲ on '+esc(p.onMinute)+"'</span>");if(p.offMinute)extras.push('<span class="player-off">▼ off '+esc(p.offMinute)+"'</span>");if(p.used===false)extras.push('<span class="player-unused">unused</span>');return '<li><button type="button" class="match-player-link" data-player-name="'+esc(name)+'">'+esc(name)+'</button>'+(extras.length?' '+extras.join(' · '):'')+'</li>'}
 
 /* Viv's public Flickr catalogue is shared with the Control Centre photo library.
    Load on demand, match opponent AND match date, and never show an unverified gallery. */
@@ -726,7 +727,7 @@ function bindMatchSharing(f){
     el('social-options').hidden=false;status.textContent='Choose where to share, or copy the link.';
   };
 }
-function syncMatchURL(id){const url=new URL(location.href);if(id)url.searchParams.set('match',id);else url.searchParams.delete('match');history.replaceState(null,'',url)}
+function syncMatchURL(id){const url=new URL(location.href);if(id){url.searchParams.set('match',id);url.searchParams.delete('player')}else url.searchParams.delete('match');history.replaceState(null,'',url)}
 function openMatch(id){const f=fixtures.find(x=>x.id===id);if(!f)return;const m=matchFor(f),r=String(f.result||''),nums=r.match(/(\d+)\s*[-–]\s*(\d+)/);let line;if(nums){const home=f.homeAway==='H'?'TIVERTON TOWN':f.opposition,away=f.homeAway==='H'?f.opposition:'TIVERTON TOWN';const a=f.homeAway==='A'?nums[2]:nums[1],b=f.homeAway==='A'?nums[1]:nums[2];line=esc(home)+' '+(f.homeAway==='H'?'<span class="tivvy">'+a+'</span>':esc(a))+' – '+(f.homeAway==='A'?'<span class="tivvy">'+b+'</span>':esc(b))+' '+esc(away)}else line=esc(f.opposition)+' · '+esc(r||'Fixture');
 let parts='<div class="crestline"><img src="tiverton-town-logo.png" alt="Tiverton crest">'+(crest(f.opposition)?'<img src="'+esc(crest(f.opposition))+'" alt="'+esc(f.opposition)+' crest">':'')+'</div><div class="meta">'+esc(date(f.date))+' · '+(f.homeAway==='H'?'HOME':'AWAY')+' · '+esc(competitionLabel(f.competition))+(f.kickOff?' · '+esc(f.kickOff):'')+'</div><div class="scoreline">'+line+'</div>';
 parts+='<div class="match-detail-columns"><div class="match-detail-left">';
@@ -786,7 +787,7 @@ function closeMatch(){syncMatchURL(null);mobileDialogObserver?.disconnect();el('
 setInterval(updateNextKickoff,1000);
 el('close').onclick=closeMatch;el('modal').onclick=e=>{if(e.target===el('modal'))closeMatch()};window.onkeydown=e=>{if(e.key==='Escape')closeMatch()};el('q').oninput=render;el('filter').onchange=render;
 async function getJSON(name){const r=await fetch(BASE+name+'?v=20261022',{cache:'no-store'});if(!r.ok)throw new Error(name+' HTTP '+r.status);return r.json()}
-(async()=>{try{const [list,league,cup,historical]=await Promise.all([getJSON('match-centre-fixtures-2026-27.json'),getJSON('data.json'),getJSON('cup-match-details-2026-27.json'),getJSON('historical-match-details-2026-27.json')]);fixtures=list.fixtures||[];details=[...(league.fixtures||[]).map(x=>({...x,competition:'SLD1S'})),...(cup.fixtures||[]),...(historical.fixtures||[])];fixtures.sort((a,b)=>a.date.localeCompare(b.date));populateCompetitionFilter();render();updateAwayDay();updateNextKickoff();if(document.body.classList.contains('home-summary')){const link=document.createElement('a');link.className='match-centre-link';link.href='https://www.tivertontownfc.uk/match-centre';link.target='_top';link.textContent='OPEN THE MATCH CENTRE ↗';el('fixtures-panel').append(link)}const shared=new URLSearchParams(location.search).get('match');if(shared)openMatch(shared)}catch(e){el('table').innerHTML='<div id="status">Unable to load fixtures at present. Please refresh the page.</div>';console.error(e)}})();
+(async()=>{try{const [list,league,cup,historical]=await Promise.all([getJSON('match-centre-fixtures-2026-27.json'),getJSON('data.json'),getJSON('cup-match-details-2026-27.json'),getJSON('historical-match-details-2026-27.json')]);fixtures=list.fixtures||[];details=[...(league.fixtures||[]).map(x=>({...x,competition:'SLD1S'})),...(cup.fixtures||[]),...(historical.fixtures||[])];fixtures.sort((a,b)=>a.date.localeCompare(b.date));populateCompetitionFilter();render();updateAwayDay();updateNextKickoff();if(document.body.classList.contains('home-summary')){const link=document.createElement('a');link.className='match-centre-link';link.href='https://www.tivertontownfc.uk/match-centre';link.target='_top';link.textContent='OPEN THE MATCH CENTRE ↗';el('fixtures-panel').append(link)}const params=new URLSearchParams(location.search);const shared=params.get('match');if(shared)openMatch(shared);else if(params.get('fixtureDate')){const f=fixtures.find(f=>f.date===params.get('fixtureDate')&&club(f.opposition)===club(params.get('opponent'))&&f.homeAway===params.get('venue'));if(f)openMatch(f.id)}}catch(e){el('table').innerHTML='<div id="status">Unable to load fixtures at present. Please refresh the page.</div>';console.error(e)}})();
 
 (function(){
   const tabs=Array.from(document.querySelectorAll('.hub-tab'));
@@ -912,7 +913,8 @@ async function getJSON(name){const r=await fetch(BASE+name+'?v=20261022',{cache:
         if(h>0&&Math.abs(frame.getBoundingClientRect().height-h)>2)frame.style.height=h+'px';
       };
       measure();
-      if(typeof ResizeObserver!=='undefined'){new ResizeObserver(measure).observe(doc.body)}
+      frame.tivvyMeasure=measure;
+      if(typeof ResizeObserver!=='undefined'&&frame.tivvyObservedBody!==doc.body){frame.tivvyResizeObserver?.disconnect();frame.tivvyResizeObserver=new ResizeObserver(()=>frame.tivvyMeasure?.());frame.tivvyResizeObserver.observe(doc.body);frame.tivvyObservedBody=doc.body}
       setTimeout(measure,300);
       setTimeout(measure,1400);
     }catch(e){frame.style.height='1100px'}
@@ -933,8 +935,36 @@ async function getJSON(name){const r=await fetch(BASE+name+'?v=20261022',{cache:
     }
     history.replaceState(null,'','#'+name);
   }
+  function selectPlayer(name){
+    const frame=document.querySelector('#players-panel iframe');
+    frame.dataset.playerName=name;
+    closeMatch();show('players');
+    frame.contentWindow?.postMessage({type:'tivvy-player-open',name},location.origin);
+    document.getElementById('players-panel').scrollIntoView({block:'start'});
+  }
+  document.getElementById('matchBody').addEventListener('click',event=>{
+    const name=event.target.closest('[data-player-name]')?.dataset.playerName;
+    if(name)selectPlayer(name);
+  });
+  window.addEventListener('message',event=>{
+    const frame=document.querySelector('#players-panel iframe');
+    if(event.origin!==location.origin||event.source!==frame.contentWindow)return;
+    const data=event.data;
+    if(data?.type==='tivvy-player-ready'&&frame.dataset.playerName)frame.contentWindow.postMessage({type:'tivvy-player-open',name:frame.dataset.playerName},location.origin);
+    if(data?.type==='tivvy-player-selected'){
+      frame.dataset.playerName=typeof data.name==='string'?data.name:'';
+      const url=new URL(location.href);if(frame.dataset.playerName){url.searchParams.delete('fixtureDate');url.searchParams.delete('opponent');url.searchParams.delete('venue');url.searchParams.set('player',frame.dataset.playerName);}else url.searchParams.delete('player');history.replaceState(null,'',url);
+      if(frame.dataset.playerName)document.getElementById('players-panel').scrollIntoView({block:'start'});
+    }
+    if(data?.type==='tivvy-player-resize')requestAnimationFrame(()=>frame.tivvyMeasure?.());
+    if(data?.type==='tivvy-match-open'){
+      const f=fixtures.find(f=>f.date===data.date&&club(f.opposition)===club(data.opponent)&&f.homeAway===data.venue&&comp(f.competition)==='league');
+      if(f){show('fixtures');openMatch(f.id)}
+    }
+  });
   tabs.forEach(b=>b.addEventListener('click',()=>show(b.dataset.section)));
-  show(location.hash.slice(1)==='season'?'players':(names.includes(location.hash.slice(1))?location.hash.slice(1):'fixtures'));
+  const requestedPlayer=new URLSearchParams(location.search).get('player');
+  if(requestedPlayer)selectPlayer(requestedPlayer);else show(location.hash.slice(1)==='season'?'players':(names.includes(location.hash.slice(1))?location.hash.slice(1):'fixtures'));
 })();
 </script></body></html>
 

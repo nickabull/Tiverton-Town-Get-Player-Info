@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Tiverton Town Stats Centre 2026/27</title>
+<link rel="stylesheet" href="player-profiles.css?v=20261025">
 <style>
 :root{--y:#f2c400;--b:#111;--bg:#f2f2f0;--line:#d7d7d0;--muted:#666;--red:#d71920;--blue:#7fc8f8}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:#171717}
@@ -132,6 +133,7 @@ table{width:100%;border-collapse:collapse}th,td{padding:8px 9px;border-bottom:1p
 
 <section class="section" id="players"><div class="section-head"><h2><img class="tivvy-crest" src="https://static.wixstatic.com/media/8aa829_88bbff928f6b42f49eba4aef6c32fcb2~mv2.png" alt="">Player Stats</h2><p>2026/27 league player leaders · appearances, goals and minutes</p></div>
 <div class="player-centre">
+<section id="playerProfile" hidden aria-label="Individual player profile"></section>
 <div id="playerOverview" class="player-overview" aria-label="Player statistics at a glance"></div>
 <div id="playerLeaderboards" class="player-leaderboards" aria-label="Player leaderboards"></div>
 <div class="player-directory">
@@ -154,6 +156,7 @@ table{width:100%;border-collapse:collapse}th,td{padding:8px 9px;border-bottom:1p
 <div class="panel"><h3>Most minutes</h3><div id="minutes"></div></div>
 </div><div class="note">Minutes are approximate where stoppage time or incomplete event data affects the calculation. This combined page leaves the existing source pages untouched while we test the one-stop-shop layout.</div></section>
 </main>
+<script src="player-profiles.js?v=20261025"></script>
 <script>
 const fullTableToggle=document.getElementById('playerFullTableToggle');
 const fullTablePanel=document.getElementById('playerFullTablePanel');
@@ -231,19 +234,20 @@ function render(player,results){
  const captains=stats.slice().sort((a,b)=>b.caps-a.caps)[0];
  const highlight=(label,number,detail,red)=>'<div class="player-highlight"><div class="label">'+esc(label)+'</div><div class="number'+(red?' goals':'')+'">'+esc(number)+'</div><div class="detail">'+esc(detail||'—')+'</div></div>';
  overview.innerHTML=highlight('Top scorer',mostGoals?.goals||0,mostGoals?.goals?mostGoals.name:'No goals recorded',true)+highlight('Most appearances',mostApps?.apps||0,mostApps?.name)+highlight('Most minutes',mostMins?.mins||0,mostMins?.name)+highlight('Most captaincies',captains?.caps||0,captains?.caps?captains.name:'No captaincies recorded');
- const leaders=(title,field,red)=>{const top=stats.filter(x=>x[field]>0).slice().sort((a,b)=>b[field]-a[field]||b.apps-a.apps).slice(0,5);return '<div class="leaderboard'+(red?' goals':'')+'"><h3>'+esc(title)+'</h3><ol>'+(top.length?top.map(x=>'<li><span class="leader-name">'+esc(x.name)+'</span><span class="leader-value">'+x[field]+'</span></li>').join(''):'<li><span class="leader-name">No records yet</span></li>')+'</ol></div>'};
+ const leaders=(title,field,red)=>{const top=stats.filter(x=>x[field]>0).slice().sort((a,b)=>b[field]-a[field]||b.apps-a.apps).slice(0,5);return '<div class="leaderboard'+(red?' goals':'')+'"><h3>'+esc(title)+'</h3><ol>'+(top.length?top.map(x=>'<li><span class="leader-name">'+window.playerProfileNameButton(x.name)+'</span><span class="leader-value">'+x[field]+'</span></li>').join(''):'<li><span class="leader-name">No records yet</span></li>')+'</ol></div>'};
  document.getElementById('playerLeaderboards').innerHTML=leaders('Golden Boot','goals',true)+leaders('Appearance Leaders','apps',false)+leaders('Minutes Played','mins',false);
  const search=document.getElementById('playerSearch'),sort=document.getElementById('playerSort'),cards=document.getElementById('playerCards');
  const cardStat=(value,label,red)=>'<div class="player-card-stat"><strong'+(red?' class="goals"':'')+'>'+value+'</strong><span>'+label+'</span></div>';
  const renderPlayerCards=()=>{
    const query=search.value.trim().toLocaleLowerCase('en-GB'),field=sort.value;
    const list=stats.filter(x=>x.name.toLocaleLowerCase('en-GB').includes(query)).slice().sort((a,b)=>field==='name'?a.name.localeCompare(b.name):b[field]-a[field]||b.apps-a.apps||a.name.localeCompare(b.name));
-   cards.innerHTML=list.length?list.map((x,i)=>'<article class="player-card"><div class="player-card-header"><h4>'+esc(x.name)+'</h4><span class="rank">#'+(i+1)+'</span></div><div class="player-card-stats">'+cardStat(x.apps,'Apps')+cardStat(x.starts,'Starts')+cardStat(x.subs,'Sub on')+cardStat(x.mins,'Minutes')+cardStat(x.goals,'Goals',true)+cardStat(x.caps,'Captain')+'</div></article>').join(''):'<p style="padding:12px">No players match that search.</p>';
+   cards.innerHTML=list.length?list.map((x,i)=>'<article class="player-card"><div class="player-card-header"><h4>'+window.playerProfileNameButton(x.name)+'</h4><span class="rank">#'+(i+1)+'</span></div><div class="player-card-stats">'+cardStat(x.apps,'Apps')+cardStat(x.starts,'Starts')+cardStat(x.subs,'Sub on')+cardStat(x.mins,'Minutes')+cardStat(x.goals,'Goals',true)+cardStat(x.caps,'Captain')+'</div><button type="button" class="profile-card-link" data-player-name="'+esc(x.name)+'">EXPLORE PLAYER ↗</button></article>').join(''):'<p style="padding:12px">No players match that search.</p>';
  };
  search.addEventListener('input',renderPlayerCards);
  sort.addEventListener('change',renderPlayerCards);
  renderPlayerCards();
- const sorted=stats.slice().sort((a,b)=>b.apps-a.apps||b.starts-a.starts||b.mins-a.mins);document.getElementById('playerTable').innerHTML='<table><thead><tr><th>Player</th><th class="num">Apps</th><th class="num">Starts</th><th class="num">Sub</th><th class="num">Minutes</th><th class="num">Goals</th><th class="num">Captain</th></tr></thead><tbody>'+sorted.map(x=>'<tr><td>'+esc(x.name)+'</td><td class="num">'+x.apps+'</td><td class="num">'+x.starts+'</td><td class="num">'+x.subs+'</td><td class="num">'+x.mins+'</td><td class="num goal">'+x.goals+'</td><td class="num">'+x.caps+'</td></tr>').join('')+'</tbody></table>';
+ window.initialisePlayerProfiles(fixtures);
+ const sorted=stats.slice().sort((a,b)=>b.apps-a.apps||b.starts-a.starts||b.mins-a.mins);document.getElementById('playerTable').innerHTML='<table><thead><tr><th>Player</th><th class="num">Apps</th><th class="num">Starts</th><th class="num">Sub</th><th class="num">Minutes</th><th class="num">Goals</th><th class="num">Captain</th></tr></thead><tbody>'+sorted.map(x=>'<tr><td>'+window.playerProfileNameButton(x.name)+'</td><td class="num">'+x.apps+'</td><td class="num">'+x.starts+'</td><td class="num">'+x.subs+'</td><td class="num">'+x.mins+'</td><td class="num goal">'+x.goals+'</td><td class="num">'+x.caps+'</td></tr>').join('')+'</tbody></table>';
 
  document.getElementById('matchCentre').innerHTML='<table class="match-table"><thead><tr><th>Date</th><th>Opponent</th><th>H/A</th><th>Score</th><th>Scorers</th><th>Captain</th><th>Subs used</th><th>Report</th></tr></thead><tbody>'+fixtures.slice().reverse().map(x=>{const st=x.starterDetails||[],sb=x.subDetails||[];const scorers=[...st,...sb].filter(p=>Number(p.goalCount||0)>0).map(p=>p.name+(p.goalMinutes?.length?' '+p.goalMinutes.map(m=>m+"'").join(', '):''));const cap=[...st,...sb].find(p=>p.captain);const used=sb.filter(p=>p.used!==false&&(p.onMinute||p.used===true)).map(p=>p.name+(p.onMinute?' '+p.onMinute+"'":''));const url=x.officialReportUrl||reports[x.date]||'';return '<tr><td>'+fmt(x.date)+'</td><td>'+esc(x.opponent)+'</td><td>'+esc(x.venue)+'</td><td class="score">'+tivvyFixtureScore(x.result)+'</td><td>'+esc(scorers.join(' · ')||'—')+'</td><td>'+esc(cap?.name||'—')+'</td><td>'+esc(used.join(' · ')||'—')+'</td><td>'+(url?'<a class="report" href="'+esc(url)+'" target="_blank" rel="noopener">Report ↗</a>':'—')+'</td></tr>'}).join('')+'</tbody></table>';
 
