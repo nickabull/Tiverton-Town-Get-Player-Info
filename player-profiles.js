@@ -49,7 +49,7 @@ function buildPlayerProfiles(fixtures) {
         } else profile.unused++;
         profile.matches.push({date: f.date, opponent: f.opponent, venue: f.venue, result: f.result,
           outcome, start: isStart, used, mins, goals, penalties, captain: Boolean(p.captain),
-          onMinute: p.onMinute || '', offMinute: p.offMinute || '', goalMinutes: p.goalMinutes || [],
+          onMinute: p.onMinute || '', offMinute: p.offMinute || '', goalMinutes: p.goalMinutes || [], penaltyMinutes: [...penaltyMinutes],
           report: f.officialReportUrl || '', crest: f.opponentLogoUrl || ''});
       }
     }
@@ -66,7 +66,7 @@ function buildPlayerProfiles(fixtures) {
   const message = data => { if (embedded) window.parent.postMessage(data, location.origin); };
   const find = name => profiles.find(p => playerKey(p.name) === playerKey(name));
   const stat = (value, label, red = false) => '<div class="profile-stat"><strong' + (red ? ' class="profile-goals"' : '') + '>' + esc(value) + '</strong><span>' + esc(label) + '</span></div>';
-  const nameButton = name => '<button type="button" class="player-name-link" data-player-name="' + esc(name) + '">' + esc(name) + ' <span class="player-link-arrow" aria-hidden="true">↗</span></button>';
+  const nameButton = name => '<button type="button" class="player-name-link" data-player-name="' + esc(name) + '">' + esc(name) + ' <span class="player-link-arrow" aria-hidden="true">↗︎</span></button>';
   window.playerProfileNameButton = nameButton;
   function setURL(name) {
     const url = new URL(location.href);
@@ -80,21 +80,42 @@ function buildPlayerProfiles(fixtures) {
     url.searchParams.set('venue', m.venue); url.hash = 'fixtures'; return url.href;
   }
   function matchCard(m, compact) {
-    const status = m.used ? (m.start ? 'Started' : 'Sub on' + (m.onMinute ? " " + m.onMinute + "′" : '')) + (m.offMinute ? ' · Off ' + m.offMinute + '′' : '') : 'Unused substitute';
+    const events = [];
+    if (!m.used) events.push('<span class="player-unused">Unused substitute</span>');
+    else {
+      if (m.start) events.push('<span>Started</span>');
+      else events.push('<span class="player-on">▲ on' + (m.onMinute ? ' ' + esc(m.onMinute) + '′' : '') + '</span>');
+      if (m.offMinute) events.push('<span class="player-off">▼ off ' + esc(m.offMinute) + '′</span>');
+      events.push('<span>≈' + m.mins + ' min</span>');
+      if (m.captain) events.push('<span class="player-captain">(C)</span>');
+    }
+    let goals = '';
+    if (m.goals) {
+      goals = m.goalMinutes.length ? m.goalMinutes.map(time =>
+        '<span class="profile-goal-event">' + ((m.penaltyMinutes || []).includes(String(time)) ? '<span class="player-penalty">⚽ PEN</span>' : '⚽') +
+        ' <span class="goal-time">' + esc(time) + '′</span></span>').join(' ') :
+        '<span class="profile-goal-event">⚽ <span class="goal-time">' + m.goals + (m.goals === 1 ? ' goal' : ' goals') + '</span></span>';
+    }
     const score = parseScore(m.result);
     const img = crestUrl(m.opponent) || m.crest;
     return '<a class="profile-match' + (compact ? ' compact' : '') + '" href="' + esc(matchURL(m)) + '" data-profile-match="' + esc(JSON.stringify({date:m.date,opponent:m.opponent,venue:m.venue})) + '">' +
       '<span class="profile-result result-' + m.outcome.toLowerCase() + '">' + m.outcome + '</span>' +
       '<span class="profile-match-main"><span class="profile-opponent">' + (img && /^https:\/\//.test(img) ? '<img src="' + esc(img) + '" alt="" loading="lazy" onerror="this.remove()">' : '') + esc(m.opponent) + ' <small>' + (m.venue === 'H' ? 'HOME' : 'AWAY') + '</small></span>' +
-      '<span class="profile-match-meta">' + esc(fmt(m.date)) + ' · ' + esc(status) + (m.used ? ' · ≈' + m.mins + ' min' : '') + (m.captain ? ' · Captain' : '') + '</span>' +
-      (m.goals ? '<span class="profile-match-goals">⚽ ' + m.goals + (m.goalMinutes.length ? ' · ' + esc(m.goalMinutes.join('′, ') + '′') : '') + (m.penalties ? ' · ' + m.penalties + ' pen' : '') + '</span>' : '') +
-      '</span><span class="profile-score">' + (m.venue === 'A' ? score.ga + '–<b>' + score.gf + '</b>' : '<b>' + score.gf + '</b>–' + score.ga) + '<span>DETAILS ↗</span></span></a>';
+      '<span class="profile-match-meta">' + esc(fmt(m.date)) + '</span></span>' +
+      '<span class="profile-score">' + (m.venue === 'A' ? score.ga + '–<b>' + score.gf + '</b>' : '<b>' + score.gf + '</b>–' + score.ga) + '<span>DETAILS ↗︎</span></span>' +
+      '<span class="profile-match-events"><span class="profile-appearance-events">' + events.join('<span class="profile-event-dot" aria-hidden="true"> · </span>') + '</span>' +
+      (goals ? '<span class="profile-match-goals">' + goals + '</span>' : '') + '</span></a>';
   }
+
   function compare() {
     const p = find(current), other = find(node('profileCompareSelect').value), target = node('profileComparison');
     if (!p || !other) { target.innerHTML = '<p class="profile-note">Choose a teammate to compare their league season.</p>'; return; }
     const rows = [['Appearances','apps'],['Starts','starts'],['Sub appearances','subs'],['Estimated minutes','mins'],['Goals','goals'],['Captaincies','caps']];
     target.innerHTML = '<table class="profile-compare-table"><thead><tr><th scope="col">Statistic</th><th scope="col">' + esc(p.name) + '</th><th scope="col">' + esc(other.name) + '</th></tr></thead><tbody>' + rows.map(([label,key]) => '<tr><th scope="row">' + label + '</th><td' + (key === 'goals' ? ' class="profile-goals"' : '') + '>' + p[key] + '</td><td' + (key === 'goals' ? ' class="profile-goals"' : '') + '>' + other[key] + '</td></tr>').join('') + '</tbody></table>';
+  }
+  function playerHeading(name) {
+    const [first, ...rest] = playerName(name).split(/\s+/);
+    return '<span class="profile-given-name">' + esc(first) + '</span>' + (rest.length ? '<span class="profile-family-name">' + esc(rest.join(' ')) + '</span>' : '');
   }
   function show(name, focus = true) {
     if (!profiles.length) { pending = name; return; }
@@ -103,7 +124,7 @@ function buildPlayerProfiles(fixtures) {
     const appearances = p.matches.filter(m => m.used), latest = appearances.slice(-5).reverse();
     const labels = ['1–15','16–30','31–45+','46–60','61–75','76–90+'], max = Math.max(1,...p.goalBands);
     host.innerHTML = '<div class="profile-toolbar"><button type="button" class="profile-back" id="profileBack">← ALL PLAYERS</button><label class="profile-switch-label">PLAYER<select id="profilePlayerSelect" aria-label="Choose player profile">' + (find(p.name)?profiles:[p,...profiles]).map(x=>'<option'+(x.name===p.name?' selected':'')+'>'+esc(x.name)+'</option>').join('') + '</select></label></div>' +
-      '<div class="profile-hero"><div><p>YOUR TIVVY · PLAYER PROFILE</p><h3 id="profileName" tabindex="-1">' + esc(p.name) + '</h3><span>2026/27 · SOUTHERN LEAGUE DIVISION ONE SOUTH</span></div>' + crestImg('Tiverton Town','profile-club-crest') + '</div>' +
+      '<div class="profile-hero"><div><p>YOUR TIVVY · PLAYER PROFILE</p><h3 id="profileName" tabindex="-1">' + playerHeading(p.name) + '</h3><span>2026/27 · SOUTHERN LEAGUE DIVISION ONE SOUTH</span></div>' + crestImg('Tiverton Town','profile-club-crest') + '</div>' +
       '<div class="profile-stats">' + stat(p.apps,'Appearances') + stat(p.starts,'Starts') + stat(p.subs,'Sub on') + stat(p.mins,'Est. minutes') + stat(p.goals,'Goals',true) + stat(p.caps,'Captaincies') + '</div>' +
       '<p class="profile-note">Recorded league team sheets only. Minutes are estimates. Unused substitute: ' + p.unused + ' match' + (p.unused===1?'':'es') + '.</p>' +
       '<section class="profile-panel"><h4>LAST FIVE APPEARANCES</h4><p class="profile-note">Latest first · W/D/L is the team result.</p><div>' + (latest.map(m=>matchCard(m,true)).join('') || '<p class="profile-note">No recorded league appearances yet.</p>') + '</div></section>' +
