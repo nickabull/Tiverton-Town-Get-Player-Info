@@ -415,6 +415,25 @@ body.home-summary .latest-result .row{grid-template-columns:94px minmax(150px,1f
 .match-player-link{font:inherit;color:inherit;background:none;border:0;border-radius:0;padding:0;text-align:left;cursor:pointer;text-decoration:underline;text-decoration-color:#777;text-underline-offset:3px}.match-player-link:focus-visible{outline:3px solid #2782ef;outline-offset:2px}
 .close-match-bottom{display:block;border:2px solid #ef3340;background:transparent;color:#ff666b;padding:10px 14px;margin-top:20px;font:18px Anton,Impact,sans-serif;cursor:pointer}
 .away-form-refresh{border:2px solid #111;border-radius:0;background:#111;color:#ffd800;padding:10px 13px;font:18px Anton,Impact,sans-serif;cursor:pointer;min-height:44px}.away-form-refresh:disabled{opacity:.6}.away-form-status{font-size:12px!important;margin:10px 0 0!important}.away-form-results{list-style:none;padding:0;margin:10px 0}.away-form-results li{display:flex;align-items:center;gap:10px;padding:9px 0;border-top:1px solid #ccc;font-size:13px}.away-form-result{color:#fff;background:#111;display:flex;align-items:center;justify-content:center;width:29px;height:29px;flex:none;font-weight:800}.away-form-result.form-w{background:#16773b}.away-form-result.form-d{background:#ad5c00}.away-form-result.form-l{background:#bb2130}
+/* Compact latest-five summary; existing fixture rows and homepage embed stay unchanged. */
+#table .tivvy-glance{border-bottom:4px solid var(--y)}
+#table .tivvy-glance-head{display:flex;align-items:center;justify-content:space-between;gap:10px;background:#111;color:var(--y);padding:12px 14px}
+#table .tivvy-glance-head h3{font:24px/1.2 Anton,Impact,sans-serif;text-transform:uppercase;margin:0}
+#table .tivvy-glance-head p{font:12px Arial,sans-serif;margin:0;color:#fff}
+#table .tivvy-glance-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr))}
+#table .tivvy-glance-item{min-width:0;background:#fff;border-right:1px solid #111}
+#table .tivvy-glance-item:nth-child(even){background:var(--y)}
+#table .tivvy-glance-item:last-child{border-right:0}
+#table .tivvy-glance-match{width:100%;height:100%;border:0;border-radius:0;background:none;color:#111;padding:12px;text-align:left;cursor:pointer;display:grid;grid-template-columns:25px 25px minmax(0,1fr);gap:7px;align-items:center;font:inherit}
+#table .tivvy-glance-match:focus-visible{outline:3px solid #2782ef;outline-offset:-3px}
+#table .tivvy-glance-badge{display:grid;place-items:center;width:25px;height:25px;font:bold 13px Arial,sans-serif;background:#16773b;color:#fff}
+#table .tivvy-glance-badge.loss{background:#bb2130}#table .tivvy-glance-badge.draw{background:#ad5c00}
+#table .tivvy-glance-crest{width:25px;height:25px;object-fit:contain}
+#table .tivvy-glance-date{font-size:11px;white-space:nowrap}
+#table .tivvy-glance-opponent{grid-column:1/-1;min-height:36px;font-weight:700;font-size:13px;line-height:1.3;overflow-wrap:anywhere}
+#table .tivvy-glance-meta{grid-column:1/3;font-size:10px;line-height:1.35}
+#table .tivvy-glance-score{font:28px/1.2 Anton,Impact,sans-serif;justify-self:end;white-space:nowrap}
+@media(max-width:650px){#table .tivvy-glance-head{padding:10px;align-items:flex-start}#table .tivvy-glance-head h3{font-size:21px}#table .tivvy-glance-head p{font-size:10px;max-width:115px;text-align:right}#table .tivvy-glance-list{grid-template-columns:1fr}#table .tivvy-glance-item{border-right:0;border-bottom:1px solid #111}#table .tivvy-glance-item:last-child{border-bottom:0}#table .tivvy-glance-match{grid-template-columns:25px 25px minmax(0,1fr) auto;gap:3px 8px;padding:9px 10px}#table .tivvy-glance-badge,#table .tivvy-glance-crest{grid-row:1/3}#table .tivvy-glance-opponent{grid-column:3;grid-row:1;min-height:0;font-size:13px}#table .tivvy-glance-date{grid-column:3;grid-row:2;font-size:10px}#table .tivvy-glance-meta{grid-column:4;grid-row:2;text-align:right;font-size:9px}#table .tivvy-glance-meta br{display:none}#table .tivvy-glance-score{grid-column:4;grid-row:1;font-size:25px}}
 </style></head><body>
 <script>const displayOptions=new URLSearchParams(location.search);if(displayOptions.get('embed')==='1')document.body.classList.add('wix-embed');if(displayOptions.get('view')==='home')document.body.classList.add('home-summary','wix-embed');</script>
 <header><img class="brand" src="tiverton-town-logo.png" alt="Tiverton Town badge"><div><h1>Tivvy Match Centre</h1><p>Fixtures, Results, Tables &amp; Player Stats</p></div></header>
@@ -660,6 +679,22 @@ function fixtureMatchesFilter(f,filter){
   if(filter==='upcoming')return !/^[WDL]|^ABD/i.test(f.result);
   return filter.startsWith('competition:')&&comp(f.competition)===filter.slice('competition:'.length);
 }
+function glanceHTML(today){
+  const games=[...fixtures].filter(f=>f.date<=today&&/^[WDL]\s+\d+\s*[-–]\s*\d+$/i.test(String(f.result||''))).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,5);
+  if(!games.length)return '';
+  const cards=games.map(f=>{
+    const m=matchFor(f),verified=String(m?.result||'').match(/^(\d+)\s*[-–]\s*(\d+)$/),stored=String(f.result).match(/^([WDL])\s+(\d+)\s*[-–]\s*(\d+)$/i);
+    let gf=Number(verified?verified[1]:stored[2]),ga=Number(verified?verified[2]:stored[3]);
+    // Older CMS rows use mixed orientation. Prefer verified detail scores;
+    // for a fallback, reconcile the numbers with Tiverton's recorded outcome.
+    if(!verified&&((stored[1].toUpperCase()==='W'&&gf<ga)||(stored[1].toUpperCase()==='L'&&gf>ga)))[gf,ga]=[ga,gf];
+    const outcome=gf>ga?'W':gf<ga?'L':'D',away=f.homeAway==='A',ours='<span class="tivvy">'+gf+'</span>',score=away?ga+'–'+ours:ours+'–'+ga;
+    const badge=crest(f.opposition)||m?.opponentLogoUrl||'',when=new Date(f.date+'T12:00:00Z').toLocaleDateString('en-GB',{day:'numeric',month:'short',timeZone:'Europe/London'}),competition=comp(f.competition)==='league'?'League':competitionLabel(f.competition);
+    const label=when+', '+f.opposition+', '+(away?'away':'home')+'. Tiverton '+gf+', '+f.opposition+' '+ga+'. Open match details';
+    return '<li class="tivvy-glance-item"><button type="button" class="tivvy-glance-match" data-id="'+esc(f.id)+'" aria-label="'+esc(label)+'"><span class="tivvy-glance-badge '+(outcome==='L'?'loss':outcome==='D'?'draw':'win')+'" aria-hidden="true">'+outcome+'</span>'+(badge?'<img class="tivvy-glance-crest" src="'+esc(badge)+'" alt="" onerror="this.style.visibility=\'hidden\'">':'<span></span>')+'<time class="tivvy-glance-date" datetime="'+esc(f.date)+'">'+esc(when)+'</time><span class="tivvy-glance-opponent">'+esc(f.opposition)+'</span><span class="tivvy-glance-meta">'+(away?'Away':'Home')+'<br> '+esc(competition)+'</span><span class="tivvy-glance-score" aria-hidden="true">'+score+'</span></button></li>';
+  }).join('');
+  return '<section class="tivvy-glance" aria-label="Tivvy at a Glance: latest five results"><div class="tivvy-glance-head"><h3>Tivvy at a Glance</h3><p>Latest five · all competitions<br>Tap a match for details</p></div><ol class="tivvy-glance-list">'+cards+'</ol></section>';
+}
 function render(){
   const term=el('q').value.trim().toLowerCase(),filter=el('filter').value;
   const filtered=fixtures.filter(f=>(f.opposition+' '+f.competition+' '+competitionLabel(f.competition)).toLowerCase().includes(term)&&fixtureMatchesFilter(f,filter));
@@ -682,7 +717,8 @@ function render(){
     const opened=autoReveal||openMonths.has(key);
     return '<details class="fixture-month" data-month="'+esc(key)+'"'+(opened?' open':'')+'><summary class="month-heading"><span class="month-title">'+esc(monthName(key))+'</span><span class="month-count">'+games.length+' '+(games.length===1?'match':'matches')+'</span><span class="month-chevron" aria-hidden="true"></span></summary><div class="month-fixtures">'+games.map(row).join('')+'</div></details>';
   }).join('');
-  el('table').innerHTML=latestHTML+(html||'<div style="padding:20px">No matching fixtures</div>');
+  const londonToday=new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/London',year:'numeric',month:'2-digit',day:'2-digit'}).format(now);
+  el('table').innerHTML=(document.body.classList.contains('home-summary')?latestHTML:glanceHTML(londonToday))+(html||'<div style="padding:20px">No matching fixtures</div>');
   el('table').querySelectorAll('button[data-id]').forEach(b=>b.onclick=()=>openMatch(b.dataset.id));
   el('table').querySelectorAll('details.fixture-month').forEach(group=>group.addEventListener('toggle',()=>{
     if(autoReveal)return;
