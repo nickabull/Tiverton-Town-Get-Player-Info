@@ -382,8 +382,8 @@ header h1{font-family:"Anton",Impact,"Arial Narrow",sans-serif;font-weight:400}
   #table .month-fixtures>.row:not(.th) .comp .comp-name{overflow-wrap:normal;word-break:normal}
   #table .month-fixtures>.row:not(.th) .action{grid-column:3;grid-row:3}
   #table .month-fixtures>.row:not(.th) .scorers{grid-column:1/3;grid-row:3}
-  .modal{align-items:flex-start;padding:12px}
-  .modal .dialog{margin-top:var(--mobile-dialog-top,0px);max-height:var(--mobile-dialog-height,calc(100dvh - 24px))}
+  .modal{align-items:flex-start;padding:12px;top:var(--mobile-overlay-top,0px);bottom:auto;height:var(--mobile-overlay-height,100dvh)}
+  .modal .dialog{margin:0;max-height:calc(var(--mobile-overlay-height,100dvh) - 24px);min-height:0;overflow-y:auto;overscroll-behavior-y:contain;-webkit-overflow-scrolling:touch}
   .dialog #matchTitle{font-size:23px;line-height:1.2;padding-right:78px}
   .dialog .close{font-size:16px}
 }
@@ -413,6 +413,8 @@ body.home-summary .match-centre-link:focus-visible{outline:3px solid #2782ef;out
 body.home-summary .latest-result .row{grid-template-columns:94px minmax(150px,1fr) 64px 110px 100px minmax(120px,1fr)}
 @media(max-width:650px){body.home-summary .latest-result .row{grid-template-columns:90px minmax(0,1fr) max-content}body.home-summary .next-kickoff .next-timer{justify-content:center}}
 .match-player-link{font:inherit;color:inherit;background:none;border:0;border-radius:0;padding:0;text-align:left;cursor:pointer;text-decoration:underline;text-decoration-color:#777;text-underline-offset:3px}.match-player-link:focus-visible{outline:3px solid #2782ef;outline-offset:2px}
+.close-match-bottom{display:block;border:2px solid #ef3340;background:transparent;color:#ff666b;padding:10px 14px;margin-top:20px;font:18px Anton,Impact,sans-serif;cursor:pointer}
+.away-form-refresh{border:2px solid #111;border-radius:0;background:#111;color:#ffd800;padding:10px 13px;font:18px Anton,Impact,sans-serif;cursor:pointer;min-height:44px}.away-form-refresh:disabled{opacity:.6}.away-form-status{font-size:12px!important;margin:10px 0 0!important}.away-form-results{list-style:none;padding:0;margin:10px 0}.away-form-results li{display:flex;align-items:center;gap:10px;padding:9px 0;border-top:1px solid #ccc;font-size:13px}.away-form-result{color:#fff;background:#111;display:flex;align-items:center;justify-content:center;width:29px;height:29px;flex:none;font-weight:800}.away-form-result.form-w{background:#16773b}.away-form-result.form-d{background:#ad5c00}.away-form-result.form-l{background:#bb2130}
 </style></head><body>
 <script>const displayOptions=new URLSearchParams(location.search);if(displayOptions.get('embed')==='1')document.body.classList.add('wix-embed');if(displayOptions.get('view')==='home')document.body.classList.add('home-summary','wix-embed');</script>
 <header><img class="brand" src="tiverton-town-logo.png" alt="Tiverton Town badge"><div><h1>Tivvy Match Centre</h1><p>Fixtures, Results, Tables &amp; Player Stats</p></div></header>
@@ -439,7 +441,7 @@ body.home-summary .latest-result .row{grid-template-columns:94px minmax(150px,1f
   <div class="matrix-full-label"><h3>Full Results Matrix</h3><p>Swipe sideways to see every club and every result</p></div>
   <iframe scrolling="no" title="Full Results Matrix" loading="lazy" data-src="stats-centre.html?matrix-style=20261023-readable-crests#matrix"></iframe>
 </section>
-<section class="hub-panel" id="players-panel" hidden aria-label="Player Stats"><iframe scrolling="no" title="Player Stats" loading="lazy" data-src="stats-centre.html?player-style=20261026-player-consistency#players"></iframe></section>
+<section class="hub-panel" id="players-panel" hidden aria-label="Player Stats"><iframe scrolling="no" title="Player Stats" loading="lazy" data-src="stats-centre.html?player-style=20261026-player-polish#players"></iframe></section>
 <section class="hub-panel" id="away-panel" hidden aria-label="Next Away Day"><div class="away-panel-content"><h2>Next Away Day</h2><div id="away-details" aria-live="polite">Loading the next away fixture…</div></div></section>
 <div class="modal" id="modal" hidden><div class="dialog" role="dialog" aria-modal="true" aria-labelledby="matchTitle"><button class="close" id="close" aria-label="Close match details">CLOSE ✕</button><h2 id="matchTitle">Tivvy Match Centre</h2><div id="matchBody"></div></div></div>
 <script>
@@ -547,6 +549,55 @@ const AWAY_GUIDES={
     before:'Recheck kick-off and travel arrangements. Contact the club about parking, access or dietary requirements.'
   }
 };
+let awayLeagueFeed=null,awayLeagueFetchedAt=0,awayLeagueRequest=null;
+function deriveAwayForm(data,opponent){
+  const aliases={hungerfordtown:'hungerford',dorchestertown:'dorchester',westburyunited:'westbury',swindonsupermarine:'swindonsm',portlandunited:'portlandutd',scinkberrow:'sportingclubinkberrow'};
+  const key=name=>{const k=club(name);return aliases[k]||k},team=key(opponent),seen=new Set();
+  const matches=(data.results||[]).filter(m=>{
+    if(key(m.home)!==team&&key(m.away)!==team)return false;
+    if(!/^\d{4}-\d{2}-\d{2}$/.test(m.date||'')||!/^\d+\s*[-–]\s*\d+$/.test(m.score||''))return false;
+    const id=[m.date,key(m.home),key(m.away)].join('|');if(seen.has(id))return false;seen.add(id);return true;
+  }).sort((a,b)=>b.date.localeCompare(a.date)).map(m=>{
+    const [home,away]=m.score.split(/[-–]/).map(Number),atHome=key(m.home)===team;
+    const gf=atHome?home:away,ga=atHome?away:home;
+    return {...m,homeScore:home,awayScore:away,gf,ga,outcome:gf>ga?'W':gf===ga?'D':'L'};
+  });
+  const row=(data.leagueTable||[]).find(r=>key(r.team)===team);
+  if(!row&&!matches.length)return null;
+  const record={p:matches.length,w:0,d:0,l:0,gf:0,ga:0};
+  for(const m of matches){record[m.outcome.toLowerCase()]++;record.gf+=m.gf;record.ga+=m.ga}
+  const reconciled=row&&Number(row.p)===record.p&&Number(row.gd)===record.gf-record.ga;
+  const hasWDL=row&&['w','d','l'].every(k=>row[k]!==undefined&&row[k]!==null&&row[k]!=='');
+  return {row:row||null,record:hasWDL?row:reconciled?record:null,lastFive:matches.slice(0,5),updated:data.updated};
+}
+function awayFormCard(opponent,guide){
+  return '<section class="away-card" data-away-form="'+esc(opponent)+'"><h3>'+esc(guide?.formLabel||'LEAGUE FORM')+'</h3><div id="away-form-content">'+
+    (guide?'<p>'+esc(guide.form)+'</p><p><small>Saved snapshot: '+esc(guide.formAsOf)+'</small></p>':'<p>Loading the latest league record and results…</p>')+
+    '</div><button type="button" class="away-form-refresh" id="away-form-refresh">REFRESH FORM ↻</button><p class="away-form-status" id="away-form-status" role="status"></p></section>';
+}
+async function refreshAwayForm(opponent,force=false){
+  const card=document.querySelector('[data-away-form]');if(!card||card.dataset.awayForm!==opponent)return;
+  const button=el('away-form-refresh'),status=el('away-form-status');button.onclick=()=>refreshAwayForm(opponent,true);
+  button.disabled=true;status.textContent='Checking the latest available league feed…';
+  try{
+    if(force||!awayLeagueFeed||Date.now()-awayLeagueFetchedAt>60000){
+      if(!awayLeagueRequest)awayLeagueRequest=fetch('https://nickabull.github.io/Tiverton-Town-Get-Results/data.json?away-form='+Date.now(),{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('League feed unavailable');return r.json()}).then(data=>{awayLeagueFeed=data;awayLeagueFetchedAt=Date.now();return data}).finally(()=>{awayLeagueRequest=null});
+      await awayLeagueRequest;
+    }
+    if(document.querySelector('[data-away-form]')?.dataset.awayForm!==opponent)return;
+    const form=deriveAwayForm(awayLeagueFeed,opponent);if(!form)throw Error('No league records available');
+    let summary=form.row?'League position: '+form.row.pos+' · P'+form.row.p:'Recorded league results';
+    if(form.record)summary+=' · W'+form.record.w+' D'+form.record.d+' L'+form.record.l;
+    if(form.row?.pts!==undefined)summary+=' · '+form.row.pts+' points';
+    let html='<p><strong>'+esc(summary)+'</strong></p>';
+    if(form.lastFive.length)html+='<p>Last '+form.lastFive.length+' league games · latest first</p><ol class="away-form-results">'+form.lastFive.map(m=>'<li><span class="away-form-result form-'+m.outcome.toLowerCase()+'">'+m.outcome+'</span><span>'+esc(date(m.date))+'<br>'+esc(m.home)+' <strong>'+m.homeScore+'–'+m.awayScore+'</strong> '+esc(m.away)+'</span></li>').join('')+'</ol>';
+    const stamp=new Date(String(form.updated||'').replace(' UTC','Z').replace(' ','T'));
+    html+='<p><small>League feed updated: '+esc(isNaN(stamp)?form.updated:stamp.toLocaleString('en-GB',{timeZone:'Europe/London',day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}))+'</small></p>';
+    el('away-form-content').innerHTML=html;status.textContent='Refreshes when you open this tab. Cup matches are not included in league form.';
+  }catch(error){if(document.querySelector('[data-away-form]')?.dataset.awayForm===opponent)status.textContent='Could not refresh just now. Any saved figures above remain dated; please try again.'}
+  finally{if(document.querySelector('[data-away-form]')?.dataset.awayForm===opponent)button.disabled=false}
+}
+
 function updateAwayDay(){
   const target=document.getElementById('away-details');
   if(!target)return;
@@ -561,6 +612,7 @@ function updateAwayDay(){
   const guide=AWAY_GUIDES[club(next.opposition)];
   const verified=guide&&guide.date===next.date?guide:null;
   const badge=crest(next.opposition);
+  const formCard=awayFormCard(next.opposition,verified);
   const hero='<div class="away-hero">'+(badge?'<img class="'+(club(next.opposition)==='larkhallathletic'?'away-crest-larkhall':'')+'" src="'+safe(badge)+'" alt="'+safe(next.opposition)+' crest">':'')+
     '<div><div class="away-tag">NEXT AWAY TRIP</div><div class="away-opponent">'+safe(next.opposition)+'</div>'+
     '<div class="away-date">'+safe(formatted)+' · '+safe(next.kickOff||'Kick-off TBC')+'</div>'+
@@ -568,17 +620,18 @@ function updateAwayDay(){
   if(!verified){
     target.innerHTML='<div class="away-fixture">'+hero+
       '<div class="away-card"><h3>TRAVEL GUIDE</h3><p>Ground, tickets and travel information for this fixture are being checked. Please consult the home club before travelling.</p></div>'+
-      '<p class="away-footnote">The opponent, date and kick-off are taken from the live Match Centre fixture list.</p></div>';
-    return;
+      formCard+'<p class="away-footnote">The opponent, date and kick-off are taken from the live Match Centre fixture list.</p></div>';
+    refreshAwayForm(next.opposition);return;
   }
   target.innerHTML='<div class="away-fixture">'+hero+'<div class="away-card-grid">'+
     '<section class="away-card"><h3>THE GROUND</h3><p><strong>'+safe(verified.ground)+'</strong></p><p>'+safe(verified.address)+'</p></section>'+
     '<section class="away-card"><h3>ADMISSION</h3><p>'+safe(verified.admission)+'</p><p>Tickets: <a href="'+safe(verified.tickets)+'" target="_blank" rel="noopener noreferrer">'+safe(verified.ticketLabel||next.opposition+' official website')+' ↗</a></p></section>'+
     '<section class="away-card"><h3>BY ROAD</h3><p>'+safe(verified.road)+'</p></section>'+
     '<section class="away-card"><h3>BY RAIL</h3><p>'+safe(verified.rail)+'</p></section>'+
-    '<section class="away-card"><h3>'+safe(verified.formLabel||'THE LARKS')+'</h3><p>'+safe(verified.form)+'</p><p><small>League form snapshot: '+safe(verified.formAsOf)+'</small></p></section>'+
+    formCard+
     '<section class="away-card"><h3>BEFORE YOU GO</h3><p>'+safe(verified.before)+'</p></section>'+
     '</div><p class="away-footnote">Prices and arrangements may change; please check with the home club.</p></div>';
+  refreshAwayForm(next.opposition);
 }
 /* Collapsible monthly groups on both desktop and mobile. The fixture rows and
    match-details popups themselves remain exactly as previously approved. */
@@ -760,30 +813,52 @@ const count=Number(m?.attendance);
 const attendance=Number.isInteger(count)&&count>0?'<p class="match-attendance"><strong>Attendance: '+count.toLocaleString('en-GB')+'</strong>'+(/^https:\/\/www\.southern-football-league\.co\.uk\/match\/[a-f0-9]+$/.test(m.attendanceSource||'')?'<a href="'+esc(m.attendanceSource)+'" target="_blank" rel="noopener">Southern League ↗</a>':'')+'</p>':'';
 parts=parts.slice(0,scoreEnd)+attendance+sharingMarkup(f)+parts.slice(scoreEnd);
 syncMatchURL(f.id);
-parts+='<div id="viv-match-photos" data-fixture="'+esc(f.id)+'"></div>';el('matchBody').innerHTML=parts;el('modal').hidden=false;document.body.style.overflow='hidden';positionMobileMatch();el('close').focus(window.matchMedia('(max-width:650px)').matches?{preventScroll:true}:undefined);bindMatchSharing(f);populateVivPhotos(f)}
-/* A Wix iframe can be much taller than the phone screen. Measure its visible
-   intersection on opening, rather than centring the dialog in the whole iframe. */
-let mobileDialogObserver=null;
+parts+='<div id="viv-match-photos" data-fixture="'+esc(f.id)+'"></div><button type="button" class="close-match-bottom" id="closeMatchBottom">CLOSE MATCH ✕</button>';el('matchBody').innerHTML=parts;el('modal').hidden=false;document.body.style.overflow='hidden';el('modal').querySelector('.dialog').scrollTop=0;positionMobileMatch();el('close').focus(window.matchMedia('(max-width:650px)').matches?{preventScroll:true}:undefined);el('closeMatchBottom').onclick=closeMatch;bindMatchSharing(f);populateVivPhotos(f)}
+/* Measure a static viewport sentinel, never the overlay being repositioned.
+   Wix's outer iframe can be many phone screens tall. */
+let mobileDialogObserver=null,mobileDialogTimer=null,mobileDialogSentinel=null;
+function stopMobileMatchPosition(){
+  mobileDialogObserver?.disconnect();mobileDialogObserver=null;
+  clearInterval(mobileDialogTimer);mobileDialogTimer=null;
+}
 function positionMobileMatch(){
+  stopMobileMatchPosition();
   if(!window.matchMedia('(max-width:650px)').matches)return;
   const modal=el('modal');
+  const fallbackHeight=Math.min(window.visualViewport?.height||window.innerHeight,window.screen?.availHeight||window.innerHeight);
   const place=(top,height)=>{
-    modal.style.setProperty('--mobile-dialog-top',Math.max(0,top)+'px');
-    modal.style.setProperty('--mobile-dialog-height',Math.max(1,height)+'px');
+    modal.style.setProperty('--mobile-overlay-top',Math.max(0,top)+'px');
+    modal.style.setProperty('--mobile-overlay-height',Math.max(48,height)+'px');
   };
   const embedded=window.self!==window.top;
   const row=document.activeElement?.closest('.row');
-  place(embedded&&row?Math.max(0,row.getBoundingClientRect().top-12):0,(window.visualViewport?.height||window.innerHeight)-24);
-  mobileDialogObserver?.disconnect();
+  place(embedded&&row?Math.max(0,row.getBoundingClientRect().top-12):0,fallbackHeight);
   if(embedded&&typeof IntersectionObserver!=='undefined'){
+    if(!mobileDialogSentinel){
+      mobileDialogSentinel=document.createElement('div');
+      mobileDialogSentinel.setAttribute('aria-hidden','true');
+      mobileDialogSentinel.style.cssText='position:fixed;inset:0;pointer-events:none;opacity:0;z-index:-1';
+      document.body.appendChild(mobileDialogSentinel);
+    }
     mobileDialogObserver=new IntersectionObserver(entries=>{
       const visible=entries[0]?.intersectionRect;
-      if(!modal.hidden&&visible?.height>24)place(visible.top,visible.height-24);
+      if(!modal.hidden&&visible?.height>48)place(visible.top,Math.min(visible.height,fallbackHeight));
     });
-    mobileDialogObserver.observe(modal);
+    const measure=()=>{if(!modal.hidden){mobileDialogObserver.unobserve(mobileDialogSentinel);mobileDialogObserver.observe(mobileDialogSentinel)}};
+    measure();
+    // Re-observe while open: Safari's browser bars and the outer Wix scroll
+    // can move a same-sized intersection without crossing an IO threshold.
+    mobileDialogTimer=setInterval(measure,300);
   }
 }
-function closeMatch(){syncMatchURL(null);mobileDialogObserver?.disconnect();el('modal').hidden=true;document.body.style.overflow=''}
+function closeMatch(){syncMatchURL(null);stopMobileMatchPosition();el('modal').hidden=true;document.body.style.overflow=''}
+let matchTouchY=0;
+el('modal').addEventListener('touchstart',event=>{matchTouchY=event.touches[0]?.clientY||0},{passive:true});
+el('modal').addEventListener('touchmove',event=>{
+  if(el('modal').hidden||event.touches.length!==1)return;
+  const dialog=event.target.closest('.dialog'),y=event.touches[0].clientY,delta=y-matchTouchY;matchTouchY=y;
+  if(!dialog||(delta>0&&dialog.scrollTop<=0)||(delta<0&&dialog.scrollTop+dialog.clientHeight>=dialog.scrollHeight-1))event.preventDefault();
+},{passive:false});
 setInterval(updateNextKickoff,1000);
 el('close').onclick=closeMatch;el('modal').onclick=e=>{if(e.target===el('modal'))closeMatch()};window.onkeydown=e=>{if(e.key==='Escape')closeMatch()};el('q').oninput=render;el('filter').onchange=render;
 async function getJSON(name){const r=await fetch(BASE+name+'?v=20261022',{cache:'no-store'});if(!r.ok)throw new Error(name+' HTTP '+r.status);return r.json()}

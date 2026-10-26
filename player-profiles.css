@@ -119,3 +119,7 @@
  #players #profileName{font-size:clamp(24px,7.8vw,35px);line-height:1.13}
  #players .profile-match-events{font-size:12px;padding:7px}
 }
+
+/* The events sit directly on the existing white/gold rows. */
+#players .profile-match-events{background:transparent;color:#111;padding:0;font-size:12px}
+#players .profile-match-events .player-unused{color:#666}
