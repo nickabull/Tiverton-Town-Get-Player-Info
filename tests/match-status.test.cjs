@@ -1,0 +1,17 @@
+const assert=require('node:assert/strict');
+const S=require('../match-status-shared.js');
+const f={id:'test',date:'2026-10-31',opposition:'Weymouth',homeAway:'A',competition:'SLD1S',kickOff:'15:00',result:''};
+const n={fixtureId:f.id,fixtureKey:S.key(f),status:'pending',inspectionAt:'2026-10-31T12:00:00Z',updatedAt:'2026-10-27T23:00:00Z',revision:1};
+assert.equal(S.message(n,f),'⚠️ Pending pitch inspection at 12:00');
+assert.match(S.markup({...n,status:'passed'},f),/inspection-passed.*✅ Game on/);
+assert.match(S.markup({...n,status:'failed'},f),/inspection-failed.*❌ Game off/);
+assert.equal(S.markup({...n,status:'none'},f),'');
+assert.equal(S.noticeFor({...f,id:'different'},[n]),null);
+assert.equal(S.noticeFor({...f,date:'2026-11-01'},[n]),null);
+assert.equal(S.noticeFor({...f,result:'D 2-2'},[n]),null);
+const kickoff=f=>Date.parse(f.date+'T'+f.kickOff+'Z');
+const next={...f,id:'later',date:'2026-11-07'};
+assert.equal(S.selectNext([f,next],[n],kickoff,Date.parse('2026-10-31T16:00Z')).id,'test');
+assert.equal(S.selectNext([{...f,result:'P-P'},next],[{...n,status:'failed'}],kickoff,Date.parse('2026-10-31T16:00Z')).id,'test');
+assert.equal(S.selectNext([f,next],[{...n,status:'failed'}],kickoff,Date.parse('2026-11-02T16:00Z')).id,'later');
+console.log('Match status presentation and fixture isolation checks passed.');
