@@ -61,3 +61,19 @@ test('every completed season fixture agrees with verified scores and red team ow
     assert.equal(context.row(fixture).split(context.result(fixture)).length-1,2,fixture.opposition);
   }
 });
+
+test('zeroes and draws still highlight exactly Tiverton’s score', () => {
+  assert.equal(context.result({opposition:'Fallback',homeAway:'A',result:'L 0-2'}), 'L 2–<span class="tivvy">0</span>');
+  assert.equal(context.result({opposition:'Fallback',homeAway:'A',result:'D 1-1'}), 'D 1–<span class="tivvy">1</span>');
+  assert.equal(context.result({opposition:'Fallback',homeAway:'H',result:'D 0-0'}), 'D <span class="tivvy">0</span>–0');
+});
+
+test('season statistics fixture scores follow the same home-first rule', () => {
+  const stats = fs.readFileSync(path.join(root,'stats-centre.html'),'utf8');
+  const fn = stats.slice(stats.indexOf('function tivvyFixtureScore('),stats.indexOf('function render('));
+  const statsContext = vm.createContext({esc:String});
+  vm.runInContext(fn,statsContext);
+  assert.equal(statsContext.tivvyFixtureScore('4-1','A'),'1–<span class="tivvy-goals">4</span>');
+  assert.equal(statsContext.tivvyFixtureScore('1-2','A'),'2–<span class="tivvy-goals">1</span>');
+  assert.equal(statsContext.tivvyFixtureScore('0-0','H'),'<span class="tivvy-goals">0</span>–0');
+});
