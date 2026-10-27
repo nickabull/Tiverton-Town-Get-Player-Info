@@ -123,3 +123,17 @@
 /* The events sit directly on the existing white/gold rows. */
 #players .profile-match-events{background:transparent;color:#111;padding:0;font-size:12px}
 #players .profile-match-events .player-unused{color:#666}
+
+/* Compact, sourced club history; the existing match sections keep their order. */
+#players .profile-previous-clubs h4{font-size:19px;padding:8px 12px}
+#players .profile-clubs{display:flex;flex-wrap:wrap;gap:8px 22px;list-style:none;margin:0;padding:12px}
+#players .profile-clubs li{display:flex;flex-wrap:wrap;align-items:baseline;gap:3px 7px;max-width:100%;line-height:1.45;overflow-wrap:break-word}
+#players .profile-clubs strong{font-size:13px;color:#111}
+#players .profile-club-period{font-size:12px;color:#444}
+#players .profile-club-note{font-size:11px;color:#555}
+#players .profile-career-footer{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:4px 16px;padding:0 12px 10px;font:11px/1.5 Arial,Helvetica,sans-serif;color:#555}
+#players .profile-career-footer p{margin:0}
+#players .profile-career-footer a{color:#111;text-decoration:underline;text-underline-offset:2px}
+#players .profile-career-sources summary{cursor:pointer;text-decoration:underline;text-underline-offset:2px}
+#players .profile-career-sources ul{padding-left:16px;margin:6px 0 0}
+@media(max-width:650px){#players .profile-clubs{gap:7px 16px;padding:10px 12px}#players .profile-clubs li{column-gap:6px}#players .profile-clubs strong{font-size:12px}#players .profile-club-period{font-size:11px}}

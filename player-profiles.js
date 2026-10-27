@@ -57,12 +57,42 @@ function buildPlayerProfiles(fixtures) {
   return [...profiles.values()].sort((a, b) => a.name.localeCompare(b.name));
 }
 
+/* Curated club history is independent of the live league totals. */
+function playerCareerMarkup(entry, state = 'ready') {
+  const safeURL = value => {
+    try { const url = new URL(value); return url.protocol === 'https:' && ['www.tivvyarchive.co.uk','tivvyarchive.co.uk','www.tivertontownfc.uk','en.wikipedia.org'].includes(url.hostname) ? url.href : ''; }
+    catch (_) { return ''; }
+  };
+  const archive = safeURL(entry?.archiveUrl) || 'https://www.tivvyarchive.co.uk/players.php';
+  const clubs = Array.isArray(entry?.clubs) ? entry.clubs.filter(c => c && typeof c.club === 'string' && c.club.trim()) : [];
+  const sources = Array.isArray(entry?.sources) ? entry.sources.filter(s => safeURL(s.url)) : [];
+  return '<section class="profile-panel profile-previous-clubs" aria-label="Previous clubs"><h4>PREVIOUS CLUBS</h4>' +
+    (clubs.length ? '<ul class="profile-clubs">' + clubs.map(c => '<li><strong>' + esc(c.club) + '</strong>' +
+      (c.period ? '<span class="profile-club-period">' + esc(c.period) + '</span>' : '') +
+      (c.note ? '<span class="profile-club-note">' + esc(c.note) + '</span>' : '') + '</li>').join('') + '</ul>' :
+      '<p class="profile-note">' + (state === 'loading' ? 'Loading club history…' : state === 'error' ? 'Club history is temporarily unavailable.' : 'Previous club details have not yet been confirmed.') + '</p>') +
+    '<div class="profile-career-footer"><p>' + (clubs.length ? 'Selected clubs · dates where confirmed. ' : '') +
+    'With thanks to <a href="' + esc(archive) + '" target="_blank" rel="noopener noreferrer">Tivvy Archive ↗</a></p>' +
+    (sources.length ? '<details class="profile-career-sources"><summary>Sources</summary><ul>' + sources.map(s => '<li><a href="' + esc(safeURL(s.url)) + '" target="_blank" rel="noopener noreferrer">' + esc(s.label || 'Club history source') + ' ↗</a></li>').join('') + '</ul></details>' : '') + '</div></section>';
+}
+
 (function () {
   let profiles = [], current = '', pending = new URLSearchParams(location.search).get('player') || '';
   const host = document.getElementById('playerProfile');
   if (!host) return;
   const node = id => document.getElementById(id);
   const embedded = window.parent !== window;
+  let careerPlayers = [], careerState = 'loading';
+  function updateCareer() {
+    const target = node('profileCareer');
+    if (!target || !current) return;
+    target.innerHTML = playerCareerMarkup(careerPlayers.find(p => playerKey(p.name) === playerKey(current)), careerState);
+    message({type:'tivvy-player-resize'});
+  }
+  fetch('player-career-history.json?v=20261027', {cache:'no-cache'})
+    .then(response => { if (!response.ok) throw new Error('Club history unavailable'); return response.json(); })
+    .then(data => { if (!Array.isArray(data.players)) throw new Error('Invalid club history'); careerPlayers = data.players; careerState = 'ready'; updateCareer(); })
+    .catch(() => { careerState = 'error'; updateCareer(); });
   const message = data => { if (embedded) window.parent.postMessage(data, location.origin); };
   const find = name => profiles.find(p => playerKey(p.name) === playerKey(name));
   const stat = (value, label, red = false) => '<div class="profile-stat"><strong' + (red ? ' class="profile-goals"' : '') + '>' + esc(value) + '</strong><span>' + esc(label) + '</span></div>';
@@ -127,6 +157,7 @@ function buildPlayerProfiles(fixtures) {
       '<div class="profile-hero"><div><p>YOUR TIVVY · PLAYER PROFILE</p><h3 id="profileName" tabindex="-1">' + playerHeading(p.name) + '</h3><span>2026/27 · SOUTHERN LEAGUE DIVISION ONE SOUTH</span></div>' + crestImg('Tiverton Town','profile-club-crest') + '</div>' +
       '<div class="profile-stats">' + stat(p.apps,'Appearances') + stat(p.starts,'Starts') + stat(p.subs,'Sub on') + stat(p.mins,'Est. minutes') + stat(p.goals,'Goals',true) + stat(p.caps,'Captaincies') + '</div>' +
       '<p class="profile-note">Recorded league team sheets only. Minutes are estimates. Unused substitute: ' + p.unused + ' match' + (p.unused===1?'':'es') + '.</p>' +
+      '<div id="profileCareer">' + playerCareerMarkup(careerPlayers.find(entry => playerKey(entry.name) === playerKey(p.name)), careerState) + '</div>' +
       '<section class="profile-panel"><h4>LAST FIVE APPEARANCES</h4><p class="profile-note">Latest first · W/D/L is the team result.</p><div>' + (latest.map(m=>matchCard(m,true)).join('') || '<p class="profile-note">No recorded league appearances yet.</p>') + '</div></section>' +
       '<section class="profile-panel profile-history"><h4>THE SEASON, MATCH BY MATCH</h4><p class="profile-note">Tap a match for its line-up, report and available photos.</p>' + (p.matches.slice().reverse().map(m=>matchCard(m,false)).join('') || '<p class="profile-note">No league team-sheet records available for this player.</p>') + '</section>' +
       '<section class="profile-panel"><h4>THE GOAL BREAKDOWN</h4><div class="profile-goal-split">' + stat(p.homeGoals,'At home',true) + stat(p.awayGoals,'Away',true) + '</div><p class="profile-note">' + p.penaltyGoals + ' penalty goal' + (p.penaltyGoals===1?'':'s') + ' explicitly recorded · ' + (p.goals-p.penaltyGoals) + ' other / unclassified goals.</p><div class="profile-goal-bands">' + labels.map((label,i)=>'<div class="profile-goal-band"><span>'+label+'′</span><span class="profile-bar"><i style="width:'+(100*p.goalBands[i]/max)+'%"></i></span><strong>'+p.goalBands[i]+'</strong></div>').join('') + '</div><p class="profile-note">' + (p.goals ? p.timedGoals + ' of ' + p.goals + ' goals have a recorded minute. Stoppage time stays with its half.' : 'No league goals recorded yet.') + '</p></section>' +

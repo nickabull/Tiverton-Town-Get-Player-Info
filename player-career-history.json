@@ -1,0 +1,553 @@
+{
+  "schemaVersion": 1,
+  "reviewedAt": "2026-10-27",
+  "description": "Selected verified club history. Dates are included only where supported. Lists may be incomplete and are not necessarily chronological. Academy, loan and parent-club affiliations are labelled.",
+  "players": [
+    {
+      "name": "Aaron Wellington",
+      "archiveUrl": "https://www.tivvyarchive.co.uk/player.php?player=886",
+      "clubs": [
+        {
+          "club": "Brixham AFC",
+          "period": "2025/26"
+        }
+      ],
+      "sources": [
+        {
+          "label": "Club signing announcement",
+          "url": "https://www.tivertontownfc.uk/post/trio-sign-ahead-of-hungerford"
+        }
+      ]
+    },
+    {
+      "name": "Aiden Horne",
+      "archiveUrl": "https://www.tivvyarchive.co.uk/player.php?player=808",
+      "clubs": [
+        {
+          "club": "Cullompton Rangers"
+        }
+      ],
+      "sources": [
+        {
+          "label": "Club signing announcement",
+          "url": "https://www.tivertontownfc.uk/post/yellows-get-horne"
+        }
+      ]
+    },
+    {
+      "name": "Asa Hall",
+      "archiveUrl": "https://www.tivvyarchive.co.uk/player.php?player=782",
+      "clubs": [
+        {
+          "club": "Birmingham City",
+          "period": "2004–2008"
+        },
+        {
+          "club": "Boston United",
+          "period": "2006",
+          "note": "Loan"
+        },
+        {
+          "club": "Ashford Town (Kent)",
+          "period": "2007",
+          "note": "Loan"
+        },
+        {
+          "club": "Shrewsbury Town",
+          "period": "2008; 2012–2014",
+          "note": "First spell on loan"
+        },
+        {
+          "club": "Luton Town",
+          "period": "2008–2010"
+        },
+        {
+          "club": "Oxford United",
+          "period": "2010–2012; 2013",
+          "note": "Second spell on loan"
+        },
+        {
+          "club": "Aldershot Town",
+          "period": "2013",
+          "note": "Loan"
+        },
+        {
+          "club": "Cheltenham Town",
+          "period": "2014–2017"
+        },
+        {
+          "club": "York City",
+          "period": "2017",
+          "note": "Loan"
+        },
+        {
+          "club": "Barrow",
+          "period": "2017–2018"
+        },
+        {
+          "club": "Torquay United",
+          "period": "2018–2024"
+        }
+      ],
+      "sources": [
+        {
+          "label": "Career record",
+          "url": "https://en.wikipedia.org/wiki/Asa_Hall"
+        }
+      ]
+    },
+    {
+      "name": "Billy Tucker",
+      "archiveUrl": "https://www.tivvyarchive.co.uk/player.php?player=892",
+      "clubs": [
+        {
+          "club": "Bideford",
+          "period": "Debut 2012/13"
+        }
+      ],
+      "sources": [
+        {
+          "label": "Club Bideford preview",
+          "url": "https://www.tivertontownfc.uk/post/robins-host-tivvy-for-trophy-opener"
+        }
+      ]
+    },
+    {
+      "name": "Caleb Pryce-Hall",
+      "archiveUrl": "https://www.tivvyarchive.co.uk/player.php?player=893",
+      "clubs": [
+        {
+          "club": "Oldland Abbotonians"
+        }
+      ],
+      "sources": [
+        {
+          "label": "Club signing announcement",
+          "url": "https://www.tivertontownfc.uk/post/trio-sign-ahead-of-hungerford"
+        }
+      ]
+    },
+    {
+      "name": "Corey Koerner",
+      "archiveUrl": "https://www.tivvyarchive.co.uk/player.php?player=812",
+      "clubs": [
+        {
+          "club": "Yeovil Town",
+          "note": "Academy / first team"
+        },
+        {
+          "club": "Plymouth Parkway",
+          "note": "Loan",
+          "period": "2024/25"
+        }
+      ],
+      "sources": [
+        {
+          "label": "Club signing announcement",
+          "url": "https://www.tivertontownfc.uk/post/welcome-corey-koerner"
+        }
+      ]
+    },
+    {
+      "name": "Ed Palmer",
+      "archiveUrl": "https://www.tivvyarchive.co.uk/player.php?player=481",
+      "clubs": [
+        {
+          "club": "Torquay United"
+        },
+        {
+          "club": "Truro City"
+        },
+        {
+          "club": "Weymouth"
+        },
+        {
+          "club": "Taunton Town"
+        },
+        {
+          "club": "Bideford",
+          "period": "2015/16"
+        }
+      ],
+      "sources": [
+        {
+          "label": "Tivvy Archive biography",
+          "url": "https://www.tivvyarchive.co.uk/player.php?player=481"
+        },
+        {
+          "label": "Club Bideford preview",
+          "url": "https://www.tivertontownfc.uk/post/the-robins-fly-in-for-challenge-cup-round-2"
+        }
+      ]
+    },
+    {
+      "name": "Finn Roberts",
+      "archiveUrl": "https://www.tivvyarchive.co.uk/player.php?player=891",
+      "clubs": [
+        {
+          "club": "Bideford",
+          "period": "Includes 2023/24"
+        }
+      ],
+      "sources": [
+        {
+          "label": "Club Bideford preview",
+          "url": "https://www.tivertontownfc.uk/post/robins-host-tivvy-for-trophy-opener"
+        }
+      ]
+    },
+    {
+      "name": "Jack Kennell",
+      "archiveUrl": "https://www.tivvyarchive.co.uk/player.php?player=825",
+      "clubs": [
+        {
+          "club": "Torquay United",
+          "note": "Academy"
+        },
+        {
+          "club": "Willand Rovers"
+        },
+        {
+          "club": "Exmouth Town"
+        }
+      ],
+      "sources": [
+        {
+          "label": "Club signing preview",
+          "url": "https://www.tivertontownfc.uk/post/match-preview-gosport-borough-1"
+        }
+      ]
+    },
+    {
+      "name": "Jacob Wellington",
+      "archiveUrl": "https://www.tivvyarchive.co.uk/player.php?player=810",
+      "clubs": [
+        {
+          "club": "Torquay United",
+          "note": "Academy / first team"
+        },
+        {
+          "club": "Willand Rovers",
+          "period": "2024/25"
+        }
+      ],
+      "sources": [
+        {
+          "label": "Club profile",
+          "url": "https://www.tivertontownfc.uk/post/yellows-return-for-wellington"
+        }
+      ]
+    },
+    {
+      "name": "Josh Bissett",
+      "archiveUrl": "https://www.tivvyarchive.co.uk/player.php?player=895",
+      "clubs": [
+        {
+          "club": "Exeter City",
+          "note": "Academy"
+        },
+        {
+          "club": "Exmouth Town"
+        },
+        {
+          "club": "Mousehole"
+        },
+        {
+          "club": "Bristol Manor Farm",
+          "period": "2024/25"
+        },
+        {
+          "club": "Falmouth Town",
+          "period": "2026"
+        }
+      ],
+      "sources": [
+        {
+          "label": "Club signing announcement",
+          "url": "https://www.tivertontownfc.uk/post/bissett-signs-for-the-yellows"
+        }
+      ]
+    },
+    {
+      "name": "Karim Coulibaly",
+      "archiveUrl": "https://www.tivvyarchive.co.uk/player.php?player=823",
+      "clubs": [
+        {
+          "club": "Sidmouth Town"
+        }
+      ],
+      "sources": [
+        {
+          "label": "Club profile",
+          "url": "https://www.tivertontownfc.uk/post/asa-hall-s-side-looks-for-a-match-made-in-heaven-as-gosport-visit-a-dampened-mid-devon"
+        }
+      ]
+    },
+    {
+      "name": "Louie Slough",
+      "archiveUrl": "https://www.tivvyarchive.co.uk/player.php?player=890",
+      "clubs": [
+        {
+          "club": "Torquay United"
+        },
+        {
+          "club": "Dorchester Town",
+          "period": "2022/23–2023/24",
+          "note": "Also an earlier loan spell"
+        },
+        {
+          "club": "Taunton Town"
+        },
+        {
+          "club": "Bideford",
+          "period": "Joined 2023/24"
+        }
+      ],
+      "sources": [
+        {
+          "label": "Club Dorchester report",
+          "url": "https://www.tivertontownfc.uk/post/defeat-despite-debut-day-delight"
+        },
+        {
+          "label": "Club Bideford preview",
+          "url": "https://www.tivertontownfc.uk/post/robins-host-tivvy-for-trophy-opener"
+        }
+      ]
+    },
+    {
+      "name": "Louis Jagger Cane",
+      "archiveUrl": "https://www.tivvyarchive.co.uk/player.php?player=9",
+      "clubs": [
+        {
+          "club": "Exwick Villa",
+          "period": "Before summer 2019"
+        },
+        {
+          "club": "Bideford",
+          "period": "2021/22–2022/23"
+        },
+        {
+          "club": "Willand Rovers",
+          "period": "2026"
+        }
+      ],
+      "sources": [
+        {
+          "label": "Tivvy Archive biography",
+          "url": "https://www.tivvyarchive.co.uk/player.php?player=9"
+        },
+        {
+          "label": "Club signing announcement",
+          "url": "https://www.tivertontownfc.uk/post/trio-sign-ahead-of-hungerford"
+        },
+        {
+          "label": "Club Bideford preview",
+          "url": "https://www.tivertontownfc.uk/post/the-robins-fly-in-for-challenge-cup-round-2"
+        }
+      ]
+    },
+    {
+      "name": "Louis Smith",
+      "archiveUrl": "https://www.tivvyarchive.co.uk/player.php?player=888",
+      "clubs": [
+        {
+          "club": "Bristol Manor Farm",
+          "note": "Youth / first team"
+        },
+        {
+          "club": "Keynsham Town"
+        },
+        {
+          "club": "Corsham Town"
+        },
+        {
+          "club": "Taunton Town",
+          "period": "2025/26",
+          "note": "Dual registration"
+        },
+        {
+          "club": "Bridgwater United",
+          "period": "2025/26",
+          "note": "Dual registration"
+        }
+      ],
+      "sources": [
+        {
+          "label": "Club signing announcement",
+          "url": "https://www.tivertontownfc.uk/post/yellows-recruit-keeper-smith"
+        }
+      ]
+    },
+    {
+      "name": "Mason Winter",
+      "archiveUrl": "https://www.tivvyarchive.co.uk/player.php?player=889",
+      "clubs": [
+        {
+          "club": "Bristol Rovers",
+          "note": "Academy"
+        },
+        {
+          "club": "Clevedon Town",
+          "period": "2013/14–2014/15"
+        },
+        {
+          "club": "Larkhall Athletic"
+        },
+        {
+          "club": "Cribbs"
+        },
+        {
+          "club": "Bristol Manor Farm",
+          "period": "Joined 2019/20"
+        },
+        {
+          "club": "Portishead Town"
+        }
+      ],
+      "sources": [
+        {
+          "label": "Club signing announcement",
+          "url": "https://www.tivertontownfc.uk/post/mason-winter-concludes-tivvy-s-pre-season-signings"
+        }
+      ]
+    },
+    {
+      "name": "Matt Wood",
+      "archiveUrl": "https://www.tivvyarchive.co.uk/player.php?player=809",
+      "clubs": [
+        {
+          "club": "Frome Town"
+        }
+      ],
+      "sources": [
+        {
+          "label": "Club signing announcement",
+          "url": "https://www.tivertontownfc.uk/post/yellows-get-wood"
+        }
+      ]
+    },
+    {
+      "name": "Owen Howe",
+      "archiveUrl": "https://www.tivvyarchive.co.uk/player.php?player=435",
+      "clubs": [
+        {
+          "club": "Bideford",
+          "period": "2013/14"
+        },
+        {
+          "club": "Salisbury",
+          "note": "Two spells"
+        },
+        {
+          "club": "Bristol Manor Farm",
+          "note": "Two spells"
+        },
+        {
+          "club": "Weston-super-Mare"
+        },
+        {
+          "club": "Taunton Town"
+        },
+        {
+          "club": "Barnstaple Town",
+          "period": "Joined 2022"
+        }
+      ],
+      "sources": [
+        {
+          "label": "Tivvy Archive biography",
+          "url": "https://www.tivvyarchive.co.uk/player.php?player=435"
+        }
+      ]
+    },
+    {
+      "name": "Ryan Keates",
+      "archiveUrl": "https://www.tivvyarchive.co.uk/player.php?player=762",
+      "clubs": [
+        {
+          "club": "Watcombe Wanderers"
+        },
+        {
+          "club": "Newton Abbot Spurs"
+        },
+        {
+          "club": "Stoke Gabriel",
+          "period": "Joined Feb 2020",
+          "note": "Return spell"
+        },
+        {
+          "club": "Barnstaple Town",
+          "period": "Joined Aug 2021",
+          "note": "Also a later loan spell"
+        },
+        {
+          "club": "Lymington Town"
+        },
+        {
+          "club": "Brixham AFC"
+        },
+        {
+          "club": "Willand Rovers"
+        },
+        {
+          "club": "Exmouth Town"
+        },
+        {
+          "club": "Buckland Athletic"
+        }
+      ],
+      "sources": [
+        {
+          "label": "Club signing announcement",
+          "url": "https://www.tivertontownfc.uk/post/keates-to-ladysmead"
+        },
+        {
+          "label": "Club return announcement",
+          "url": "https://www.tivertontownfc.uk/post/ryan-returns-for-the-yellows"
+        }
+      ]
+    },
+    {
+      "name": "Tobias Alsop",
+      "archiveUrl": "https://www.tivvyarchive.co.uk/player.php?player=897",
+      "clubs": [
+        {
+          "club": "Exeter City",
+          "note": "Academy / parent club; Tiverton loan, Oct 2026"
+        }
+      ],
+      "sources": [
+        {
+          "label": "Club loan announcement",
+          "url": "https://www.tivertontownfc.uk/post/young-grecian-joins-tiverton-town"
+        }
+      ]
+    },
+    {
+      "name": "Toby Stephens",
+      "archiveUrl": "https://www.tivvyarchive.co.uk/player.php?player=814",
+      "clubs": [
+        {
+          "club": "Southampton",
+          "note": "Academy"
+        },
+        {
+          "club": "Yeovil Town",
+          "note": "Academy / first team"
+        },
+        {
+          "club": "Plymouth Parkway"
+        },
+        {
+          "club": "AFC Totton"
+        }
+      ],
+      "sources": [
+        {
+          "label": "Club return announcement",
+          "url": "https://www.tivertontownfc.uk/post/toby-stephens-signs-with-tivvy"
+        }
+      ]
+    }
+  ]
+}

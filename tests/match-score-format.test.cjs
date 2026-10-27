@@ -11,7 +11,7 @@ for (const script of scripts) new vm.Script(script);
 const source = scripts.find(s => s.includes('function matchScore('));
 const prefix = source.slice(0, source.indexOf('function kickoffTime('));
 const sharing = source.slice(source.indexOf('function matchShareText('), source.indexOf('function sharingMarkup('));
-const context = vm.createContext({URLSearchParams});
+const context = vm.createContext({URLSearchParams, inspectionFor: () => null});
 vm.runInContext(prefix + sharing, context);
 const load = name => JSON.parse(fs.readFileSync(path.join(root, name), 'utf8'));
 const fixtures = load('match-centre-fixtures-2026-27.json').fixtures;
