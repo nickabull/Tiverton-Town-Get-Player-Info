@@ -16,7 +16,12 @@ for (const profile of profiles) {
   for (const key of ['apps','starts','subs','mins','goals','caps']) assert.equal(profile[key],old[key],profile.name+' '+key);
 }
 const bissett=profiles.find(p=>p.name==='Josh Bissett');
-assert.equal(bissett.goals,5);assert.equal(bissett.penaltyGoals,1);assert.equal(bissett.matches.at(-1).goals,3);
+assert.equal(bissett.goals,5);assert.equal(bissett.penaltyGoals,1);assert.equal(bissett.matches.find(m=>m.date==='2026-10-24').goals,3);
+const dorchester=fixtures.find(f=>f.date==='2026-10-27');
+assert.equal(dorchester.result,'2-2');
+assert.equal(profiles.find(p=>p.name==='Louis Jagger Cane').matches.find(m=>m.date==='2026-10-27').goals,1);
+assert.equal(profiles.find(p=>p.name==='Owen Howe').matches.find(m=>m.date==='2026-10-27').goals,1);
+assert.equal(profiles.find(p=>p.name==='Corey Koerner').matches.find(m=>m.date==='2026-10-27').used,false);
 assert.equal(profiles.filter(p=>/Slough/.test(p.name)).length,1);
 const edge=context.build([{date:'2026-10-24',opponent:'Test',venue:'H',result:'2-0',
   starterDetails:[{name:'Louis Slough',goalCount:1,goalMinutes:['45+3'],captain:true}],

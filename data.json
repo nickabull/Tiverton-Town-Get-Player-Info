@@ -1876,7 +1876,7 @@
         "Billy Tucker",
         "Finn Roberts",
         "Ryan Keates",
-        "Louie Slough"
+        "Louis Slough"
       ],
       "starterDetails": [
         {
@@ -2054,7 +2054,7 @@
           "used": true
         },
         {
-          "name": "Louie Slough",
+          "name": "Louis Slough",
           "number": null,
           "captain": false,
           "onMinute": "",
@@ -2081,7 +2081,7 @@
         "Billy Tucker",
         "Finn Roberts",
         "Ryan Keates",
-        "Louie Slough"
+        "Louis Slough"
       ],
       "squadUrl": "https://www.tivvyarchive.co.uk/squad.php?id=4479",
       "fwpUrl": "",
@@ -2111,7 +2111,7 @@
         "Owen Howe"
       ],
       "subs": [
-        "Louie Slough",
+        "Louis Slough",
         "Finn Roberts",
         "Aiden Horne"
       ],
@@ -2242,7 +2242,7 @@
       ],
       "subDetails": [
         {
-          "name": "Louie Slough",
+          "name": "Louis Slough",
           "number": null,
           "captain": false,
           "onMinute": "65",
@@ -2287,7 +2287,7 @@
         "Josh Bissett",
         "Jacob Wellington",
         "Owen Howe",
-        "Louie Slough",
+        "Louis Slough",
         "Finn Roberts",
         "Aiden Horne"
       ],
@@ -2309,7 +2309,7 @@
         "Louis Smith",
         "Mason Winter",
         "Ed Palmer",
-        "Louie Slough",
+        "Louis Slough",
         "Jack Kennell",
         "Finn Roberts",
         "Aaron Wellington",
@@ -2360,7 +2360,7 @@
           "used": true
         },
         {
-          "name": "Louie Slough",
+          "name": "Louis Slough",
           "number": null,
           "captain": false,
           "onMinute": "",
@@ -2511,7 +2511,7 @@
         "Louis Smith",
         "Mason Winter",
         "Ed Palmer",
-        "Louie Slough",
+        "Louis Slough",
         "Jack Kennell",
         "Finn Roberts",
         "Aaron Wellington",
@@ -2766,7 +2766,7 @@
       ],
       "squadUrl": "",
       "fwpUrl": "",
-      "officialReportUrl": "",
+      "officialReportUrl": "https://www.tivertontownfc.uk/post/josh-does-the-biss-ness",
       "upcoming": false,
       "attendance": 155,
       "attendanceSource": "https://www.southern-football-league.co.uk/match/6a5a1bf6ce9ef452b61f4401",
@@ -2777,9 +2777,291 @@
           "outcome": "scored"
         }
       ]
+    },
+    {
+      "date": "2026-10-27",
+      "venue": "H",
+      "opponent": "Dorchester Town",
+      "opponentLogoUrl": "https://www.southern-football-league.co.uk/img/teams/dorchester_town-a4524ee2-221f-422b-adc3-99f160bd4dcb.png",
+      "result": "2-2",
+      "goalscorers": "Louis Jagger Cane 69; Owen Howe 90+3",
+      "starters": [
+        "Louis Smith",
+        "Mason Winter",
+        "Louie Slough",
+        "Matt Wood",
+        "Josh Bissett",
+        "Asa Hall",
+        "Owen Howe",
+        "Jacob Wellington",
+        "Finn Roberts",
+        "Jack Kennell",
+        "Aaron Wellington"
+      ],
+      "subs": [
+        "Corey Koerner",
+        "Louis Jagger Cane",
+        "Tobias Alsop",
+        "Toby Stephens",
+        "Ryan Keates"
+      ],
+      "starterDetails": [
+        {
+          "name": "Louis Smith",
+          "number": 1,
+          "captain": false,
+          "position": "GK",
+          "onMinute": "",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": false,
+          "used": true,
+          "cards": []
+        },
+        {
+          "name": "Mason Winter",
+          "number": 2,
+          "captain": false,
+          "position": null,
+          "onMinute": "",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": false,
+          "used": true,
+          "cards": []
+        },
+        {
+          "name": "Louie Slough",
+          "number": 4,
+          "captain": false,
+          "position": null,
+          "onMinute": "",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": false,
+          "used": true,
+          "cards": []
+        },
+        {
+          "name": "Matt Wood",
+          "number": 5,
+          "captain": true,
+          "position": null,
+          "onMinute": "",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": false,
+          "used": true,
+          "cards": []
+        },
+        {
+          "name": "Josh Bissett",
+          "number": 7,
+          "captain": false,
+          "position": null,
+          "onMinute": "",
+          "offMinute": "56",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": false,
+          "used": true,
+          "cards": []
+        },
+        {
+          "name": "Asa Hall",
+          "number": 8,
+          "captain": false,
+          "position": null,
+          "onMinute": "",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": false,
+          "used": true,
+          "cards": [
+            {
+              "type": "first_yellow_card",
+              "minute": "62"
+            }
+          ]
+        },
+        {
+          "name": "Owen Howe",
+          "number": 9,
+          "captain": false,
+          "position": null,
+          "onMinute": "",
+          "offMinute": "",
+          "goalCount": 1,
+          "goalMinutes": [
+            "90+3"
+          ],
+          "sub": false,
+          "used": true,
+          "cards": []
+        },
+        {
+          "name": "Jacob Wellington",
+          "number": 11,
+          "captain": false,
+          "position": null,
+          "onMinute": "",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": false,
+          "used": true,
+          "cards": []
+        },
+        {
+          "name": "Finn Roberts",
+          "number": 12,
+          "captain": false,
+          "position": null,
+          "onMinute": "",
+          "offMinute": "86",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": false,
+          "used": true,
+          "cards": []
+        },
+        {
+          "name": "Jack Kennell",
+          "number": 14,
+          "captain": false,
+          "position": null,
+          "onMinute": "",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": false,
+          "used": true,
+          "cards": [
+            {
+              "type": "first_yellow_card",
+              "minute": "19"
+            }
+          ]
+        },
+        {
+          "name": "Aaron Wellington",
+          "number": 21,
+          "captain": false,
+          "position": null,
+          "onMinute": "",
+          "offMinute": "81",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": false,
+          "used": true,
+          "cards": []
+        }
+      ],
+      "subDetails": [
+        {
+          "name": "Corey Koerner",
+          "number": 3,
+          "captain": false,
+          "position": null,
+          "onMinute": "",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": true,
+          "used": false,
+          "cards": []
+        },
+        {
+          "name": "Louis Jagger Cane",
+          "number": 10,
+          "captain": false,
+          "position": null,
+          "onMinute": "56",
+          "offMinute": "",
+          "goalCount": 1,
+          "goalMinutes": [
+            "69"
+          ],
+          "sub": true,
+          "used": true,
+          "cards": []
+        },
+        {
+          "name": "Tobias Alsop",
+          "number": 17,
+          "captain": false,
+          "position": null,
+          "onMinute": "86",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": true,
+          "used": true,
+          "cards": []
+        },
+        {
+          "name": "Toby Stephens",
+          "number": 18,
+          "captain": false,
+          "position": null,
+          "onMinute": "81",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": true,
+          "used": true,
+          "cards": []
+        },
+        {
+          "name": "Ryan Keates",
+          "number": 30,
+          "captain": false,
+          "position": null,
+          "onMinute": "",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": true,
+          "used": false,
+          "cards": []
+        }
+      ],
+      "players": [
+        "Louis Smith",
+        "Mason Winter",
+        "Louie Slough",
+        "Matt Wood",
+        "Josh Bissett",
+        "Asa Hall",
+        "Owen Howe",
+        "Jacob Wellington",
+        "Finn Roberts",
+        "Jack Kennell",
+        "Aaron Wellington",
+        "Corey Koerner",
+        "Louis Jagger Cane",
+        "Tobias Alsop",
+        "Toby Stephens",
+        "Ryan Keates"
+      ],
+      "squadUrl": "",
+      "fwpUrl": "",
+      "officialReportUrl": "",
+      "upcoming": false,
+      "attendance": 179,
+      "attendanceSource": "https://www.southern-football-league.co.uk/match/6a5a1bf6ce9ef452b61f442d",
+      "eventSource": "https://www.southern-football-league.co.uk/match/6a5a1bf6ce9ef452b61f442d",
+      "lineupSource": "https://www.southern-football-league.co.uk/match/6a5a1bf6ce9ef452b61f442d",
+      "halfTime": "0-1",
+      "notes": "Bookings: 🟨 Jack Kennell 19′; 🟨 Asa Hall 62′."
     }
   ],
-  "updated": "2026-10-24 17:08 UTC",
+  "updated": "2026-10-27 22:28:29 UTC",
   "source": "https://www.tivvyarchive.co.uk/season.php?year=2026",
   "lineupSource": "Tivvy Archive squad.php pages",
   "eventSource": "TivertonTownFC.uk official match reports plus Football Web Pages"
