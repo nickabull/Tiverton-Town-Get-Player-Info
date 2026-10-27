@@ -489,17 +489,25 @@ function crest(s){const key=club(s),x=CLUBS[key];return x?'https://static.wixsta
 function matchFor(f){return details.find(m=>m.date===f.date&&club(m.opponent)===club(f.opposition)&&m.venue===f.homeAway&&comp(m.competition)===comp(f.competition)&&m.starterDetails?.length)||details.find(m=>m.date===f.date&&club(m.opponent)===club(f.opposition)&&m.venue===f.homeAway&&comp(m.competition)===comp(f.competition))||null}
 function goals(f,m){if(m){const events=[...(m.starterDetails||[]),...(m.subDetails||[])].flatMap(p=>(p.goalMinutes||[]).map(min=>({name:p.name,min,penalty:(p.penaltyMinutes||[]).includes(String(min))})));if(events.length)return events.map(e=>(e.penalty?'<span style="color:#d71f88">⚽ PEN</span>':'⚽')+' '+esc(e.name)+' <span class="goal-time">'+esc(e.min)+"'</span>").join(', ');if(m.scorerSummary?.length)return m.scorerSummary.map(p=>{const n=NAMES[String(p.name).toLowerCase()]||p.name;if(p.minutes?.length)return p.minutes.map(t=>'⚽ '+esc(n)+" "+esc(t)+"'").join(', ');return '⚽ '+esc(n)+(p.count>1?' ×'+esc(p.count):'')}).join(', ')}
 return String(f.scorers||'').split(',').map(s=>{s=s.trim();if(!s)return '';const found=s.match(/^(.+?)\s+(x\d+|\d+['’]?|\d+\+\d+['’]?)$/i);const name=found?found[1]:s;const full=NAMES[name.toLowerCase().replace(/\./g,'')]||name;return '⚽ '+esc(full)+(found?' '+esc(found[2].replace(/^x/,'×')):'')}).filter(Boolean).join(', ')}
-function result(f){
- const v=String(f.result||'');
- const m=v.match(/^([WDL])\s+(\d+)\s*[-–]\s*(\d+)$/i);
- if(!m)return esc(v||'—');
- // Stored result is always TIVERTON-FIRST. Display is always HOME-FIRST.
+function matchScore(f){
+ const stored=String(f.result||'').trim().match(/^(W|D|L|ABD)\s+(\d+)\s*[-–]\s*(\d+)$/i);
+ if(!stored)return null;
+ // Detail feeds have verified Tiverton-first scores. Older CMS fixtures mix
+ // home-first and Tiverton-first scores, so their order cannot be assumed.
+ const verified=String(matchFor(f)?.result||'').trim().match(/^(\d+)\s*[-–]\s*(\d+)$/);
+ let tivGoals=Number(verified?verified[1]:stored[2]),oppGoals=Number(verified?verified[2]:stored[3]);
+ const recorded=stored[1].toUpperCase();
+ if(!verified&&((recorded==='W'&&tivGoals<oppGoals)||(recorded==='L'&&tivGoals>oppGoals)))[tivGoals,oppGoals]=[oppGoals,tivGoals];
  const isAway=String(f.homeAway||'').trim().toUpperCase()==='A';
- const tivGoals=m[2],oppGoals=m[3];
- const homeGoals=isAway?oppGoals:tivGoals,awayGoals=isAway?tivGoals:oppGoals;
+ return {tivGoals,oppGoals,homeGoals:isAway?oppGoals:tivGoals,awayGoals:isAway?tivGoals:oppGoals,outcome:recorded==='ABD'?'ABD':tivGoals>oppGoals?'W':tivGoals<oppGoals?'L':'D'};
+}
+function result(f){
+ const score=matchScore(f);
+ if(!score)return esc(f.result||'—');
+ const {homeGoals,awayGoals}=score,isAway=String(f.homeAway||'').trim().toUpperCase()==='A';
  const homeText=isAway?esc(homeGoals):'<span class="tivvy">'+esc(homeGoals)+'</span>';
  const awayText=isAway?'<span class="tivvy">'+esc(awayGoals)+'</span>':esc(awayGoals);
- return esc(m[1])+' '+homeText+'–'+awayText;
+ return score.outcome+' '+homeText+'–'+awayText;
 }
 function competitionLabel(code){return ({'PSF':'Pre-season Friendly','SLD1S':'Southern League Div 1 South','FA CUP':'FA Cup','FA TROPHY':'FA Trophy',"ST LUKE'S CUP":"St Luke's Cup"})[code]||code}
 function hasMatchDetails(f,m){return Boolean(m?.starterDetails?.length||m?.subDetails?.length||m?.officialReportUrl||m?.scorerSummary?.length||m?.notes||(f.result&&(f.scorers||f.notes)));}
@@ -683,12 +691,8 @@ function glanceHTML(today){
   const games=[...fixtures].filter(f=>f.date<=today&&/^[WDL]\s+\d+\s*[-–]\s*\d+$/i.test(String(f.result||''))).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,5);
   if(!games.length)return '';
   const cards=games.map(f=>{
-    const m=matchFor(f),verified=String(m?.result||'').match(/^(\d+)\s*[-–]\s*(\d+)$/),stored=String(f.result).match(/^([WDL])\s+(\d+)\s*[-–]\s*(\d+)$/i);
-    let gf=Number(verified?verified[1]:stored[2]),ga=Number(verified?verified[2]:stored[3]);
-    // Older CMS rows use mixed orientation. Prefer verified detail scores;
-    // for a fallback, reconcile the numbers with Tiverton's recorded outcome.
-    if(!verified&&((stored[1].toUpperCase()==='W'&&gf<ga)||(stored[1].toUpperCase()==='L'&&gf>ga)))[gf,ga]=[ga,gf];
-    const outcome=gf>ga?'W':gf<ga?'L':'D',away=f.homeAway==='A',ours='<span class="tivvy">'+gf+'</span>',score=away?ga+'–'+ours:ours+'–'+ga;
+    const m=matchFor(f),resolved=matchScore(f),gf=resolved.tivGoals,ga=resolved.oppGoals;
+    const outcome=resolved.outcome,away=f.homeAway==='A',ours='<span class="tivvy">'+gf+'</span>',score=away?ga+'–'+ours:ours+'–'+ga;
     const badge=crest(f.opposition)||m?.opponentLogoUrl||'',when=new Date(f.date+'T12:00:00Z').toLocaleDateString('en-GB',{day:'numeric',month:'short',timeZone:'Europe/London'}),competition=comp(f.competition)==='league'?'League':competitionLabel(f.competition);
     const label=when+', '+f.opposition+', '+(away?'away':'home')+'. Tiverton '+gf+', '+f.opposition+' '+ga+'. Open match details';
     return '<li class="tivvy-glance-item"><button type="button" class="tivvy-glance-match" data-id="'+esc(f.id)+'" aria-label="'+esc(label)+'"><span class="tivvy-glance-badge '+(outcome==='L'?'loss':outcome==='D'?'draw':'win')+'" aria-hidden="true">'+outcome+'</span>'+(badge?'<img class="tivvy-glance-crest" src="'+esc(badge)+'" alt="" onerror="this.style.visibility=\'hidden\'">':'<span></span>')+'<time class="tivvy-glance-date" datetime="'+esc(f.date)+'">'+esc(when)+'</time><span class="tivvy-glance-opponent">'+esc(f.opposition)+'</span><span class="tivvy-glance-meta">'+(away?'Away':'Home')+'<br> '+esc(competition)+'</span><span class="tivvy-glance-score" aria-hidden="true">'+score+'</span></button></li>';
@@ -795,8 +799,8 @@ function matchShareURL(f){
 }
 function matchShareText(f){
   const home=f.homeAway==='H'?'Tiverton Town':f.opposition,away=f.homeAway==='H'?f.opposition:'Tiverton Town';
-  const score=String(f.result||'').match(/(\d+)\s*[-–]\s*(\d+)/);
-  return (score?home+' '+score[1]+'–'+score[2]+' '+away:home+' v '+away)+' · '+date(f.date)+' · '+competitionLabel(f.competition)+' #OneTivvy';
+  const score=matchScore(f);
+  return (score?home+' '+score.homeGoals+'–'+score.awayGoals+' '+away:home+' v '+away)+' · '+date(f.date)+' · '+competitionLabel(f.competition)+' #OneTivvy';
 }
 function sharingMarkup(f){
   const url=matchShareURL(f),text=matchShareText(f),u=encodeURIComponent(url),t=encodeURIComponent(text);
@@ -817,7 +821,7 @@ function bindMatchSharing(f){
   };
 }
 function syncMatchURL(id){const url=new URL(location.href);if(id){url.searchParams.set('match',id);url.searchParams.delete('player')}else url.searchParams.delete('match');history.replaceState(null,'',url)}
-function openMatch(id){const f=fixtures.find(x=>x.id===id);if(!f)return;const m=matchFor(f),r=String(f.result||''),nums=r.match(/(\d+)\s*[-–]\s*(\d+)/);let line;if(nums){const home=f.homeAway==='H'?'TIVERTON TOWN':f.opposition,away=f.homeAway==='H'?f.opposition:'TIVERTON TOWN';const a=f.homeAway==='A'?nums[2]:nums[1],b=f.homeAway==='A'?nums[1]:nums[2];line=esc(home)+' '+(f.homeAway==='H'?'<span class="tivvy">'+a+'</span>':esc(a))+' – '+(f.homeAway==='A'?'<span class="tivvy">'+b+'</span>':esc(b))+' '+esc(away)}else line=esc(f.opposition)+' · '+esc(r||'Fixture');
+function openMatch(id){const f=fixtures.find(x=>x.id===id);if(!f)return;const m=matchFor(f),r=String(f.result||''),score=matchScore(f);let line;if(score){const home=f.homeAway==='H'?'TIVERTON TOWN':f.opposition,away=f.homeAway==='H'?f.opposition:'TIVERTON TOWN';const a=score.homeGoals,b=score.awayGoals;line=esc(home)+' '+(f.homeAway==='H'?'<span class="tivvy">'+a+'</span>':esc(a))+' – '+(f.homeAway==='A'?'<span class="tivvy">'+b+'</span>':esc(b))+' '+esc(away)+(score.outcome==='ABD'?' (abandoned)':'')}else line=esc(f.opposition)+' · '+esc(r||'Fixture');
 let parts='<div class="crestline"><img src="tiverton-town-logo.png" alt="Tiverton crest">'+(crest(f.opposition)?'<img src="'+esc(crest(f.opposition))+'" alt="'+esc(f.opposition)+' crest">':'')+'</div><div class="meta">'+esc(date(f.date))+' · '+(f.homeAway==='H'?'HOME':'AWAY')+' · '+esc(competitionLabel(f.competition))+(f.kickOff?' · '+esc(f.kickOff):'')+'</div><div class="scoreline">'+line+'</div>';
 parts+='<div class="match-detail-columns"><div class="match-detail-left">';
 if(m?.starterDetails?.length){
