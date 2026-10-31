@@ -1,0 +1,27 @@
+{
+  "assets": {
+    "barnstapletown": "assets/locked-crests/barnstapletown.png",
+    "bideford": "assets/locked-crests/bideford.png",
+    "bishopscleeve": "assets/locked-crests/bishopscleeve.png",
+    "bristolmanorfarm": "assets/locked-crests/bristolmanorfarm.png",
+    "dorchestertown": "assets/locked-crests/dorchestertown.png",
+    "exmouthtown": "assets/locked-crests/exmouthtown.png",
+    "falmouthtown": "assets/locked-crests/falmouthtown.png",
+    "hartpury": "assets/locked-crests/hartpury.png",
+    "hungerfordtown": "assets/locked-crests/hungerfordtown.png",
+    "larkhallathletic": "assets/locked-crests/larkhallathletic.png",
+    "melkshamtown": "assets/locked-crests/melkshamtown.png",
+    "paultonrovers": "assets/locked-crests/paultonrovers.png",
+    "portlandunited": "assets/locked-crests/portlandunited.png",
+    "shaftesbury": "assets/locked-crests/shaftesbury.png",
+    "slimbridge": "assets/locked-crests/slimbridge.png",
+    "scinkberrow": "assets/locked-crests/scinkberrow.png",
+    "swindonsupermarine": "assets/locked-crests/swindonsupermarine.png",
+    "tivertontown": "assets/locked-crests/tivertontown.png",
+    "westburyunited": "assets/locked-crests/westburyunited.png",
+    "weymouth": "assets/locked-crests/weymouth.png",
+    "willandrovers": "assets/locked-crests/willandrovers.png",
+    "worcesterraiders": "assets/locked-crests/worcesterraiders.png"
+  },
+  "missing": []
+}
