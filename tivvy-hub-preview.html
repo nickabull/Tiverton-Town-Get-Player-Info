@@ -887,9 +887,11 @@ parts=parts.slice(0,scoreEnd)+'<div id="match-inspection" data-fixture="'+esc(f.
 closeMatch();syncMatchURL(f.id);
 parts+='<div id="viv-match-photos" data-fixture="'+esc(f.id)+'"></div><button type="button" class="close-match-bottom" id="closeMatchBottom">CLOSE MATCH ✕</button>';const sourceButton=document.activeElement?.closest('button[data-id]')||document.querySelector('button[data-id="'+id+'"]');
 const fixtureRow=sourceButton?.closest('.row, .tivvy-glance-item');
+/* The latest-five cards are one grid: insert the detail after the whole grid, not inside it. */
+const insertionAnchor=fixtureRow?.classList.contains('tivvy-glance-item')?fixtureRow.closest('.tivvy-glance-list'):fixtureRow;
 const panel=document.createElement('section');panel.className='inline-match-panel dialog';panel.setAttribute('aria-label','Match details for '+f.opposition);
 panel.innerHTML='<div class="inline-match-header"><h2>Match details</h2><button type="button" class="inline-match-close">CLOSE MATCH ✕</button></div><div id="matchBody">'+parts+'</div>';
-if(fixtureRow){fixtureRow.after(panel)}else{el('table').prepend(panel)}
+if(insertionAnchor){insertionAnchor.after(panel)}else{el('table').prepend(panel)}
 openInlineMatch=panel;sourceButton?.setAttribute('aria-expanded','true');panel.querySelector('.inline-match-close').onclick=closeMatch;
 panel.querySelector('#closeMatchBottom').onclick=closeMatch;
 bindMatchSharing(f);populateVivPhotos(f);}
