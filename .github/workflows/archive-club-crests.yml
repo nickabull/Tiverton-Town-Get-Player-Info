@@ -1,0 +1,30 @@
+name: Archive and pin Tivvy club crest images
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/archive-club-crests.yml"
+      - "scripts/archive_club_crests.py"
+permissions:
+  contents: write
+jobs:
+  archive:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Archive missing crest images without overwriting pinned files
+        run: python scripts/archive_club_crests.py
+      - name: Save immutable image snapshots and manifest
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/locked-crests
+          if ! git diff --cached --quiet; then
+            git commit -m "Archive verified club crest image bytes for stable local hosting"
+            git push
+          fi
