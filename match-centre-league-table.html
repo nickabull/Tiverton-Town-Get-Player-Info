@@ -13,7 +13,8 @@ header{background:#111;color:#fff;border-bottom:5px solid var(--y)}.h{max-width:
 .wrap{max-width:980px;margin:auto;padding:18px}.tools{background:#fff;border:1px solid #ddd;border-radius:10px;padding:12px 14px;margin-bottom:16px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}.btn{background:#111;color:#fff;border:0;border-radius:7px;padding:9px 12px;font-weight:800;cursor:pointer}.status{font-size:12px;color:#666}.ok{color:#238636;font-weight:800}.bad{color:#b42318;font-weight:800}
 .page{background:#fff;aspect-ratio:794/1123;box-shadow:0 2px 12px rgba(0,0,0,.12);padding:34px 34px;overflow:hidden}.strap{background:#111;color:#fff;border-top:8px solid var(--y);padding:12px 15px;margin-bottom:12px}.strap h2{margin:0;font-size:28px}.strap .small{font-size:11px;color:#ddd;margin-top:3px;text-transform:uppercase;letter-spacing:.08em}
 table{width:100%;border-collapse:collapse;table-layout:fixed}th,td{border-bottom:1px solid #ddd;padding:8px 6px;font-size:10px;text-align:center}th{background:#111;color:#fff;font-size:9px;text-transform:uppercase}.pos{width:7%}.club{width:39%;text-align:left}.crest{width:9%;}.num{width:7.5%}.gd{width:9%}.pts{width:9%;font-weight:900}.clubname{font-weight:800}
-.logo{width:24px;height:24px;object-fit:contain;vertical-align:middle}.fallback{width:24px;height:24px;border-radius:50%;background:#111;color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:7px;font-weight:900}
+.logo{width:24px;height:24px;object-fit:contain;vertical-align:middle}
+.tivvy .logo{background:#fff;border-radius:3px;padding:2px}.fallback{width:24px;height:24px;border-radius:50%;background:#111;color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:7px;font-weight:900}
 .auto td{background:var(--green)}.playoff td{background:var(--blue)}.relplay td{background:var(--orange)}.relegation td{background:var(--red)}.tivvy td{font-weight:900;background:var(--y)!important}.tivvy td{box-shadow:inset 0 1px 0 rgba(0,0,0,.08),inset 0 -1px 0 rgba(0,0,0,.08)}
 .legend{display:flex;flex-wrap:wrap;gap:8px 14px;font-size:8px;margin-top:10px}.legend span{display:inline-flex;align-items:center;gap:4px}.sw{width:11px;height:11px;border:1px solid #777}.s1{background:var(--green)}.s2{background:var(--blue)}.s3{background:var(--orange)}.s4{background:var(--red)}.s5{background:var(--y)}
 .footer{font-size:8px;color:#666;margin-top:10px;display:flex;justify-content:space-between}
@@ -147,7 +148,7 @@ const EXTRA_CRESTS={
 const normalizeTeam=s=>String(s||'').toLowerCase().replace(/\b(football club|afc|fc)\b/g,'').replace(/[^a-z0-9]/g,'');
 function crest(team,assetId){
  const key=normalizeTeam(team),x=CLUBS[key];
- const src=x?'https://static.wixstatic.com/media/'+x:(EXTRA_CRESTS[key]||'');
+ const src=key==='scinkberrow'||key==='sportingclubinkberrow'?'https://www.southern-football-league.co.uk/img/teams/sporting_club_inkberrow_f.c._logo-7380b5a5-0cb4-4e2c-9e9d-9fd9ddfc93db.png?variant=detail_s&fit=contain':(x?'https://static.wixstatic.com/media/'+x:(EXTRA_CRESTS[key]||''));
  const initials=(team||'').split(/\s+/).map(x=>x[0]).join('').slice(0,3).toUpperCase();
  return src
   ? `<img class="logo" src="${esc(src)}" alt="" title="Club crest" onerror="this.style.display='none';this.nextElementSibling.style.display='inline-flex'"><span class="fallback" style="display:none">${esc(initials)}</span>`
