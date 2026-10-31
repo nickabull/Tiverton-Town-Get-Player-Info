@@ -436,6 +436,18 @@ body.home-summary .latest-result .row{grid-template-columns:94px minmax(150px,1f
 @media(max-width:650px){#table .tivvy-glance-head{padding:10px;align-items:flex-start}#table .tivvy-glance-head h3{font-size:21px}#table .tivvy-glance-head p{font-size:10px;max-width:115px;text-align:right}#table .tivvy-glance-list{grid-template-columns:1fr}#table .tivvy-glance-item{border-right:0;border-bottom:1px solid #111}#table .tivvy-glance-item:last-child{border-bottom:0}#table .tivvy-glance-match{grid-template-columns:25px 25px minmax(0,1fr) auto;gap:3px 8px;padding:9px 10px}#table .tivvy-glance-badge,#table .tivvy-glance-crest{grid-row:1/3}#table .tivvy-glance-opponent{grid-column:3;grid-row:1;min-height:0;font-size:13px}#table .tivvy-glance-date{grid-column:3;grid-row:2;font-size:10px}#table .tivvy-glance-meta{grid-column:4;grid-row:2;text-align:right;font-size:9px}#table .tivvy-glance-meta br{display:none}#table .tivvy-glance-score{grid-column:4;grid-row:1;font-size:25px}}
 .inspection-notice{border-left:4px solid currentColor;padding:12px 14px;margin:12px 0;line-height:1.45;overflow-wrap:anywhere;white-space:normal}.inspection-notice strong{display:block;font-size:inherit}.inspection-notice small{display:block;color:#ddd;font-size:11px;font-weight:400;margin-top:5px}.inspection-pending{color:#ffb454}.inspection-passed{color:#60df91}.inspection-failed{color:#ff727c}.next-kickoff .inspection-notice{font-size:14px}.next-kickoff .inspection-postponed{color:#ff727c;font-size:18px;white-space:normal;text-align:right}.next-kickoff .next-timer:has(.inspection-postponed){flex-shrink:1}
 
+
+/* Isolated expandable Match Centre trial */
+.inline-match-panel.dialog{width:100%;max-width:none;max-height:none;overflow:visible;box-sizing:border-box;background:#252323;color:#fff;border:2px solid #111;padding:18px 24px;margin:0;grid-column:1/-1}
+.inline-match-header{display:flex;align-items:center;justify-content:space-between;gap:14px;border-bottom:1px solid #666;padding-bottom:8px;margin-bottom:10px}
+.inline-match-header h2{margin:0;color:#ffd800;font-size:24px}
+.inline-match-close{background:#ffd800;color:#111;border:0;padding:8px 12px;cursor:pointer;font-weight:bold}
+.inline-match-panel .crestline{margin:0 0 4px}
+.inline-match-panel .meta{margin:6px 0}
+.inline-match-panel .match-detail-columns{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px}
+.inline-match-panel .match-detail-columns h3{font-size:20px;margin:10px 0 5px}
+.inline-match-panel .close-match-bottom{cursor:pointer}
+@media(max-width:650px){.inline-match-panel.dialog{padding:12px;width:100%;margin:0}.inline-match-panel .match-detail-columns{grid-template-columns:minmax(0,1fr);gap:6px}.inline-match-panel .crestline img{width:42px;height:42px}.inline-match-header h2{font-size:20px}.inline-match-close{font-size:13px;padding:8px}.inline-match-panel .scoreline{font-size:22px}.inline-match-panel .players li{font-size:13px}}
 </style></head><body>
 <script src="match-status-shared.js?v=20261027"></script>
 <script>const displayOptions=new URLSearchParams(location.search);if(displayOptions.get('embed')==='1')document.body.classList.add('wix-embed');if(displayOptions.get('view')==='home')document.body.classList.add('home-summary','wix-embed');</script>
@@ -805,7 +817,7 @@ async function populateVivPhotos(f){
   const expected=f.id;
   try{
     const data=await vivCatalogue();
-    if(document.getElementById('modal').hidden||!document.getElementById('viv-match-photos')||document.getElementById('viv-match-photos').dataset.fixture!==expected)return;
+    if(!openInlineMatch||!document.getElementById('viv-match-photos')||document.getElementById('viv-match-photos').dataset.fixture!==expected)return;
     const result=vivPhotoCandidates(data,f);if(!result)return;
     slot.innerHTML='<section class="match-photos"><h3>VIV’S MATCH PHOTOS</h3><div class="match-photo-grid">'+result.found.map((p,i)=>'<a href="'+esc(p.photo)+'" target="_blank" rel="noopener" aria-label="View match photo '+(i+1)+' on Flickr"><img loading="lazy" src="'+esc(p.thumb)+'" alt="Viv Curtis match photograph"></a>').join('')+'</div><p class="match-photo-credit">Photos: Viv Curtis'+(result.albumUrl?' · <a class="match-photo-album" href="'+esc(result.albumUrl)+'" target="_blank" rel="noopener">VIEW FULL GALLERY ↗</a>':'')+'</p></section>';
   }catch(e){console.warn('Match photos not available',e)}
@@ -838,6 +850,7 @@ function bindMatchSharing(f){
   };
 }
 function syncMatchURL(id){const url=new URL(location.href);if(id){url.searchParams.set('match',id);url.searchParams.delete('player')}else url.searchParams.delete('match');history.replaceState(null,'',url)}
+let openInlineMatch=null;
 function openMatch(id){const f=fixtures.find(x=>x.id===id);if(!f)return;const m=matchFor(f),r=String(f.result||''),score=matchScore(f);let line;if(score){const home=f.homeAway==='H'?'TIVERTON TOWN':f.opposition,away=f.homeAway==='H'?f.opposition:'TIVERTON TOWN';const a=score.homeGoals,b=score.awayGoals;line=esc(home)+' '+(f.homeAway==='H'?'<span class="tivvy">'+a+'</span>':esc(a))+' – '+(f.homeAway==='A'?'<span class="tivvy">'+b+'</span>':esc(b))+' '+esc(away)+(score.outcome==='ABD'?' (abandoned)':'')}else line=esc(f.opposition)+' · '+esc(r||'Fixture');
 let parts='<div class="crestline"><img src="tiverton-town-logo.png" alt="Tiverton crest">'+(crest(f.opposition)?'<img src="'+esc(crest(f.opposition))+'" alt="'+esc(f.opposition)+' crest">':'')+'</div><div class="meta">'+esc(date(f.date))+' · '+(f.homeAway==='H'?'HOME':'AWAY')+' · '+esc(competitionLabel(f.competition))+(f.kickOff?' · '+esc(f.kickOff):'')+'</div><div class="scoreline">'+line+'</div>';
 parts+='<div class="match-detail-columns"><div class="match-detail-left">';
@@ -869,8 +882,15 @@ const scoreEnd=parts.indexOf('</div>',parts.indexOf('<div class="scoreline">'))+
 const count=Number(m?.attendance);
 const attendance=Number.isInteger(count)&&count>0?'<p class="match-attendance"><strong>Attendance: '+count.toLocaleString('en-GB')+'</strong>'+(/^https:\/\/www\.southern-football-league\.co\.uk\/match\/[a-f0-9]+$/.test(m.attendanceSource||'')?'<a href="'+esc(m.attendanceSource)+'" target="_blank" rel="noopener">Southern League ↗</a>':'')+'</p>':'';
 parts=parts.slice(0,scoreEnd)+'<div id="match-inspection" data-fixture="'+esc(f.id)+'">'+inspectionMarkup(f)+'</div>'+attendance+sharingMarkup(f)+parts.slice(scoreEnd);
-syncMatchURL(f.id);
-parts+='<div id="viv-match-photos" data-fixture="'+esc(f.id)+'"></div><button type="button" class="close-match-bottom" id="closeMatchBottom">CLOSE MATCH ✕</button>';el('matchBody').innerHTML=parts;el('modal').hidden=false;document.body.style.overflow='hidden';el('modal').querySelector('.dialog').scrollTop=0;positionMobileMatch();el('close').focus(window.matchMedia('(max-width:650px)').matches?{preventScroll:true}:undefined);el('closeMatchBottom').onclick=closeMatch;bindMatchSharing(f);populateVivPhotos(f)}
+closeMatch();syncMatchURL(f.id);
+parts+='<div id="viv-match-photos" data-fixture="'+esc(f.id)+'"></div><button type="button" class="close-match-bottom" id="closeMatchBottom">CLOSE MATCH ✕</button>';const sourceButton=document.activeElement?.closest('button[data-id]')||document.querySelector('button[data-id="'+id+'"]');
+const fixtureRow=sourceButton?.closest('.row, .tivvy-glance-item');
+const panel=document.createElement('section');panel.className='inline-match-panel dialog';panel.setAttribute('aria-label','Match details for '+f.opposition);
+panel.innerHTML='<div class="inline-match-header"><h2>Match details</h2><button type="button" class="inline-match-close">CLOSE ✕</button></div><div id="matchBody">'+parts+'</div>';
+if(fixtureRow){fixtureRow.after(panel)}else{el('table').prepend(panel)}
+openInlineMatch=panel;sourceButton?.setAttribute('aria-expanded','true');panel.querySelector('.inline-match-close').onclick=closeMatch;
+panel.querySelector('#closeMatchBottom').onclick=closeMatch;
+bindMatchSharing(f);populateVivPhotos(f);}
 /* Measure a static viewport sentinel, never the overlay being repositioned.
    Wix's outer iframe can be many phone screens tall. */
 let mobileDialogObserver=null,mobileDialogTimer=null,mobileDialogSentinel=null;
@@ -908,7 +928,7 @@ function positionMobileMatch(){
     mobileDialogTimer=setInterval(measure,300);
   }
 }
-function closeMatch(){syncMatchURL(null);stopMobileMatchPosition();el('modal').hidden=true;document.body.style.overflow=''}
+function closeMatch(){syncMatchURL(null);stopMobileMatchPosition();if(openInlineMatch){const id=openInlineMatch.querySelector('#match-inspection')?.dataset.fixture;document.querySelectorAll('button[data-id]').forEach(b=>{if(b.dataset.id===id)b.setAttribute('aria-expanded','false')});openInlineMatch.remove();openInlineMatch=null;}el('modal').hidden=true;document.body.style.overflow=''}
 let matchTouchY=0;
 el('modal').addEventListener('touchstart',event=>{matchTouchY=event.touches[0]?.clientY||0},{passive:true});
 el('modal').addEventListener('touchmove',event=>{
