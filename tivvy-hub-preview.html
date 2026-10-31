@@ -1096,7 +1096,7 @@ async function getJSON(name){const r=await fetch(BASE+name+'?v=20261022',{cache:
     frame.contentWindow?.postMessage({type:'tivvy-player-open',name},location.origin);
     document.getElementById('players-panel').scrollIntoView({block:'start'});
   }
-  document.getElementById('matchBody').addEventListener('click',event=>{
+  document.addEventListener('click',event=>{
     const name=event.target.closest('[data-player-name]')?.dataset.playerName;
     if(name)selectPlayer(name);
   });
