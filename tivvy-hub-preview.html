@@ -413,7 +413,7 @@ body.home-summary .match-centre-link:focus-visible{outline:3px solid #2782ef;out
 body.home-summary .latest-result .row{grid-template-columns:94px minmax(150px,1fr) 64px 110px 100px minmax(120px,1fr)}
 @media(max-width:650px){body.home-summary .latest-result .row{grid-template-columns:90px minmax(0,1fr) max-content}body.home-summary .next-kickoff .next-timer{justify-content:center}}
 .match-player-link{font:inherit;color:inherit;background:none;border:0;border-radius:0;padding:0;text-align:left;cursor:pointer;text-decoration:underline;text-decoration-color:#777;text-underline-offset:3px}.match-player-link:focus-visible{outline:3px solid #2782ef;outline-offset:2px}
-.close-match-bottom{display:block;border:2px solid #ef3340;background:transparent;color:#ff666b;padding:10px 14px;margin-top:20px;font:18px Anton,Impact,sans-serif;cursor:pointer}
+.close-match-bottom,.inline-match-close{display:block;border:2px solid #ef3340;background:transparent;color:#ff666b;padding:10px 14px;margin-top:20px;font:18px Anton,Impact,sans-serif;cursor:pointer}
 .away-form-refresh{border:2px solid #111;border-radius:0;background:#111;color:#ffd800;padding:10px 13px;font:18px Anton,Impact,sans-serif;cursor:pointer;min-height:44px}.away-form-refresh:disabled{opacity:.6}.away-form-status{font-size:12px!important;margin:10px 0 0!important}.away-form-results{list-style:none;padding:0;margin:10px 0}.away-form-results li{display:flex;align-items:center;gap:10px;padding:9px 0;border-top:1px solid #ccc;font-size:13px}.away-form-result{color:#fff;background:#111;display:flex;align-items:center;justify-content:center;width:29px;height:29px;flex:none;font-weight:800}.away-form-result.form-w{background:#16773b}.away-form-result.form-d{background:#ad5c00}.away-form-result.form-l{background:#bb2130}
 /* Compact latest-five summary; existing fixture rows and homepage embed stay unchanged. */
 #table .tivvy-glance{border-bottom:4px solid var(--y)}
@@ -441,13 +441,15 @@ body.home-summary .latest-result .row{grid-template-columns:94px minmax(150px,1f
 .inline-match-panel.dialog{width:100%;max-width:none;max-height:none;overflow:visible;box-sizing:border-box;background:#252323;color:#fff;border:2px solid #111;padding:18px 24px;margin:0;grid-column:1/-1}
 .inline-match-header{display:flex;align-items:center;justify-content:space-between;gap:14px;border-bottom:1px solid #666;padding-bottom:8px;margin-bottom:10px}
 .inline-match-header h2{margin:0;color:#ffd800;font-size:24px}
-.inline-match-close{background:#ffd800;color:#111;border:0;padding:8px 12px;cursor:pointer;font-weight:bold}
+.inline-match-close{margin-top:0;flex-shrink:0;white-space:nowrap}
+.inline-match-panel .players li{padding:5px 0;line-height:1.45}
+.inline-match-header h2{padding-right:0;min-width:0}
 .inline-match-panel .crestline{margin:0 0 4px}
 .inline-match-panel .meta{margin:6px 0}
 .inline-match-panel .match-detail-columns{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px}
 .inline-match-panel .match-detail-columns h3{font-size:20px;margin:10px 0 5px}
 .inline-match-panel .close-match-bottom{cursor:pointer}
-@media(max-width:650px){.inline-match-panel.dialog{padding:12px;width:100%;margin:0}.inline-match-panel .match-detail-columns{grid-template-columns:minmax(0,1fr);gap:6px}.inline-match-panel .crestline img{width:42px;height:42px}.inline-match-header h2{font-size:20px}.inline-match-close{font-size:13px;padding:8px}.inline-match-panel .scoreline{font-size:22px}.inline-match-panel .players li{font-size:13px}}
+@media(max-width:650px){.inline-match-panel.dialog{padding:12px;width:100%;margin:0}.inline-match-panel .match-detail-columns{grid-template-columns:minmax(0,1fr);gap:6px}.inline-match-panel .crestline img{width:42px;height:42px}.inline-match-header h2{font-size:20px}.inline-match-close{font-size:16px;padding:8px 10px}.inline-match-panel .scoreline{font-size:22px}.inline-match-panel .players li{font-size:13px}}
 </style></head><body>
 <script src="match-status-shared.js?v=20261027"></script>
 <script>const displayOptions=new URLSearchParams(location.search);if(displayOptions.get('embed')==='1')document.body.classList.add('wix-embed');if(displayOptions.get('view')==='home')document.body.classList.add('home-summary','wix-embed');</script>
@@ -886,7 +888,7 @@ closeMatch();syncMatchURL(f.id);
 parts+='<div id="viv-match-photos" data-fixture="'+esc(f.id)+'"></div><button type="button" class="close-match-bottom" id="closeMatchBottom">CLOSE MATCH ✕</button>';const sourceButton=document.activeElement?.closest('button[data-id]')||document.querySelector('button[data-id="'+id+'"]');
 const fixtureRow=sourceButton?.closest('.row, .tivvy-glance-item');
 const panel=document.createElement('section');panel.className='inline-match-panel dialog';panel.setAttribute('aria-label','Match details for '+f.opposition);
-panel.innerHTML='<div class="inline-match-header"><h2>Match details</h2><button type="button" class="inline-match-close">CLOSE ✕</button></div><div id="matchBody">'+parts+'</div>';
+panel.innerHTML='<div class="inline-match-header"><h2>Match details</h2><button type="button" class="inline-match-close">CLOSE MATCH ✕</button></div><div id="matchBody">'+parts+'</div>';
 if(fixtureRow){fixtureRow.after(panel)}else{el('table').prepend(panel)}
 openInlineMatch=panel;sourceButton?.setAttribute('aria-expanded','true');panel.querySelector('.inline-match-close').onclick=closeMatch;
 panel.querySelector('#closeMatchBottom').onclick=closeMatch;
