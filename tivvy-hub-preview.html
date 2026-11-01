@@ -462,10 +462,14 @@ body.home-summary .latest-result .row{grid-template-columns:94px minmax(150px,1f
 .inline-match-panel .close-match-bottom{cursor:pointer}
 @media(max-width:650px){.inline-match-panel.dialog{padding:12px;width:100%;margin:0}.inline-match-panel .match-detail-columns{grid-template-columns:minmax(0,1fr);gap:6px}.inline-match-panel .crestline img{width:42px;height:42px}.inline-match-header h2{font-size:20px}.inline-match-close{font-size:16px;padding:8px 10px}.inline-match-panel .scoreline{font-size:22px}.inline-match-panel .players li{font-size:13px}}
 /* Independent, full-width away travel expander. */
-.away-trip-dropdown{background:#111;color:#fff;border:2px solid #111;padding:18px;margin:-14px 0 14px}
-.away-trip-dropdown h2{font:24px Anton,Impact,sans-serif;color:var(--y);margin:0 0 14px}
+.away-trip-dropdown{background:#111;color:#fff;border:2px solid #111;padding:18px;margin:-14px 0 14px;display:flex;flex-direction:column;overflow:hidden;max-height:720px}
+.away-trip-dropdown h2{font:24px Anton,Impact,sans-serif;color:var(--y);margin:0 0 6px;flex:none}
 .away-trip-dropdown .away-card{color:#111;min-width:0;overflow-wrap:anywhere}
-.away-trip-close{display:block;background:transparent;border:2px solid #ef3340;color:#ff666b;padding:10px 14px;margin-top:18px;font:18px Anton,Impact,sans-serif;cursor:pointer}
+.away-trip-scroll-cue{font:12px/1.4 Arial,sans-serif;color:#ddd;margin:0 0 10px;flex:none}
+.away-trip-scroll{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior-y:contain;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.away-trip-scroll::-webkit-scrollbar{display:none}
+.away-trip-scroll:focus-visible{outline:2px solid #2782ef;outline-offset:-2px}
+.away-trip-close{flex:none;align-self:flex-start;display:block;background:transparent;border:2px solid #ef3340;color:#ff666b;padding:10px 14px;margin-top:12px;font:18px Anton,Impact,sans-serif;cursor:pointer}
 .away-trip-close:focus-visible,.away-trip-link:focus-visible{outline:3px solid #2782ef;outline-offset:3px}
 @media(max-width:650px){.away-trip-dropdown{padding:12px}.away-trip-dropdown h2{font-size:21px}}
 </style></head><body>
@@ -585,7 +589,7 @@ function updateNextAwayGame(){
   const image=crest(away.opposition)||matchFor(away)?.opponentLogoUrl||'';
   const when=new Date(kickoffTime(away)).toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short',timeZone:'Europe/London'});
   target.innerHTML='<span class="away-caption">NEXT AWAY GAME</span>'+(image?'<img src="'+esc(image)+'" alt="">':'')+'<span class="away-summary"><strong>'+esc(away.opposition)+'</strong> · '+esc(when)+' · '+esc(away.kickOff||'15:00')+'</span><button type="button" class="away-trip-link" id="away-trip-toggle" aria-expanded="false" aria-controls="away-trip-dropdown">AWAY TRIP ▾</button>';
-  document.getElementById('away-trip-dropdown')?.remove();
+  const oldTrip=document.getElementById('away-trip-dropdown');oldTrip?.cleanup?.();oldTrip?.remove();
   document.getElementById('away-trip-toggle').onclick=()=>toggleAwayTrip(away);
   target.dataset.fixture=away.id;
  }
@@ -596,12 +600,12 @@ function updateNextAwayGame(){
 function toggleAwayTrip(f){
  const button=document.getElementById('away-trip-toggle');
  const existing=document.getElementById('away-trip-dropdown');
- if(existing){existing.remove();button.setAttribute('aria-expanded','false');button.textContent='AWAY TRIP ▾';return}
+ if(existing){existing.cleanup?.();existing.remove();button.setAttribute('aria-expanded','false');button.textContent='AWAY TRIP ▾';return}
  const guide=AWAY_GUIDES[club(f.opposition)],g=guide?.date===f.date?guide:null;
  const panel=document.createElement('section');panel.id='away-trip-dropdown';panel.className='away-trip-dropdown';panel.setAttribute('aria-label','Away trip to '+f.opposition);
  const card=(title,body)=>'<section class="away-card"><h3>'+title+'</h3>'+body+'</section>';
  const paragraph=value=>'<p>'+esc(value)+'</p>';
- panel.innerHTML='<h2>'+esc(f.opposition)+' · Away trip</h2>'+(g?'<div class="away-card-grid">'+
+ panel.innerHTML='<h2>'+esc(f.opposition)+' · Away trip</h2><p class="away-trip-scroll-cue">Scroll for travel information ↓</p><div class="away-trip-scroll" tabindex="0" role="region" aria-label="Travel information">'+(g?'<div class="away-card-grid">'+
  card('THE GROUND',paragraph(g.ground)+paragraph(g.address))+
  card('ADMISSION',paragraph(g.admission)+'<a href="'+esc(g.tickets)+'" target="_blank" rel="noopener noreferrer">Official club / ticket information ↗</a>')+
  card('BY ROAD',paragraph(g.road)+'<a href="https://www.google.com/maps/dir/?api=1&amp;origin=Tiverton%2C+Devon&amp;destination='+encodeURIComponent(g.address)+'&amp;travelmode=driving" target="_blank" rel="noopener noreferrer">Open directions ↗</a>')+
@@ -609,8 +613,26 @@ function toggleAwayTrip(f){
  card('PARKING',paragraph(g.parking||'Check matchday parking arrangements with the home club.'))+
  card('FOOD &amp; DRINK',paragraph(g.food||'Check current catering and dietary options with the home club.'))+
  card('BEFORE YOU GO',paragraph(g.before))+'</div>':'<div class="away-card"><p>Travel information for this fixture is being checked. Please consult the home club before travelling.</p></div>')+
- '<button type="button" class="away-trip-close">CLOSE AWAY TRIP ✕</button>';
+ '</div><button type="button" class="away-trip-close">CLOSE AWAY TRIP ✕</button>';
  document.getElementById('next-away-game').after(panel);
+ // The Wix host may disable document scrolling. Keep all travel content
+ // inside its available frame space, with the close control outside the scroller.
+ const previousScroll=window.scrollY;
+ const remaining=window.innerHeight-panel.getBoundingClientRect().top;
+ if(remaining<320&&window.self!==window.top){
+  window.scrollTo(0,previousScroll+document.getElementById('next-away-game').getBoundingClientRect().top);
+ }
+ const fitTravel=()=>{
+  const frameHeight=window.innerHeight||document.documentElement.clientHeight;
+  const top=Math.max(0,panel.getBoundingClientRect().top);
+  const screenHeight=window.screen?.availHeight||frameHeight;
+  const available=Math.max(0,frameHeight-top-8);
+  panel.style.height=Math.min(available,Math.round(screenHeight*.78),720)+'px';
+ };
+ fitTravel();
+ window.addEventListener('resize',fitTravel);
+ window.visualViewport?.addEventListener('resize',fitTravel);
+ panel.cleanup=()=>{window.removeEventListener('resize',fitTravel);window.visualViewport?.removeEventListener('resize',fitTravel);window.scrollTo(0,previousScroll)};
  button.setAttribute('aria-expanded','true');button.textContent='HIDE AWAY TRIP ▴';
  panel.querySelector('.away-trip-close').onclick=()=>{toggleAwayTrip(f);button.focus({preventScroll:true})};
  panel.addEventListener('keydown',e=>{if(e.key==='Escape'){toggleAwayTrip(f);button.focus({preventScroll:true})}});
