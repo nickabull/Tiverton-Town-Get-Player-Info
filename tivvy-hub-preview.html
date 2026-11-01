@@ -416,7 +416,8 @@ body.home-summary .hub-panel,body.home-summary #fixtures-panel>h2,
 body.home-summary .note,body.home-summary .fixtures-scroll-hint,
 body.home-summary .searchbar,body.home-summary .fixture-month,
 body.home-summary .action,body.home-summary .next-info{display:none!important}
-body.home-summary main#fixtures-panel{padding:0!important;max-width:none}
+body.home-summary main#fixtures-panel{padding:0 0 24px!important;max-width:none;max-height:100dvh;overflow-y:auto;scrollbar-width:none;box-sizing:border-box}
+body.home-summary main#fixtures-panel::-webkit-scrollbar{display:none}
 body.home-summary #table{border:0;background:transparent}
 body.home-summary #table .latest-result{border:2px solid #111;margin-bottom:14px}
 body.home-summary .match-centre-link{display:block;background:#111;color:var(--y);font:20px/1.3 Anton,Impact,Arial,sans-serif;text-align:center;padding:14px;text-decoration:none;border:2px solid #111}
@@ -617,23 +618,27 @@ function toggleAwayTrip(f){
  document.getElementById('next-away-game').after(panel);
  // The Wix host may disable document scrolling. Keep all travel content
  // inside its available frame space, with the close control outside the scroller.
- const previousScroll=window.scrollY;
+ button.setAttribute('aria-expanded','true');button.textContent='HIDE AWAY TRIP ▴';
+ const scrollHost=document.body.classList.contains('home-summary')?document.getElementById('fixtures-panel'):window;
+ const previousScroll=scrollHost===window?window.scrollY:scrollHost.scrollTop;
  const remaining=window.innerHeight-panel.getBoundingClientRect().top;
  if(remaining<320&&window.self!==window.top){
-  window.scrollTo(0,previousScroll+document.getElementById('next-away-game').getBoundingClientRect().top);
+  scrollHost.scrollTo(0,previousScroll+document.getElementById('next-away-game').getBoundingClientRect().top);
  }
  const fitTravel=()=>{
   const frameHeight=window.innerHeight||document.documentElement.clientHeight;
   const top=Math.max(0,panel.getBoundingClientRect().top);
   const screenHeight=window.screen?.availHeight||frameHeight;
-  const available=Math.max(0,frameHeight-top-8);
+  const available=Math.max(0,frameHeight-top-24);
   panel.style.height=Math.min(available,Math.round(screenHeight*.78),720)+'px';
  };
  fitTravel();
+ const stripObserver=typeof ResizeObserver!=='undefined'?new ResizeObserver(fitTravel):null;
+ stripObserver?.observe(document.getElementById('next-away-game'));
+ document.fonts?.ready.then(()=>{if(panel.isConnected)fitTravel()});
  window.addEventListener('resize',fitTravel);
  window.visualViewport?.addEventListener('resize',fitTravel);
- panel.cleanup=()=>{window.removeEventListener('resize',fitTravel);window.visualViewport?.removeEventListener('resize',fitTravel);window.scrollTo(0,previousScroll)};
- button.setAttribute('aria-expanded','true');button.textContent='HIDE AWAY TRIP ▴';
+ panel.cleanup=()=>{stripObserver?.disconnect();window.removeEventListener('resize',fitTravel);window.visualViewport?.removeEventListener('resize',fitTravel);scrollHost.scrollTo(0,previousScroll)};
  panel.querySelector('.away-trip-close').onclick=()=>{toggleAwayTrip(f);button.focus({preventScroll:true})};
  panel.addEventListener('keydown',e=>{if(e.key==='Escape'){toggleAwayTrip(f);button.focus({preventScroll:true})}});
 }
