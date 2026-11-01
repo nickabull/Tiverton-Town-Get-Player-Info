@@ -461,6 +461,13 @@ body.home-summary .latest-result .row{grid-template-columns:94px minmax(150px,1f
 .inline-match-panel .match-detail-columns h3{font-size:20px;margin:10px 0 5px}
 .inline-match-panel .close-match-bottom{cursor:pointer}
 @media(max-width:650px){.inline-match-panel.dialog{padding:12px;width:100%;margin:0}.inline-match-panel .match-detail-columns{grid-template-columns:minmax(0,1fr);gap:6px}.inline-match-panel .crestline img{width:42px;height:42px}.inline-match-header h2{font-size:20px}.inline-match-close{font-size:16px;padding:8px 10px}.inline-match-panel .scoreline{font-size:22px}.inline-match-panel .players li{font-size:13px}}
+/* Independent, full-width away travel expander. */
+.away-trip-dropdown{background:#111;color:#fff;border:2px solid #111;padding:18px;margin:-14px 0 14px}
+.away-trip-dropdown h2{font:24px Anton,Impact,sans-serif;color:var(--y);margin:0 0 14px}
+.away-trip-dropdown .away-card{color:#111;min-width:0;overflow-wrap:anywhere}
+.away-trip-close{display:block;background:transparent;border:2px solid #ef3340;color:#ff666b;padding:10px 14px;margin-top:18px;font:18px Anton,Impact,sans-serif;cursor:pointer}
+.away-trip-close:focus-visible,.away-trip-link:focus-visible{outline:3px solid #2782ef;outline-offset:3px}
+@media(max-width:650px){.away-trip-dropdown{padding:12px}.away-trip-dropdown h2{font-size:21px}}
 </style></head><body>
 <script src="match-status-shared.js?v=20261027"></script>
 <script>const displayOptions=new URLSearchParams(location.search);if(displayOptions.get('embed')==='1')document.body.classList.add('wix-embed');if(displayOptions.get('view')==='home')document.body.classList.add('home-summary','wix-embed');</script>
@@ -577,11 +584,38 @@ function updateNextAwayGame(){
  if(target.dataset.fixture!==away.id){
   const image=crest(away.opposition)||matchFor(away)?.opponentLogoUrl||'';
   const when=new Date(kickoffTime(away)).toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short',timeZone:'Europe/London'});
-  target.innerHTML='<span class="away-caption">NEXT AWAY GAME</span>'+(image?'<img src="'+esc(image)+'" alt="">':'')+'<span class="away-summary"><strong>'+esc(away.opposition)+'</strong> · '+esc(when)+' · '+esc(away.kickOff||'15:00')+'</span><a class="away-trip-link" href="https://nickabull.github.io/Tiverton-Town-Control-Centre/away-day.html" target="_blank" rel="noopener">AWAY TRIP ↗</a>';
+  target.innerHTML='<span class="away-caption">NEXT AWAY GAME</span>'+(image?'<img src="'+esc(image)+'" alt="">':'')+'<span class="away-summary"><strong>'+esc(away.opposition)+'</strong> · '+esc(when)+' · '+esc(away.kickOff||'15:00')+'</span><button type="button" class="away-trip-link" id="away-trip-toggle" aria-expanded="false" aria-controls="away-trip-dropdown">AWAY TRIP ▾</button>';
+  document.getElementById('away-trip-dropdown')?.remove();
+  document.getElementById('away-trip-toggle').onclick=()=>toggleAwayTrip(away);
   target.dataset.fixture=away.id;
  }
  target.hidden=false;
 }
+
+/* Travel has its own panel and state, independent of match Details. */
+function toggleAwayTrip(f){
+ const button=document.getElementById('away-trip-toggle');
+ const existing=document.getElementById('away-trip-dropdown');
+ if(existing){existing.remove();button.setAttribute('aria-expanded','false');button.textContent='AWAY TRIP ▾';return}
+ const guide=AWAY_GUIDES[club(f.opposition)],g=guide?.date===f.date?guide:null;
+ const panel=document.createElement('section');panel.id='away-trip-dropdown';panel.className='away-trip-dropdown';panel.setAttribute('aria-label','Away trip to '+f.opposition);
+ const card=(title,body)=>'<section class="away-card"><h3>'+title+'</h3>'+body+'</section>';
+ const paragraph=value=>'<p>'+esc(value)+'</p>';
+ panel.innerHTML='<h2>'+esc(f.opposition)+' · Away trip</h2>'+(g?'<div class="away-card-grid">'+
+ card('THE GROUND',paragraph(g.ground)+paragraph(g.address))+
+ card('ADMISSION',paragraph(g.admission)+'<a href="'+esc(g.tickets)+'" target="_blank" rel="noopener noreferrer">Official club / ticket information ↗</a>')+
+ card('BY ROAD',paragraph(g.road)+'<a href="https://www.google.com/maps/dir/?api=1&amp;origin=Tiverton%2C+Devon&amp;destination='+encodeURIComponent(g.address)+'&amp;travelmode=driving" target="_blank" rel="noopener noreferrer">Open directions ↗</a>')+
+ card('BY RAIL',paragraph(g.rail))+
+ card('PARKING',paragraph(g.parking||'Check matchday parking arrangements with the home club.'))+
+ card('FOOD &amp; DRINK',paragraph(g.food||'Check current catering and dietary options with the home club.'))+
+ card('BEFORE YOU GO',paragraph(g.before))+'</div>':'<div class="away-card"><p>Travel information for this fixture is being checked. Please consult the home club before travelling.</p></div>')+
+ '<button type="button" class="away-trip-close">CLOSE AWAY TRIP ✕</button>';
+ document.getElementById('next-away-game').after(panel);
+ button.setAttribute('aria-expanded','true');button.textContent='HIDE AWAY TRIP ▴';
+ panel.querySelector('.away-trip-close').onclick=()=>{toggleAwayTrip(f);button.focus({preventScroll:true})};
+ panel.addEventListener('keydown',e=>{if(e.key==='Escape'){toggleAwayTrip(f);button.focus({preventScroll:true})}});
+}
+
 function updateNextKickoff(){
   const target=document.getElementById('next-kickoff');
   if(!target||!fixtures.length)return;
@@ -607,6 +641,7 @@ function updateNextKickoff(){
   if(timer)timer.textContent=(days?days+'d ':'')+String(hours).padStart(2,'0')+'h '+String(mins).padStart(2,'0')+'m '+String(secs).padStart(2,'0')+'s';
 }
 const AWAY_GUIDES={
+  paultonrovers:{"date": "2026-11-11", "ground": "Winterfield Stadium", "address": "Winterfield Stadium, Winterfield Road, Paulton, Bristol BS39 7RF", "admission": "Admission prices and payment options for this fixture have not yet been verified. Check with Paulton Rovers.", "tickets": "https://www.paultonrovers.co.uk/", "road": "Use BS39 7RF; approach via the A37 / A362 towards Paulton. Check live traffic and the final approach.", "rail": "Check trains towards Bath Spa and separately arrange onward transport to Paulton; verify late evening returns.", "parking": "Parking availability and charges have not been verified; ask the club.", "food": "Catering availability and prices have not been verified; ask Paulton Rovers.", "before": "Guide reviewed 31 October 2026. Kick-off discrepancy: Paulton’s listing says 19:45; the Match Centre feed says 19:30. Confirm with the home club before travelling. Check access requirements and your return journey."},
   weymouth:{
     date:'2026-10-31',
     ground:'Bob Lucas Stadium',
