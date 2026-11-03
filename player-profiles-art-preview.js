@@ -4,17 +4,17 @@ const tivvyCardPhotos={"aaron-wellington":"https://static.wixstatic.com/media/8a
 const tivvyCardPlacements={"finn-roberts":[-20,-5,100,0,0,0,0,0,-20,200,0],"jack-kennell":[-455,0,105,375,0,365,0,0,-20,200,0],"jacob-wellington":[-530,0,110,240,0,225,0,0,-20,200,0],"josh-bissett":[-445,0,140,385,0,370,0,0,-20,200,0],"karim-coulibaly":[-540,-5,100,275,0,265,0,0,-20,200,0],"lewis-flowers":[0,0,100,0,0,0,0,0,-20,115,0],"louie-slough":[-25,120,140,0,0,0,0,0,-20,200,0],"louis-jagger-cane":[-535,0,100,235,0,215,0,0,-20,200,0],"louis-smith":[-25,-5,100,0,0,0,0,25,-5,200,0],"mason-winter":[-495,0,130,350,0,330,0,0,-20,200,0],"matt-wood":[-520,90,130,445,0,430,0,0,-20,200,0],"owen-howe":[0,0,115,0,0,0,0,0,-20,200,0],"ryan-keates":[-35,55,135,0,0,0,0,0,-20,200,0],"tobias-alsop":[0,0,105,0,0,0,0,0,-20,200,0],"toby-stephens":[0,30,115,0,0,0,0,0,-20,200,0],"aaron-wellington":[10,0,115,0,0,0,0,0,-20,200,0],"aiden-horne":[-265,25,125,410,0,390,0,0,-20,200,0],"asa-hall":[-5,95,130,0,0,0,0,0,-20,200,0],"billy-tucker":[-35,0,115,0,0,0,0,0,-20,200,0],"caleb-pryce-hall":[0,0,100,0,0,0,0,0,-20,115,0],"corey-koerner":[10,0,110,0,0,0,0,0,-20,200,0],"dan-koita":[-25,-5,100,0,0,0,0,0,-20,200,0],"ed-palmer":[-500,80,125,465,0,440,0,0,-20,200,0],"finn-hodge":[-380,35,120,435,0,430,0,0,-20,200,0]};
 const tivvyCardYellow="https://static.wixstatic.com/media/8aa829_81efb7b2c16545dd9be6c263ddacfeae~mv2.png";
 const tivvyCardPurple="https://static.wixstatic.com/media/8aa829_577ea00227df4e88a88a3b109b717166~mv2.png";
-function tivvyArtworkHeader(name){
+function tivvyArtworkHeader(name, heading){
   const id=String(name||'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
   const photo=tivvyCardPhotos[id];
-  if(!photo) return '<div class="tivvyArtText"><p>YOUR TIVVY · PLAYER PROFILE</p><h3 id="profileName" tabindex="-1">'+playerHeading(name)+'</h3><span class="tivvyLeague">2026/27 · SOUTHERN LEAGUE DIVISION ONE SOUTH</span></div>';
+  if(!photo) return '<div class="tivvyArtText"><p>YOUR TIVVY · PLAYER PROFILE</p><h3 id="profileName" tabindex="-1">'+heading+'</h3><span class="tivvyLeague">2026/27 · SOUTHERN LEAGUE DIVISION ONE SOUTH</span></div>';
   const values=tivvyCardPlacements[id]||[-25,0,100,0,0,0,0,0,-20,200,0];
   const [px,py,ps,nx,ny,x,y,bx,by,bs]=values;
   const sw=id==='louis-smith'?tivvyCardPurple:tivvyCardYellow;
   const attr=(s)=>String(s).replace(/"/g,'&quot;');
   return '<div class="tivvyArtStage">'+
     '<img class="tivvyArtSwipe" alt="" aria-hidden="true" src="'+sw+'" style="transform:translate('+bx+'px,'+by+'px) scale('+(bs/100)+')">'+
-    '<div class="tivvyArtName" style="transform:translate('+nx+'px,'+ny+'px)"><p>YOUR TIVVY · PLAYER PROFILE</p><h3 id="profileName" tabindex="-1">'+playerHeading(name)+'</h3></div>'+
+    '<div class="tivvyArtName" style="transform:translate('+nx+'px,'+ny+'px)"><p>YOUR TIVVY · PLAYER PROFILE</p><h3 id="profileName" tabindex="-1">'+heading+'</h3></div>'+
     '<img class="tivvyArtPhoto" alt="" aria-hidden="true" src="'+attr(photo)+'" style="transform:translate('+px+'px,'+py+'px) scale('+(ps/100)+')">'+
     '</div><div class="tivvyLeague">2026/27 · SOUTHERN LEAGUE DIVISION ONE SOUTH</div>';
 }
@@ -175,7 +175,7 @@ function playerCareerMarkup(entry, state = 'ready') {
     const appearances = p.matches.filter(m => m.used), latest = appearances.slice(-5).reverse();
     const labels = ['1–15','16–30','31–45+','46–60','61–75','76–90+'], max = Math.max(1,...p.goalBands);
     host.innerHTML = '<div class="profile-toolbar"><button type="button" class="profile-back" id="profileBack">← ALL PLAYERS</button><label class="profile-switch-label">PLAYER<select id="profilePlayerSelect" aria-label="Choose player profile">' + (find(p.name)?profiles:[p,...profiles]).map(x=>'<option'+(x.name===p.name?' selected':'')+'>'+esc(x.name)+'</option>').join('') + '</select></label></div>' +
-      '<div class="profile-hero tivvyArtworkProfile">' + tivvyArtworkHeader(p.name) + '</div>' +
+      '<div class="profile-hero tivvyArtworkProfile">' + tivvyArtworkHeader(p.name, playerHeading(p.name)) + '</div>' +
       '<div class="profile-stats">' + stat(p.apps,'Appearances') + stat(p.starts,'Starts') + stat(p.subs,'Sub on') + stat(p.mins,'Est. minutes') + stat(p.goals,'Goals',true) + stat(p.caps,'Captaincies') + '</div>' +
       '<p class="profile-note">Recorded league team sheets only. Minutes are estimates. Unused substitute: ' + p.unused + ' match' + (p.unused===1?'':'es') + '.</p>' +
       '<div id="profileCareer">' + playerCareerMarkup(careerPlayers.find(entry => playerKey(entry.name) === playerKey(p.name)), careerState) + '</div>' +
