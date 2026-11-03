@@ -157,3 +157,27 @@
 
 /* The original transparent swoosh is used as a mask: exact Tivvy yellow #FFD800. */
 #players .tivvyExactCanvas .approvedYellowBrush{background:#ffd800; -webkit-mask-image:var(--brush-url);mask-image:var(--brush-url);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+
+
+/* Preserve the ORIGINAL black ink in the approved swoosh; recolour yellow only. */
+#players .tivvyExactCanvas .approvedYellowBrush{background:transparent!important;-webkit-mask:none!important;mask:none!important;isolation:isolate}
+#players .tivvyExactCanvas .approvedYellowBrush::before,
+#players .tivvyExactCanvas .approvedYellowBrush::after{
+ content:"";position:absolute;inset:0;pointer-events:none;
+ -webkit-mask-image:var(--brush-url);mask-image:var(--brush-url);
+ -webkit-mask-size:contain;mask-size:contain;
+ -webkit-mask-position:center;mask-position:center;
+ -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
+}
+#players .tivvyExactCanvas .approvedYellowBrush::before{background:#ffd800}
+#players .tivvyExactCanvas .approvedYellowBrush::after{
+ background-image:var(--brush-url);background-size:contain;background-position:center;background-repeat:no-repeat;
+ filter:grayscale(1) contrast(350%);mix-blend-mode:multiply;
+}
+/* Full-width black surround aligns to the All Players and player-select outer edges. */
+#players .profile-hero.tivvyExactArtwork{
+ width:100%;max-width:none;margin:0 auto;background:#111!important;
+}
+#players .profile-hero.tivvyExactArtwork .tivvyExactArt{
+ width:min(100%,850px);margin-left:auto;margin-right:auto;background:#fff;
+}
