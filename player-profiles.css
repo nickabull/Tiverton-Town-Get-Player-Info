@@ -172,7 +172,7 @@
 #players .tivvyExactCanvas .approvedYellowBrush::before{background:#ffd800}
 #players .tivvyExactCanvas .approvedYellowBrush::after{
  background-image:var(--brush-url);background-size:contain;background-position:center;background-repeat:no-repeat;
- filter:grayscale(1) contrast(350%);mix-blend-mode:multiply;
+ filter:none;mix-blend-mode:darken;
 }
 /* Full-width black surround aligns to the All Players and player-select outer edges. */
 #players .profile-hero.tivvyExactArtwork{
