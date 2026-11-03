@@ -138,3 +138,22 @@
 #players .profile-career-sources summary{cursor:pointer;text-decoration:underline;text-underline-offset:2px}
 #players .profile-career-sources ul{padding-left:16px;margin:6px 0 0}
 @media(max-width:650px){#players .profile-clubs{gap:7px 16px;padding:10px 12px}#players .profile-clubs li{column-gap:6px}#players .profile-clubs strong{font-size:12px}#players .profile-club-period{font-size:11px}}
+
+/* Exact squad artwork, not a redesigned Match Centre graphic.
+   Replicates first-team-squad.html at its native 850px design width. */
+#players .profile-hero.tivvyExactArtwork{display:block;padding:0!important;background:#fff!important;border:0!important;overflow:hidden;color:#111}
+#players .tivvyExactArt{width:100%;height:auto;aspect-ratio:850 / 330;position:relative;background:#fff;overflow:hidden;--tivvy-art-scale:1}
+#players .tivvyExactCanvas{position:absolute;left:0;top:0;width:850px;height:330px;padding:28px 29px 32px;box-sizing:border-box;background:#fff;transform:scale(var(--tivvy-art-scale));transform-origin:top left}
+#players .tivvyExactCanvas .studioHero{position:relative;height:260px;margin-top:6px;isolation:isolate;background:#fff;overflow:visible}
+#players .tivvyExactCanvas .studioBrush{position:absolute;inset:-35px -40px -25px -50px;width:calc(100% + 90px);height:calc(100% + 60px);object-fit:contain;object-position:center;z-index:0;transform-origin:center;pointer-events:none}
+#players .tivvyExactCanvas .studioNameBar{position:relative;z-index:1;margin-top:49px;width:100%;min-height:90px;padding:0}
+#players .tivvyExactCanvas .studioName{font:700 76px/1 Antonio,Impact,sans-serif!important;font-style:italic!important;text-transform:uppercase;white-space:nowrap;margin:0;letter-spacing:.3px;color:#101010!important}
+#players .tivvyExactCanvas .studioPosition{position:relative;z-index:1;display:block;width:44%;max-width:240px;background:#111;color:#fff;font:700 34px/1.15 Antonio,Impact,sans-serif;text-transform:uppercase;padding:10px 19px;margin-top:2px;transform-origin:top left}
+#players .tivvyExactCanvas .studioPhoto{position:absolute;right:-29px;bottom:-15px;height:345px;max-width:none;object-fit:contain;object-position:bottom center;z-index:2;transform-origin:bottom right;pointer-events:none}
+#players .tivvyArtworkFallback{background:#111;color:#fff;padding:20px}
+
+
+#players .profile-hero.tivvyExactArtwork{width:100%;max-width:850px;margin-left:auto;margin-right:auto}
+
+/* The original transparent swoosh is used as a mask: exact Tivvy yellow #FFD800. */
+#players .tivvyExactCanvas .approvedYellowBrush{background:#ffd800; -webkit-mask-image:var(--brush-url);mask-image:var(--brush-url);-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
