@@ -1032,7 +1032,14 @@ el('modal').addEventListener('touchmove',event=>{
 },{passive:false});
 setInterval(updateNextKickoff,1000);
 el('close').onclick=closeMatch;el('modal').onclick=e=>{if(e.target===el('modal'))closeMatch()};window.onkeydown=e=>{if(e.key==='Escape')closeMatch()};el('q').oninput=render;el('filter').onchange=render;
-async function getJSON(name){const r=await fetch(BASE+name+'?v=20261022',{cache:'no-store'});if(!r.ok)throw new Error(name+' HTTP '+r.status);return r.json()}
+async function getJSON(name){
+  // A unique URL per load prevents stale GitHub Pages/browser JSON from
+  // preserving an older teamsheet after the published match data changes.
+  const url=BASE+name+'?updated='+Date.now();
+  const r=await fetch(url,{cache:'no-store'});
+  if(!r.ok)throw new Error(name+' HTTP '+r.status);
+  return r.json();
+}
 (async()=>{try{const [list,league,cup,historical]=await Promise.all([getJSON('match-centre-fixtures-2026-27.json'),getJSON('data.json'),getJSON('cup-match-details-2026-27.json'),getJSON('historical-match-details-2026-27.json')]);fixtures=list.fixtures||[];details=[...(league.fixtures||[]).map(x=>({...x,competition:'SLD1S'})),...(cup.fixtures||[]),...(historical.fixtures||[])];fixtures.sort((a,b)=>a.date.localeCompare(b.date));populateCompetitionFilter();render();updateAwayDay();updateNextKickoff();refreshPitchStatus();if(document.body.classList.contains('home-summary')){const link=document.createElement('a');link.className='match-centre-link';link.href='https://www.tivertontownfc.uk/match-centre';link.target='_top';link.textContent='OPEN THE MATCH CENTRE ↗';el('fixtures-panel').append(link)}const params=new URLSearchParams(location.search);const shared=params.get('match');if(shared)openMatch(shared);else if(params.get('fixtureDate')){const f=fixtures.find(f=>f.date===params.get('fixtureDate')&&club(f.opposition)===club(params.get('opponent'))&&f.homeAway===params.get('venue'));if(f)openMatch(f.id)}}catch(e){el('table').innerHTML='<div id="status">Unable to load fixtures at present. Please refresh the page.</div>';console.error(e)}})();
 
 (function(){
