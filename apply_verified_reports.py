@@ -28,6 +28,23 @@ def apply(data):
             and club_key(f.get('opponent')) == club_key(fixture['opponent'])
         )]
         data['fixtures'].append(fixture)
+    # Preserve independently verified disciplinary events without overwriting the
+    # rest of a team's match report or changing historical lineups.
+    for match_date, incidents in verified.get('verifiedCards', {}).items():
+        for fixture in data['fixtures']:
+            if fixture.get('date') != match_date:
+                continue
+            for incident in incidents:
+                player = next((p for p in fixture.get('starterDetails', []) + fixture.get('subDetails', [])
+                               if p.get('name', '').casefold() == incident['name'].casefold()), None)
+                if player is None:
+                    print(f"REVIEW: verified card player absent: {incident['name']} on {match_date}")
+                    continue
+                cards = player.setdefault('cards', [])
+                if not any(str(c.get('minute')) == str(incident['minute'])
+                           and str(c.get('type','')).lower() == str(incident['type']).lower()
+                           for c in cards):
+                    cards.append({'type': incident['type'], 'minute': incident['minute']})
     data['fixtures'].sort(key=lambda f: f['date'])
     data['updated'] = datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC')
     return data
