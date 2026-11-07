@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-05 22:11 Europe/London - Bideford league fixture rearranged",
+  "updated": "2026-11-07 18:46 Europe/London - Inkberrow result verified",
   "source": "Tiverton Town FC Wix CMS Import1",
   "fixtures": [
     {
@@ -349,10 +349,10 @@
       "opposition": "SPORTING CLUB INKBERROW",
       "homeAway": "H",
       "competition": "SLD1S",
-      "result": "",
-      "scorers": "",
+      "result": "L 1-2",
+      "scorers": "Matt Wood 59'",
       "kickOff": "15:00",
-      "notes": ""
+      "notes": "Jack Kennell sent off 48'."
     },
     {
       "id": "871a8c67-8f54-4347-bccb-a78912ea5b63",
