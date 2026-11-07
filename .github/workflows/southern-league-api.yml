@@ -1,5 +1,7 @@
 name: Southern League API discovery and safe match import
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
     inputs:
       match_date:
