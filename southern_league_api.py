@@ -87,8 +87,12 @@ def extract_match(match):
         "goals": events(match, side + "Goals"),
         "cards": events(match, side + "Cards"),
         "subs": events(match, side + "Subs"),
-        "lineup": events(match, side + "Lineup"),
-        "bench": events(match, side + "Bench"),
+        "lineup": next((events(match, side + key) for key in
+                        ("Lineup", "StartingLineup", "StartingXI", "Starters", "Lineups")
+                        if events(match, side + key)), []),
+        "bench": next((events(match, side + key) for key in
+                       ("Bench", "Substitutes", "BenchPlayers")
+                       if events(match, side + key)), []),
     }
     return data
 
