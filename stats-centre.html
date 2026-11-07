@@ -104,6 +104,7 @@ table{width:100%;border-collapse:collapse}th,td{padding:8px 9px;border-bottom:1p
   #matrix .matrix-axis-label{flex-direction:column;gap:1px}
   #matrix .matrix-axis-label .matrix-crest{width:11px;height:11px}
 }
+.ask-tivvy{margin:0 0 22px;padding:20px;background:#111;color:#fff;border:3px solid #ffdb00;box-shadow:0 8px 20px #0002}.ask-tivvy-head{display:flex;gap:14px;align-items:center;margin-bottom:14px}.ask-tivvy-mark{display:grid;place-items:center;flex:0 0 48px;height:48px;border-radius:50%;background:#ffdb00;color:#111;font:700 34px Antonio,Impact,sans-serif}.ask-tivvy h3{margin:0;color:#ffdb00;font:700 28px Antonio,Impact,sans-serif}.ask-tivvy-head p{margin:4px 0 0;color:#eee;font-size:14px}.ask-tivvy-form label{display:block;margin:0 0 6px;font-weight:700;font-size:13px}.ask-tivvy-input-row{display:flex;gap:8px}.ask-tivvy-input-row input{flex:1;min-width:0;border:2px solid #aaa;border-radius:0;background:#fff;color:#111;padding:12px;font:16px Arial,sans-serif}.ask-tivvy-input-row button{padding:10px 17px;background:#ffdb00;border:2px solid #ffdb00;color:#111;font-weight:900;cursor:pointer}.ask-tivvy-examples{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0}.ask-tivvy-examples button{background:#2f2f2f;color:#ffdb00;border:1px solid #777;padding:8px 10px;cursor:pointer;font:12px Arial,sans-serif}.ask-tivvy-answer{background:#222;border-left:4px solid #ffdb00;padding:13px 15px;min-height:46px;font:16px/1.45 Arial,sans-serif}.ask-tivvy-note{font:12px/1.4 Arial,sans-serif;color:#d2d2d2;margin:10px 0 0}@media(max-width:600px){.ask-tivvy{padding:13px}.ask-tivvy-input-row{flex-direction:column}.ask-tivvy-input-row button{width:100%}}
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Antonio:wght@700&display=swap" rel="stylesheet">
 </head>
@@ -133,6 +134,16 @@ table{width:100%;border-collapse:collapse}th,td{padding:8px 9px;border-bottom:1p
 <section class="section" id="league"><div class="section-head"><h2>Division One South League Table</h2><p>Live table from the results feed</p></div><div class="matches" id="leagueTable"></div></section>
 
 <section class="section" id="players"><div class="section-head"><h2><img class="tivvy-crest" src="https://static.wixstatic.com/media/8aa829_88bbff928f6b42f49eba4aef6c32fcb2~mv2.png" alt="">Player Stats</h2><p>2026/27 league player leaders · appearances, goals and minutes</p></div>
+<div class="ask-tivvy" aria-label="Ask Tivvy about player and team statistics">
+  <div class="ask-tivvy-head"><span class="ask-tivvy-mark">?</span><div><h3>ASK TIVVY</h3><p>Ask about goals, cards, appearances and substitutions — calculated from our recorded 2026/27 league matches.</p></div></div>
+  <form id="askTivvyForm" class="ask-tivvy-form">
+    <label for="askTivvyQuestion">Your question</label>
+    <div class="ask-tivvy-input-row"><input id="askTivvyQuestion" type="search" placeholder="How many goals has Matt Wood scored?" required autocomplete="off"><button type="submit">ASK TIVVY</button></div>
+  </form>
+  <div class="ask-tivvy-examples" aria-label="Example questions"><button type="button" data-ask-tivvy="How many red cards have we had this season?">Red cards this season</button><button type="button" data-ask-tivvy="How many goals has Matt Wood scored?">Matt Wood goals</button><button type="button" data-ask-tivvy="How many times has Louie Slough been substituted off?">Louie Slough subs off</button></div>
+  <div class="ask-tivvy-answer" id="askTivvyAnswer" aria-live="polite">Pick an example or ask your own question.</div>
+  <p class="ask-tivvy-note" id="askTivvyScope">Answers are based on recorded league team sheets, not necessarily every match or competition. Always check official reports for missing events.</p>
+</div>
 <div class="player-centre">
 <section id="playerProfile" hidden aria-label="Individual player profile"></section>
 <div class="player-profile-hint"><span class="profile-hint-arrow" aria-hidden="true">↗</span><div><strong>Tap a player’s name for their full stats</strong><p>Explore their matches, goals and minutes — and compare teammates.</p></div></div>
@@ -211,6 +222,57 @@ function matrixAxisLabel(name,codes){
 }
 function tivvyScore(score,home,away){const m=String(score||'').match(/^(\d+)\s*[-–]\s*(\d+)$/);if(!m)return esc(score||'');return (home==='Tiverton Town'?'<span class="tivvy-goals">'+m[1]+'</span>':m[1])+'-'+(away==='Tiverton Town'?'<span class="tivvy-goals">'+m[2]+'</span>':m[2]);}
 function tivvyFixtureScore(score,venue){const m=String(score||'').match(/^(\d+)\s*[-–]\s*(\d+)$/);if(!m)return esc(score||'');const ours='<span class="tivvy-goals">'+m[1]+'</span>';return String(venue).toUpperCase()==='A'?m[2]+'–'+ours:ours+'–'+m[2];}
+function initAskTivvy(fixtures){
+ const form=document.getElementById('askTivvyForm'),input=document.getElementById('askTivvyQuestion'),answer=document.getElementById('askTivvyAnswer');
+ const known=fixtures.filter(f=>Array.isArray(f.starterDetails)&&f.starterDetails.length===11);
+ const entries=known.flatMap(f=>[...(f.starterDetails||[]),...(f.subDetails||[])].filter(p=>p&&p.name).map(p=>({fixture:f,player:p})));
+ const names=[...new Set(entries.map(x=>x.player.name))].sort((a,b)=>b.length-a.length);
+ const norm=s=>String(s||'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
+ const included=known.length+' recorded league match'+(known.length===1?'':'es');
+ document.getElementById('askTivvyScope').textContent='2026/27 league season · '+included+'. Figures count only available player-event records; other competitions and unrecorded events are excluded.';
+ function respond(question){
+  const q=norm(question);
+  const player=names.find(n=>q.includes(norm(n))) || names.find(n=>norm(n).split(' ').length>1 && q.includes(norm(n).split(' ').slice(-1)[0]) && names.filter(x=>norm(x).endsWith(norm(n).split(' ').slice(-1)[0])).length===1);
+  const selected=player?entries.filter(x=>x.player.name===player):entries;
+  const isRed=/\\bred\\b|sent off|sending off|dismissal/.test(q);
+  const isYellow=/\\byellow\\b|booking|booked/.test(q);
+  const isGoal=/goal|scor/.test(q);
+  const isOff=/substitut(?:ed|ions|ion)? off|subbed off|taken off|came off|replaced|off the pitch/.test(q);
+  const isOn=/substitut(?:ed|ions|ion)? on|subbed on|brought on|came on|off the bench/.test(q);
+  const isSub=/substitut|subbed/.test(q);
+  const isApp=/appearance|games played|matches played|how many games/.test(q);
+  const isStart=/start(?:ed|s)?/.test(q);
+  const isCaptain=/captain/.test(q);
+  if(!entries.length)return 'There are no complete recorded league teamsheets available yet.';
+  if(isRed||isYellow){
+   const n=selected.reduce((total,x)=>total+(x.player.cards||[]).filter(c=>isRed?/red/i.test(c.type):/yellow/i.test(c.type)).length,0);
+   return (player?player+' has':'Tiverton players have')+' '+n+' recorded '+(isRed?'red':'yellow')+' card'+(n===1?'':'s')+' across '+included+'. This counts card events in our data, not disciplinary suspensions.';
+  }
+  if(isGoal){
+   const n=selected.reduce((total,x)=>total+Number(x.player.goalCount||0),0);
+   return (player?player+' has scored ':'Tiverton players have scored ')+n+' recorded league goal'+(n===1?'':'s')+' across '+included+'.';
+  }
+  if(isOff||isOn||isSub){
+   if(!player)return 'Please include a player name, for example: "How many times has Louie Slough been substituted off?"';
+   const n=selected.filter(({player:p})=>isOn ? Boolean(p.onMinute) : isOff ? Boolean(p.offMinute) : Boolean(p.onMinute||p.offMinute)).length;
+   return player+' has been '+(isOn?'substituted on ':isOff?'substituted off ':'involved in a substitution ')+n+' time'+(n===1?'':'s')+' across '+included+'.';
+  }
+  if(isApp||isStart){
+   if(!player)return 'Please include a player name so I can count their appearances or starts.';
+   const n=selected.filter(({player:p})=>isStart?!p.sub:(!p.sub||p.used===true||Boolean(p.onMinute))).length;
+   return player+' has '+n+' recorded league '+(isStart?'start':'appearance')+(n===1?'':'s')+' across '+included+'.';
+  }
+  if(isCaptain){
+   if(!player)return 'Please include the captain’s name so I can count recorded captaincies.';
+   const n=selected.filter(({player:p})=>p.captain===true).length;
+   return player+' has captained Tivvy '+n+' recorded league time'+(n===1?'':'s')+' across '+included+'.';
+  }
+  return 'I can currently answer questions about goals, red/yellow cards, substitutions on/off, appearances, starts and captaincies. Try a player’s full name and one of those statistics.';
+ }
+ function ask(question){input.value=question;answer.textContent=respond(question);}
+ form.addEventListener('submit',e=>{e.preventDefault();ask(input.value);});
+ document.querySelectorAll('[data-ask-tivvy]').forEach(b=>b.addEventListener('click',()=>ask(b.dataset.askTivvy)));
+}
 function render(player,results){
  const fixtures=(player.fixtures||[]).filter(x=>x.result&&parseScore(x.result)).sort((a,b)=>(a.date||'').localeCompare(b.date||''));
  const all=rec(fixtures),home=rec(fixtures.filter(x=>String(x.venue).toUpperCase()==='H')),away=rec(fixtures.filter(x=>String(x.venue).toUpperCase()==='A'));
@@ -224,6 +286,7 @@ function render(player,results){
  const last5=fixtures.slice(-5);document.getElementById('form').innerHTML=last5.map(x=>{const r=parseScore(x.result),c=r.gf>r.ga?'W':r.gf===r.ga?'D':'L';return '<span class="pill '+c.toLowerCase()+'" title="'+esc(x.opponent+' '+x.result)+'">'+c+'</span>'}).join('');document.getElementById('formSub').textContent=last5.map(x=>fmt(x.date)+' '+x.result).join(' · ');
  const cleans=fixtures.filter(x=>parseScore(x.result).ga===0);document.getElementById('clean').textContent=cleans.length;document.getElementById('cleanSub').textContent=cleans.length?cleans.map(x=>x.opponent).join(' · '):'None yet';
  const wins=fixtures.map(x=>({x,r:parseScore(x.result)})).filter(o=>o.r.gf>o.r.ga).sort((a,b)=>(b.r.gf-b.r.ga)-(a.r.gf-a.r.ga));if(wins[0]){document.getElementById('bigWin').textContent=wins[0].x.result;document.getElementById('bigWinSub').textContent=fmt(wins[0].x.date)+' v '+wins[0].x.opponent}
+ initAskTivvy(fixtures);
  const ps=buildPlayerStats(fixtures),stats=ps.stats.filter(x=>x.apps>0);document.getElementById('playersUsed').textContent=stats.filter(x=>x.apps).length;document.getElementById('xis').textContent=ps.xis;document.getElementById('xiSub').textContent='Across '+fixtures.length+' league games';
 
  const ls=(results.leagueTable||[]);document.getElementById('leagueTable').innerHTML=ls.length?'<table><thead><tr><th>Pos</th><th>Team</th><th class="num">P</th><th class="num">GD</th><th class="num">Pts</th></tr></thead><tbody>'+ls.map(x=>'<tr class="'+(String(x.team).toLowerCase()==='tiverton town'?'tiv':'')+'"><td>'+esc(x.pos)+'</td><td>'+esc(x.team)+'</td><td class="num">'+esc(x.p)+'</td><td class="num">'+esc(x.gd)+'</td><td class="num">'+esc(x.pts)+'</td></tr>').join('')+'</tbody></table>':'<div class="note">League table temporarily unavailable.</div>';
