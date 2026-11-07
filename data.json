@@ -827,7 +827,13 @@
           "goalCount": 0,
           "goalMinutes": [],
           "sub": false,
-          "used": true
+          "used": true,
+          "cards": [
+            {
+              "type": "red_card",
+              "minute": "51"
+            }
+          ]
         },
         {
           "name": "Billy Tucker",
