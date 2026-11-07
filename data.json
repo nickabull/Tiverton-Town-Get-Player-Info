@@ -3345,9 +3345,271 @@
       "lineupSource": "https://www.southern-football-league.co.uk/match/6a5a1bf6ce9ef452b61f445c",
       "halfTime": "1-0",
       "notes": ""
+    },
+    {
+      "date": "2026-11-07",
+      "venue": "H",
+      "opponent": "Sporting Club Inkberrow",
+      "opponentLogoUrl": "",
+      "result": "1-2",
+      "goalscorers": "Matt Wood 59'",
+      "starters": [
+        "Louis Smith",
+        "Mason Winter",
+        "Corey Koerner",
+        "Louie Slough",
+        "Matt Wood",
+        "Josh Bissett",
+        "Asa Hall",
+        "Louis Jagger Cane",
+        "Jacob Wellington",
+        "Jack Kennell",
+        "Toby Stephens"
+      ],
+      "subs": [
+        "Dan Koita",
+        "Finn Roberts",
+        "Aaron Wellington",
+        "Ryan Keates"
+      ],
+      "starterDetails": [
+        {
+          "name": "Louis Smith",
+          "number": 1,
+          "captain": false,
+          "position": "GK",
+          "onMinute": "",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": false,
+          "used": true,
+          "cards": []
+        },
+        {
+          "name": "Mason Winter",
+          "number": 2,
+          "captain": false,
+          "position": null,
+          "onMinute": "",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": false,
+          "used": true,
+          "cards": []
+        },
+        {
+          "name": "Corey Koerner",
+          "number": 3,
+          "captain": false,
+          "position": null,
+          "onMinute": "",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": false,
+          "used": true,
+          "cards": [
+            {
+              "type": "first_yellow_card",
+              "minute": "45"
+            }
+          ]
+        },
+        {
+          "name": "Louie Slough",
+          "number": 4,
+          "captain": false,
+          "position": null,
+          "onMinute": "",
+          "offMinute": "89",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": false,
+          "used": true,
+          "cards": []
+        },
+        {
+          "name": "Matt Wood",
+          "number": 5,
+          "captain": true,
+          "position": null,
+          "onMinute": "",
+          "offMinute": "",
+          "goalCount": 1,
+          "goalMinutes": [
+            "59"
+          ],
+          "sub": false,
+          "used": true,
+          "cards": []
+        },
+        {
+          "name": "Josh Bissett",
+          "number": 7,
+          "captain": false,
+          "position": null,
+          "onMinute": "",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": false,
+          "used": true,
+          "cards": []
+        },
+        {
+          "name": "Asa Hall",
+          "number": 8,
+          "captain": false,
+          "position": null,
+          "onMinute": "",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": false,
+          "used": true,
+          "cards": []
+        },
+        {
+          "name": "Louis Jagger Cane",
+          "number": 10,
+          "captain": false,
+          "position": null,
+          "onMinute": "",
+          "offMinute": "85",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": false,
+          "used": true,
+          "cards": []
+        },
+        {
+          "name": "Jacob Wellington",
+          "number": 11,
+          "captain": false,
+          "position": null,
+          "onMinute": "",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": false,
+          "used": true,
+          "cards": []
+        },
+        {
+          "name": "Jack Kennell",
+          "number": 14,
+          "captain": false,
+          "position": null,
+          "onMinute": "",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": false,
+          "used": true,
+          "cards": [
+            {
+              "type": "red_card",
+              "minute": "48"
+            }
+          ]
+        },
+        {
+          "name": "Toby Stephens",
+          "number": 15,
+          "captain": false,
+          "position": null,
+          "onMinute": "",
+          "offMinute": "53",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": false,
+          "used": true,
+          "cards": []
+        }
+      ],
+      "subDetails": [
+        {
+          "name": "Dan Koita",
+          "number": 9,
+          "captain": false,
+          "position": null,
+          "onMinute": "53",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": true,
+          "used": true,
+          "cards": []
+        },
+        {
+          "name": "Finn Roberts",
+          "number": 12,
+          "captain": false,
+          "position": null,
+          "onMinute": "85",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": true,
+          "used": true,
+          "cards": []
+        },
+        {
+          "name": "Aaron Wellington",
+          "number": 21,
+          "captain": false,
+          "position": null,
+          "onMinute": "",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": true,
+          "used": false,
+          "cards": []
+        },
+        {
+          "name": "Ryan Keates",
+          "number": 30,
+          "captain": false,
+          "position": null,
+          "onMinute": "89",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": true,
+          "used": true,
+          "cards": []
+        }
+      ],
+      "players": [
+        "Louis Smith",
+        "Mason Winter",
+        "Corey Koerner",
+        "Louie Slough",
+        "Matt Wood",
+        "Josh Bissett",
+        "Asa Hall",
+        "Louis Jagger Cane",
+        "Jacob Wellington",
+        "Jack Kennell",
+        "Toby Stephens",
+        "Dan Koita",
+        "Finn Roberts",
+        "Aaron Wellington",
+        "Ryan Keates"
+      ],
+      "squadUrl": "",
+      "fwpUrl": "",
+      "officialReportUrl": "",
+      "upcoming": false,
+      "eventSource": "https://www.southern-football-league.co.uk/match/6a5a1cc3ce9ef452b61f4489",
+      "lineupSource": "https://www.southern-football-league.co.uk/match/6a5a1cc3ce9ef452b61f4489",
+      "notes": "Tiverton 1-2 Sporting Club Inkberrow. Matt Wood 59'. Jack Kennell sent off 48'. Inkberrow goals: William Moore 2', Louis Crook 85'."
     }
   ],
-  "updated": "2026-11-05 - Weymouth official substitutions corrected against Southern League match record; report link added; internal verification note removed",
+  "updated": "2026-11-07 - Inkberrow 1-2 verified matchday line-up and events",
   "source": "https://www.tivvyarchive.co.uk/season.php?year=2026",
   "lineupSource": "https://www.southern-football-league.co.uk/match/6a5a1bf6ce9ef452b61f445c",
   "eventSource": "https://www.southern-football-league.co.uk/match/6a5a1bf6ce9ef452b61f445c"
