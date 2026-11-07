@@ -264,7 +264,6 @@ function initAskTivvy(fixtures,cupData,historicalData){
    return '<div class="ask-tivvy-players">'+players.map(item=>{
      const src=photoFor(item.name);
      const photo=src?'<img class="ask-tivvy-photo" src="'+escapeText(src)+'" alt="'+escapeText(item.name)+'" loading="lazy">':'<span class="ask-tivvy-photo ask-tivvy-photo-fallback" aria-hidden="true">TT</span>';
-     const key=normalise(item.name).replace(/\\s+/g,'-');
      const brush=typeof tivvyCardYellow!=='undefined'?tivvyCardYellow:'';
      const heroPhoto=src?'<img class="ask-tivvy-photo" src="'+escapeText(src)+'" alt="'+escapeText(item.name)+'" loading="lazy">':'<span class="ask-tivvy-photo ask-tivvy-photo-fallback" aria-hidden="true">TT</span>';
      return '<article class="ask-tivvy-player hero-card"><div class="ask-tivvy-hero" style="--ask-brush-url:url(&quot;'+escapeText(brush)+'&quot;)">'+heroPhoto+'</div><div class="ask-tivvy-player-info"><div class="ask-tivvy-player-name">'+escapeText(item.name)+'</div><div class="ask-tivvy-player-total">'+item.count+' '+escapeText(category)+(item.count===1?'':'s')+'</div><div class="ask-tivvy-player-detail">'+detailLine(item.events)+'</div><button class="ask-tivvy-player-profile" type="button" data-player-name="'+escapeText(item.name)+'">VIEW PLAYER PROFILE ↗</button></div></article>';
@@ -311,7 +310,7 @@ function initAskTivvy(fixtures,cupData,historicalData){
          const pieces=score.match(/^(\d+)[-–](\d+)$/);
          const opponent=escapeText(result.opponent);
          const home=result.venue==='A'?opponent:'Tiverton Town',away=result.venue==='A'?'Tiverton Town':opponent;
-         const display=pieces?(result.venue==='A'?pieces[1]+'–'+pieces[2]:pieces[1]+'–'+pieces[2]):score;
+         const display=pieces?(result.venue==='A'?pieces[2]+'–'+pieces[1]:pieces[1]+'–'+pieces[2]):score;
          info('Our last match against '+result.opponent,home+' '+display+' '+away+' · '+result.date+' · '+(result.competition||'League')+'.');
          return;
        }
