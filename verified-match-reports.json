@@ -1,6 +1,6 @@
 {
   "checkedAt": "2026-10-27",
-  "note": "Published Darren Holmes reports. League games only; unused bench players are not appearances. Portland timings and captain follow the printed team sheet. Dorchester 27 October: verified Southern League full-time match record and team sheet; published club report may be added when available.",
+  "note": "Verified match details are reapplied after automated scraping so substitutions and lineups are not lost.",
   "reportUrls": {
     "2026-10-10": "https://www.tivertontownfc.uk/post/four-goals-four-unbeaten-for-the-yellows",
     "2026-10-13": "https://www.tivertontownfc.uk/post/five-hour-round-trip-ends-in-defeat"
@@ -962,6 +962,292 @@
       "lineupSource": "https://www.southern-football-league.co.uk/match/6a5a1bf6ce9ef452b61f442d",
       "halfTime": "0-1",
       "notes": "Bookings: 🟨 Jack Kennell 19′; 🟨 Asa Hall 62′."
+    },
+    {
+      "date": "2026-10-31",
+      "venue": "A",
+      "opponent": "Weymouth FC",
+      "opponentLogoUrl": "",
+      "result": "2-1",
+      "goalscorers": "Owen Howe 5', 50'",
+      "starters": [
+        "Louis Smith",
+        "Mason Winter",
+        "Corey Koerner",
+        "Louie Slough",
+        "Matt Wood",
+        "Josh Bissett",
+        "Asa Hall",
+        "Owen Howe",
+        "Jacob Wellington",
+        "Jack Kennell",
+        "Toby Stephens"
+      ],
+      "subs": [
+        "Louis Jagger Cane",
+        "Finn Roberts",
+        "Tobias Alsop",
+        "Dan Koita",
+        "Aaron Wellington"
+      ],
+      "starterDetails": [
+        {
+          "name": "Louis Smith",
+          "number": 1,
+          "captain": false,
+          "position": "GK",
+          "onMinute": "",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": false,
+          "used": true,
+          "cards": []
+        },
+        {
+          "name": "Mason Winter",
+          "number": 2,
+          "captain": false,
+          "position": null,
+          "onMinute": "",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": false,
+          "used": true,
+          "cards": [
+            {
+              "type": "first_yellow_card",
+              "minute": "10"
+            }
+          ]
+        },
+        {
+          "name": "Corey Koerner",
+          "number": 3,
+          "captain": false,
+          "position": null,
+          "onMinute": "",
+          "offMinute": "81",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": false,
+          "used": true,
+          "cards": []
+        },
+        {
+          "name": "Louie Slough",
+          "number": 4,
+          "captain": false,
+          "position": null,
+          "onMinute": "",
+          "offMinute": "90",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": false,
+          "used": true,
+          "cards": []
+        },
+        {
+          "name": "Matt Wood",
+          "number": 5,
+          "captain": true,
+          "position": null,
+          "onMinute": "",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": false,
+          "used": true,
+          "cards": []
+        },
+        {
+          "name": "Josh Bissett",
+          "number": 7,
+          "captain": false,
+          "position": null,
+          "onMinute": "",
+          "offMinute": "67",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": false,
+          "used": true,
+          "cards": []
+        },
+        {
+          "name": "Asa Hall",
+          "number": 8,
+          "captain": false,
+          "position": null,
+          "onMinute": "",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": false,
+          "used": true,
+          "cards": []
+        },
+        {
+          "name": "Owen Howe",
+          "number": 9,
+          "captain": false,
+          "position": null,
+          "onMinute": "",
+          "offMinute": "74",
+          "goalCount": 2,
+          "goalMinutes": [
+            "5",
+            "50"
+          ],
+          "sub": false,
+          "used": true,
+          "cards": []
+        },
+        {
+          "name": "Jacob Wellington",
+          "number": 11,
+          "captain": false,
+          "position": null,
+          "onMinute": "",
+          "offMinute": "84",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": false,
+          "used": true,
+          "cards": [
+            {
+              "type": "first_yellow_card",
+              "minute": "56"
+            }
+          ]
+        },
+        {
+          "name": "Jack Kennell",
+          "number": 14,
+          "captain": false,
+          "position": null,
+          "onMinute": "",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": false,
+          "used": true,
+          "cards": [
+            {
+              "type": "first_yellow_card",
+              "minute": "55"
+            }
+          ]
+        },
+        {
+          "name": "Toby Stephens",
+          "number": 15,
+          "captain": false,
+          "position": null,
+          "onMinute": "",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": false,
+          "used": true,
+          "cards": []
+        }
+      ],
+      "subDetails": [
+        {
+          "name": "Louis Jagger Cane",
+          "number": 10,
+          "captain": false,
+          "position": null,
+          "onMinute": "67",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": true,
+          "used": true,
+          "cards": []
+        },
+        {
+          "name": "Finn Roberts",
+          "number": 12,
+          "captain": false,
+          "position": null,
+          "onMinute": "84",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": true,
+          "used": true,
+          "cards": []
+        },
+        {
+          "name": "Tobias Alsop",
+          "number": 17,
+          "captain": false,
+          "position": null,
+          "onMinute": "90",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": true,
+          "used": true,
+          "cards": []
+        },
+        {
+          "name": "Dan Koita",
+          "number": 19,
+          "captain": false,
+          "position": null,
+          "onMinute": "74",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": true,
+          "used": true,
+          "cards": []
+        },
+        {
+          "name": "Aaron Wellington",
+          "number": 21,
+          "captain": false,
+          "position": null,
+          "onMinute": "81",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": true,
+          "used": true,
+          "cards": []
+        }
+      ],
+      "players": [
+        "Louis Smith",
+        "Mason Winter",
+        "Corey Koerner",
+        "Louie Slough",
+        "Matt Wood",
+        "Josh Bissett",
+        "Asa Hall",
+        "Owen Howe",
+        "Jacob Wellington",
+        "Jack Kennell",
+        "Toby Stephens",
+        "Louis Jagger Cane",
+        "Finn Roberts",
+        "Tobias Alsop",
+        "Dan Koita",
+        "Aaron Wellington"
+      ],
+      "squadUrl": "",
+      "fwpUrl": "",
+      "officialReportUrl": "https://www.tivertontownfc.uk/post/howe-proves-yellows-are-wey-too-strong-for-terras",
+      "upcoming": false,
+      "attendance": 788,
+      "attendanceSource": "https://www.southern-football-league.co.uk/match/6a5a1bf6ce9ef452b61f445c",
+      "eventSource": "https://www.southern-football-league.co.uk/match/6a5a1bf6ce9ef452b61f445c",
+      "lineupSource": "https://www.southern-football-league.co.uk/match/6a5a1bf6ce9ef452b61f445c",
+      "halfTime": "1-0",
+      "notes": ""
     }
   ]
 }
