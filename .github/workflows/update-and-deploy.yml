@@ -6,6 +6,8 @@ on:
     branches: [main]
   schedule:
     - cron: '17 * * * *' # Hourly report discovery; full fixture refresh stays twice daily.
+    - cron: '20 18 * * *' # Post-match API import and verification
+      timezone: 'Europe/London'
     - cron: '30 23 * * *'
       timezone: 'Europe/London'
     - cron: '30 7 * * *'
