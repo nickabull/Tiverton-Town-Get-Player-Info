@@ -234,8 +234,8 @@ function initAskTivvy(fixtures){
   const q=norm(question);
   const player=names.find(n=>q.includes(norm(n))) || names.find(n=>norm(n).split(' ').length>1 && q.includes(norm(n).split(' ').slice(-1)[0]) && names.filter(x=>norm(x).endsWith(norm(n).split(' ').slice(-1)[0])).length===1);
   const selected=player?entries.filter(x=>x.player.name===player):entries;
-  const isRed=/\\bred\\b|sent off|sending off|dismissal/.test(q);
-  const isYellow=/\\byellow\\b|booking|booked/.test(q);
+  const isRed=/\bred\b|sent off|sending off|dismissal/.test(q);
+  const isYellow=/\byellow\b|booking|booked/.test(q);
   const isGoal=/goal|scor/.test(q);
   const isOff=/substitut(?:ed|ions|ion)? off|subbed off|taken off|came off|replaced|off the pitch/.test(q);
   const isOn=/substitut(?:ed|ions|ion)? on|subbed on|brought on|came on|off the bench/.test(q);
