@@ -1,0 +1,53 @@
+name: Southern League API discovery and safe match import
+on:
+  workflow_dispatch:
+    inputs:
+      match_date:
+        description: 'Date to inspect (YYYY-MM-DD; blank means today UTC)'
+        required: false
+        type: string
+      apply_verified_safe:
+        description: 'Import only complete, unprotected match records'
+        type: boolean
+        default: false
+  schedule:
+    - cron: '50 17,20,23 * * *'
+permissions:
+  contents: read
+jobs:
+  check-api:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile import and existing verification scripts
+        run: python -m py_compile southern_league_api.py apply_verified_reports.py
+      - name: Run API importer unit tests
+        run: python -m unittest discover -s tests -p 'test_southern_league_api.py' -v
+      - name: Fetch API events and prepare review
+        id: fetch
+        continue-on-error: true
+        env:
+          MATCH_DATE: ${{ inputs.match_date }}
+          APPLY_RECORDS: ${{ inputs.apply_verified_safe }}
+        shell: bash
+        run: |
+          ARGS=(--output southern-league-api-audit.json)
+          if [[ -n "$MATCH_DATE" ]]; then ARGS+=(--date "$MATCH_DATE"); fi
+          if [[ "$APPLY_RECORDS" == "true" ]]; then ARGS+=(--apply); fi
+          python southern_league_api.py "${ARGS[@]}"
+      - name: Upload API audit and optional import draft
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: southern-league-api-audit
+          path: |
+            southern-league-api-audit.json
+            data.json
+            match-centre-fixtures-2026-27.json
+          if-no-files-found: warn
+      - name: Report fetch failure without publishing guesses
+        if: steps.fetch.outcome == 'failure'
+        run: echo 'Southern League API unavailable or changed schema; existing live data is untouched.'
