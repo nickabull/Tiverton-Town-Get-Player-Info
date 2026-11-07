@@ -39,5 +39,5 @@ if __name__ == '__main__':
     data = apply_seed(data)
     raw = json.dumps(data, ensure_ascii=False, separators=(',', ':'))
     (BASE / 'data.json').write_text(raw, encoding='utf-8')
-    (BASE / 'data.js').write_text('window.TIVVY_DATA = ' + raw + ';\\n', encoding='utf-8')
+    (BASE / 'data.js').write_text('window.TIVVY_DATA = ' + raw + ';\n', encoding='utf-8')
     print(f"Verified club reports applied: {len(data['fixtures'])} league fixtures")
