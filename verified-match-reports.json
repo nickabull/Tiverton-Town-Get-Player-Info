@@ -1511,5 +1511,15 @@
       "lineupSource": "https://www.southern-football-league.co.uk/match/6a5a1cc3ce9ef452b61f4489",
       "notes": "Tiverton 1-2 Sporting Club Inkberrow. Matt Wood 59'. Jack Kennell sent off 48'. Inkberrow goals: William Moore 2', Louis Crook 85'."
     }
-  ]
+  ],
+  "verifiedCards": {
+    "2026-08-31": [
+      {
+        "name": "Finn Roberts",
+        "type": "red_card",
+        "minute": "51",
+        "source": "https://www.tivertontownfc.uk/post/match-report-tiverton-town-1-2-exmouth-town-slee-blackwell-solicitors-stadium"
+      }
+    ]
+  }
 }
