@@ -47,6 +47,12 @@ jobs:
         shell: pwsh
         run: python ./apply_verified_reports.py
 
+      - name: Safely import complete Southern League API records
+        if: github.event_name != 'push'
+        continue-on-error: true
+        shell: pwsh
+        run: python ./southern_league_api.py --apply --output southern-league-api-audit.json
+
       - name: Discover published Darren match reports
         shell: pwsh
         run: python ./refresh_match_reports.py
