@@ -1,0 +1,28 @@
+name: Capture official Southern League Inkberrow match (read-only)
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/archive-southern-inkberrow.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify importer tests
+        run: python -m unittest discover -s tests -p 'test_southern_league_api.py' -v
+      - name: Fetch authentic official match events
+        run: python southern_league_api.py --date 2026-11-07 --output southern-league-inkberrow-2026-11-07.json
+      - name: Upload official event audit
+        uses: actions/upload-artifact@v4
+        with:
+          name: southern-league-inkberrow-2026-11-07
+          path: southern-league-inkberrow-2026-11-07.json
+          if-no-files-found: error
