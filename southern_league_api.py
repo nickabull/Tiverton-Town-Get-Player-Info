@@ -87,6 +87,9 @@ def extract_match(match):
         "goals": events(match, side + "Goals"),
         "cards": events(match, side + "Cards"),
         "subs": events(match, side + "Subs"),
+        "opponentGoals": events(match, ("away" if side == "home" else "home") + "Goals"),
+        "opponentCards": events(match, ("away" if side == "home" else "home") + "Cards"),
+        "opponentSubs": events(match, ("away" if side == "home" else "home") + "Subs"),
         "lineup": next((events(match, side + key) for key in
                         ("Lineup", "StartingLineup", "StartingXI", "Starters", "Lineups")
                         if events(match, side + key)), []),
@@ -127,7 +130,7 @@ def normalise_event(value):
 
 
 def compact(match):
-    return {k: ([normalise_event(v) for v in value] if k in ("goals","cards","subs","lineup","bench") else value)
+    return {k: ([normalise_event(v) for v in value] if k in ("goals","cards","subs","opponentGoals","opponentCards","opponentSubs","lineup","bench") else value)
             for k, value in match.items()}
 
 
