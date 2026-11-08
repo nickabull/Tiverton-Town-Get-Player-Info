@@ -1,0 +1,28 @@
+name: Diagnose Southern League match API (read-only)
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'probe_southern_league.py'
+      - '.github/workflows/diagnose-southern-league.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run bounded Southern League API probes for Inkberrow 7 Nov 2026
+        run: python probe_southern_league.py
+      - name: Preserve diagnosis
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: southern-league-endpoint-diagnostic
+          path: southern-league-endpoint-diagnostic.json
+          if-no-files-found: warn
