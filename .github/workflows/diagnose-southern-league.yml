@@ -4,6 +4,7 @@ on:
     branches: [main]
     paths:
       - 'probe_southern_league.py'
+      - 'probe_southern_tenant.py'
       - '.github/workflows/diagnose-southern-league.yml'
   workflow_dispatch:
 permissions:
@@ -19,10 +20,14 @@ jobs:
           python-version: '3.12'
       - name: Run bounded Southern League API probes for Inkberrow 7 Nov 2026
         run: python probe_southern_league.py
+      - name: Inspect public website for tenant configuration
+        run: python probe_southern_tenant.py
       - name: Preserve diagnosis
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: southern-league-endpoint-diagnostic
-          path: southern-league-endpoint-diagnostic.json
+          path: |
+            southern-league-endpoint-diagnostic.json
+            southern-league-public-tenant-inspection.json
           if-no-files-found: warn
