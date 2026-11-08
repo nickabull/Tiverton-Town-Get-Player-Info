@@ -17,6 +17,8 @@ QUERIES = [
     ("no-status", dict(withEvents="1", period="Custom", startDate=DAY+"T00:00:00.000Z", endDate=DAY+"T23:59:59.999Z", limit="100")),
     ("basic-date", dict(startDate=DAY, endDate=DAY)),
     ("minimal", dict(limit="10")),
+    ("with-public-tenant", dict(withEvents="1", period="Custom", startDate=DAY+"T00:00:00.000Z", endDate=DAY+"T23:59:59.999Z", limit="1000", status="any")),
+    ("tenant-minimal", dict(limit="10")),
 ]
 def redact(text):
     """Never print arbitrarily long API output or a possible encoded credential."""
@@ -25,7 +27,10 @@ def redact(text):
 results = []
 for label, params in QUERIES:
     url = BASE+"?"+urlencode(params)
-    request = Request(url, headers={"Accept":"application/json","User-Agent":"Mozilla/5.0 (compatible; TivertonTownMatchCentre/1.0)","Origin":"https://www.southern-football-league.co.uk","Referer":"https://www.southern-football-league.co.uk/live"})
+    headers={"Accept":"application/json","User-Agent":"Mozilla/5.0 (compatible; TivertonTownMatchCentre/1.0)","Origin":"https://www.southern-football-league.co.uk","Referer":"https://www.southern-football-league.co.uk/live"}
+    if label in ("with-public-tenant","tenant-minimal"):
+        headers["X-TENANT-ID"]="sfl"  # Public tenant identifier embedded in the official site's HTML.
+    request = Request(url, headers=headers)
     row = {"name":label,"status":None,"content_type":None,"response_shape":None,"tiverton_count":0,"body_hint":None}
     try:
         with urlopen(request, timeout=18) as response:
