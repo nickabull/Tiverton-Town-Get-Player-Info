@@ -1,4 +1,5 @@
 name: Capture official Southern League Inkberrow match (read-only)
+# Audit includes both teams\u0027 match incidents for the Tivvy Live source comparison.
 on:
   push:
     branches: [main]
