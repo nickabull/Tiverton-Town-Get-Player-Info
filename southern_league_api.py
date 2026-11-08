@@ -108,6 +108,7 @@ def fetch(day):
         "Accept": "application/json", "User-Agent": "Mozilla/5.0 (compatible; TivertonTownMatchCentre/1.0)",
         "Origin": "https://www.southern-football-league.co.uk",
         "Referer": "https://www.southern-football-league.co.uk/live",
+        "X-TENANT-ID": "sfl",  # Public tenant identifier in the league site configuration
     })
     with urlopen(request, timeout=25) as response:
         body = json.loads(response.read(8_000_000).decode("utf-8"))
