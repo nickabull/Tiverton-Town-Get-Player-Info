@@ -3879,7 +3879,8 @@
       "upcoming": false,
       "eventSource": "https://www.southern-football-league.co.uk/match/6a5a1cc3ce9ef452b61f44b6",
       "lineupSource": "https://www.southern-football-league.co.uk/match/6a5a1cc3ce9ef452b61f44b6",
-      "notes": "Official Southern League FullTime 0-1. Starting XI and bench transcribed from supplied official match-lineup screenshot; substitutions cross-checked with API event data. Goal: Asa Hall 39' penalty."
+      "notes": "",
+      "verificationNotes": "Official Southern League FullTime 0-1. Starting XI and bench transcribed from supplied official match-lineup screenshot; substitutions cross-checked with API event data. Goal: Asa Hall 39' penalty."
     }
   ],
   "updated": "2026-11-11T22:10:00Z",
