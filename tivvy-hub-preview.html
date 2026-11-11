@@ -981,7 +981,7 @@ if(window.matchMedia('(max-width:650px)').matches){
 }
 const scoreEnd=parts.indexOf('</div>',parts.indexOf('<div class="scoreline">'))+6;
 const count=Number(m?.attendance);
-const attendance=Number.isInteger(count)&&count>0?'<p class="match-attendance"><strong>Attendance: '+count.toLocaleString('en-GB')+'</strong>'+(/^https:\/\/www\.southern-football-league\.co\.uk\/match\/[a-f0-9]+$/.test(m.attendanceSource||'')?'<a href="'+esc(m.attendanceSource)+'" target="_blank" rel="noopener">Southern League ↗</a>':'')+'</p>':'';
+const attendance=Number.isInteger(count)&&count>0?'<p class="match-attendance"><strong>Attendance: '+count.toLocaleString('en-GB')+'</strong>'+(/^https:\/\/www\.southern-football-league\.co\.uk\/match\/[a-f0-9]+$/.test(m.attendanceSource||'')?'<a href="'+esc(m.attendanceSource)+'" target="_blank" rel="noopener">Official match record ↗</a>':'')+'</p>':'';
 parts=parts.slice(0,scoreEnd)+'<div id="match-inspection" data-fixture="'+esc(f.id)+'">'+inspectionMarkup(f)+'</div>'+attendance+sharingMarkup(f)+parts.slice(scoreEnd);
 closeMatch();syncMatchURL(f.id);
 parts+='<div id="viv-match-photos" data-fixture="'+esc(f.id)+'"></div><button type="button" class="close-match-bottom" id="closeMatchBottom">CLOSE MATCH ✕</button>';const sourceButton=document.activeElement?.closest('button[data-id]')||document.querySelector('button[data-id="'+id+'"]');
