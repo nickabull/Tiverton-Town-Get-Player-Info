@@ -1,0 +1,33 @@
+name: Sync Southern League full-time into Match Centre
+on:
+  schedule:
+    - cron: '7,22,37,52 * * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: tivvy-match-centre-sync
+  cancel-in-progress: false
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Import verified final results only
+        run: python3 scripts/sync-official-fulltime.py
+      - name: Validate imported JSON
+        run: |
+          python3 -m json.tool match-centre-fixtures-2026-27.json > /dev/null
+          python3 -m json.tool data.json > /dev/null
+      - name: Commit changes only if verified data differs
+        run: |
+          git config user.name "tivvy-data-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add match-centre-fixtures-2026-27.json data.json
+          if ! git diff --cached --quiet; then
+            git commit -m "Sync official Southern League final results"
+            git push
+          else
+            echo "No verified changes"
+          fi
