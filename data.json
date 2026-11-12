@@ -3733,7 +3733,10 @@
           ],
           "sub": false,
           "used": true,
-          "cards": []
+          "cards": [],
+          "penaltyMinutes": [
+            "39"
+          ]
         },
         {
           "name": "Dan Koita",
