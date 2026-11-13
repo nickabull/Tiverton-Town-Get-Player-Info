@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-11 22:10 Europe/London - Paulton result verified (Southern League)",
+  "updated": "2026-11-13 18:33 Europe/London - 17 Nov Bideford home league rearrangement postponed; historical entry preserved",
   "source": "Tiverton Town FC Wix CMS Import1",
   "fixtures": [
     {
@@ -297,7 +297,7 @@
       "result": "P-P",
       "scorers": "",
       "kickOff": "",
-      "notes": "Postponed league fixture; rearranged for Tue 17 Nov 2026 at 19:30 (home)."
+      "notes": "Postponed league fixture originally scheduled for 20 Oct 2026; rearranged for 17 Nov 2026, now postponed again. New date TBC."
     },
     {
       "id": "f058de95-5569-4672-a981-57cd0fe04f46",
@@ -375,17 +375,6 @@
       "scorers": "",
       "kickOff": "15:00",
       "notes": ""
-    },
-    {
-      "id": "bideford-rearranged-20261117",
-      "date": "2026-11-17",
-      "opposition": "BIDEFORD AFC",
-      "homeAway": "H",
-      "competition": "SLD1S",
-      "result": "",
-      "scorers": "",
-      "kickOff": "19:30",
-      "notes": "Rearranged league fixture originally scheduled for 20 Oct 2026; separate from 20 Oct St Luke's Cup tie."
     },
     {
       "id": "34bb8ff4-9c0d-491f-9aa6-c21a52fd3ce6",
