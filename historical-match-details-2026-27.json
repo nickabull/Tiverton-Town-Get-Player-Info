@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "description": "Verified basic fallback records for matches without full Match Centre data, transcribed from Tiverton 2026-27 Wix CMS. No lineups or substitutions invented; fuller detail can be added from club reports and Tivvy Archive.",
-  "updated": "2026-10-22",
+  "updated": "2026-11-14",
   "fixtures": [
     {
       "date": "2026-07-04",
@@ -261,7 +261,7 @@
       "competition": "FA CUP",
       "result": "2-1",
       "status": "COMPLETED",
-      "detailsLevel": "basic",
+      "detailsLevel": "full",
       "scorerSummary": [
         {
           "name": "Louie Slough",
@@ -278,10 +278,133 @@
           ]
         }
       ],
-      "starterDetails": [],
-      "subDetails": [],
-      "sourceDescription": "Tiverton Town 2026-27 Fixtures Wix CMS",
-      "notes": null
+      "starterDetails": [
+        {
+          "name": "Louis Smith",
+          "captain": false,
+          "position": "GK",
+          "sub": false,
+          "used": true,
+          "goalCount": 0,
+          "goalMinutes": []
+        },
+        {
+          "name": "Mason Winter",
+          "captain": false,
+          "sub": false,
+          "used": true,
+          "goalCount": 0,
+          "goalMinutes": []
+        },
+        {
+          "name": "Matt Wood",
+          "captain": false,
+          "sub": false,
+          "used": true,
+          "goalCount": 0,
+          "goalMinutes": [],
+          "offMinute": "65"
+        },
+        {
+          "name": "Ed Palmer",
+          "captain": true,
+          "sub": false,
+          "used": true,
+          "goalCount": 0,
+          "goalMinutes": []
+        },
+        {
+          "name": "Louie Slough",
+          "captain": false,
+          "sub": false,
+          "used": true,
+          "goalCount": 1,
+          "goalMinutes": [
+            "77"
+          ]
+        },
+        {
+          "name": "Jack Kennell",
+          "captain": false,
+          "sub": false,
+          "used": true,
+          "goalCount": 0,
+          "goalMinutes": [],
+          "offMinute": "65"
+        },
+        {
+          "name": "Aaron Wellington",
+          "captain": false,
+          "sub": false,
+          "used": true,
+          "goalCount": 0,
+          "goalMinutes": []
+        },
+        {
+          "name": "Asa Hall",
+          "captain": false,
+          "sub": false,
+          "used": true,
+          "goalCount": 1,
+          "goalMinutes": [
+            "85"
+          ]
+        },
+        {
+          "name": "Jacob Wellington",
+          "captain": false,
+          "sub": false,
+          "used": true,
+          "goalCount": 0,
+          "goalMinutes": []
+        },
+        {
+          "name": "Ryan Keates",
+          "captain": false,
+          "sub": false,
+          "used": true,
+          "goalCount": 0,
+          "goalMinutes": [],
+          "offMinute": "86"
+        },
+        {
+          "name": "Owen Howe",
+          "captain": false,
+          "sub": false,
+          "used": true,
+          "goalCount": 0,
+          "goalMinutes": []
+        }
+      ],
+      "subDetails": [
+        {
+          "name": "Aiden Horne",
+          "sub": true,
+          "used": true,
+          "onMinute": "65"
+        },
+        {
+          "name": "Karim Coulibaly",
+          "sub": true,
+          "used": true,
+          "onMinute": "65"
+        },
+        {
+          "name": "Corey Koerner",
+          "sub": true,
+          "used": true,
+          "onMinute": "86"
+        },
+        {
+          "name": "Pryce-Hall",
+          "sub": true,
+          "used": false
+        }
+      ],
+      "sourceDescription": "Darren Holmes, official Tiverton Town match report, published 6 September 2026",
+      "notes": "First Qualifying Round. Olly Redd put St Blazey ahead in first-half stoppage time. Owen Howe hit the bar on 53 minutes before Louie Slough equalised on 77 and Asa Hall headed the winner on 85. Ed Palmer was Tiverton's man of the match. Tivvy progressed through two FA Cup rounds for the first time since 2005.",
+      "officialReportUrl": "https://www.tivertontownfc.uk/post/tivvy-rally-in-cornwall-and-secure-fa-cup-progression-to-second-round-for-the-first-time-in-21-years",
+      "verificationNotes": "Starting XI and substitutions transcribed from the club report. No shirt numbers or unreported cards inferred. Neither the club report nor Kevin Marriott's independent report records an Owen Howe dismissal."
     },
     {
       "date": "2026-09-12",
