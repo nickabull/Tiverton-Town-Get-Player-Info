@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-13 18:33 Europe/London - 17 Nov Bideford home league rearrangement postponed; historical entry preserved",
+  "updated": "2026-11-14 17:35 Europe/London - confirmed Tiverton 3-1 Bishops Cleeve",
   "source": "Tiverton Town FC Wix CMS Import1",
   "fixtures": [
     {
@@ -371,10 +371,10 @@
       "opposition": "BISHOPS CLEEVE",
       "homeAway": "H",
       "competition": "SLD1S",
-      "result": "",
-      "scorers": "",
+      "result": "W 3-1",
+      "scorers": "L Jagger Cane 16', 35'; D Koita 40'",
       "kickOff": "15:00",
-      "notes": ""
+      "notes": "Full time; Southern League official match sheet. Bishops Cleeve goal: Jake Lee 26'. Attendance 194."
     },
     {
       "id": "34bb8ff4-9c0d-491f-9aa6-c21a52fd3ce6",
