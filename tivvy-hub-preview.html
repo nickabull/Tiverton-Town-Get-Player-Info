@@ -1095,7 +1095,7 @@ async function getJSON(name){
         if(!teams.length)throw Error('No clubs found in results feed');
         const records=[...(data.results||[])];
         if(verified?.asOf==='2026-11-14'){
-          const aliases={dorchestertown:'dorchester',westburyunited:'westbury',swindonsupermarine:'swindonsm',hungerfordtown:'hungerford',hartpuryfc:'hartpury',portlandunited:'portlandutd',bidefordafc:'bideford',scinkberrow:'sportingclubinkberrow',weymouthfc:'weymouth'};
+          const aliases={dorchestertown:'dorchester',westburyunited:'westbury',swindonsupermarine:'swindonsm',hungerfordtown:'hungerford',hartpuryfc:'hartpury',portlandunited:'portlandutd',bidefordafc:'bideford',slimbridgeafc:'slimbridge',scinkberrow:'sportingclubinkberrow',weymouthfc:'weymouth'};
           const key=n=>{const k=String(n||'').toLowerCase().replace(/[^a-z0-9]/g,'');return aliases[k]||k};
           const mapped=n=>teams.find(t=>key(t)===key(n));
           for(const match of verified.results||[]){
