@@ -372,6 +372,27 @@ function initAskTivvy(fixtures,cupData,historicalData){
  leagueButton.addEventListener('click',()=>{allCompetitions=false;showScope();if(input.value.trim())respond(input.value);});
  allButton.addEventListener('click',()=>{allCompetitions=true;showScope();if(input.value.trim())respond(input.value);});
 }
+// Reconcile the complete results feed with confirmed 14 Nov final scores.
+ // One shared same-origin snapshot is used by the desktop matrix and mobile explorer.
+function overlayVerifiedMatchday(base,verified){
+ if(!verified||verified.asOf!=="2026-11-14")return base;
+ const out={...base,results:[...(base.results||[])]},teams=out.teams||[];
+ const alias={dorchestertown:"dorchester",westburyunited:"westbury",swindonsupermarine:"swindonsm",hungerfordtown:"hungerford",hartpuryfc:"hartpury",portlandunited:"portlandutd",bidefordafc:"bideford",scinkberrow:"sportingclubinkberrow",weymouthfc:"weymouth"};
+ const key=n=>{const k=String(n||"").toLowerCase().replace(/[^a-z0-9]/g,"");return alias[k]||k};
+ const mapped=n=>teams.find(t=>key(t)===key(n));
+ for(const r of verified.results||[]){
+  const home=mapped(r.home),away=mapped(r.away);
+  if(!home||!away||!/^\\d+-\\d+$/.test(String(r.score||"")))continue;
+  const idx=out.results.findIndex(x=>key(x.home)===key(home)&&key(x.away)===key(away));
+  if(idx<0)out.results.push({...r,home,away});
+  else if(String(out.results[idx].date||"")<=String(r.date||""))out.results[idx]={...out.results[idx],...r,home,away};
+ }
+ const v=verified.leagueTable||[],current=out.leagueTable||[];
+ const vt=v.find(x=>key(x.team)==="tivertontown"),lt=current.find(x=>key(x.team)==="tivertontown");
+ if(v.length===22&&vt&&(!lt||Number(lt.p)<Number(vt.p)||(Number(lt.p)===Number(vt.p)&&Number(lt.pts)<Number(vt.pts))))
+  out.leagueTable=v;
+ return out;
+}
 function render(player,results,cupData,historicalData){
  const fixtures=(player.fixtures||[]).filter(x=>x.result&&parseScore(x.result)).sort((a,b)=>(a.date||'').localeCompare(b.date||''));
  const all=rec(fixtures),home=rec(fixtures.filter(x=>String(x.venue).toUpperCase()==='H')),away=rec(fixtures.filter(x=>String(x.venue).toUpperCase()==='A'));
@@ -420,6 +441,6 @@ function render(player,results,cupData,historicalData){
  document.getElementById('scorers').innerHTML=statTable(stats.filter(x=>x.goals).sort((a,b)=>b.goals-a.goals||b.apps-a.apps),x=>x.goals,'Goals');document.getElementById('apps').innerHTML=statTable(stats.slice().sort((a,b)=>b.apps-a.apps||b.starts-a.starts),x=>x.apps,'Apps');document.getElementById('minutes').innerHTML=statTable(stats.slice().sort((a,b)=>b.mins-a.mins),x=>x.mins,'Minutes');
  const bands=[['0–15',0,15],['16–30',16,30],['31–45+',31,50],['46–60',46,60],['61–75',61,75],['76–90+',76,120]],counts=bands.map(b=>ps.goalTimes.filter(m=>m>=b[1]&&m<=b[2]).length),mx=Math.max(1,...counts);document.getElementById('goalBands').innerHTML=bands.map((b,i)=>'<div class="bar-row"><strong>'+b[0]+'</strong><div class="bar"><span style="width:'+(counts[i]/mx*100)+'%"></span></div><strong>'+counts[i]+'</strong></div>').join('');
 }
-Promise.all([getJSON('data.json?v=20261107-verified-cards'),getJSON('/Tiverton-Town-Get-Results/data.json'),getJSON('cup-match-details-2026-27.json').catch(()=>({fixtures:[]})),getJSON('historical-match-details-2026-27.json').catch(()=>({fixtures:[]}))]).then(([p,r,c,h])=>render(p,r,c,h)).catch(e=>{document.getElementById('status').textContent='Could not load one of the data feeds';document.querySelector('main').insertAdjacentHTML('afterbegin','<div class="note">One of the live data feeds is temporarily unavailable. '+esc(e.message)+'</div>')});
+Promise.all([getJSON('data.json?v=20261114-final'),getJSON('/Tiverton-Town-Get-Results/data.json'),getJSON('cup-match-details-2026-27.json').catch(()=>({fixtures:[]})),getJSON('historical-match-details-2026-27.json').catch(()=>({fixtures:[]})),getJSON('match-centre-verified-2026-11-14.json?v=20261114').catch(()=>null)]).then(([p,r,c,h,v])=>render(p,overlayVerifiedMatchday(r,v),c,h)).catch(e=>{document.getElementById('status').textContent='Could not load one of the data feeds';document.querySelector('main').insertAdjacentHTML('afterbegin','<div class="note">One of the live data feeds is temporarily unavailable. '+esc(e.message)+'</div>')});
 </script>
 </body></html>
