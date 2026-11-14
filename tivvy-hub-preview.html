@@ -458,6 +458,14 @@ body.home-summary .latest-result .row{grid-template-columns:94px minmax(150px,1f
 .inspection-notice{border-left:4px solid currentColor;padding:12px 14px;margin:12px 0;line-height:1.45;overflow-wrap:anywhere;white-space:normal}.inspection-notice strong{display:block;font-size:inherit}.inspection-notice small{display:block;color:#ddd;font-size:11px;font-weight:400;margin-top:5px}.inspection-pending{color:#ffb454}.inspection-passed{color:#60df91}.inspection-failed{color:#ff727c}.next-kickoff .inspection-notice{font-size:14px}.next-kickoff .inspection-postponed{color:#ff727c;font-size:18px;white-space:normal;text-align:right}.next-kickoff .next-timer:has(.inspection-postponed){flex-shrink:1}
 
 
+/* Make mobile Details a reliable, visually active touch target, with the opened
+   content positioned clear of the viewport edge. */
+@media(max-width:650px){
+ #table .month-fixtures>.row:not(.th) .action button{
+  background:#000;color:var(--y);touch-action:manipulation;position:relative;z-index:1;min-height:44px;
+ }
+ #table .inline-match-panel{scroll-margin-top:12px}
+}
 /* Isolated expandable Match Centre trial */
 .inline-match-panel.dialog{width:100%;max-width:none;max-height:none;overflow:visible;box-sizing:border-box;background:#252323;color:#fff;border:2px solid #111;padding:18px 24px;margin:0;grid-column:1/-1}
 .inline-match-header{display:flex;align-items:center;justify-content:space-between;gap:14px;border-bottom:1px solid #666;padding-bottom:8px;margin-bottom:10px}
@@ -538,7 +546,7 @@ const date=s=>{const d=new Date(String(s||'')+'T12:00:00Z');return isNaN(d)?Stri
 function crest(s){const key=club(s),x=CLUBS[key];return x?'https://static.wixstatic.com/media/'+x:(EXTRA_CRESTS[key]||'')}
 function matchFor(f){return details.find(m=>m.date===f.date&&club(m.opponent)===club(f.opposition)&&m.venue===f.homeAway&&comp(m.competition)===comp(f.competition)&&m.starterDetails?.length)||details.find(m=>m.date===f.date&&club(m.opponent)===club(f.opposition)&&m.venue===f.homeAway&&comp(m.competition)===comp(f.competition))||null}
 function goals(f,m){if(m){const events=[...(m.starterDetails||[]),...(m.subDetails||[])].flatMap(p=>(p.goalMinutes||[]).map(min=>({name:p.name,min,penalty:(p.penaltyMinutes||[]).includes(String(min))})));if(events.length)return events.map(e=>(e.penalty?'<span style="color:#d71f88">⚽ PEN</span>':'⚽')+' '+esc(e.name)+' <span class="goal-time">'+esc(e.min)+"'</span>").join(', ');if(m.scorerSummary?.length)return m.scorerSummary.map(p=>{const n=NAMES[String(p.name).toLowerCase()]||p.name;if(p.minutes?.length)return p.minutes.map(t=>'⚽ '+esc(n)+" "+esc(t)+"'").join(', ');return '⚽ '+esc(n)+(p.count>1?' ×'+esc(p.count):'')}).join(', ')}
-return String(f.scorers||'').split(',').map(s=>{s=s.trim();if(!s)return '';const found=s.match(/^(.+?)\s+(x\d+|\d+['’]?|\d+\+\d+['’]?)$/i);const name=found?found[1]:s;const full=NAMES[name.toLowerCase().replace(/\./g,'')]||name;return '⚽ '+esc(full)+(found?' '+esc(found[2].replace(/^x/,'×')):'')}).filter(Boolean).join(', ')}
+return String(f.scorers||'').split(',').map(part=>{const text=part.trim();if(!text)return '';const timed=text.match(/^(.+?)\s+(\d+(?:\+\d+)?)[\u0027’′]\s*(?:\(\s*(pen|penalty)\s*\))?$/i);if(timed){const name=NAMES[timed[1].toLowerCase().replace(/\./g,'')]||timed[1];return (timed[3]?'<span style="color:#d71f88">⚽ PEN</span>':'⚽')+' '+esc(name)+' <span class="goal-time">'+esc(timed[2])+"'</span>";}const found=text.match(/^(.+?)\s+(x\d+|\d+['’′]?|\d+\+\d+['’′]?)$/i);const name=found?found[1]:text;const full=NAMES[name.toLowerCase().replace(/\./g,'')]||name;return '⚽ '+esc(full)+(found?' '+esc(found[2].replace(/^x/,'×')):'')}).filter(Boolean).join(', ')}
 function matchScore(f){
  const stored=String(f.result||'').trim().match(/^(W|D|L|ABD)\s+(\d+)\s*[-–]\s*(\d+)$/i);
  if(!stored)return null;
@@ -1005,6 +1013,11 @@ const panel=document.createElement('section');panel.className='inline-match-pane
 panel.innerHTML='<div class="inline-match-header"><h2>Match details</h2><button type="button" class="inline-match-close">CLOSE MATCH ✕</button></div><div id="matchBody">'+parts+'</div>';
 if(insertionAnchor){insertionAnchor.after(panel)}else{el('table').prepend(panel)}
 openInlineMatch=panel;sourceButton?.setAttribute('aria-expanded','true');panel.querySelector('.inline-match-close').onclick=closeMatch;
+ // An expanded row used to appear below the mobile viewport, making its Details button seem inert.
+ // Move the newly opened panel into view only after an actual user click, not during initial page rendering.
+ if(sourceButton&&window.matchMedia('(max-width:650px)').matches){
+   requestAnimationFrame(()=>panel.scrollIntoView({behavior:'smooth',block:'start',inline:'nearest'}));
+ }
 panel.querySelector('#closeMatchBottom').onclick=closeMatch;
 bindMatchSharing(f);populateVivPhotos(f);}
 /* Measure a static viewport sentinel, never the overlay being repositioned.
