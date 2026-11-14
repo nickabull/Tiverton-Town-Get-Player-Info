@@ -1100,7 +1100,7 @@ async function getJSON(name){
           const mapped=n=>teams.find(t=>key(t)===key(n));
           for(const match of verified.results||[]){
             const home=mapped(match.home),away=mapped(match.away);
-            if(!home||!away||!/^\\d+-\\d+$/.test(match.score||''))continue;
+            if(!home||!away||!/^\d+-\d+$/.test(match.score||''))continue;
             const idx=records.findIndex(r=>key(r.home)===key(home)&&key(r.away)===key(away));
             if(idx<0)records.push({...match,home,away});
             else if(String(records[idx].date||'')<=String(match.date||''))records[idx]={...records[idx],...match,home,away};
