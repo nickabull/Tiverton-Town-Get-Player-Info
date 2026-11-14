@@ -377,7 +377,7 @@ function initAskTivvy(fixtures,cupData,historicalData){
 function overlayVerifiedMatchday(base,verified){
  if(!verified||verified.asOf!=="2026-11-14")return base;
  const out={...base,results:[...(base.results||[])]},teams=out.teams||[];
- const alias={dorchestertown:"dorchester",westburyunited:"westbury",swindonsupermarine:"swindonsm",hungerfordtown:"hungerford",hartpuryfc:"hartpury",portlandunited:"portlandutd",bidefordafc:"bideford",scinkberrow:"sportingclubinkberrow",weymouthfc:"weymouth"};
+ const alias={dorchestertown:"dorchester",westburyunited:"westbury",swindonsupermarine:"swindonsm",hungerfordtown:"hungerford",hartpuryfc:"hartpury",portlandunited:"portlandutd",bidefordafc:"bideford",slimbridgeafc:"slimbridge",scinkberrow:"sportingclubinkberrow",weymouthfc:"weymouth"};
  const key=n=>{const k=String(n||"").toLowerCase().replace(/[^a-z0-9]/g,"");return alias[k]||k};
  const mapped=n=>teams.find(t=>key(t)===key(n));
  for(const r of verified.results||[]){
