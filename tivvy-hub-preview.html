@@ -1087,12 +1087,26 @@ async function getJSON(name){
     const output=document.getElementById('matrix-explorer-results');
     if(!select||!output)return Promise.resolve();
     const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-    matrixExplorerPromise=fetch('/Tiverton-Town-Get-Results/data.json',{cache:'no-store'})
-      .then(r=>{if(!r.ok)throw Error('Results feed '+r.status);return r.json()})
-      .then(data=>{
+    matrixExplorerPromise=Promise.all([
+      fetch('/Tiverton-Town-Get-Results/data.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('Results feed '+r.status);return r.json()}),
+      fetch('match-centre-verified-2026-11-14.json?v=20261114',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('Verified snapshot unavailable');return r.json()}).catch(()=>null)
+    ]).then(([data,verified])=>{
         const teams=Array.isArray(data.teams)?data.teams:[];
         if(!teams.length)throw Error('No clubs found in results feed');
-        const scores=new Map((data.results||[]).map(x=>[x.home+'|'+x.away,String(x.score||'')]));
+        const records=[...(data.results||[])];
+        if(verified?.asOf==='2026-11-14'){
+          const aliases={dorchestertown:'dorchester',westburyunited:'westbury',swindonsupermarine:'swindonsm',hungerfordtown:'hungerford',hartpuryfc:'hartpury',portlandunited:'portlandutd',bidefordafc:'bideford',scinkberrow:'sportingclubinkberrow',weymouthfc:'weymouth'};
+          const key=n=>{const k=String(n||'').toLowerCase().replace(/[^a-z0-9]/g,'');return aliases[k]||k};
+          const mapped=n=>teams.find(t=>key(t)===key(n));
+          for(const match of verified.results||[]){
+            const home=mapped(match.home),away=mapped(match.away);
+            if(!home||!away||!/^\\d+-\\d+$/.test(match.score||''))continue;
+            const idx=records.findIndex(r=>key(r.home)===key(home)&&key(r.away)===key(away));
+            if(idx<0)records.push({...match,home,away});
+            else if(String(records[idx].date||'')<=String(match.date||''))records[idx]={...records[idx],...match,home,away};
+          }
+        }
+        const scores=new Map(records.map(x=>[x.home+'|'+x.away,String(x.score||'')]));
         select.innerHTML=teams.map(t=>'<option value="'+esc(t)+'">'+esc(t)+'</option>').join('');
         select.value=teams.includes('Tiverton Town')?'Tiverton Town':teams[0];
         const render=()=>{
