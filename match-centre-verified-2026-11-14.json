@@ -1,0 +1,332 @@
+{
+  "asOf": "2026-11-14",
+  "source": "Official league final-score and standings screenshots provided by Tiverton Town editor",
+  "results": [
+    {
+      "date": "2026-11-14",
+      "home": "Barnstaple Town",
+      "away": "Westbury United",
+      "score": "1-2"
+    },
+    {
+      "date": "2026-11-14",
+      "home": "Dorchester Town",
+      "away": "Larkhall Athletic",
+      "score": "3-0"
+    },
+    {
+      "date": "2026-11-14",
+      "home": "Exmouth Town",
+      "away": "Bristol Manor Farm",
+      "score": "5-0"
+    },
+    {
+      "date": "2026-11-14",
+      "home": "Hartpury FC",
+      "away": "Falmouth Town",
+      "score": "3-0"
+    },
+    {
+      "date": "2026-11-14",
+      "home": "Hungerford Town",
+      "away": "Shaftesbury",
+      "score": "3-1"
+    },
+    {
+      "date": "2026-11-14",
+      "home": "Paulton Rovers",
+      "away": "Willand Rovers",
+      "score": "0-1"
+    },
+    {
+      "date": "2026-11-14",
+      "home": "Slimbridge AFC",
+      "away": "Melksham Town",
+      "score": "2-4"
+    },
+    {
+      "date": "2026-11-14",
+      "home": "Swindon Supermarine",
+      "away": "Portland United",
+      "score": "0-0"
+    },
+    {
+      "date": "2026-11-14",
+      "home": "Tiverton Town",
+      "away": "Bishops Cleeve",
+      "score": "3-1"
+    },
+    {
+      "date": "2026-11-14",
+      "home": "Worcester Raiders",
+      "away": "Bideford AFC",
+      "score": "0-0"
+    }
+  ],
+  "leagueTable": [
+    {
+      "pos": 1,
+      "team": "Weymouth FC",
+      "p": 15,
+      "w": 13,
+      "d": 1,
+      "l": 1,
+      "gf": 42,
+      "ga": 11,
+      "gd": 31,
+      "pts": 40
+    },
+    {
+      "pos": 2,
+      "team": "Westbury United",
+      "p": 19,
+      "w": 12,
+      "d": 2,
+      "l": 5,
+      "gf": 35,
+      "ga": 20,
+      "gd": 15,
+      "pts": 38
+    },
+    {
+      "pos": 3,
+      "team": "Swindon Supermarine",
+      "p": 18,
+      "w": 12,
+      "d": 2,
+      "l": 4,
+      "gf": 34,
+      "ga": 20,
+      "gd": 14,
+      "pts": 38
+    },
+    {
+      "pos": 4,
+      "team": "Dorchester Town",
+      "p": 17,
+      "w": 12,
+      "d": 1,
+      "l": 4,
+      "gf": 37,
+      "ga": 21,
+      "gd": 16,
+      "pts": 37
+    },
+    {
+      "pos": 5,
+      "team": "Hungerford Town",
+      "p": 17,
+      "w": 10,
+      "d": 3,
+      "l": 4,
+      "gf": 31,
+      "ga": 13,
+      "gd": 18,
+      "pts": 33
+    },
+    {
+      "pos": 6,
+      "team": "Hartpury FC",
+      "p": 18,
+      "w": 9,
+      "d": 3,
+      "l": 6,
+      "gf": 34,
+      "ga": 22,
+      "gd": 12,
+      "pts": 30
+    },
+    {
+      "pos": 7,
+      "team": "Sporting Club Inkberrow",
+      "p": 16,
+      "w": 7,
+      "d": 4,
+      "l": 5,
+      "gf": 29,
+      "ga": 25,
+      "gd": 4,
+      "pts": 25
+    },
+    {
+      "pos": 8,
+      "team": "Tiverton Town",
+      "p": 17,
+      "w": 7,
+      "d": 4,
+      "l": 6,
+      "gf": 29,
+      "ga": 25,
+      "gd": 4,
+      "pts": 25
+    },
+    {
+      "pos": 9,
+      "team": "Falmouth Town",
+      "p": 17,
+      "w": 7,
+      "d": 4,
+      "l": 6,
+      "gf": 25,
+      "ga": 25,
+      "gd": 0,
+      "pts": 25
+    },
+    {
+      "pos": 10,
+      "team": "Portland United",
+      "p": 16,
+      "w": 7,
+      "d": 4,
+      "l": 5,
+      "gf": 25,
+      "ga": 25,
+      "gd": 0,
+      "pts": 25
+    },
+    {
+      "pos": 11,
+      "team": "Willand Rovers",
+      "p": 16,
+      "w": 7,
+      "d": 3,
+      "l": 6,
+      "gf": 23,
+      "ga": 24,
+      "gd": -1,
+      "pts": 24
+    },
+    {
+      "pos": 12,
+      "team": "Worcester Raiders",
+      "p": 20,
+      "w": 5,
+      "d": 9,
+      "l": 6,
+      "gf": 19,
+      "ga": 25,
+      "gd": -6,
+      "pts": 24
+    },
+    {
+      "pos": 13,
+      "team": "Bishops Cleeve",
+      "p": 16,
+      "w": 7,
+      "d": 2,
+      "l": 7,
+      "gf": 26,
+      "ga": 25,
+      "gd": 1,
+      "pts": 23
+    },
+    {
+      "pos": 14,
+      "team": "Exmouth Town",
+      "p": 15,
+      "w": 6,
+      "d": 3,
+      "l": 6,
+      "gf": 24,
+      "ga": 26,
+      "gd": -2,
+      "pts": 21
+    },
+    {
+      "pos": 15,
+      "team": "Barnstaple Town",
+      "p": 19,
+      "w": 6,
+      "d": 2,
+      "l": 11,
+      "gf": 27,
+      "ga": 30,
+      "gd": -3,
+      "pts": 20
+    },
+    {
+      "pos": 16,
+      "team": "Melksham Town",
+      "p": 17,
+      "w": 5,
+      "d": 3,
+      "l": 9,
+      "gf": 22,
+      "ga": 32,
+      "gd": -10,
+      "pts": 18
+    },
+    {
+      "pos": 17,
+      "team": "Shaftesbury",
+      "p": 18,
+      "w": 5,
+      "d": 2,
+      "l": 11,
+      "gf": 28,
+      "ga": 40,
+      "gd": -12,
+      "pts": 17
+    },
+    {
+      "pos": 18,
+      "team": "Bideford AFC",
+      "p": 17,
+      "w": 3,
+      "d": 7,
+      "l": 7,
+      "gf": 22,
+      "ga": 30,
+      "gd": -8,
+      "pts": 16
+    },
+    {
+      "pos": 19,
+      "team": "Slimbridge AFC",
+      "p": 17,
+      "w": 4,
+      "d": 2,
+      "l": 11,
+      "gf": 21,
+      "ga": 43,
+      "gd": -22,
+      "pts": 14
+    },
+    {
+      "pos": 20,
+      "team": "Larkhall Athletic",
+      "p": 18,
+      "w": 3,
+      "d": 4,
+      "l": 11,
+      "gf": 20,
+      "ga": 34,
+      "gd": -14,
+      "pts": 13
+    },
+    {
+      "pos": 21,
+      "team": "Paulton Rovers",
+      "p": 16,
+      "w": 2,
+      "d": 6,
+      "l": 8,
+      "gf": 11,
+      "ga": 23,
+      "gd": -12,
+      "pts": 12
+    },
+    {
+      "pos": 22,
+      "team": "Bristol Manor Farm",
+      "p": 19,
+      "w": 1,
+      "d": 7,
+      "l": 11,
+      "gf": 12,
+      "ga": 37,
+      "gd": -25,
+      "pts": 10
+    }
+  ]
+}
