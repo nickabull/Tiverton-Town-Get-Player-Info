@@ -529,6 +529,15 @@ body.home-summary .latest-result .row{grid-template-columns:94px minmax(150px,1f
 .ahi-note{font-size:12px;color:#bbb}
 @media(max-width:700px){.inline-match-panel .share-actions{grid-template-columns:repeat(2,minmax(0,1fr))}.inline-match-panel .share-actions>*{font-size:16px!important}.ahi-teams{gap:7px}.ahi-teams strong{font-size:15px}.ahi-teams img{width:37px;height:37px}}
 @import url('https://fonts.googleapis.com/css2?family=Antonio:wght@400;600&display=swap');
+
+.ahi-x-status{color:#c2bacd;font:12px Arial,sans-serif;padding:9px 0}
+.ahi-x-card{background:#19171e;border-left-color:#c6a2ff}
+.ahi-x-card .ahi-kind{color:#c6a2ff}
+.ahi-x-card small{color:#c4bccc}
+.ahi-x-text{white-space:pre-wrap;color:#fff;font:15px/1.45 Arial,sans-serif;overflow-wrap:anywhere}
+.ahi-x-actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.ahi-x-actions button{background:#393044;color:#eadbff;border:1px solid #c6a2ff;font:16px Antonio,Arial,sans-serif;padding:7px 11px;cursor:pointer}
+.ahi-x-actions a{color:#d8bfff;font:700 13px Arial,sans-serif}
 </style></head><body>
 <script src="match-status-shared.js?v=20261027"></script>
 <script>const displayOptions=new URLSearchParams(location.search);if(displayOptions.get('embed')==='1')document.body.classList.add('wix-embed');if(displayOptions.get('view')==='home')document.body.classList.add('home-summary','wix-embed');</script>
@@ -1038,16 +1047,55 @@ function archivePanelMarkup(f,m){
  }
  incidents.sort((a,b)=>archiveMinute(b.minute)-archiveMinute(a.minute));
  const labels={goal:'⚽ GOAL',yellow:'🟨 YELLOW CARD',red:'🟥 RED CARD',sub:'⇅ SUBSTITUTION'};
- const timeline=incidents.length?incidents.map(x=>'<div class="ahi-event"><span class="ahi-minute">'+esc(x.minute)+"'"+'</span><div class="ahi-card"><div class="ahi-kind ahi-'+x.type+'">'+labels[x.type]+'</div><strong>'+esc(x.name)+'</strong><small>'+esc(x.club)+' · '+esc(x.description)+'</small></div></div>').join(''):'<p>No verified minute-by-minute incidents available.</p>';
- return '<section id="as-it-happened-panel" class="as-it-happened-panel" hidden><div class="ahi-head"><h3>AS IT HAPPENED</h3><span>FULL TIME · LATEST FIRST</span></div><div class="ahi-teams"><img src="tiverton-town-logo.png" alt="Tiverton Town crest"><strong>'+esc(f.homeAway==='H'?'Tiverton Town':f.opposition)+'</strong><span class="ahi-final">'+esc(String(f.result||'').replace(/^[WDL]\s+/,'').replace('-','–'))+'</span><strong>'+esc(f.homeAway==='H'?f.opposition:'Tiverton Town')+'</strong>'+(crest(f.opposition)?'<img src="'+esc(crest(f.opposition))+'" alt="'+esc(f.opposition)+' crest">':'')+'</div><div class="ahi-timeline">'+timeline+'</div><p class="ahi-note">Verified match-record incidents. Older match commentary may be incomplete; no unverified posts are shown.</p></section>';
+ const timeline=incidents.length?incidents.map(x=>'<div class="ahi-event" data-minute="'+esc(archiveMinute(x.minute))+'"><span class="ahi-minute">'+esc(x.minute)+"'"+'</span><div class="ahi-card"><div class="ahi-kind ahi-'+x.type+'">'+labels[x.type]+'</div><strong>'+esc(x.name)+'</strong><small>'+esc(x.club)+' · '+esc(x.description)+'</small></div></div>').join(''):'<p>No verified minute-by-minute incidents available.</p>';
+ return '<section id="as-it-happened-panel" class="as-it-happened-panel" hidden><div class="ahi-head"><h3>AS IT HAPPENED</h3><span>FULL TIME · LATEST FIRST</span></div><div class="ahi-teams"><img src="tiverton-town-logo.png" alt="Tiverton Town crest"><strong>'+esc(f.homeAway==='H'?'Tiverton Town':f.opposition)+'</strong><span class="ahi-final">'+esc(String(f.result||'').replace(/^[WDL]\s+/,'').replace('-','–'))+'</span><strong>'+esc(f.homeAway==='H'?f.opposition:'Tiverton Town')+'</strong>'+(crest(f.opposition)?'<img src="'+esc(crest(f.opposition))+'" alt="'+esc(f.opposition)+' crest">':'')+'</div><div class="ahi-timeline">'+timeline+'</div><div class="ahi-x-status" role="status" aria-live="polite">Club commentary will be checked when this archive opens.</div><p class="ahi-note">Verified match-record incidents. Older match commentary may be incomplete; no unverified posts are shown.</p></section>';
 }
+
+async function loadArchivedClubPosts(f){
+ const panel=openInlineMatch?.querySelector('#as-it-happened-panel'),root=panel?.querySelector('.ahi-timeline'),notice=panel?.querySelector('.ahi-x-status');
+ if(!root||!notice||notice.dataset.loaded==='true'||notice.dataset.loading==='true')return;
+ notice.dataset.loading='true';notice.textContent='Checking official Tivvy X archive…';
+ try{
+  const response=await fetch('https://tivvy-live-collector.nickabull.workers.dev/live?date='+encodeURIComponent(f.date),{cache:'no-store'});
+  if(!response.ok)throw Error('Archive unavailable');
+  const saved=await response.json();
+  if(!panel.isConnected)return;
+  const posts=(saved?.x?.state==='ok'&&Array.isArray(saved.x.posts)?saved.x.posts:[]).filter(p=>
+   p&&String(p.createdAt||'').startsWith(f.date)&&typeof p.text==='string'&&
+   String(p.url||'').startsWith('https://x.com/tivertontownfc/status/')&&
+   /^[0-9]+$/.test(String(p.url).split('/').at(-1)));
+  if(!posts.length){notice.textContent='No retained official X posts available for this match. Verified incidents are unaffected.';return}
+  const used=new Set();
+  for(const p of posts){
+   if(used.has(p.id))continue;used.add(p.id);
+   const m=p.text.trim().match(/^(\d{1,3})\s*['’′”“]/),minute=m?Number(m[1]):-1;
+   const row=document.createElement('div');row.className='ahi-event ahi-x-event';row.dataset.minute=String(minute);
+   const time=document.createElement('span');time.className='ahi-minute';time.textContent=minute<0?'𝕏':minute+'′';
+   const card=document.createElement('div');card.className='ahi-card ahi-x-card';
+   const heading=document.createElement('div');heading.className='ahi-kind';heading.textContent='𝕏 · TIVERTON TOWN FC · OFFICIAL CLUB POST';
+   const date=document.createElement('small');date.textContent=new Date(p.createdAt).toLocaleString('en-GB',{timeZone:'Europe/London',hour12:false});
+   const body=document.createElement('p');body.className='ahi-x-text';const brief=p.text.replace(/\s+/g,' ').trim();const teaser=brief.slice(0,150)+(brief.length>150?'…':'');body.textContent=teaser;
+   const controls=document.createElement('div');controls.className='ahi-x-actions';
+   const toggle=document.createElement('button');toggle.type='button';toggle.textContent='READ FULL POST ▼';toggle.setAttribute('aria-expanded','false');
+   let expanded=false;toggle.onclick=()=>{expanded=!expanded;body.textContent=expanded?p.text:teaser;toggle.textContent=expanded?'SHOW LESS ▲':'READ FULL POST ▼';toggle.setAttribute('aria-expanded',String(expanded))};
+   const link=document.createElement('a');link.href=p.url;link.target='_blank';link.rel='noopener noreferrer';link.textContent='OPEN ON X ↗';
+   controls.append(toggle,link);card.append(heading,date,body,controls);row.append(time,card);
+   const items=[...root.querySelectorAll('.ahi-event')];
+   const nearby=minute<0?null:items.find(e=>!e.classList.contains('ahi-x-event')&&Math.abs(Number(e.dataset.minute)-minute)<=2);
+   if(nearby)nearby.after(row);else{const older=items.find(e=>Number(e.dataset.minute)<minute);if(older)root.insertBefore(row,older);else root.append(row)}
+  }
+  notice.dataset.loaded='true';notice.textContent=used.size+' verified club post'+(used.size===1?'':'s')+' recovered.';
+ }catch(e){if(panel.isConnected)notice.textContent='Club X posts cannot currently be recovered from the saved collector. Verified incidents remain visible.'}
+ finally{notice.dataset.loading='false'}
+}
+
 function toggleMatchArchive(force){
  const panel=openInlineMatch?.querySelector('#as-it-happened-panel');
  const button=openInlineMatch?.querySelector('#as-it-happened-toggle');
  if(!panel||!button)return;
  const open=force===true?true:panel.hidden;
  panel.hidden=!open;button.setAttribute('aria-expanded',String(open));button.textContent=open?'AS IT HAPPENED ▴':'AS IT HAPPENED ▾';
- if(open)panel.scrollIntoView({behavior:'smooth',block:'nearest'});
+ if(open){panel.scrollIntoView({behavior:'smooth',block:'nearest'});const f=fixtures.find(x=>x.id===openInlineMatch?.querySelector('#match-inspection')?.dataset.fixture);if(f)loadArchivedClubPosts(f)}
 }
 function bindMatchSharing(f){
   const status=el('share-status');
