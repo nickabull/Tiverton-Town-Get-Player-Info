@@ -538,6 +538,38 @@ body.home-summary .latest-result .row{grid-template-columns:94px minmax(150px,1f
 .ahi-x-actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
 .ahi-x-actions button{background:#393044;color:#eadbff;border:1px solid #c6a2ff;font:16px Antonio,Arial,sans-serif;padding:7px 11px;cursor:pointer}
 .ahi-x-actions a{color:#d8bfff;font:700 13px Arial,sans-serif}
+/* Mobile archive panel: stack incidents instead of squeezing names beside minutes.
+   Scoped strictly to this component; desktop match details and timeline untouched. */
+@media(max-width:700px){
+ .as-it-happened-panel{padding:12px 10px;max-width:100%;min-width:0;overflow:hidden}
+ .as-it-happened-panel .ahi-head{display:block}
+ .as-it-happened-panel .ahi-head h3{font-size:clamp(25px,8vw,34px);line-height:1.12}
+ .as-it-happened-panel .ahi-head span{display:block;margin-top:5px;font-size:11px}
+ .ahi-teams{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  grid-template-areas:"home-logo away-logo" "home-name away-name" "score score";
+  justify-items:center;align-items:center;column-gap:10px;row-gap:5px;
+  margin:12px 0;padding:0 0 13px;min-width:0
+ }
+ .ahi-teams>img:first-child{grid-area:home-logo}
+ .ahi-teams>strong:nth-child(2){grid-area:home-name}
+ .ahi-teams>.ahi-final{grid-area:score}
+ .ahi-teams>strong:nth-child(4){grid-area:away-name}
+ .ahi-teams>img:last-child{grid-area:away-logo}
+ .ahi-teams img{width:42px;height:42px}
+ .ahi-teams strong{font-size:17px;line-height:1.2;text-align:center;min-width:0;word-break:normal;overflow-wrap:normal}
+ .ahi-final{font-size:33px;padding:4px 15px;margin-top:6px}
+ .ahi-timeline{margin:12px 0 0 9px;padding-left:15px;min-width:0}
+ .ahi-event{display:flex;flex-direction:column;align-items:stretch;gap:7px;width:100%;min-width:0;margin-bottom:17px}
+ .ahi-event:before{left:-24px;top:11px;width:13px;height:13px}
+ .ahi-minute{align-self:flex-start;font-size:23px;min-width:58px;padding:4px 9px}
+ .ahi-card{display:block;flex:none;min-width:0;width:100%;padding:10px 12px}
+ .ahi-card .ahi-kind{font-size:20px;line-height:1.15}
+ .ahi-card strong{font-size:17px;line-height:1.4;overflow-wrap:normal;word-break:normal;hyphens:none}
+ .ahi-card small{font-size:13px;line-height:1.4;overflow-wrap:normal;word-break:normal}
+ .ahi-x-text{font-size:14px;overflow-wrap:break-word;word-break:normal}
+ .ahi-x-actions{gap:8px}
+}
 </style></head><body>
 <script src="match-status-shared.js?v=20261027"></script>
 <script>const displayOptions=new URLSearchParams(location.search);if(displayOptions.get('embed')==='1')document.body.classList.add('wix-embed');if(displayOptions.get('view')==='home')document.body.classList.add('home-summary','wix-embed');</script>
