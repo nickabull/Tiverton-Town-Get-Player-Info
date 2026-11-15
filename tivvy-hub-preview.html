@@ -411,6 +411,13 @@ header h1{font-family:"Anton",Impact,"Arial Narrow",sans-serif;font-weight:400}
 /* Match sharing and verified crowd figures. */
 .match-sharing{margin:16px 0 22px;border-block:1px solid #666;padding:14px 0}
 .share-actions,.social-options{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.match-sharing .share-actions{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;align-items:stretch}
+.match-sharing .share-actions>*{font:18px Anton,Impact,Arial,sans-serif;line-height:1.2;letter-spacing:0;min-height:48px;padding:9px 10px;margin:0;display:flex;align-items:center;justify-content:center;text-align:center;white-space:normal;box-sizing:border-box}
+.match-sharing .share-actions .archive-link{background:var(--y);color:#111;border:2px solid var(--y);text-decoration:none}
+.match-sharing .share-actions .close-match-bottom{background:transparent;color:#ff666b;border:2px solid #ef3340;cursor:pointer}
+.match-sharing .share-actions .archive-link:focus-visible,.match-sharing .share-actions .close-match-bottom:focus-visible{outline:3px solid #2782ef;outline-offset:3px}
+@media(max-width:700px){.match-sharing .share-actions{grid-template-columns:repeat(2,minmax(0,1fr))}.match-sharing .share-actions>*{font-size:17px}}
+@media(max-width:360px){.match-sharing .share-actions{gap:7px}.match-sharing .share-actions>*{font-size:15px;padding:8px 5px}}
 .match-sharing button,.social-options a,.next-info{font:18px Anton,Impact,Arial,sans-serif;cursor:pointer;background:var(--y);color:#111;border:2px solid var(--y);padding:8px 14px;text-decoration:none;min-height:44px}
 .match-sharing button:focus-visible,.social-options a:focus-visible,.next-info:focus-visible{outline:3px solid #2782ef;outline-offset:3px}
 .match-sharing .copy-match{background:transparent;color:var(--y)}
@@ -959,7 +966,7 @@ function matchShareText(f){
 }
 function sharingMarkup(f){
   const url=matchShareURL(f),text=matchShareText(f),u=encodeURIComponent(url),t=encodeURIComponent(text);
-  return '<section class="match-sharing" aria-label="Share this match"><div class="share-actions"><button id="share-match" type="button">SHARE MATCH ↗</button><button id="copy-match" class="copy-match" type="button">COPY LINK</button></div><div id="social-options" class="social-options" hidden><a target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/sharer/sharer.php?u='+u+'">Facebook</a><a target="_blank" rel="noopener noreferrer" href="https://twitter.com/intent/tweet?text='+t+'&url='+u+'">X</a><a target="_blank" rel="noopener noreferrer" href="https://wa.me/?text='+encodeURIComponent(text+' '+url)+'">WhatsApp</a></div><p id="share-status" class="share-status" role="status" aria-live="polite"></p><label id="share-url" class="share-url" hidden>Match link<input id="share-link" readonly value="'+esc(url)+'" aria-label="Match link"></label></section>';
+  return '<section class="match-sharing" aria-label="Share this match"><div class="share-actions"><button id="share-match" type="button">SHARE MATCH ↗</button><button id="copy-match" class="copy-match" type="button">COPY LINK</button>'+(isArchivedResult(f)?'<a class="archive-link" href="'+esc(archiveURL(f))+'" target="_blank" rel="noopener">AS IT HAPPENED ↗</a>':'')+'<button type="button" class="close-match-bottom" id="closeMatchBottom">CLOSE MATCH ✕</button></div><div id="social-options" class="social-options" hidden><a target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/sharer/sharer.php?u='+u+'">Facebook</a><a target="_blank" rel="noopener noreferrer" href="https://twitter.com/intent/tweet?text='+t+'&url='+u+'">X</a><a target="_blank" rel="noopener noreferrer" href="https://wa.me/?text='+encodeURIComponent(text+' '+url)+'">WhatsApp</a></div><p id="share-status" class="share-status" role="status" aria-live="polite"></p><label id="share-url" class="share-url" hidden>Match link<input id="share-link" readonly value="'+esc(url)+'" aria-label="Match link"></label></section>';
 }
 function bindMatchSharing(f){
   const status=el('share-status');
@@ -1007,9 +1014,9 @@ if(window.matchMedia('(max-width:650px)').matches){
 const scoreEnd=parts.indexOf('</div>',parts.indexOf('<div class="scoreline">'))+6;
 const count=Number(m?.attendance);
 const attendance=Number.isInteger(count)&&count>0?'<p class="match-attendance"><strong>Attendance: '+count.toLocaleString('en-GB')+'</strong>'+(/^https:\/\/www\.southern-football-league\.co\.uk\/match\/[a-f0-9]+$/.test(m.attendanceSource||'')?'<a href="'+esc(m.attendanceSource)+'" target="_blank" rel="noopener">Official match record ↗</a>':'')+'</p>':'';
-parts=parts.slice(0,scoreEnd)+(isArchivedResult(f)?'<p class="archive-entry"><a class="archive-link" href="'+esc(archiveURL(f))+'" target="_blank" rel="noopener">AS IT HAPPENED ↗</a></p>':'')+'<div id="match-inspection" data-fixture="'+esc(f.id)+'">'+inspectionMarkup(f)+'</div>'+attendance+sharingMarkup(f)+parts.slice(scoreEnd);
+parts=parts.slice(0,scoreEnd)+'<div id="match-inspection" data-fixture="'+esc(f.id)+'">'+inspectionMarkup(f)+'</div>'+attendance+sharingMarkup(f)+parts.slice(scoreEnd);
 closeMatch();syncMatchURL(f.id);
-parts+='<div id="viv-match-photos" data-fixture="'+esc(f.id)+'"></div><button type="button" class="close-match-bottom" id="closeMatchBottom">CLOSE MATCH ✕</button>';const sourceButton=document.activeElement?.closest('button[data-id]')||document.querySelector('button[data-id="'+id+'"]');
+parts+='<div id="viv-match-photos" data-fixture="'+esc(f.id)+'"></div>';const sourceButton=document.activeElement?.closest('button[data-id]')||document.querySelector('button[data-id="'+id+'"]');
 const fixtureRow=sourceButton?.closest('.row, .tivvy-glance-item');
 /* The latest-five cards are one grid: insert the detail after the whole grid, not inside it. */
 const insertionAnchor=fixtureRow?.classList.contains('tivvy-glance-item')?fixtureRow.closest('.tivvy-glance-list'):fixtureRow;
