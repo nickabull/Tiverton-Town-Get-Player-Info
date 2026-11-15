@@ -55,7 +55,7 @@ function collectEvents(m){
  };
  const players=[...(m.starterDetails||[]),...(m.subDetails||[])];
  for(const p of players){
-   for(const min of p.goalMinutes||[])add('goal',min,'Tiverton Town',p.name+(p.penaltyMinutes||[]).includes(String(min))?' · PENALTY':p.name,'Tiverton Town');
+   for(const min of p.goalMinutes||[])add('goal',min,'Tiverton Town',p.name+((p.penaltyMinutes||[]).includes(String(min))?' · PENALTY':''),'Tiverton Town');
    for(const c of p.cards||[]){
      const t=String(c.type||'').toLowerCase();
      const red=t.includes('red')||t.includes('second_yellow');
