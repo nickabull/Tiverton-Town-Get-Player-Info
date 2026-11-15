@@ -386,9 +386,9 @@ html{scrollbar-width:none}html::-webkit-scrollbar,body::-webkit-scrollbar{displa
 @media(max-width:650px){.fixtures-scroll-hint{display:none}}
 
 body.wix-embed{overflow-y:visible!important;scrollbar-width:none}
-body.wix-embed .hub-nav{width:100%;max-width:1180px;box-sizing:border-box;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));overflow:visible;scrollbar-width:none}
+body.wix-embed .hub-nav{width:100%;max-width:1180px;box-sizing:border-box;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));overflow:visible;scrollbar-width:none}
 body.wix-embed .hub-tab{box-sizing:border-box;min-width:0;width:100%;margin:0;white-space:normal}
-@media(max-width:650px){body.wix-embed .hub-nav{grid-template-columns:repeat(6,minmax(0,1fr))}}
+@media(max-width:650px){body.wix-embed .hub-nav{grid-template-columns:repeat(3,minmax(0,1fr))}}
 header h1{font-family:"Anton",Impact,"Arial Narrow",sans-serif;font-weight:400}
 /* Final typography polish: modal title and fixture Details buttons only. */
 .dialog #matchTitle{font-family:"Anton",Impact,"Arial Narrow",sans-serif;font-weight:400}
@@ -537,6 +537,7 @@ body.home-summary .latest-result .row{grid-template-columns:94px minmax(150px,1f
   <button type="button" class="hub-tab" data-section="league" aria-pressed="false">League Table</button>
   <button type="button" class="hub-tab" data-section="matrix" aria-pressed="false">Results Matrix</button>
   <button type="button" class="hub-tab" data-section="players" aria-pressed="false">Player Stats</button>
+  <button type="button" class="hub-tab" data-section="ask" aria-pressed="false">Ask Tivvy</button>
   <button type="button" class="hub-tab" data-section="away" aria-pressed="false">Next Away Day</button>
 </nav>
 <main id="fixtures-panel"><h2>Fixtures & Results</h2><div class="note">Season fixture list from Tiverton Town FC; full match information is shown where confirmed. Dates and kick-off times are subject to change.</div>
@@ -557,6 +558,7 @@ body.home-summary .latest-result .row{grid-template-columns:94px minmax(150px,1f
   <iframe scrolling="no" title="Full Results Matrix" loading="lazy" data-src="stats-centre.html?matrix-style=20261114-final-results#matrix"></iframe>
 </section>
 <section class="hub-panel" id="players-panel" hidden aria-label="Player Stats"><iframe scrolling="no" title="Player Stats" loading="lazy" data-src="stats-centre.html?player-style=20261027-club-history-2#players"></iframe></section>
+<section class="hub-panel" id="ask-panel" hidden aria-label="Ask Tivvy"><iframe scrolling="no" title="Ask Tivvy" loading="lazy" data-src="stats-centre.html?ask-style=20261115#ask"></iframe></section>
 <section class="hub-panel" id="away-panel" hidden aria-label="Next Away Day"><div class="away-panel-content"><h2>Next Away Day</h2><div id="away-details" aria-live="polite">Loading the next away fixture…</div></div></section>
 <div class="modal" id="modal" hidden><div class="dialog" role="dialog" aria-modal="true" aria-labelledby="matchTitle"><button class="close" id="close" aria-label="Close match details">CLOSE ✕</button><h2 id="matchTitle">Tivvy Match Centre</h2><div id="matchBody"></div></div></div>
 <script>
@@ -1169,7 +1171,7 @@ async function getJSON(name){
 
 (function(){
   const tabs=Array.from(document.querySelectorAll('.hub-tab'));
-  const names=['fixtures','league','matrix','players','away'];
+  const names=['fixtures','league','matrix','players','ask','away'];
   let matrixExplorerPromise=null;
   function loadMatrixExplorer(){
     if(matrixExplorerPromise)return matrixExplorerPromise;
