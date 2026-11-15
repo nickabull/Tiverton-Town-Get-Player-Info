@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>As It Happened | Tiverton Town FC</title>
+<link href="https://fonts.googleapis.com/css2?family=Antonio:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#ffdc00;--ink:#202124;--dark:#131416;--red:#ef3340;--purple:#c5a1ff}
+*{box-sizing:border-box}body{margin:0;background:var(--gold);color:#fff;font:16px/1.5 Arial,sans-serif}
+h1,h2,h3,.strong,.chip,.minute,.btn{font-family:Antonio,Impact,"Arial Narrow",sans-serif;letter-spacing:.4px}
+main{max-width:940px;margin:auto;padding:16px 14px 40px}
+.shell{background:var(--ink);border-top:5px solid var(--gold);border-radius:12px;overflow:hidden;box-shadow:0 5px 20px #0003}
+.bar{background:#111;padding:13px 22px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.brand{color:var(--gold);font:700 24px Antonio,Impact,sans-serif}.bar a{color:#fff;font-weight:700;text-decoration:underline}
+.content{padding:24px clamp(16px,4vw,36px)}
+.eyebrow{color:var(--gold);font-weight:700;letter-spacing:.09em;text-transform:uppercase;font-size:12px}
+h1{color:var(--gold);font-size:clamp(35px,7vw,58px);margin:0 0 10px;line-height:1.1}
+.match{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:12px;padding:21px 0 23px;border-bottom:1px solid #4b4b4b}
+.team{text-align:center;min-width:0}.team img{display:block;width:clamp(60px,11vw,105px);height:clamp(60px,11vw,105px);object-fit:contain;margin:0 auto 9px}.team strong{display:block;font:700 clamp(17px,3vw,27px)/1.2 Antonio,Impact,sans-serif;overflow-wrap:anywhere}
+.score{background:var(--gold);color:#111;border-radius:9px;font:700 clamp(30px,7vw,50px) Antonio,Impact,sans-serif;white-space:nowrap;padding:8px 16px}
+.meta{color:#c6c6c6;margin-top:12px;font-size:14px}.meta b{color:#fff}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin:21px 0}.btn{display:inline-block;border:2px solid var(--gold);padding:10px 17px;color:var(--gold);text-decoration:none;font-size:20px;font-weight:700}.btn.primary{background:var(--gold);color:#111}
+.heading{font:700 34px Antonio,Impact,sans-serif;margin:26px 0 6px}.hint{font-size:13px;color:#bcbcbc;margin-bottom:20px}
+.timeline{position:relative;margin-left:11px;padding:3px 0 2px 27px;border-left:3px solid var(--gold)}
+.event{position:relative;margin:0 0 17px}.event:before{content:"";position:absolute;left:-36px;top:13px;width:16px;height:16px;background:var(--gold);border-radius:50%}
+.eventhead{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:7px}.minute{background:var(--gold);color:#111;border-radius:5px;font-weight:700;font-size:25px;padding:3px 9px;min-width:57px;text-align:center}
+.eventtype{font:700 22px Antonio,Impact,sans-serif}.eventtype.goal{color:#70b9ff}.eventtype.card{color:#ffe94f}.eventtype.red{color:#ff7580}.eventtype.sub{color:#bfe7cf}
+.eventcard{background:var(--dark);border:1px solid #424348;border-left:5px solid var(--gold);border-radius:7px;padding:12px 15px}.eventcard strong{font-size:18px}.eventcard p{margin:4px 0 0;color:#c6c6c6}.clubpost{border-left-color:var(--purple)}
+.clubpost summary{cursor:pointer;color:var(--purple);font-weight:bold}.clubpost p{white-space:pre-wrap;color:#fff}
+.note{color:#bdbdbd;font-size:12px;margin:20px 0 0}.loading{padding:25px;background:#141414}
+@media(max-width:550px){.content{padding:18px 13px}.match{gap:5px}.score{padding:7px 9px}.team strong{font-size:16px}.eventtype{font-size:19px}.timeline{padding-left:19px}.event:before{left:-28px}.minute{font-size:21px;min-width:49px}.bar{padding:12px 14px}}
+</style></head>
+<body><main><div class="shell"><div class="bar"><div class="brand">TIVVY <span style="color:#fff">MATCH CENTRE</span></div><a href="./tivvy-hub-preview.html#fixtures">← BACK TO MATCH CENTRE</a></div>
+<div class="content"><div class="eyebrow" id="matchdate">MATCH ARCHIVE</div><h1>AS IT HAPPENED</h1>
+<div id="match" class="loading">Loading verified match record…</div>
+<div class="actions" id="actions"></div><h2 class="heading">MATCH TIMELINE</h2><div class="hint">Latest incident first · verified incidents only</div><div class="timeline" id="timeline" aria-live="polite"></div><p class="note" id="sourceNote"></p></div></div></main>
+<script>
+'use strict';
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const key=s=>String(s||'').toLowerCase().replace(/\b(fc|afc|football club)\b/g,'').replace(/[^a-z0-9]/g,'');
+const clubAssets={
+tivertontown:'8aa829_88bbff928f6b42f49eba4aef6c32fcb2~mv2.png',
+bishopscleeve:'8aa829_bc015fb499ab4b4fa71b63804bc47f9b~mv2.png',
+sportingclubinkberrow:'8aa829_a2aefe84c95b41cb924fb838ab493574~mv2.png'
+};
+const crest=name=>'https://static.wixstatic.com/media/'+(clubAssets[key(name)]||'');
+const minuteNum=m=>{const z=String(m||'').match(/^(\d+)(?:\+(\d+))?/);return z?+z[1]+(+z[2]||0)/100:-1};
+const prettyMinute=m=>String(m||'').replace('90+2','90+2')+'′';
+function collectEvents(m){
+ const events=[], seen=new Set();
+ const add=(kind,min,team,heading,description)=>{
+   if(minuteNum(min)<0)return;
+   const id=[kind,min,team,heading,description].join('|').toLowerCase();
+   if(seen.has(id))return;seen.add(id);
+   events.push({kind,min:String(min),team,heading,description});
+ };
+ const players=[...(m.starterDetails||[]),...(m.subDetails||[])];
+ for(const p of players){
+   for(const min of p.goalMinutes||[])add('goal',min,'Tiverton Town',p.name+(p.penaltyMinutes||[]).includes(String(min))?' · PENALTY':p.name,'Tiverton Town');
+   for(const c of p.cards||[]){
+     const t=String(c.type||'').toLowerCase();
+     const red=t.includes('red')||t.includes('second_yellow');
+     add(red?'red':'card',c.minute,'Tiverton Town',p.name,red?'Red card':'Yellow card');
+   }
+ }
+ for(const p of m.subDetails||[]){
+   if(!p.used||!p.onMinute)continue;
+   const outgoing=(m.starterDetails||[]).concat(m.subDetails||[]).find(x=>x.name!==p.name&&String(x.offMinute||'')===String(p.onMinute));
+   add('sub',p.onMinute,'Tiverton Town',p.name+' ON',outgoing?outgoing.name+' OFF':'Substitution');
+ }
+ // Opposition scorers are not always represented in Tivvy's player details.
+ // Only use explicitly verified opposition incidents, never infer them from the final score.
+ const known={
+  '2026-11-07':[{kind:'goal',min:'2',team:'Sporting Club Inkberrow',heading:'William Moore',description:'Inkberrow goal'},{kind:'goal',min:'85',team:'Sporting Club Inkberrow',heading:'Louis Crook',description:'Inkberrow goal'}],
+  '2026-11-14':[{kind:'goal',min:'26',team:'Bishops Cleeve',heading:'Jake Lee',description:'Bishops Cleeve goal'}]
+ };
+ if((m.venue||'')==='H'&&known[m.date]&&((m.date==='2026-11-07'&&key(m.opponent)==='sportingclubinkberrow')||(m.date==='2026-11-14'&&key(m.opponent)==='bishopscleeve'))){
+   for(const e of known[m.date])add(e.kind,e.min,e.team,e.heading,e.description);
+ }
+ return events.sort((a,b)=>minuteNum(b.min)-minuteNum(a.min)||({red:0,goal:1,card:2,sub:3}[a.kind]-{red:0,goal:1,card:2,sub:3}[b.kind]));
+}
+function eventHTML(e){
+ const types={goal:['⚽','GOAL'],card:['▰','YELLOW CARD'],red:['▰','RED CARD'],sub:['⇅','SUBSTITUTION']};
+ const [symbol,label]=types[e.kind]||['•','INCIDENT'];
+ return '<article class="event"><div class="eventhead"><span class="minute">'+esc(prettyMinute(e.min))+'</span><span class="eventtype '+esc(e.kind)+'">'+symbol+' '+label+'</span></div><div class="eventcard"><strong>'+esc(e.heading)+'</strong><p>'+esc(e.description)+' · '+esc(e.team)+'</p></div></article>';
+}
+async function load(){
+ const params=new URLSearchParams(location.search);
+ const date=params.get('date'),opponent=params.get('opponent'),venue=params.get('venue')||'H';
+ if(!/^20\d\d-\d\d-\d\d$/.test(date||'')||!opponent){$('match').textContent='Choose a completed match from the Match Centre.';return;}
+ try{
+  const resp=await fetch('./data.json?v='+Date.now(),{cache:'no-store'});
+  if(!resp.ok)throw Error('Match data HTTP '+resp.status);
+  const data=await resp.json();
+  const m=(data.fixtures||[]).find(x=>x.date===date&&key(x.opponent)===key(opponent)&&x.venue===venue&&!x.upcoming);
+  if(!m||!/^\d+[-–]\d+$/.test(String(m.result||'')))throw Error('No verified final match record for this fixture');
+  const [tiv,opp]=String(m.result).split(/[-–]/).map(Number);
+  const home=venue==='H'?'Tiverton Town':m.opponent,away=venue==='H'?m.opponent:'Tiverton Town';
+  const score=venue==='H'?tiv+' – '+opp:opp+' – '+tiv;
+  $('matchdate').textContent=new Date(date+'T12:00:00Z').toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric',timeZone:'UTC'}).toUpperCase()+' · '+(venue==='H'?'HOME':'AWAY')+' · FULL TIME';
+  $('match').className='match';
+  $('match').innerHTML='<div class="team"><img src="'+esc(crest(home))+'" alt="'+esc(home)+' crest"><strong>'+esc(home)+'</strong></div><div class="score">'+esc(score)+'</div><div class="team"><img src="'+esc(crest(away))+'" alt="'+esc(away)+' crest"><strong>'+esc(away)+'</strong></div>';
+  const dest='./tivvy-hub-preview.html?fixtureDate='+encodeURIComponent(date)+'&opponent='+encodeURIComponent(m.opponent)+'&venue='+encodeURIComponent(venue)+'#fixtures';
+  $('actions').innerHTML='<a class="btn primary" href="'+esc(dest)+'">MATCH DETAILS ↗</a><a class="btn" href="./tivvy-hub-preview.html#fixtures">ALL MATCHES ↗</a>';
+  const events=collectEvents(m);
+  $('timeline').innerHTML=events.length?events.map(eventHTML).join(''):'<p>No verified minute-by-minute incidents are available for this match.</p>';
+  // Optional future persisted ticker archive: never display unverified or free-form feed entries as fact.
+  try{
+    const ar=await fetch('./match-timeline-archive.json?v='+Date.now(),{cache:'no-store'});
+    if(ar.ok){
+      const history=await ar.json(),saved=(history.matches||[]).find(x=>x.date===date&&key(x.opponent)===key(m.opponent)&&x.venue===venue);
+      if(saved&&Array.isArray(saved.posts)){
+        for(const post of saved.posts){
+          if(post.verified!==true||!post.text||!/^https:\/\//.test(post.url||''))continue;
+          const item=document.createElement('article');item.className='event';
+          const card=document.createElement('details');card.className='eventcard clubpost';
+          const title=document.createElement('summary');title.textContent=(post.minute?prettyMinute(post.minute)+' · ':'')+'X CLUB COMMENTARY · OPEN POST';
+          const body=document.createElement('p');body.textContent=post.text;
+          const a=document.createElement('a');a.href=post.url;a.target='_blank';a.rel='noopener noreferrer';a.textContent='OPEN ORIGINAL POST ↗';a.style.color='#c5a1ff';
+          card.append(title,body,a);item.append(card);$('timeline').append(item);
+        }
+      }
+    }
+  }catch(e){/* Optional archive unavailable; the verified match record remains intact. */}
+  $('sourceNote').textContent='Match incidents reconstructed from the retained verified match record. Commentary is only displayed where a verified archived post exists. The timeline may be incomplete for older fixtures.';
+ }catch(e){$('match').textContent='Archive unavailable: '+e.message;$('timeline').textContent='No incidents displayed until the verified record is available.';}
+}
+load();
+</script></body></html>
