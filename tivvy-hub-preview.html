@@ -498,6 +498,36 @@ body.home-summary .latest-result .row{grid-template-columns:94px minmax(150px,1f
 .away-trip-close{flex:none;align-self:flex-start;display:block;background:transparent;border:2px solid #ef3340;color:#ff666b;padding:10px 14px;margin-top:12px;font:18px Anton,Impact,sans-serif;cursor:pointer}
 .away-trip-close:focus-visible,.away-trip-link:focus-visible{outline:3px solid #2782ef;outline-offset:3px}
 @media(max-width:650px){.away-trip-dropdown{padding:12px}.away-trip-dropdown h2{font-size:21px}}
+
+/* Unified buttons at the end of match details, not above the Starting XI. */
+.inline-match-panel .match-sharing{margin:20px 0 0}
+.inline-match-panel .share-actions{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}
+.inline-match-panel .share-actions>*{width:100%;font:18px/1.15 Anton,Impact,sans-serif!important;min-height:53px;padding:9px 8px!important;display:flex!important;align-items:center;justify-content:center;margin:0!important;text-align:center;white-space:normal;border-radius:0;cursor:pointer}
+.inline-match-panel .share-actions .archive-link{background:var(--y);color:#111;border:2px solid var(--y)}
+.inline-match-panel .share-actions .close-match-bottom{border:2px solid var(--red);color:#ff666b;background:transparent}
+#table .row .action{display:flex;flex-direction:column;gap:7px;align-items:stretch}
+#table .row .action button{width:100%;min-height:43px;line-height:1.15;font:19px/1.15 Anton,Impact,sans-serif!important;padding:8px 10px!important;text-align:center}
+#table .row .action .archive-row-button{border:2px solid #111;background:var(--y);color:#111}
+#table .row .action .archive-row-button:hover{background:#fff}
+.as-it-happened-panel[hidden]{display:none!important}
+.as-it-happened-panel{background:#222326;border:1px solid #555;border-top:4px solid var(--y);padding:18px;margin:14px 0}
+.as-it-happened-panel .ahi-head{display:flex;align-items:baseline;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.as-it-happened-panel .ahi-head h3{font:700 30px Anton,Impact,sans-serif;color:var(--y);margin:0}
+.as-it-happened-panel .ahi-head span{color:#ccc;font-size:12px;font-weight:bold}
+.ahi-teams{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;margin:16px 0;padding-bottom:15px;border-bottom:1px solid #555}
+.ahi-teams img{width:48px;height:48px;object-fit:contain}
+.ahi-teams strong{font:20px Anton,Impact,sans-serif}
+.ahi-final{font:30px Anton,Impact,sans-serif;color:#111;background:var(--y);padding:5px 10px}
+.ahi-timeline{border-left:3px solid var(--y);margin:15px 0 0 16px;padding-left:22px}
+.ahi-event{display:flex;align-items:flex-start;gap:12px;margin:0 0 13px;position:relative}
+.ahi-event:before{content:"";position:absolute;left:-31px;top:13px;background:var(--y);height:15px;width:15px;border-radius:50%}
+.ahi-minute{font:24px Anton,Impact,sans-serif;background:var(--y);color:#111;padding:4px 7px;min-width:55px;text-align:center}
+.ahi-card{background:#141517;border:1px solid #444;border-left:4px solid var(--y);padding:9px 12px;flex:1;min-width:0}
+.ahi-card .ahi-kind{font:20px Anton,Impact,sans-serif;color:#72baff}
+.ahi-card .ahi-kind.ahi-red{color:#ff7078}.ahi-card .ahi-kind.ahi-yellow{color:#ffe75c}.ahi-card .ahi-kind.ahi-sub{color:#9ae1bc}
+.ahi-card strong{display:block;font-size:17px;overflow-wrap:anywhere}.ahi-card small{display:block;color:#ccc;font-size:13px}
+.ahi-note{font-size:12px;color:#bbb}
+@media(max-width:700px){.inline-match-panel .share-actions{grid-template-columns:repeat(2,minmax(0,1fr))}.inline-match-panel .share-actions>*{font-size:16px!important}.ahi-teams{gap:7px}.ahi-teams strong{font-size:15px}.ahi-teams img{width:37px;height:37px}}
 </style></head><body>
 <script src="match-status-shared.js?v=20261027"></script>
 <script>const displayOptions=new URLSearchParams(location.search);if(displayOptions.get('embed')==='1')document.body.classList.add('wix-embed');if(displayOptions.get('view')==='home')document.body.classList.add('home-summary','wix-embed');</script>
@@ -579,7 +609,7 @@ function competitionLabel(code){return ({'PSF':'Pre-season Friendly','SLD1S':'So
 function hasMatchDetails(f,m){return Boolean(m?.starterDetails?.length||m?.subDetails?.length||m?.officialReportUrl||m?.scorerSummary?.length||m?.notes||(f.result&&(f.scorers||f.notes)));}
 function archiveURL(f){return './as-it-happened.html?date='+encodeURIComponent(f.date)+'&opponent='+encodeURIComponent(f.opposition)+'&venue='+encodeURIComponent(f.homeAway)}
 function isArchivedResult(f){return /^[WDL]\s+\d+\s*[-–]\s*\d+$/i.test(String(f.result||''))&&f.date<=new Date().toLocaleDateString('en-CA',{timeZone:'Europe/London'})}
-function archiveLink(f){return isArchivedResult(f)?'<a class="archive-link" href="'+esc(archiveURL(f))+'" target="_blank" rel="noopener">AS IT HAPPENED ↗</a>':''}
+function archiveLink(f){return isArchivedResult(f)?'<button class="archive-row-button" data-archive-id="'+esc(f.id)+'" type="button" aria-label="Open as it happened for '+esc(f.opposition)+'">As It Happened</button>':''}
 function row(f){const m=matchFor(f),img=crest(f.opposition)||m?.opponentLogoUrl||'';return '<div class="row" role="row"><div class="date">'+esc(date(f.date))+'</div><div class="club">'+(img?'<img src="'+esc(img)+'" alt="" loading="lazy" onerror="this.remove()">':'')+'<span>'+esc(f.opposition)+'</span></div><div class="venue">'+(f.homeAway==='H'?'HOME':f.homeAway==='A'?'Away':esc(f.homeAway))+'</div><div class="comp"><span class="mobile venue-label">'+(f.homeAway==='H'?'HOME':f.homeAway==='A'?'Away':esc(f.homeAway))+'</span><span class="mobile"> · </span><span class="comp-name">'+esc(competitionLabel(f.competition))+'</span><span class="mobile-score">'+result(f)+'</span></div><div class="score">'+result(f)+'</div><div class="scorers">'+goals(f,m)+'</div><div class="action">'+(hasMatchDetails(f,m)?'<button data-id="'+esc(f.id)+'" type="button">Details</button>':'')+archiveLink(f)+'</div></div>'}
 
 /* Europe/London kick-off times, including BST/GMT changes. */
@@ -886,6 +916,7 @@ function render(){
   const londonToday=new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/London',year:'numeric',month:'2-digit',day:'2-digit'}).format(now);
   el('table').innerHTML=(document.body.classList.contains('home-summary')?latestHTML:glanceHTML(londonToday))+(html||'<div style="padding:20px">No matching fixtures</div>');
   el('table').querySelectorAll('button[data-id]').forEach(b=>b.onclick=()=>openMatch(b.dataset.id));
+  el('table').querySelectorAll('button[data-archive-id]').forEach(b=>b.onclick=()=>openMatch(b.dataset.archiveId,true));
   el('table').querySelectorAll('details.fixture-month').forEach(group=>group.addEventListener('toggle',()=>{
     if(autoReveal)return;
     const key=group.dataset.month;
@@ -956,7 +987,7 @@ async function populateVivPhotos(f){
   }catch(e){console.warn('Match photos not available',e)}
 }
 function matchShareURL(f){
-  const url=new URL('https://nickabull.github.io/Tiverton-Town-Get-Player-Info/tivvy-hub-preview.html');
+  const url=new URL('https://www.tivertontownfc.uk/match-centre');
   url.searchParams.set('match',f.id);url.hash='fixtures';return url.href;
 }
 function matchShareText(f){
@@ -966,10 +997,58 @@ function matchShareText(f){
 }
 function sharingMarkup(f){
   const url=matchShareURL(f),text=matchShareText(f),u=encodeURIComponent(url),t=encodeURIComponent(text);
-  return '<section class="match-sharing" aria-label="Share this match"><div class="share-actions"><button id="share-match" type="button">SHARE MATCH ↗</button><button id="copy-match" class="copy-match" type="button">COPY LINK</button>'+(isArchivedResult(f)?'<a class="archive-link" href="'+esc(archiveURL(f))+'" target="_blank" rel="noopener">AS IT HAPPENED ↗</a>':'')+'<button type="button" class="close-match-bottom" id="closeMatchBottom">CLOSE MATCH ✕</button></div><div id="social-options" class="social-options" hidden><a target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/sharer/sharer.php?u='+u+'">Facebook</a><a target="_blank" rel="noopener noreferrer" href="https://twitter.com/intent/tweet?text='+t+'&url='+u+'">X</a><a target="_blank" rel="noopener noreferrer" href="https://wa.me/?text='+encodeURIComponent(text+' '+url)+'">WhatsApp</a></div><p id="share-status" class="share-status" role="status" aria-live="polite"></p><label id="share-url" class="share-url" hidden>Match link<input id="share-link" readonly value="'+esc(url)+'" aria-label="Match link"></label></section>';
+  return '<section class="match-sharing" aria-label="Share this match"><div class="share-actions"><button id="share-match" type="button">SHARE MATCH ↗</button><button id="copy-match" class="copy-match" type="button">COPY LINK</button>'+(isArchivedResult(f)?'<button id="as-it-happened-toggle" class="archive-link" type="button" aria-expanded="false" aria-controls="as-it-happened-panel">AS IT HAPPENED ▾</button>':'')+'<button type="button" class="close-match-bottom" id="closeMatchBottom">CLOSE MATCH ✕</button></div><div id="social-options" class="social-options" hidden><a target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/sharer/sharer.php?u='+u+'">Facebook</a><a target="_blank" rel="noopener noreferrer" href="https://twitter.com/intent/tweet?text='+t+'&url='+u+'">X</a><a target="_blank" rel="noopener noreferrer" href="https://wa.me/?text='+encodeURIComponent(text+' '+url)+'">WhatsApp</a></div><p id="share-status" class="share-status" role="status" aria-live="polite"></p><label id="share-url" class="share-url" hidden>Match link<input id="share-link" readonly value="'+esc(url)+'" aria-label="Match link"></label></section>';
+}
+
+/* Archived match incidents are reconstructed from the same verified match
+   details already loaded by the Match Centre. No external GitHub link. */
+function archiveMinute(m){const v=String(m||'').match(/^(\d+)(?:\+(\d+))?/);return v?Number(v[1])+Number(v[2]||0)/100:-1}
+function archivePanelMarkup(f,m){
+ if(!m)return '<section id="as-it-happened-panel" class="as-it-happened-panel" hidden><h3>AS IT HAPPENED</h3><p>Verified minute-by-minute incidents have not yet been imported for this match.</p></section>';
+ const incidents=[],seen=new Set();
+ function add(type,minute,club,name,description){
+  if(archiveMinute(minute)<0)return;
+  const id=[type,minute,club,name,description].join('|').toLowerCase();
+  if(seen.has(id))return;seen.add(id);
+  incidents.push({type,minute:String(minute),club,name,description});
+ }
+ const players=[...(m.starterDetails||[]),...(m.subDetails||[])];
+ for(const p of players){
+  for(const min of p.goalMinutes||[])add('goal',min,'Tiverton Town',p.name,((p.penaltyMinutes||[]).includes(String(min))?'Penalty goal':'Goal'));
+  for(const c of p.cards||[]){
+   const red=/red|second_yellow/i.test(String(c.type||''));
+   add(red?'red':'yellow',c.minute,'Tiverton Town',p.name,red?'Red card':'Yellow card');
+  }
+ }
+ for(const p of m.subDetails||[]){
+  if(!p.used||!p.onMinute)continue;
+  const outgoing=players.find(x=>x.name!==p.name&&String(x.offMinute||'')===String(p.onMinute));
+  add('sub',p.onMinute,'Tiverton Town',p.name+' ON',outgoing?outgoing.name+' OFF':'Substitution');
+ }
+ // Opposition goals are explicitly recorded in the approved 7 and 14 Nov reports.
+ if(f.date==='2026-11-07'&&club(f.opposition)===club('Sporting Club Inkberrow')){
+  add('goal','2','Sporting Club Inkberrow','William Moore','Goal');
+  add('goal','85','Sporting Club Inkberrow','Louis Crook','Goal');
+ }
+ if(f.date==='2026-11-14'&&club(f.opposition)===club('Bishops Cleeve')){
+  add('goal','26','Bishops Cleeve','Jake Lee','Goal');
+ }
+ incidents.sort((a,b)=>archiveMinute(b.minute)-archiveMinute(a.minute));
+ const labels={goal:'⚽ GOAL',yellow:'🟨 YELLOW CARD',red:'🟥 RED CARD',sub:'⇅ SUBSTITUTION'};
+ const timeline=incidents.length?incidents.map(x=>'<div class="ahi-event"><span class="ahi-minute">'+esc(x.minute)+"'"+'</span><div class="ahi-card"><div class="ahi-kind ahi-'+x.type+'">'+labels[x.type]+'</div><strong>'+esc(x.name)+'</strong><small>'+esc(x.club)+' · '+esc(x.description)+'</small></div></div>').join(''):'<p>No verified minute-by-minute incidents available.</p>';
+ return '<section id="as-it-happened-panel" class="as-it-happened-panel" hidden><div class="ahi-head"><h3>AS IT HAPPENED</h3><span>FULL TIME · LATEST FIRST</span></div><div class="ahi-teams"><img src="tiverton-town-logo.png" alt="Tiverton Town crest"><strong>'+esc(f.homeAway==='H'?'Tiverton Town':f.opposition)+'</strong><span class="ahi-final">'+esc(String(f.result||'').replace(/^[WDL]\s+/,'').replace('-','–'))+'</span><strong>'+esc(f.homeAway==='H'?f.opposition:'Tiverton Town')+'</strong>'+(crest(f.opposition)?'<img src="'+esc(crest(f.opposition))+'" alt="'+esc(f.opposition)+' crest">':'')+'</div><div class="ahi-timeline">'+timeline+'</div><p class="ahi-note">Verified match-record incidents. Older match commentary may be incomplete; no unverified posts are shown.</p></section>';
+}
+function toggleMatchArchive(force){
+ const panel=openInlineMatch?.querySelector('#as-it-happened-panel');
+ const button=openInlineMatch?.querySelector('#as-it-happened-toggle');
+ if(!panel||!button)return;
+ const open=force===true?true:panel.hidden;
+ panel.hidden=!open;button.setAttribute('aria-expanded',String(open));button.textContent=open?'AS IT HAPPENED ▴':'AS IT HAPPENED ▾';
+ if(open)panel.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 function bindMatchSharing(f){
   const status=el('share-status');
+  const archiveToggle=el('as-it-happened-toggle');if(archiveToggle)archiveToggle.onclick=()=>toggleMatchArchive();
   el('copy-match').onclick=async()=>{
     try{await navigator.clipboard.writeText(matchShareURL(f));status.textContent='Match link copied.'}
     catch(e){el('share-url').hidden=false;el('share-link').focus({preventScroll:true});el('share-link').select();status.textContent='Select and copy the match link below.'}
@@ -984,7 +1063,7 @@ function bindMatchSharing(f){
 }
 function syncMatchURL(id){const url=new URL(location.href);if(id){url.searchParams.set('match',id);url.searchParams.delete('player')}else url.searchParams.delete('match');history.replaceState(null,'',url)}
 let openInlineMatch=null;
-function openMatch(id){const f=fixtures.find(x=>x.id===id);if(!f)return;const m=matchFor(f),r=String(f.result||''),score=matchScore(f);let line;if(score){const home=f.homeAway==='H'?'TIVERTON TOWN':f.opposition,away=f.homeAway==='H'?f.opposition:'TIVERTON TOWN';const a=score.homeGoals,b=score.awayGoals;line=esc(home)+' '+(f.homeAway==='H'?'<span class="tivvy">'+a+'</span>':esc(a))+' – '+(f.homeAway==='A'?'<span class="tivvy">'+b+'</span>':esc(b))+' '+esc(away)+(score.outcome==='ABD'?' (abandoned)':'')}else line=esc(f.opposition)+' · '+esc(r||'Fixture');
+function openMatch(id,showArchive=false){const f=fixtures.find(x=>x.id===id);if(!f)return;const m=matchFor(f),r=String(f.result||''),score=matchScore(f);let line;if(score){const home=f.homeAway==='H'?'TIVERTON TOWN':f.opposition,away=f.homeAway==='H'?f.opposition:'TIVERTON TOWN';const a=score.homeGoals,b=score.awayGoals;line=esc(home)+' '+(f.homeAway==='H'?'<span class="tivvy">'+a+'</span>':esc(a))+' – '+(f.homeAway==='A'?'<span class="tivvy">'+b+'</span>':esc(b))+' '+esc(away)+(score.outcome==='ABD'?' (abandoned)':'')}else line=esc(f.opposition)+' · '+esc(r||'Fixture');
 let parts='<div class="crestline"><img src="tiverton-town-logo.png" alt="Tiverton crest">'+(crest(f.opposition)?'<img src="'+esc(crest(f.opposition))+'" alt="'+esc(f.opposition)+' crest">':'')+'</div><div class="meta">'+esc(date(f.date))+' · '+(f.homeAway==='H'?'HOME':'AWAY')+' · '+esc(competitionLabel(f.competition))+(f.kickOff?' · '+esc(f.kickOff):'')+'</div><div class="scoreline">'+line+'</div>';
 parts+='<div class="match-detail-columns"><div class="match-detail-left">';
 if(m?.starterDetails?.length){
@@ -1014,23 +1093,23 @@ if(window.matchMedia('(max-width:650px)').matches){
 const scoreEnd=parts.indexOf('</div>',parts.indexOf('<div class="scoreline">'))+6;
 const count=Number(m?.attendance);
 const attendance=Number.isInteger(count)&&count>0?'<p class="match-attendance"><strong>Attendance: '+count.toLocaleString('en-GB')+'</strong>'+(/^https:\/\/www\.southern-football-league\.co\.uk\/match\/[a-f0-9]+$/.test(m.attendanceSource||'')?'<a href="'+esc(m.attendanceSource)+'" target="_blank" rel="noopener">Official match record ↗</a>':'')+'</p>':'';
-parts=parts.slice(0,scoreEnd)+'<div id="match-inspection" data-fixture="'+esc(f.id)+'">'+inspectionMarkup(f)+'</div>'+attendance+sharingMarkup(f)+parts.slice(scoreEnd);
+parts=parts.slice(0,scoreEnd)+'<div id="match-inspection" data-fixture="'+esc(f.id)+'">'+inspectionMarkup(f)+'</div>'+attendance+parts.slice(scoreEnd);
 closeMatch();syncMatchURL(f.id);
-parts+='<div id="viv-match-photos" data-fixture="'+esc(f.id)+'"></div>';const sourceButton=document.activeElement?.closest('button[data-id]')||document.querySelector('button[data-id="'+id+'"]');
+parts+='<div id="viv-match-photos" data-fixture="'+esc(f.id)+'"></div>'+sharingMarkup(f)+(isArchivedResult(f)?archivePanelMarkup(f,m):'');const sourceButton=document.activeElement?.closest('button[data-id],button[data-archive-id]')||document.querySelector('button[data-id="'+id+'"]');
 const fixtureRow=sourceButton?.closest('.row, .tivvy-glance-item');
 /* The latest-five cards are one grid: insert the detail after the whole grid, not inside it. */
 const insertionAnchor=fixtureRow?.classList.contains('tivvy-glance-item')?fixtureRow.closest('.tivvy-glance-list'):fixtureRow;
 const panel=document.createElement('section');panel.className='inline-match-panel dialog';panel.setAttribute('aria-label','Match details for '+f.opposition);
-panel.innerHTML='<div class="inline-match-header"><h2>Match details</h2><button type="button" class="inline-match-close">CLOSE MATCH ✕</button></div><div id="matchBody">'+parts+'</div>';
+panel.innerHTML='<div class="inline-match-header"><h2>Match details</h2></div><div id="matchBody">'+parts+'</div>';
 if(insertionAnchor){insertionAnchor.after(panel)}else{el('table').prepend(panel)}
-openInlineMatch=panel;sourceButton?.setAttribute('aria-expanded','true');panel.querySelector('.inline-match-close').onclick=closeMatch;
+openInlineMatch=panel;sourceButton?.setAttribute('aria-expanded','true');
  // An expanded row used to appear below the mobile viewport, making its Details button seem inert.
  // Move the newly opened panel into view only after an actual user click, not during initial page rendering.
  if(sourceButton&&window.matchMedia('(max-width:650px)').matches){
    requestAnimationFrame(()=>panel.scrollIntoView({behavior:'smooth',block:'start',inline:'nearest'}));
  }
 panel.querySelector('#closeMatchBottom').onclick=closeMatch;
-bindMatchSharing(f);populateVivPhotos(f);}
+bindMatchSharing(f);populateVivPhotos(f);if(showArchive)toggleMatchArchive(true);}
 /* Measure a static viewport sentinel, never the overlay being repositioned.
    Wix's outer iframe can be many phone screens tall. */
 let mobileDialogObserver=null,mobileDialogTimer=null,mobileDialogSentinel=null;
