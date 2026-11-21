@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-14 17:35 Europe/London - confirmed Tiverton 3-1 Bishops Cleeve",
+  "updated": "2026-11-21T19:25:14.629166+00:00 - verified full-time import",
   "source": "Tiverton Town FC Wix CMS Import1",
   "fixtures": [
     {
@@ -382,8 +382,8 @@
       "opposition": "Melksham Town",
       "homeAway": "A",
       "competition": "SLD1S",
-      "result": "",
-      "scorers": "",
+      "result": "W 0-3",
+      "scorers": "Louis Jagger Cane 5', Evander Marvin Grubb 28', Asa Hall 64' (pen)",
       "kickOff": "15:00",
       "notes": ""
     },

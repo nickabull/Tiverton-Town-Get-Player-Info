@@ -4160,9 +4160,29 @@
       "attendanceSource": "Official Southern League match sheet supplied 14 Nov 2026",
       "notes": "HT 3-1, FT 3-1. Bishops Cleeve scorer Jake Lee 26'. Tiverton yellow card Corey Koerner 26'.",
       "verificationNotes": "Verified from official match-sheet and score screenshots provided 14 Nov 2026. 3-1 final; goal scorers Cane 16',35' and Koita 40'."
+    },
+    {
+      "date": "2026-11-21",
+      "venue": "A",
+      "opponent": "Melksham Town",
+      "opponentLogoUrl": "",
+      "result": "3-0",
+      "goalscorers": "Louis Jagger Cane 5', Evander Marvin Grubb 28', Asa Hall 64' (pen)",
+      "starters": [],
+      "subs": [],
+      "starterDetails": [],
+      "subDetails": [],
+      "players": [],
+      "squadUrl": "",
+      "fwpUrl": "",
+      "officialReportUrl": "",
+      "upcoming": false,
+      "detailsLevel": "result-and-incidents-only",
+      "eventSource": "https://www.southern-football-league.co.uk/match/6a5a1cc3ce9ef452b61f4508",
+      "notes": "Automatically imported verified final result. Starting XI/unused substitutes require a separate verified lineup source."
     }
   ],
-  "updated": "2026-11-14T17:35:00Z",
+  "updated": "2026-11-21T19:25:14.629745+00:00",
   "source": "https://www.tivvyarchive.co.uk/season.php?year=2026",
   "lineupSource": "https://www.southern-football-league.co.uk/match/6a5a1bf6ce9ef452b61f445c",
   "eventSource": "https://www.southern-football-league.co.uk/match/6a5a1bf6ce9ef452b61f445c"
