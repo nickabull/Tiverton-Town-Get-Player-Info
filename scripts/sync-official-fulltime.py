@@ -14,6 +14,7 @@ ROOT = Path(__file__).resolve().parent.parent
 FIXTURES = ROOT / "match-centre-fixtures-2026-27.json"
 DETAILS = ROOT / "data.json"
 API = "https://tivvy-live-collector.nickabull.workers.dev/live"
+FWP_RESULTS = "https://nickabull.github.io/Tiverton-Town-Get-Results/data.json"
 def fixture_dates(fixtures):
     """Discover recent league fixtures every run, including midweek and today.
 
@@ -61,6 +62,50 @@ def fetch(date):
             "goalsFor": for_, "goalsAgainst": against, "score": score,
             "events": featured.get("events") or [], "matchId": featured.get("id")}
 
+def fetch_fwp_completed():
+    """Read the existing FWP-backed Results Centre's completed-score feed.
+
+    This is a fallback for *scores only*, never lineup, player event or
+    league-position verification. Its fixture list contains finished scores.
+    """
+    req = Request(FWP_RESULTS + "?postmatch=1", headers={
+        "Accept": "application/json", "User-Agent": "TivvyResultSynchroniser/1.1"})
+    with urlopen(req, timeout=30) as response:
+        payload = json.load(response)
+    if "footballwebpages.co.uk" not in str(payload.get("source", "")):
+        raise ValueError("Unexpected Results Centre provenance")
+    if not isinstance(payload.get("results"), list) or len(payload["results"]) < 20:
+        raise ValueError("Incomplete Results Centre results feed")
+    return payload["results"]
+
+
+def fallback_result(date, fixture, completed):
+    """Return one unambiguous, dated FWP final for this scheduled match."""
+    venue = fixture.get("homeAway")
+    if venue not in ("H", "A"):
+        return None
+    expected_home = "Tiverton Town" if venue == "H" else fixture.get("opposition")
+    expected_away = fixture.get("opposition") if venue == "H" else "Tiverton Town"
+    possible = [m for m in completed if m.get("date") == date and
+                normal(m.get("home")) == normal(expected_home) and
+                normal(m.get("away")) == normal(expected_away)]
+    if len(possible) != 1:
+        return None
+    import re
+    score = re.fullmatch(r"(\\d+)-(\\d+)", str(possible[0].get("score", "")))
+    if not score:
+        return None
+    home, away = map(int, score.groups())
+    if home > 30 or away > 30:
+        return None
+    return {"date": date, "venue": venue, "opposition": fixture["opposition"],
+            "goalsFor": home if venue == "H" else away,
+            "goalsAgainst": away if venue == "H" else home,
+            "score": {"home": home, "away": away}, "events": [], "matchId": None,
+            "sourceUrl": FWP_RESULTS, "sourceName": "Football Web Pages completed results",
+            "eventDetailsVerified": False}
+
+
 def normal(name):
     return "".join(ch for ch in str(name).lower() if ch.isalnum())
 
@@ -93,6 +138,11 @@ def main():
     details = json.loads(DETAILS.read_text())
     original_f = json.dumps(fixtures, sort_keys=True)
     original_d = json.dumps(details, sort_keys=True)
+    try:
+        completed = fetch_fwp_completed()
+    except Exception as exc:
+        completed = []
+        print(f"WARN Results Centre fallback unavailable: {type(exc).__name__}: {exc}", file=sys.stderr)
     for date in fixture_dates(fixtures):
         try:
             match = fetch(date)
@@ -100,7 +150,15 @@ def main():
             print(f"WARN {date}: collector unavailable ({type(exc).__name__}); keeping verified data", file=sys.stderr)
             continue
         if not match:
-            print("SKIP", date, "not source-confirmed full-time")
+            candidates = [f for f in fixtures["fixtures"] if f.get("date") == date and
+                          f.get("competition") == "SLD1S" and not f.get("result")]
+            fallback = [fallback_result(date, f, completed) for f in candidates]
+            fallback = [m for m in fallback if m]
+            if len(fallback) == 1:
+                match = fallback[0]
+                print("FWP COMPLETED RESULT FALLBACK", date, match["opposition"])
+        if not match:
+            print("SKIP", date, "no verified completed result available")
             continue
         candidate = next((f for f in fixtures["fixtures"] if f["date"] == date and
             f.get("competition") == "SLD1S" and f.get("homeAway") == match["venue"] and
@@ -127,7 +185,7 @@ def main():
                 "starters": [], "subs": [], "starterDetails": [], "subDetails": [], "players": [],
                 "squadUrl": "", "fwpUrl": "", "officialReportUrl": "", "upcoming": False,
                 "detailsLevel": "result-and-incidents-only",
-                "eventSource": "https://www.southern-football-league.co.uk/match/" + str(match["matchId"]),
+                "eventSource": match.get("sourceUrl") or ("https://www.southern-football-league.co.uk/match/" + str(match["matchId"])),
                 "notes": "Automatically imported verified final result. Starting XI/unused substitutes require a separate verified lineup source."}
             details["fixtures"].append(detail)
         elif detail.get("result") != result_for_against:
@@ -135,7 +193,7 @@ def main():
             continue
         else:
             detail["upcoming"] = False
-        print("VERIFIED", date, match["opposition"], new_result)
+        print("VERIFIED SOURCE", match.get("sourceName", "Official Southern League"), date, match["opposition"], new_result)
     if json.dumps(fixtures, sort_keys=True) != original_f:
         fixtures["updated"] = datetime.now(timezone.utc).isoformat() + " - verified full-time import"
     if json.dumps(details, sort_keys=True) != original_d:
