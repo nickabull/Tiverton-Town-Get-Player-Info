@@ -1,0 +1,43 @@
+name: Check automatic post-match integrations
+on:
+  push:
+    branches: [main]
+    paths:
+      - scripts/sync-official-fulltime.py
+      - tivvy-match-centre.html
+      - .github/workflows/check-postmatch-integrations.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  syntax-and-fixture-discovery:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile full-time importer
+        run: python -m py_compile scripts/sync-official-fulltime.py
+      - name: Confirm fixture discovery handles new matchdays
+        run: |
+          python - <<'PY'
+          from datetime import datetime, timezone
+          import runpy
+          api=runpy.run_path("scripts/sync-official-fulltime.py")
+          today=datetime.now(timezone.utc).date().isoformat()
+          assert today in api["fixture_dates"]({"fixtures":[{"date":today,"competition":"SLD1S"}]})
+          assert today not in api["fixture_dates"]({"fixtures":[{"date":today,"competition":"FA CUP"}]})
+          print("Dynamic league match discovery PASS")
+          PY
+      - name: Check public Match Centre inline JavaScript
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          html=Path("tivvy-match-centre.html").read_text()
+          scripts=re.findall(r"<script[^>]*>([\s\S]*?)</script>",html,flags=re.I)
+          assert scripts, "No inline JS scripts found"
+          Path("/tmp/tivvy-match-centre.js").write_text("\n".join(scripts))
+          PY
+          node --check /tmp/tivvy-match-centre.js
