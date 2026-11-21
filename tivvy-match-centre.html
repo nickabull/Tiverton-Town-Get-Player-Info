@@ -46,10 +46,31 @@ if(m?.starterDetails?.length){parts+='<div class="two"><section><h3>STARTING XI<
 const g=goals(f,m);if(g)parts+='<h3>TIVERTON GOALSCORERS</h3><p class="details-goals">'+g+'</p>';
 if(f.notes||m?.notes)parts+='<p>'+esc(f.notes||m.notes)+'</p>';
 if(m?.officialReportUrl&&/^https:\/\//.test(m.officialReportUrl))parts+='<h3>MATCH REPORT</h3><p><a class="report" href="'+esc(m.officialReportUrl)+'" target="_blank" rel="noopener">Read the official match report ↗</a></p>';
-if(!m&&!r)parts+='<p class="muted">Fixture information will be updated when available.</p>';
+if(f.completedScoreSource)parts+='<p class="muted">Full-time score from '+esc(f.completedScoreSource)+'. Team sheet, scorers and incidents await separate verification.</p>';if(!m&&!r)parts+='<p class="muted">Fixture information will be updated when available.</p>';
 el('matchBody').innerHTML=parts;el('modal').hidden=false;document.body.style.overflow='hidden';el('close').focus()}
 function closeMatch(){el('modal').hidden=true;document.body.style.overflow=''}
 el('close').onclick=closeMatch;el('modal').onclick=e=>{if(e.target===el('modal'))closeMatch()};window.onkeydown=e=>{if(e.key==='Escape')closeMatch()};el('q').oninput=render;el('filter').onchange=render;
-async function getJSON(name){const r=await fetch(BASE+name+'?v=20261022',{cache:'no-store'});if(!r.ok)throw new Error(name+' HTTP '+r.status);return r.json()}
-(async()=>{try{const [list,league,cup,historical]=await Promise.all([getJSON('match-centre-fixtures-2026-27.json'),getJSON('data.json'),getJSON('cup-match-details-2026-27.json'),getJSON('historical-match-details-2026-27.json')]);fixtures=list.fixtures||[];details=[...(league.fixtures||[]).map(x=>({...x,competition:'SLD1S'})),...(cup.fixtures||[]),...(historical.fixtures||[])];fixtures.sort((a,b)=>a.date.localeCompare(b.date));render()}catch(e){el('table').innerHTML='<div id="status">Unable to load fixtures at present. Please refresh the page.</div>';console.error(e)}})();
+const RESULTS_CENTRE='https://nickabull.github.io/Tiverton-Town-Get-Results/data.json';
+async function mergeLatestCompletedScores(){
+ // Display-only fallback: GitHub schedule delays must not leave the public fixtures stale.
+ // Keep separate team-sheet and player event records untouched until verified.
+ const response=await fetch(RESULTS_CENTRE+'?v='+Date.now(),{cache:'no-store'});
+ if(!response.ok)throw new Error('Results Centre HTTP '+response.status);
+ const feed=await response.json();
+ if(!String(feed.source||'').includes('footballwebpages.co.uk')||!Array.isArray(feed.results)||feed.results.length<20)throw new Error('Results Centre provenance/integrity check failed');
+ for(const f of fixtures){
+  if(comp(f.competition)!=='league'||f.result||!/^\\d{4}-\\d{2}-\\d{2}$/.test(f.date)||!['A','H'].includes(f.homeAway))continue;
+  const home=f.homeAway==='H'?'Tiverton Town':f.opposition;
+  const away=f.homeAway==='A'?'Tiverton Town':f.opposition;
+  const matches=feed.results.filter(m=>m.date===f.date&&club(m.home)===club(home)&&club(m.away)===club(away));
+  if(matches.length!==1)continue;
+  const score=String(matches[0].score||'').match(/^(\\d+)-(\\d+)$/);
+  if(!score||+score[1]>30||+score[2]>30)continue;
+  const tf=+(f.homeAway==='H'?score[1]:score[2]),ta=+(f.homeAway==='H'?score[2]:score[1]);
+  f.result=(tf>ta?'W':tf<ta?'L':'D')+' '+score[1]+'-'+score[2];
+  f.completedScoreSource='Football Web Pages · final result';
+ }
+}
+async function getJSON(name){const r=await fetch(BASE+name+'?v='+Date.now(),{cache:'no-store'});if(!r.ok)throw new Error(name+' HTTP '+r.status);return r.json()}
+(async()=>{try{const [list,league,cup,historical]=await Promise.all([getJSON('match-centre-fixtures-2026-27.json'),getJSON('data.json'),getJSON('cup-match-details-2026-27.json'),getJSON('historical-match-details-2026-27.json')]);fixtures=list.fixtures||[];details=[...(league.fixtures||[]).map(x=>({...x,competition:'SLD1S'})),...(cup.fixtures||[]),...(historical.fixtures||[])];fixtures.sort((a,b)=>a.date.localeCompare(b.date));try{await mergeLatestCompletedScores()}catch(e){console.warn('Results Centre live score fallback unavailable:',e)}render()}catch(e){el('table').innerHTML='<div id="status">Unable to load fixtures at present. Please refresh the page.</div>';console.error(e)}})();
 </script></body></html>
