@@ -6,7 +6,7 @@ Leaves existing detailed records, manual editorial fields, and other competition
 import json
 import os
 import sys
-from datetime import datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 from urllib.request import Request, urlopen
 
@@ -14,7 +14,25 @@ ROOT = Path(__file__).resolve().parent.parent
 FIXTURES = ROOT / "match-centre-fixtures-2026-27.json"
 DETAILS = ROOT / "data.json"
 API = "https://tivvy-live-collector.nickabull.workers.dev/live"
-DATES = ["2026-11-11", "2026-11-14"]
+def fixture_dates(fixtures):
+    """Discover recent league fixtures every run, including midweek and today.
+
+    Keep completed recent fixtures in scope so corrected official finals can
+    trigger explicit conflict review, rather than silently being ignored.
+    """
+    today = datetime.now(timezone.utc).date()
+    earliest = today - timedelta(days=21)
+    dates = set()
+    for fixture in fixtures.get("fixtures", []):
+        if fixture.get("competition") != "SLD1S":
+            continue
+        try:
+            match_date = date.fromisoformat(fixture["date"])
+        except (ValueError, KeyError, TypeError):
+            continue
+        if earliest <= match_date <= today:
+            dates.add(match_date.isoformat())
+    return sorted(dates)
 
 def fetch(date):
     url = API + "?date=" + date
@@ -75,7 +93,7 @@ def main():
     details = json.loads(DETAILS.read_text())
     original_f = json.dumps(fixtures, sort_keys=True)
     original_d = json.dumps(details, sort_keys=True)
-    for date in DATES:
+    for date in fixture_dates(fixtures):
         try:
             match = fetch(date)
         except Exception as exc:
