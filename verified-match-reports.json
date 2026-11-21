@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-11-07",
+  "checkedAt": "2026-11-21",
   "note": "Verified match details are reapplied after automated scraping so substitutions and lineups are not lost.",
   "reportUrls": {
     "2026-10-10": "https://www.tivertontownfc.uk/post/four-goals-four-unbeaten-for-the-yellows",
@@ -1510,6 +1510,263 @@
       "eventSource": "https://www.southern-football-league.co.uk/match/6a5a1cc3ce9ef452b61f4489",
       "lineupSource": "https://www.southern-football-league.co.uk/match/6a5a1cc3ce9ef452b61f4489",
       "notes": "Tiverton 1-2 Sporting Club Inkberrow. Matt Wood 59'. Jack Kennell sent off 48'. Inkberrow goals: William Moore 2', Louis Crook 85'."
+    },
+    {
+      "date": "2026-11-21",
+      "venue": "A",
+      "opponent": "Melksham Town",
+      "opponentLogoUrl": "",
+      "result": "3-0",
+      "goalscorers": "Louis Jagger Cane 5', Evander Marvin Grubb 28', Asa Hall 64' (pen)",
+      "starters": [
+        "Louis Smith",
+        "Mason Winter",
+        "Corey Koerner",
+        "Louie Slough",
+        "Matt Wood",
+        "Asa Hall",
+        "Dan Koita",
+        "Louis Jagger Cane",
+        "Jacob Wellington",
+        "Evander Grubb",
+        "Aaron Wellington"
+      ],
+      "subs": [
+        "Josh Bissett",
+        "Toby Stephens",
+        "Ryan Keates"
+      ],
+      "starterDetails": [
+        {
+          "name": "Louis Smith",
+          "number": 1,
+          "captain": false,
+          "position": "GK",
+          "onMinute": "",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": false,
+          "used": true,
+          "cards": []
+        },
+        {
+          "name": "Mason Winter",
+          "number": 2,
+          "captain": false,
+          "position": null,
+          "onMinute": "",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": false,
+          "used": true,
+          "cards": []
+        },
+        {
+          "name": "Corey Koerner",
+          "number": 3,
+          "captain": false,
+          "position": null,
+          "onMinute": "",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": false,
+          "used": true,
+          "cards": []
+        },
+        {
+          "name": "Louie Slough",
+          "number": 4,
+          "captain": false,
+          "position": null,
+          "onMinute": "",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": false,
+          "used": true,
+          "cards": []
+        },
+        {
+          "name": "Matt Wood",
+          "number": 5,
+          "captain": true,
+          "position": null,
+          "onMinute": "",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": false,
+          "used": true,
+          "cards": []
+        },
+        {
+          "name": "Asa Hall",
+          "number": 8,
+          "captain": false,
+          "position": null,
+          "onMinute": "",
+          "offMinute": "",
+          "goalCount": 1,
+          "goalMinutes": [
+            "64"
+          ],
+          "sub": false,
+          "used": true,
+          "cards": [
+            {
+              "type": "yellow",
+              "minute": "50"
+            }
+          ],
+          "penaltyMinutes": [
+            "64"
+          ]
+        },
+        {
+          "name": "Dan Koita",
+          "number": 9,
+          "captain": false,
+          "position": null,
+          "onMinute": "",
+          "offMinute": "75",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": false,
+          "used": true,
+          "cards": []
+        },
+        {
+          "name": "Louis Jagger Cane",
+          "number": 10,
+          "captain": false,
+          "position": null,
+          "onMinute": "",
+          "offMinute": "",
+          "goalCount": 1,
+          "goalMinutes": [
+            "5"
+          ],
+          "sub": false,
+          "used": true,
+          "cards": []
+        },
+        {
+          "name": "Jacob Wellington",
+          "number": 11,
+          "captain": false,
+          "position": null,
+          "onMinute": "",
+          "offMinute": "81",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": false,
+          "used": true,
+          "cards": [
+            {
+              "type": "yellow",
+              "minute": "33"
+            }
+          ]
+        },
+        {
+          "name": "Evander Grubb",
+          "number": 18,
+          "captain": false,
+          "position": null,
+          "onMinute": "",
+          "offMinute": "72",
+          "goalCount": 1,
+          "goalMinutes": [
+            "28"
+          ],
+          "sub": false,
+          "used": true,
+          "cards": []
+        },
+        {
+          "name": "Aaron Wellington",
+          "number": 21,
+          "captain": false,
+          "position": null,
+          "onMinute": "",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": false,
+          "used": true,
+          "cards": []
+        }
+      ],
+      "subDetails": [
+        {
+          "name": "Josh Bissett",
+          "number": 7,
+          "captain": false,
+          "position": null,
+          "onMinute": "75",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": true,
+          "used": true,
+          "cards": []
+        },
+        {
+          "name": "Toby Stephens",
+          "number": 15,
+          "captain": false,
+          "position": null,
+          "onMinute": "72",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": true,
+          "used": true,
+          "cards": []
+        },
+        {
+          "name": "Ryan Keates",
+          "number": 30,
+          "captain": false,
+          "position": null,
+          "onMinute": "81",
+          "offMinute": "",
+          "goalCount": 0,
+          "goalMinutes": [],
+          "sub": true,
+          "used": true,
+          "cards": []
+        }
+      ],
+      "players": [
+        "Louis Smith",
+        "Mason Winter",
+        "Corey Koerner",
+        "Louie Slough",
+        "Matt Wood",
+        "Asa Hall",
+        "Dan Koita",
+        "Louis Jagger Cane",
+        "Jacob Wellington",
+        "Evander Grubb",
+        "Aaron Wellington",
+        "Josh Bissett",
+        "Toby Stephens",
+        "Ryan Keates"
+      ],
+      "squadUrl": "",
+      "fwpUrl": "",
+      "officialReportUrl": "",
+      "upcoming": false,
+      "detailsLevel": "verified-teamsheet",
+      "eventSource": "https://www.southern-football-league.co.uk/match/6a5a1cc3ce9ef452b61f4508",
+      "notes": "Official match sheet: Melksham Town 0-3 Tiverton Town; attendance 520.",
+      "attendance": 520,
+      "lineupSource": "https://www.southern-football-league.co.uk/match/6a5a1cc3ce9ef452b61f4508",
+      "verificationNotes": "Full player XI, used substitutes, scorer times, substitution times and Tiverton cards checked against user-supplied screenshot of official Southern League match sheet on 21 Nov 2026. Three unused substitute slots displayed as N/A by source; no extra players inferred."
     }
   ],
   "verifiedCards": {
