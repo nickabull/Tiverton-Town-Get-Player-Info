@@ -1,5 +1,10 @@
 name: Sync Southern League full-time into Match Centre
 on:
+  push:
+    branches: [main]
+    paths:
+      - scripts/sync-official-fulltime.py
+      - .github/workflows/sync-official-fulltime.yml
   schedule:
     - cron: '7,22,37,52 * * * *'
   workflow_dispatch:
