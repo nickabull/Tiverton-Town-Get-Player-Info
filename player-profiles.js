@@ -203,7 +203,7 @@ function playerCareerMarkup(entry, state = 'ready') {
     fitTivvyExactArtwork();
     node('profileBack').onclick = close; node('profilePlayerSelect').onchange = e => show(e.target.value);
     node('profileCompareSelect').onchange = compare; compare(); setURL(p.name);
-    if (focus) { node('profileName').focus({preventScroll:true}); if (!embedded) host.scrollIntoView({block:'start'}); }
+    if (focus) { node('profileName')?.focus({preventScroll:true}); requestAnimationFrame(()=>host.scrollIntoView({block:'start',behavior:'auto'})); }
     message({type:'tivvy-player-resize'});
   }
   function close() {
@@ -212,7 +212,9 @@ function playerCareerMarkup(entry, state = 'ready') {
     const source = [...document.querySelectorAll('[data-player-name]')].find(el=>el.dataset.playerName===previous);
     source?.focus({preventScroll:true}); message({type:'tivvy-player-resize'});
   }
-  document.getElementById('players').addEventListener('click', event => {
+  // Ask Tivvy results are outside #players. Delegate at document level so
+  // player links work from both Ask Tivvy and the Player Stats directory.
+  document.addEventListener('click', event => {
     const button = event.target.closest('[data-player-name]');
     if (button) { show(button.dataset.playerName); return; }
     const match = event.target.closest('[data-profile-match]');
