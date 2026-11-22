@@ -42,4 +42,8 @@ assert.match(html, /tivvyArtworkHeader\(item\.name,item\.name\)/,
   'Ask Tivvy player cards must reuse official squad artwork');
 assert.match(html, /requestAnimationFrame\(fitTivvyExactArtwork\)/,
   'Ask Tivvy squad artwork must scale within responsive answers');
+assert.match(source, /document\.addEventListener\('click', event => \{/,
+  'Player profile clicks must be delegated globally because Ask Tivvy sits outside #players');
+assert.match(source, /host\.scrollIntoView\(\{block:'start',behavior:'auto'\}\)/,
+  'Opening a player from Ask Tivvy must reveal the profile in the iframe');
 console.log('Player profiles: all existing totals agree; aliases, substitutes, stoppage time, penalties and future fixtures pass.');
