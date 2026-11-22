@@ -33,4 +33,13 @@ assert.equal(finisher.penaltyGoals,1,'duplicate penalty metadata counted once');
 assert.equal(unused.apps,0);assert.equal(unused.unused,1);assert.equal(unused.matches[0].used,false);
 assert.equal(slough.homeGoals,1);assert.equal(slough.caps,1);
 assert.equal(context.build([{date:'2026-11-01',result:'',starterDetails:[{name:'Future'}]}]).length,0);
+
+assert.match(source, /"evander-grubb":"https:\/\/static\.wixstatic\.com\/media\//,
+  'Evander Grubb must use the approved first-team squad photograph');
+assert.match(source, /"evander-grubb":\[-35,120,135/,
+  'Evander must retain the approved squad-card photo placement');
+assert.match(html, /tivvyArtworkHeader\(item\.name,item\.name\)/,
+  'Ask Tivvy player cards must reuse official squad artwork');
+assert.match(html, /requestAnimationFrame\(fitTivvyExactArtwork\)/,
+  'Ask Tivvy squad artwork must scale within responsive answers');
 console.log('Player profiles: all existing totals agree; aliases, substitutes, stoppage time, penalties and future fixtures pass.');
