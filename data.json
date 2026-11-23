@@ -4417,9 +4417,29 @@
       "attendance": 520,
       "lineupSource": "https://www.southern-football-league.co.uk/match/6a5a1cc3ce9ef452b61f4508",
       "verificationNotes": "Full player XI, used substitutes, scorer times, substitution times and Tiverton cards checked against user-supplied screenshot of official Southern League match sheet on 21 Nov 2026. Three unused substitute slots displayed as N/A by source; no extra players inferred."
+    },
+    {
+      "date": "2026-11-23",
+      "venue": "A",
+      "opponent": "Swindon Supermarine",
+      "opponentLogoUrl": "",
+      "result": "0-1",
+      "goalscorers": "",
+      "starters": [],
+      "subs": [],
+      "starterDetails": [],
+      "subDetails": [],
+      "players": [],
+      "squadUrl": "",
+      "fwpUrl": "",
+      "officialReportUrl": "",
+      "upcoming": false,
+      "detailsLevel": "result-and-incidents-only",
+      "eventSource": "https://www.southern-football-league.co.uk/match/6a5a1aacce9ef452b61f42e5",
+      "notes": "Automatically imported verified final result. Starting XI/unused substitutes require a separate verified lineup source."
     }
   ],
-  "updated": "2026-11-21 21:05 GMT - verified Melksham player details",
+  "updated": "2026-11-23T21:44:55.830928+00:00",
   "source": "https://www.tivvyarchive.co.uk/season.php?year=2026",
   "lineupSource": "https://www.southern-football-league.co.uk/match/6a5a1bf6ce9ef452b61f445c",
   "eventSource": "https://www.southern-football-league.co.uk/match/6a5a1bf6ce9ef452b61f445c"
