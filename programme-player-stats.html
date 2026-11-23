@@ -43,9 +43,12 @@ th:nth-child(5){width:16%}
   </section>
   <div class="footer"></div>
 </main>
-<script src="data.js"></script>
 <script>
-const data=window.TIVVY_DATA||{fixtures:[]};
+async function renderProgrammePlayerStats(){
+const response=await fetch("data.json?v="+Date.now(),{cache:"no-store"});
+if(!response.ok)throw Error("Player feed HTTP "+response.status);
+const data=await response.json();
+if(!Array.isArray(data.fixtures))throw Error("Player feed missing fixtures");
 const parseScore=s=>/^\d+\s*[-–]\s*\d+$/.test(String(s||''));
 const minute=v=>{const m=String(v||'').match(/^(\d{1,3})(?:\+(\d{1,2}))?$/);return m?+m[1]+ +(m[2]||0):null};
 const completed=(data.fixtures||[]).filter(x=>String(x.comp||data.comp||'SL1').toUpperCase()==='SL1' && x.result && parseScore(x.result)).sort((a,b)=>(a.date||'').localeCompare(b.date||''));
@@ -72,7 +75,9 @@ for(const fx of completed){
 const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 const rows=[...stats.values()].filter(x=>x.apps>0).sort((a,b)=>b.apps-a.apps||b.starts-a.starts||b.mins-a.mins||a.name.localeCompare(b.name));
 document.getElementById('rows').innerHTML=rows.map(r=>'<tr><td>'+esc(r.name)+'</td><td>'+r.starts+'</td><td>'+r.subs+'</td><td><strong>'+r.apps+'</strong></td><td>'+r.mins+'</td><td class="goals">'+r.goals+'</td><td>'+r.caps+'</td></tr>').join('');
-document.getElementById('updated').textContent='SL1 appearances from the current Player Info data · '+completed.length+' completed league matches'+(data.updated?' · updated '+data.updated:'');
+document.getElementById('updated').textContent='League appearances from verified match records · '+completed.length+' completed league matches'+(data.updated?' · updated '+data.updated:'');
+}
+renderProgrammePlayerStats().catch(error=>{document.getElementById('updated').textContent='Unable to refresh player statistics: '+error.message;});
 </script>
 </body>
 </html>
