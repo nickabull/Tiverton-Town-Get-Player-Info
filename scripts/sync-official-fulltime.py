@@ -126,6 +126,39 @@ def scorers(record):
             prev = score
     return ", ".join(found)
 
+def official_incidents(record):
+    """Store source-reported incidents separately; never infer XI or change goals."""
+    if not record.get("events") or record.get("eventDetailsVerified") is False:
+        return []
+    cleaned = []
+    for e in record["events"]:
+        if not isinstance(e, dict):
+            continue
+        kind = str(e.get("eventType") or "").strip()
+        if not kind or not any(token in kind.upper() for token in ("GOAL", "CARD", "SUB", "HALF", "KICK", "FULL")):
+            continue
+        raw_minute = e.get("minute")
+        try:
+            minute = int(raw_minute) if raw_minute is not None and str(raw_minute).strip() else None
+        except (ValueError, TypeError):
+            minute = None
+        if minute is not None and not (0 <= minute <= 150):
+            minute = None
+        person = e.get("person") or {}
+        person_off = e.get("personOff") or {}
+        score = e.get("score") or {}
+        cleaned.append({
+            "eventType": kind[:64],
+            "minute": minute,
+            "player": str(person.get("name") or e.get("personName") or "")[:100],
+            "playerOff": str(person_off.get("name") or e.get("personOffName") or "")[:100],
+            "teamId": str(e.get("teamId") or "")[:80],
+            "score": {"home": score.get("home"), "away": score.get("away")}
+                if isinstance(score.get("home"), int) and isinstance(score.get("away"), int) else None,
+        })
+    return cleaned
+
+
 def save_if_changed(path, old, new):
     if old != new:
         path.write_text(json.dumps(new, indent=2, ensure_ascii=False) + "\n")
@@ -193,6 +226,15 @@ def main():
             continue
         else:
             detail["upcoming"] = False
+        # Scores and detailed teamsheets are independent. A valid, official
+        # full-time collector snapshot also carries goal/card/sub incidents.
+        # Preserve any manually verified lineup and previous source fields.
+        incidents = official_incidents(match)
+        if incidents and not detail.get("officialIncidents"):
+            detail["officialIncidents"] = incidents
+            detail["officialIncidentsSource"] = match.get("sourceUrl") or (
+                "https://www.southern-football-league.co.uk/match/" + str(match["matchId"]))
+            print("OFFICIAL INCIDENTS", date, len(incidents), "events imported without modifying XI")
         print("VERIFIED SOURCE", match.get("sourceName", "Official Southern League"), date, match["opposition"], new_result)
     if json.dumps(fixtures, sort_keys=True) != original_f:
         fixtures["updated"] = datetime.now(timezone.utc).isoformat() + " - verified full-time import"
