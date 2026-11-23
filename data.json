@@ -3612,7 +3612,131 @@
       "upcoming": false,
       "eventSource": "https://www.southern-football-league.co.uk/match/6a5a1cc3ce9ef452b61f4489",
       "lineupSource": "https://www.southern-football-league.co.uk/match/6a5a1cc3ce9ef452b61f4489",
-      "notes": "Tiverton 1-2 Sporting Club Inkberrow. Matt Wood 59'. Jack Kennell sent off 48'. Inkberrow goals: William Moore 2', Louis Crook 85'."
+      "notes": "Tiverton 1-2 Sporting Club Inkberrow. Matt Wood 59'. Jack Kennell sent off 48'. Inkberrow goals: William Moore 2', Louis Crook 85'.",
+      "officialIncidents": [
+        {
+          "eventType": "GOAL",
+          "minute": 2,
+          "player": "William Moore",
+          "playerOff": "",
+          "teamId": "6a0adf9eda5d0d0847a02479",
+          "score": {
+            "home": 0,
+            "away": 1
+          }
+        },
+        {
+          "eventType": "FIRST_YELLOW_CARD",
+          "minute": 45,
+          "player": "Corey Hayden Koerner",
+          "playerOff": "",
+          "teamId": "6a0adf9eda5d0d0847a02400",
+          "score": {
+            "home": 0,
+            "away": 1
+          }
+        },
+        {
+          "eventType": "SUBSTITUTION",
+          "minute": 46,
+          "player": "Zachary Powell",
+          "playerOff": "Aidan Clark",
+          "teamId": "6a0adf9eda5d0d0847a02479",
+          "score": {
+            "home": 0,
+            "away": 1
+          }
+        },
+        {
+          "eventType": "RED_CARD",
+          "minute": 48,
+          "player": "Jack William Kennell",
+          "playerOff": "",
+          "teamId": "6a0adf9eda5d0d0847a02400",
+          "score": {
+            "home": 0,
+            "away": 1
+          }
+        },
+        {
+          "eventType": "SUBSTITUTION",
+          "minute": 53,
+          "player": "Dan Koita",
+          "playerOff": "Toby Stephens",
+          "teamId": "6a0adf9eda5d0d0847a02400",
+          "score": {
+            "home": 0,
+            "away": 1
+          }
+        },
+        {
+          "eventType": "GOAL",
+          "minute": 59,
+          "player": "Matthew Liam Wood",
+          "playerOff": "",
+          "teamId": "6a0adf9eda5d0d0847a02400",
+          "score": {
+            "home": 1,
+            "away": 1
+          }
+        },
+        {
+          "eventType": "SUBSTITUTION",
+          "minute": 75,
+          "player": "Louis Crook",
+          "playerOff": "Gregor Guy",
+          "teamId": "6a0adf9eda5d0d0847a02479",
+          "score": {
+            "home": 1,
+            "away": 1
+          }
+        },
+        {
+          "eventType": "GOAL",
+          "minute": 85,
+          "player": "Louis Crook",
+          "playerOff": "",
+          "teamId": "6a0adf9eda5d0d0847a02479",
+          "score": {
+            "home": 1,
+            "away": 2
+          }
+        },
+        {
+          "eventType": "SUBSTITUTION",
+          "minute": 85,
+          "player": "Finn Roberts",
+          "playerOff": "Louis Jagger Cane",
+          "teamId": "6a0adf9eda5d0d0847a02400",
+          "score": {
+            "home": 1,
+            "away": 2
+          }
+        },
+        {
+          "eventType": "SUBSTITUTION",
+          "minute": 85,
+          "player": "Max Angelides",
+          "playerOff": "Joshua Hurdman",
+          "teamId": "6a0adf9eda5d0d0847a02479",
+          "score": {
+            "home": 1,
+            "away": 2
+          }
+        },
+        {
+          "eventType": "SUBSTITUTION",
+          "minute": 89,
+          "player": "Ryan Richard Keates",
+          "playerOff": "Louie Slough",
+          "teamId": "6a0adf9eda5d0d0847a02400",
+          "score": {
+            "home": 1,
+            "away": 2
+          }
+        }
+      ],
+      "officialIncidentsSource": "https://www.southern-football-league.co.uk/match/6a5a1cc3ce9ef452b61f4489"
     },
     {
       "date": "2026-11-11",
@@ -3883,7 +4007,109 @@
       "eventSource": "https://www.southern-football-league.co.uk/match/6a5a1cc3ce9ef452b61f44b6",
       "lineupSource": "https://www.southern-football-league.co.uk/match/6a5a1cc3ce9ef452b61f44b6",
       "notes": "",
-      "verificationNotes": "Official Southern League FullTime 0-1. Starting XI and bench transcribed from supplied official match-lineup screenshot; substitutions cross-checked with API event data. Goal: Asa Hall 39' penalty."
+      "verificationNotes": "Official Southern League FullTime 0-1. Starting XI and bench transcribed from supplied official match-lineup screenshot; substitutions cross-checked with API event data. Goal: Asa Hall 39' penalty.",
+      "officialIncidents": [
+        {
+          "eventType": "FIRST_YELLOW_CARD",
+          "minute": 33,
+          "player": "Tom Bradley",
+          "playerOff": "",
+          "teamId": "6a0adf9eda5d0d0847a02427",
+          "score": {
+            "home": 0,
+            "away": 0
+          }
+        },
+        {
+          "eventType": "GOAL_FROM_PENALTY",
+          "minute": 39,
+          "player": "Asa Hall",
+          "playerOff": "",
+          "teamId": "6a0adf9eda5d0d0847a02400",
+          "score": {
+            "home": 0,
+            "away": 1
+          }
+        },
+        {
+          "eventType": "FIRST_YELLOW_CARD",
+          "minute": 41,
+          "player": "Ewan Mcmillan",
+          "playerOff": "",
+          "teamId": "6a0adf9eda5d0d0847a02427",
+          "score": {
+            "home": 0,
+            "away": 1
+          }
+        },
+        {
+          "eventType": "SUBSTITUTION",
+          "minute": 60,
+          "player": "Evander Marvin Grubb",
+          "playerOff": "Jacob Robert Wellington",
+          "teamId": "6a0adf9eda5d0d0847a02400",
+          "score": {
+            "home": 0,
+            "away": 1
+          }
+        },
+        {
+          "eventType": "SUBSTITUTION",
+          "minute": 71,
+          "player": "Lenny Johnson",
+          "playerOff": "Tom Symons",
+          "teamId": "6a0adf9eda5d0d0847a02427",
+          "score": {
+            "home": 0,
+            "away": 1
+          }
+        },
+        {
+          "eventType": "SUBSTITUTION",
+          "minute": 79,
+          "player": "Stanley Redge Jenkins",
+          "playerOff": "Cameron Allen",
+          "teamId": "6a0adf9eda5d0d0847a02427",
+          "score": {
+            "home": 0,
+            "away": 1
+          }
+        },
+        {
+          "eventType": "SUBSTITUTION",
+          "minute": 83,
+          "player": "Dylan Gould",
+          "playerOff": "Martin Lenihan",
+          "teamId": "6a0adf9eda5d0d0847a02427",
+          "score": {
+            "home": 0,
+            "away": 1
+          }
+        },
+        {
+          "eventType": "SUBSTITUTION",
+          "minute": 83,
+          "player": "Louis Jagger Cane",
+          "playerOff": "Dan Koita",
+          "teamId": "6a0adf9eda5d0d0847a02400",
+          "score": {
+            "home": 0,
+            "away": 1
+          }
+        },
+        {
+          "eventType": "SUBSTITUTION",
+          "minute": 88,
+          "player": "Toby Stephens",
+          "playerOff": "Joshua William Bissett",
+          "teamId": "6a0adf9eda5d0d0847a02400",
+          "score": {
+            "home": 0,
+            "away": 1
+          }
+        }
+      ],
+      "officialIncidentsSource": "https://www.southern-football-league.co.uk/match/6a5a1cc3ce9ef452b61f44b6"
     },
     {
       "date": "2026-11-14",
@@ -4159,7 +4385,197 @@
       "attendance": 194,
       "attendanceSource": "Official Southern League match sheet supplied 14 Nov 2026",
       "notes": "HT 3-1, FT 3-1. Bishops Cleeve scorer Jake Lee 26'. Tiverton yellow card Corey Koerner 26'.",
-      "verificationNotes": "Verified from official match-sheet and score screenshots provided 14 Nov 2026. 3-1 final; goal scorers Cane 16',35' and Koita 40'."
+      "verificationNotes": "Verified from official match-sheet and score screenshots provided 14 Nov 2026. 3-1 final; goal scorers Cane 16',35' and Koita 40'.",
+      "officialIncidents": [
+        {
+          "eventType": "FIRST_YELLOW_CARD",
+          "minute": 9,
+          "player": "Ben Mclean",
+          "playerOff": "",
+          "teamId": "6a0adf9eda5d0d0847a02464",
+          "score": {
+            "home": 0,
+            "away": 0
+          }
+        },
+        {
+          "eventType": "GOAL",
+          "minute": 16,
+          "player": "Louis Jagger Cane",
+          "playerOff": "",
+          "teamId": "6a0adf9eda5d0d0847a02400",
+          "score": {
+            "home": 1,
+            "away": 0
+          }
+        },
+        {
+          "eventType": "GOAL",
+          "minute": 26,
+          "player": "Jake Lee",
+          "playerOff": "",
+          "teamId": "6a0adf9eda5d0d0847a02464",
+          "score": {
+            "home": 1,
+            "away": 1
+          }
+        },
+        {
+          "eventType": "FIRST_YELLOW_CARD",
+          "minute": 26,
+          "player": "Corey Hayden Koerner",
+          "playerOff": "",
+          "teamId": "6a0adf9eda5d0d0847a02400",
+          "score": {
+            "home": 1,
+            "away": 1
+          }
+        },
+        {
+          "eventType": "GOAL",
+          "minute": 35,
+          "player": "Louis Jagger Cane",
+          "playerOff": "",
+          "teamId": "6a0adf9eda5d0d0847a02400",
+          "score": {
+            "home": 2,
+            "away": 1
+          }
+        },
+        {
+          "eventType": "FIRST_YELLOW_CARD",
+          "minute": 38,
+          "player": "Harris Feltham",
+          "playerOff": "",
+          "teamId": "6a0adf9eda5d0d0847a02464",
+          "score": {
+            "home": 2,
+            "away": 1
+          }
+        },
+        {
+          "eventType": "GOAL",
+          "minute": 40,
+          "player": "Dan Koita",
+          "playerOff": "",
+          "teamId": "6a0adf9eda5d0d0847a02400",
+          "score": {
+            "home": 3,
+            "away": 1
+          }
+        },
+        {
+          "eventType": "SUBSTITUTION",
+          "minute": 46,
+          "player": "Adulai Sambu",
+          "playerOff": "Devanti Mcinerney",
+          "teamId": "6a0adf9eda5d0d0847a02464",
+          "score": {
+            "home": 3,
+            "away": 1
+          }
+        },
+        {
+          "eventType": "SUBSTITUTION",
+          "minute": 55,
+          "player": "Evander Marvin Grubb",
+          "playerOff": "Joshua William Bissett",
+          "teamId": "6a0adf9eda5d0d0847a02400",
+          "score": {
+            "home": 3,
+            "away": 1
+          }
+        },
+        {
+          "eventType": "SUBSTITUTION",
+          "minute": 66,
+          "player": "Jamal Lawrence",
+          "playerOff": "Ross Langworthy",
+          "teamId": "6a0adf9eda5d0d0847a02464",
+          "score": {
+            "home": 3,
+            "away": 1
+          }
+        },
+        {
+          "eventType": "FIRST_YELLOW_CARD",
+          "minute": 71,
+          "player": "Will Turner",
+          "playerOff": "",
+          "teamId": "6a0adf9eda5d0d0847a02464",
+          "score": {
+            "home": 3,
+            "away": 1
+          }
+        },
+        {
+          "eventType": "SUBSTITUTION",
+          "minute": 73,
+          "player": "Zack Kotwica",
+          "playerOff": "Harris Feltham",
+          "teamId": "6a0adf9eda5d0d0847a02464",
+          "score": {
+            "home": 3,
+            "away": 1
+          }
+        },
+        {
+          "eventType": "SUBSTITUTION",
+          "minute": 75,
+          "player": "Jacob Robert Wellington",
+          "playerOff": "Louis Jagger Cane",
+          "teamId": "6a0adf9eda5d0d0847a02400",
+          "score": {
+            "home": 3,
+            "away": 1
+          }
+        },
+        {
+          "eventType": "FIRST_YELLOW_CARD",
+          "minute": 80,
+          "player": "Jamal Lawrence",
+          "playerOff": "",
+          "teamId": "6a0adf9eda5d0d0847a02464",
+          "score": {
+            "home": 3,
+            "away": 1
+          }
+        },
+        {
+          "eventType": "SUBSTITUTION",
+          "minute": 81,
+          "player": "Finn Roberts",
+          "playerOff": "Corey Hayden Koerner",
+          "teamId": "6a0adf9eda5d0d0847a02400",
+          "score": {
+            "home": 3,
+            "away": 1
+          }
+        },
+        {
+          "eventType": "SUBSTITUTION",
+          "minute": 88,
+          "player": "Ryan Richard Keates",
+          "playerOff": "Toby Stephens",
+          "teamId": "6a0adf9eda5d0d0847a02400",
+          "score": {
+            "home": 3,
+            "away": 1
+          }
+        },
+        {
+          "eventType": "SUBSTITUTION",
+          "minute": 92,
+          "player": "Aiden Lee Horne",
+          "playerOff": "Dan Koita",
+          "teamId": "6a0adf9eda5d0d0847a02400",
+          "score": {
+            "home": 3,
+            "away": 1
+          }
+        }
+      ],
+      "officialIncidentsSource": "https://www.southern-football-league.co.uk/match/6a5a1cc3ce9ef452b61f44e0"
     },
     {
       "date": "2026-11-21",
@@ -4416,7 +4832,175 @@
       "notes": "Official match sheet: Melksham Town 0-3 Tiverton Town; attendance 520.",
       "attendance": 520,
       "lineupSource": "https://www.southern-football-league.co.uk/match/6a5a1cc3ce9ef452b61f4508",
-      "verificationNotes": "Full player XI, used substitutes, scorer times, substitution times and Tiverton cards checked against user-supplied screenshot of official Southern League match sheet on 21 Nov 2026. Three unused substitute slots displayed as N/A by source; no extra players inferred."
+      "verificationNotes": "Full player XI, used substitutes, scorer times, substitution times and Tiverton cards checked against user-supplied screenshot of official Southern League match sheet on 21 Nov 2026. Three unused substitute slots displayed as N/A by source; no extra players inferred.",
+      "officialIncidents": [
+        {
+          "eventType": "GOAL",
+          "minute": 5,
+          "player": "Louis Jagger Cane",
+          "playerOff": "",
+          "teamId": "6a0adf9eda5d0d0847a02400",
+          "score": {
+            "home": 0,
+            "away": 1
+          }
+        },
+        {
+          "eventType": "GOAL",
+          "minute": 28,
+          "player": "Evander Marvin Grubb",
+          "playerOff": "",
+          "teamId": "6a0adf9eda5d0d0847a02400",
+          "score": {
+            "home": 0,
+            "away": 2
+          }
+        },
+        {
+          "eventType": "FIRST_YELLOW_CARD",
+          "minute": 33,
+          "player": "Samuel Lanre Francis",
+          "playerOff": "",
+          "teamId": "6a0adf9eda5d0d0847a02425",
+          "score": {
+            "home": 0,
+            "away": 2
+          }
+        },
+        {
+          "eventType": "FIRST_YELLOW_CARD",
+          "minute": 33,
+          "player": "Jacob Robert Wellington",
+          "playerOff": "",
+          "teamId": "6a0adf9eda5d0d0847a02400",
+          "score": {
+            "home": 0,
+            "away": 2
+          }
+        },
+        {
+          "eventType": "SUBSTITUTION",
+          "minute": 46,
+          "player": "Joshua Terry",
+          "playerOff": "Daniel Paul Mcbeam",
+          "teamId": "6a0adf9eda5d0d0847a02425",
+          "score": {
+            "home": 0,
+            "away": 2
+          }
+        },
+        {
+          "eventType": "SUBSTITUTION",
+          "minute": 46,
+          "player": "Alex Hallett",
+          "playerOff": "Aron Byfield",
+          "teamId": "6a0adf9eda5d0d0847a02425",
+          "score": {
+            "home": 0,
+            "away": 2
+          }
+        },
+        {
+          "eventType": "SUBSTITUTION",
+          "minute": 46,
+          "player": "Chris Zebroski",
+          "playerOff": "Thomas Dowell",
+          "teamId": "6a0adf9eda5d0d0847a02425",
+          "score": {
+            "home": 0,
+            "away": 2
+          }
+        },
+        {
+          "eventType": "FIRST_YELLOW_CARD",
+          "minute": 50,
+          "player": "Asa Hall",
+          "playerOff": "",
+          "teamId": "6a0adf9eda5d0d0847a02400",
+          "score": {
+            "home": 0,
+            "away": 2
+          }
+        },
+        {
+          "eventType": "FIRST_YELLOW_CARD",
+          "minute": 56,
+          "player": "Joshua Terry",
+          "playerOff": "",
+          "teamId": "6a0adf9eda5d0d0847a02425",
+          "score": {
+            "home": 0,
+            "away": 2
+          }
+        },
+        {
+          "eventType": "FIRST_YELLOW_CARD",
+          "minute": 63,
+          "player": "Leon Greenland",
+          "playerOff": "",
+          "teamId": "6a0adf9eda5d0d0847a02425",
+          "score": {
+            "home": 0,
+            "away": 2
+          }
+        },
+        {
+          "eventType": "GOAL_FROM_PENALTY",
+          "minute": 64,
+          "player": "Asa Hall",
+          "playerOff": "",
+          "teamId": "6a0adf9eda5d0d0847a02400",
+          "score": {
+            "home": 0,
+            "away": 3
+          }
+        },
+        {
+          "eventType": "SUBSTITUTION",
+          "minute": 72,
+          "player": "Toby Stephens",
+          "playerOff": "Evander Marvin Grubb",
+          "teamId": "6a0adf9eda5d0d0847a02400",
+          "score": {
+            "home": 0,
+            "away": 3
+          }
+        },
+        {
+          "eventType": "SUBSTITUTION",
+          "minute": 75,
+          "player": "Joshua William Bissett",
+          "playerOff": "Dan Koita",
+          "teamId": "6a0adf9eda5d0d0847a02400",
+          "score": {
+            "home": 0,
+            "away": 3
+          }
+        },
+        {
+          "eventType": "SUBSTITUTION",
+          "minute": 79,
+          "player": "Dean Griffiths",
+          "playerOff": "Kitan Jaiyeoba",
+          "teamId": "6a0adf9eda5d0d0847a02425",
+          "score": {
+            "home": 0,
+            "away": 3
+          }
+        },
+        {
+          "eventType": "SUBSTITUTION",
+          "minute": 81,
+          "player": "Ryan Richard Keates",
+          "playerOff": "Jacob Robert Wellington",
+          "teamId": "6a0adf9eda5d0d0847a02400",
+          "score": {
+            "home": 0,
+            "away": 3
+          }
+        }
+      ],
+      "officialIncidentsSource": "https://www.southern-football-league.co.uk/match/6a5a1cc3ce9ef452b61f4508"
     },
     {
       "date": "2026-11-23",
@@ -4680,10 +5264,145 @@
       "attendance": 178,
       "attendanceSource": "https://www.southern-football-league.co.uk/match/6a5a1aacce9ef452b61f42e5",
       "lineupSource": "https://www.southern-football-league.co.uk/match/6a5a1aacce9ef452b61f42e5",
-      "verificationNotes": "Tiverton Starting XI, four named substitutes, substitution times, two yellow cards and attendance checked against user-supplied 23 Nov 2026 Southern League match sheet screenshots. Blank fifth substitute displayed as N/A by source; not invented. Opponent scorer details not part of this teamsheet extract."
+      "verificationNotes": "Tiverton Starting XI, four named substitutes, substitution times, two yellow cards and attendance checked against user-supplied 23 Nov 2026 Southern League match sheet screenshots. Blank fifth substitute displayed as N/A by source; not invented. Opponent scorer details not part of this teamsheet extract.",
+      "officialIncidents": [
+        {
+          "eventType": "SUBSTITUTION",
+          "minute": 20,
+          "player": "Joshua William Bissett",
+          "playerOff": "Louis Jagger Cane",
+          "teamId": "6a0adf9eda5d0d0847a02400",
+          "score": {
+            "home": 0,
+            "away": 0
+          }
+        },
+        {
+          "eventType": "SUBSTITUTION",
+          "minute": 46,
+          "player": "Aiden Lee Horne",
+          "playerOff": "Joshua William Bissett",
+          "teamId": "6a0adf9eda5d0d0847a02400",
+          "score": {
+            "home": 0,
+            "away": 0
+          }
+        },
+        {
+          "eventType": "GOAL",
+          "minute": 60,
+          "player": "Zach Rugman",
+          "playerOff": "",
+          "teamId": "6a0adf9eda5d0d0847a02417",
+          "score": {
+            "home": 1,
+            "away": 0
+          }
+        },
+        {
+          "eventType": "SUBSTITUTION",
+          "minute": 67,
+          "player": "Evander Marvin Grubb",
+          "playerOff": "Aaron Wellington",
+          "teamId": "6a0adf9eda5d0d0847a02400",
+          "score": {
+            "home": 1,
+            "away": 0
+          }
+        },
+        {
+          "eventType": "FIRST_YELLOW_CARD",
+          "minute": 67,
+          "player": "Olly Case",
+          "playerOff": "",
+          "teamId": "6a0adf9eda5d0d0847a02417",
+          "score": {
+            "home": 1,
+            "away": 0
+          }
+        },
+        {
+          "eventType": "FIRST_YELLOW_CARD",
+          "minute": 69,
+          "player": "Joe Shepherd",
+          "playerOff": "",
+          "teamId": "6a0adf9eda5d0d0847a02417",
+          "score": {
+            "home": 1,
+            "away": 0
+          }
+        },
+        {
+          "eventType": "FIRST_YELLOW_CARD",
+          "minute": 70,
+          "player": "Aiden Lee Horne",
+          "playerOff": "",
+          "teamId": "6a0adf9eda5d0d0847a02400",
+          "score": {
+            "home": 1,
+            "away": 0
+          }
+        },
+        {
+          "eventType": "FIRST_YELLOW_CARD",
+          "minute": 74,
+          "player": "Evander Marvin Grubb",
+          "playerOff": "",
+          "teamId": "6a0adf9eda5d0d0847a02400",
+          "score": {
+            "home": 1,
+            "away": 0
+          }
+        },
+        {
+          "eventType": "SUBSTITUTION",
+          "minute": 76,
+          "player": "Sal Abubakar",
+          "playerOff": "Tyger-J Hall",
+          "teamId": "6a0adf9eda5d0d0847a02417",
+          "score": {
+            "home": 1,
+            "away": 0
+          }
+        },
+        {
+          "eventType": "SUBSTITUTION",
+          "minute": 76,
+          "player": "Conor Lynch",
+          "playerOff": "Dan Warre",
+          "teamId": "6a0adf9eda5d0d0847a02417",
+          "score": {
+            "home": 1,
+            "away": 0
+          }
+        },
+        {
+          "eventType": "SUBSTITUTION",
+          "minute": 82,
+          "player": "Finn Roberts",
+          "playerOff": "Corey Hayden Koerner",
+          "teamId": "6a0adf9eda5d0d0847a02400",
+          "score": {
+            "home": 1,
+            "away": 0
+          }
+        },
+        {
+          "eventType": "SUBSTITUTION",
+          "minute": 94,
+          "player": "Jacob Bancroft",
+          "playerOff": "Marcel Lewis",
+          "teamId": "6a0adf9eda5d0d0847a02417",
+          "score": {
+            "home": 1,
+            "away": 0
+          }
+        }
+      ],
+      "officialIncidentsSource": "https://www.southern-football-league.co.uk/match/6a5a1aacce9ef452b61f42e5"
     }
   ],
-  "updated": "2026-11-23T22:14:27.457Z",
+  "updated": "2026-11-23T22:16:40.454651+00:00",
   "source": "https://www.tivvyarchive.co.uk/season.php?year=2026",
   "lineupSource": "https://www.southern-football-league.co.uk/match/6a5a1bf6ce9ef452b61f445c",
   "eventSource": "https://www.southern-football-league.co.uk/match/6a5a1bf6ce9ef452b61f445c"
