@@ -1031,6 +1031,40 @@ function vivPhotoCandidates(data,f){
   const albumUrl=vivSafeUrl(found[0].album.source_url,'link');
   return {found,albumUrl};
 }
+
+const SWINDON_MATCH_PHOTOS = [
+  {
+    "url": "https://static.wixstatic.com/media/8aa829_a579a898377f4b089fd407584ee32e6b~mv2.jpeg",
+    "alt": "Tiverton player watching the match from the touchline"
+  },
+  {
+    "url": "https://static.wixstatic.com/media/8aa829_112c94c823f2483dadf32abe5d7b0e0b~mv2.jpeg",
+    "alt": "A member of staff on the floodlit pitch"
+  },
+  {
+    "url": "https://static.wixstatic.com/media/8aa829_64e2510d7b65466486a21346507259fa~mv2.jpeg",
+    "alt": "Two people with a tub of chocolates on the coach"
+  },
+  {
+    "url": "https://static.wixstatic.com/media/8aa829_a26969945ca14e0eb8b9a599979ce305~mv2.jpeg",
+    "alt": "View of the floodlit pitch through the goal net"
+  },
+  {
+    "url": "https://static.wixstatic.com/media/8aa829_51e020692ae243d094de09999ccd30f4~mv2.jpeg",
+    "alt": "Swindon Supermarine’s scoreboard"
+  },
+  {
+    "url": "https://static.wixstatic.com/media/8aa829_5f50355437ef45f0968768057cd9238b~mv2.jpeg",
+    "alt": "Swindon Supermarine’s dugout"
+  }
+];
+function swindonMatchPhotos(f){
+  if(f.id!=="2c8463e6-87e5-44a1-bfd5-7adbb51721ef")return '';
+  const photos=SWINDON_MATCH_PHOTOS.map((photo,index)=>
+    '<a href="'+esc(photo.url)+'" target="_blank" rel="noopener" aria-label="Open photo '+(index+1)+': '+esc(photo.alt)+'"><img loading="lazy" decoding="async" src="'+esc(photo.url)+'" alt="'+esc(photo.alt)+'"></a>'
+  ).join('');
+  return '<section class="match-photos" aria-label="Swindon match photos"><h3>MATCH PHOTOS</h3><div class="match-photo-grid">'+photos+'</div><p class="match-photo-credit">Photos: Caleb Palmer</p></section>';
+}
 async function populateVivPhotos(f){
   const slot=document.getElementById('viv-match-photos');if(!slot)return;
   const expected=f.id;
@@ -1189,7 +1223,7 @@ const count=Number(m?.attendance);
 const attendance=Number.isInteger(count)&&count>0?'<p class="match-attendance"><strong>Attendance: '+count.toLocaleString('en-GB')+'</strong>'+(/^https:\/\/www\.southern-football-league\.co\.uk\/match\/[a-f0-9]+$/.test(m.attendanceSource||'')?'<a href="'+esc(m.attendanceSource)+'" target="_blank" rel="noopener">Official match record ↗</a>':'')+'</p>':'';
 parts=parts.slice(0,scoreEnd)+'<div id="match-inspection" data-fixture="'+esc(f.id)+'">'+inspectionMarkup(f)+'</div>'+attendance+parts.slice(scoreEnd);
 closeMatch();syncMatchURL(f.id);
-parts+='<div id="viv-match-photos" data-fixture="'+esc(f.id)+'"></div>'+sharingMarkup(f)+(isArchivedResult(f)?archivePanelMarkup(f,m):'');const sourceButton=document.activeElement?.closest('button[data-id],button[data-archive-id]')||document.querySelector('button[data-id="'+id+'"]');
+parts+=swindonMatchPhotos(f)+'<div id="viv-match-photos" data-fixture="'+esc(f.id)+'"></div>'+sharingMarkup(f)+(isArchivedResult(f)?archivePanelMarkup(f,m):'');const sourceButton=document.activeElement?.closest('button[data-id],button[data-archive-id]')||document.querySelector('button[data-id="'+id+'"]');
 const fixtureRow=sourceButton?.closest('.row, .tivvy-glance-item');
 /* The latest-five cards are one grid: insert the detail after the whole grid, not inside it. */
 const insertionAnchor=fixtureRow?.classList.contains('tivvy-glance-item')?fixtureRow.closest('.tivvy-glance-list'):fixtureRow;
